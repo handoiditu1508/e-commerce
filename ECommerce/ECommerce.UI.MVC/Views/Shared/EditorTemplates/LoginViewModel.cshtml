@@ -1,0 +1,18 @@
+﻿@model LoginViewModel
+
+<div class="form-group">
+	<label asp-for="LoginInformation.Username" class="control-label"></label>
+	<input asp-for="LoginInformation.Username" class="form-control" placeholder="Example@gmail.com" />
+	<span asp-validation-for="LoginInformation.Username" class="text-danger"></span>
+</div>
+<div class="form-group">
+	<label asp-for="LoginInformation.Password" class="control-label"></label>
+	<input asp-for="LoginInformation.Password" class="form-control" placeholder="Password" />
+	<span asp-validation-for="LoginInformation.Password" class="text-danger"></span>
+</div>
+<div class="form-group form-check">
+	<label class="form-check-label">
+		<input class="form-check-input" asp-for="LoginInformation.Remember" /> @Html.DisplayNameFor(model => model.LoginInformation.Remember)
+	</label>
+</div>
+<input asp-for="ReturnUrl" />

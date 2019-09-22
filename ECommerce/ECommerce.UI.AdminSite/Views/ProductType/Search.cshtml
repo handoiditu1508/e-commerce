@@ -1,0 +1,13 @@
+﻿@model ProductTypesListViewModel
+
+@Html.DisplayFor(m => m.SearchModel, "ProductTypeFilterForm")
+
+@Html.DisplayFor(m=>m.ProductTypes, "ProductTypesTable")
+
+<div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="col-12"
+	 page-class="page-item" page-class-normal=""
+	 page-class-selected="active" page-class-disabled="disabled"
+	 page-url-searchString="Model.SearchModel.SearchString" page-url-categoryId="Model.SearchModel.CategoryId"
+	 page-url-status="Model.SearchModel.Status" page-url-dateModified="Model.SearchModel.DateModified"
+	 page-url-productStatus="Model.SearchModel.ProductStatus">
+</div>

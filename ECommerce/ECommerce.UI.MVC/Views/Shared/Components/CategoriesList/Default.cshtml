@@ -1,0 +1,78 @@
+﻿@model IEnumerable<CategoryView>
+
+@{
+	TagBuilder header = new TagBuilder("div");
+	header.AddCssClass("card-header bg-primary text-white text-uppercase");
+	TagBuilder headerIcon = new TagBuilder("i");
+	headerIcon.AddCssClass("fa fa-list");
+	header.InnerHtml.AppendHtml(headerIcon);
+	header.InnerHtml.Append(" Categories");
+
+	ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
+	IUrlHelper urlHelper = this.Url;
+	TagBuilder listGroup = new TagBuilder("ul");
+	listGroup.AddCssClass("list-group category_block");
+	foreach (CategoryView category in Model)
+	{
+		TagBuilder listGroupItem = new TagBuilder("li");
+		listGroupItem.AddCssClass("list-group-item");
+		TagBuilder link = new TagBuilder("a");
+		link.AddCssClass("list-group-item-link");
+		link.Attributes["href"] = urlHelper.Action("Index", "Product", new { categoryId = category.Id, page = 1 });
+		link.InnerHtml.Append(category.Name);
+		listGroupItem.InnerHtml.AppendHtml(link);
+		IList<CategoryView> childs = eCommerce.GetChildCategories(int.Parse(category.Id)).ToList();
+		if (childs.Any())
+		{
+			listGroupItem.AddCssClass("btn-group dropdown-hover");
+			link.AddCssClass("dropdown-toggle");
+
+			TagBuilder result = null;
+			Stack<IList<CategoryView>> categoryStack = new Stack<IList<CategoryView>>();
+			categoryStack.Push(childs);
+			Stack<short> indexStack = new Stack<short>();
+			indexStack.Push(0);
+			Stack<TagBuilder> menuStack = new Stack<TagBuilder>();
+			TagBuilder list = new TagBuilder("ul");
+			list.AddCssClass("dropdown-menu");
+			menuStack.Push(list);
+			while (categoryStack.Any())
+			{
+				list = menuStack.Peek();
+				for (short i = indexStack.Peek(); i < categoryStack.Peek().Count(); i++)
+				{
+					TagBuilder line = new TagBuilder("li");
+					TagBuilder item = new TagBuilder("a");
+					item.AddCssClass("dropdown-item");
+					item.Attributes["href"] = urlHelper.Action("Index", "Product", new { categoryId = categoryStack.Peek()[i].Id, page = 1 });
+					item.InnerHtml.Append(categoryStack.Peek()[i].Name);
+					line.InnerHtml.AppendHtml(item);
+					list.InnerHtml.AppendHtml(line);
+					List<CategoryView> childCategories = eCommerce.GetChildCategories(int.Parse(categoryStack.Peek()[i].Id)).ToList();
+					if (childCategories.Any())
+					{
+						line.AddCssClass("dropdown-submenu");
+						indexStack.Pop();
+						indexStack.Push((short)(i + 1));
+						indexStack.Push(0);
+						categoryStack.Push(childCategories);
+						TagBuilder newList = new TagBuilder("ul");
+						newList.AddCssClass("dropdown-menu");
+						line.InnerHtml.AppendHtml(newList);
+						menuStack.Push(newList);
+						goto loop;
+					}
+				}
+				indexStack.Pop();
+				categoryStack.Pop();
+				menuStack.Pop();
+				result = list;
+			loop:;
+			}
+			listGroupItem.InnerHtml.AppendHtml(result);
+		}
+		listGroup.InnerHtml.AppendHtml(listGroupItem);
+	}
+}
+@header
+@listGroup

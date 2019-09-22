@@ -1,0 +1,9 @@
+﻿@model LoginViewModel
+
+<form class="col-4" method="post">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	@Html.EditorForModel()
+	<div class="form-group">
+		<input type="submit" value="Login" class="btn btn-primary" />
+	</div>
+</form>

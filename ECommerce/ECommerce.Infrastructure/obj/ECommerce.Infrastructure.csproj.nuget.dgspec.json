@@ -1,0 +1,176 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj",
+        "projectName": "ECommerce.Extensions",
+        "projectPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj",
+        "packagesPath": "C:\\Users\\hando\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Extensions\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\hando\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    },
+    "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj",
+        "projectName": "ECommerce.Infrastructure",
+        "projectPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\hando\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\hando\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj": {
+                "projectPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    },
+    "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj",
+        "projectName": "ECommerce.Models",
+        "projectPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj",
+        "packagesPath": "C:\\Users\\hando\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Models\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\hando\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj": {
+                "projectPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

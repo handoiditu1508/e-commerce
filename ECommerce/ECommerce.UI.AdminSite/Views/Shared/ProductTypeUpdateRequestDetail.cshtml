@@ -1,0 +1,10 @@
+﻿@model ProductTypeUpdateRequestView
+<h2><label>Product type name:</label></h2>
+<p>@Model.Name</p>
+<h2><label>Product type category:</label></h2>
+@if (!string.IsNullOrWhiteSpace(Model.CategoryId))
+{
+	<vc:category-bread-crumb category-id="int.Parse(Model.CategoryId)"></vc:category-bread-crumb>
+}
+<h2><label>Update description:</label></h2>
+<textarea asp-for="Descriptions" class="form-control" readonly></textarea>

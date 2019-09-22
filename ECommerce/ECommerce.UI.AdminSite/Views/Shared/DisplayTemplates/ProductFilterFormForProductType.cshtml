@@ -1,0 +1,58 @@
+﻿@model ProductSearchModel
+
+<fieldset class="border rounded">
+	<legend>Find Product Type By:</legend>
+	<form asp-action="Product" asp-controller="ProductType" method="get">
+		<input type="hidden" name="productTypeId" value="@Model.ProductTypeId" />
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label class="control-label">Price</label>
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<select name="priceIndication" class="custom-select">
+							@if (Model.PriceIndication == null)
+							{
+								<option value="-1">Lesser than</option>
+								<option value="0">Equal to</option>
+								<option value="1">More than</option>
+							}
+							else
+							{
+								if (Model.PriceIndication < 0)
+								{
+									<option selected value="-1">Lesser than</option>
+									<option value="0">Equal to</option>
+									<option value="1">More than</option>
+								}
+								else if (Model.PriceIndication > 0)
+								{
+									<option value="-1">Lesser than</option>
+									<option value="0">Equal to</option>
+									<option selected value="1">More than</option>
+								}
+								else
+								{
+									<option value="-1">Lesser than</option>
+									<option selected value="0">Equal to</option>
+									<option value="1">More than</option>
+								}
+							}
+						</select>
+					</div>
+					<input type=number class="form-control" name="price" value="@Model.Price" />
+				</div>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label class="control-label">Active</label>
+				<select selected-bool-value="@Model.Active" option-label="All" true-label="Active" false-label="Locked" class="form-control" name="active"></select>
+			</div>
+			<div class="form-group col-md-6">
+				<label class="control-label">Status</label>
+				<select class="form-control" name="status" enum-type="typeof(ProductStatus)" selected="Model.Status" option-label=""></select>
+			</div>
+		</div>
+		<input type="submit" value="Search" class="btn btn-primary" />
+	</form>
+</fieldset>

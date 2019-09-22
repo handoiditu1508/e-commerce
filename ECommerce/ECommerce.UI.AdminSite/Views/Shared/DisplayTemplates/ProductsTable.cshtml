@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ProductView>
+
+@{ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService]; }
+
+<div class="table-responsive rounded">
+	<table class="table table-striped table-bordered table-hover table-condensed table-sm table-secondary table-active">
+		<thead class="thead-dark">
+			<tr>
+				<th class="w-25"></th>
+				<th>Seller</th>
+				<th>Product Type</th>
+				<th>Price</th>
+				<th>Active</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+		@{string formAction = Url.Action("ChangeStatus", "Product");}
+			@foreach (ProductView product in Model)
+			{
+				<tr class="productTypeRow">
+					<td><img class="img-fluid rounded" file-content="@product.RepresentativeImage" alt="@product.ProductTypeName" /></td>
+					<td><a asp-action="Informations" asp-controller="Seller" asp-route-sellerId="@product.SellerId" class="text-decoration-none">@product.SellerName</a></td>
+					<td>
+						<a asp-action="Informations" asp-controller="ProductType" asp-route-productTypeId="@product.ProductTypeId" class="text-decoration-none"><h4>@product.ProductTypeName</h4></a>
+						@{
+							int categoryId = int.Parse(eCommerce.GetProductTypeBy(int.Parse(product.ProductTypeId)).CategoryId);
+							<small>
+								@await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId })
+							</small>
+						}
+					</td>
+					<td>@CurrencyFormat.Format(product.Price)</td>
+					<td>
+						<input @(product.Active ? "checked" : "")
+							   type="checkbox" data-toggle="toggle" value="true"
+							   data-onstyle="success" data-offstyle="danger" data-size="small"
+							   data-on="<i class='fas fa-lock-open'></i>"
+							   data-off="<i class='fa fa-lock'></i>" disabled />
+					</td>
+					<td>
+						<form action="@formAction" method="get">
+							<input name="sellerId" type="hidden" value="@product.SellerId" />
+							<input name="productTypeId" type="hidden" value="@product.ProductTypeId" />
+							<select class="submitOnChange form-control" name="status" enum-type="typeof(ProductStatus)" selected="product.Status"></select>
+						</form>
+					</td>
+					<td><a class="btn btn-primary" asp-action="Detail" asp-controller="Product" asp-route-sellerId="@product.SellerId" asp-route-productTypeId="@product.ProductTypeId">Detail</a></td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+	//change product status
+
+	$('.submitOnChange').change(function () {
+		var $form = $(this).closest('form');
+		$.ajax({
+			url: $form.attr('action'),
+			type: $form.attr('method'),
+			data: $form.serialize(),
+			success: function (result) {
+				if (result != '')
+					alert(result);
+			},
+			error: function (result) {
+				alert('something went wrong while changing product status:\n' + result);
+			}
+		});
+	});
+</script>

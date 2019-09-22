@@ -1,0 +1,19 @@
+﻿@model ProductTypeUpdateRequestView
+
+@{
+	ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
+	ProductTypeView productType = eCommerce.GetProductTypeBy(int.Parse(Model.ProductTypeId));
+}
+<h1>Current product type</h1>
+<h2><label>Product type name:</label></h2>
+<p>@productType.Name</p>
+<h2><label>Product type category:</label></h2>
+@await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId = int.Parse(productType.CategoryId) })
+<hr />
+<h1>Update request info:</h1>
+@await Html.PartialAsync("ProductTypeUpdateRequestDetail",Model)
+<form asp-action="ApplyUpdateRequest" asp-controller="ProductType" method="post">
+	<input type="hidden" name="sellerId" value="@Model.SellerId" />
+	<input type="hidden" name="productTypeId" value="@Model.ProductTypeId" />
+	<input type="submit" value="Apply update" class="btn btn-success" />
+</form>

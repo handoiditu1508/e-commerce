@@ -1,0 +1,22 @@
+﻿@if (ViewData[GlobalViewBagKeys.Messages] != null)
+{
+	<div class="alert alert-success messageZone">
+		@{
+			IEnumerable<string> messages = (IEnumerable<string>)ViewData[GlobalViewBagKeys.Messages];
+			foreach (string message in messages)
+			{
+				<p>@message</p>
+			}
+		}
+		<button type="button" class="btn btn-sm btn-danger float-right closeMessageZoneBtn">X</button>
+	</div>
+
+	<script type="text/javascript">
+		$('.closeMessageZoneBtn').click(
+			function (event) {
+				event.preventDefault();
+				//close all message zone
+				$('.messageZone').remove();
+			});
+	</script>
+}

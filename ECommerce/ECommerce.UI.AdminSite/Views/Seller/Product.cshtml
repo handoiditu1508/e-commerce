@@ -1,0 +1,16 @@
+﻿@model ProductsListViewModel
+
+<h1>Seller: @Model.Products.FirstOrDefault()?.SellerName</h1>
+
+@Html.DisplayFor(m => m.SearchModel, "ProductFilterFormForSeller")
+
+@Html.DisplayFor(m => m.Products, "ProductsTable")
+
+<div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="col-12"
+	 page-class="page-item" page-class-normal=""
+	 page-class-selected="active" page-class-disabled="disabled"
+	 page-url-searchString="Model.SearchModel.SearchString" page-url-sellerId="Model.SearchModel.SellerId"
+	 page-url-status="Model.SearchModel.Status" page-url-active="Model.SearchModel.Active"
+	 page-url-price="Model.SearchModel.Price" page-url-priceIndication="Model.SearchModel.PriceIndication"
+	 page-url-categoryId="Model.SearchModel.CategoryId" page-url-productTypeStatus="Model.SearchModel.ProductTypeStatus">
+</div>

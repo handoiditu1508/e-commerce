@@ -1,0 +1,49 @@
+﻿@model CustomerView
+
+@if (Model == null)
+{
+	<div class="dropdown">
+		<button class="btn btn-success btn-sm ml-1 dropdown-toggle overflow-txt" type="button" data-toggle="dropdown">
+			<i class="fas fa-user"></i> Customer
+		</button>
+		<ul class="dropdown-menu">
+			<li>
+				<a class="dropdown-item" tabindex="-1" asp-action="Login" asp-controller="Customer"
+				   asp-route-returnUrl="@((ViewContext.RouteData.Values["Controller"].ToString() == "Customer" && ViewContext.RouteData.Values["Action"].ToString() == "Login") ?
+					Url.HomePage() : ViewContext.HttpContext.Request.PathAndQuery())">
+					Login
+				</a>
+			</li>
+			<li>
+				<a class="dropdown-item" tabindex="-1" asp-action="Signup" asp-controller="Customer"
+				   asp-route-returnUrl="@((ViewContext.RouteData.Values["Controller"].ToString() == "Customer" && ViewContext.RouteData.Values["Action"].ToString() == "Signup") ?
+					Url.HomePage() : ViewContext.HttpContext.Request.PathAndQuery())">
+					Signup
+				</a>
+			</li>
+		</ul>
+	</div>
+}
+else
+{
+	<div class="dropdown">
+		<button class="btn btn-success btn-sm ml-1 dropdown-toggle overflow-txt" type="button" data-toggle="dropdown" title="@Model.Email">
+			<i class="fas fa-user"></i> @Model.Email
+		</button>
+		<ul class="dropdown-menu">
+			<li>
+				<a class="dropdown-item" tabindex="-1" asp-action="PersonalInformations" asp-controller="Customer">
+					Personal Informations
+				</a>
+			</li>
+			<li>
+				<form asp-action="Logout" asp-controller="Customer" method="post">
+					<input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+					<a class="dropdown-item" tabindex="-1" onclick="$(this).closest('form').submit();">
+						Logout
+					</a>
+				</form>
+			</li>
+		</ul>
+	</div>
+}

@@ -1,0 +1,189 @@
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.deps.json
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.runtimeconfig.json
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.runtimeconfig.dev.json
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.dll
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.csprojAssemblyReference.cache
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.csproj.CoreCompileInputs.cache
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.AssemblyInfoInputs.cache
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.AssemblyInfo.cs
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorAssemblyInfo.cache
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorAssemblyInfo.cs
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorTargetAssemblyInfo.cache
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Application.dll
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.dll
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Models.dll
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Persistence.EF.dll
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.TagHelpers.input.cache
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.TagHelpers.output.cache
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorCoreGenerate.cache
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.g.cshtml.cs
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorTargetAssemblyInfo.cs
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.pdb
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.Views.dll
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.Views.pdb
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Application.pdb
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.pdb
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Models.pdb
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Persistence.EF.pdb
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.Views.pdb
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.csproj.CopyComplete
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.dll
+C:\Users\Morpheus\Desktop\New folder\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.pdb
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.deps.json
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.runtimeconfig.json
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.runtimeconfig.dev.json
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.dll
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.pdb
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.Views.dll
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.Views.pdb
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Application.dll
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.dll
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Models.dll
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Persistence.EF.dll
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Application.pdb
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.pdb
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Models.pdb
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Persistence.EF.pdb
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.csprojAssemblyReference.cache
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.csproj.CoreCompileInputs.cache
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorAssemblyInfo.cache
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorAssemblyInfo.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.AssemblyInfoInputs.cache
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.AssemblyInfo.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.TagHelpers.input.cache
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.TagHelpers.output.cache
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorCoreGenerate.cache
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorTargetAssemblyInfo.cache
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorTargetAssemblyInfo.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.Views.pdb
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.csproj.CopyComplete
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.dll
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.pdb
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\Index.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ProductSummary.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\NavigationMenu\Default.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Cart\Index.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CategoriesDropDown\Default.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CategoriesList\Default.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CustomerDropDown\Default.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Customer\Login.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Customer\PersonalInformations.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Customer\Signup.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Extensions.dll
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Extensions.pdb
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\SmallCart\Default.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EmbedUrl.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\Detail.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\ProductType.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\BreadCrumb\Default.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\BreadCrumb.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CartTable\Default.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\Seller.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\Login.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\PersonalInformations.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\Signup.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\SellerDropDown\Default.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ErrorZone.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.deps.json
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.runtimeconfig.json
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.runtimeconfig.dev.json
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.dll
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.pdb
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.Views.dll
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.MVC.Views.pdb
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Application.dll
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Extensions.dll
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.dll
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Models.dll
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Persistence.EF.dll
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Application.pdb
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Extensions.pdb
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.pdb
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Models.pdb
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.Persistence.EF.pdb
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.csprojAssemblyReference.cache
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.csproj.CoreCompileInputs.cache
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorAssemblyInfo.cache
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorAssemblyInfo.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.AssemblyInfoInputs.cache
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.AssemblyInfo.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.TagHelpers.input.cache
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.TagHelpers.output.cache
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorCoreGenerate.cache
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Cart\Index.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Customer\Login.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Customer\PersonalInformations.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Customer\Signup.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\Detail.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\Index.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\ProductType.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\Seller.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\Login.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\PersonalInformations.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\Signup.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\BreadCrumb.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\BreadCrumb\Default.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CartTable\Default.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CategoriesDropDown\Default.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CategoriesList\Default.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CustomerDropDown\Default.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\NavigationMenu\Default.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\SellerDropDown\Default.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\SmallCart\Default.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EmbedUrl.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ErrorZone.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ProductSummary.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorTargetAssemblyInfo.cache
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.RazorTargetAssemblyInfo.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.Views.pdb
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.csproj.CopyComplete
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.dll
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.pdb
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Test\Index.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\RegisterProduct\SelectProductType.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\RegisterProduct\CreateProductType.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CategoriesPickerDropDown\Default.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Test\RedirectPage.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Test\DestinationPage.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\RegisterProduct\Index.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\RegisterProduct\CreateProductType.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\RegisterProduct\Index.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\RegisterProduct\SelectProductType.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CategoriesPickerDropDown\Default.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Test\DestinationPage.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Test\Index.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Test\RedirectPage.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\LoginViewModel.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\CustomerSignupViewModel.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\CustomerViewForUpdate.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\SellerSignupViewModel.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\SellerViewForUpdate.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\DisplayTemplates\ProductDetail.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\DisplayTemplates\SelectProductTypeTable.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\DisplayTemplates\ProductDetail.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\DisplayTemplates\SelectProductTypeTable.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\CustomerSignupViewModel.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\CustomerViewForUpdate.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\LoginViewModel.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\SellerSignupViewModel.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\SellerViewForUpdate.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\Product.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\UpdateProduct.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\Product.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\UpdateProduct.g.cshtml.cs
+C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CategoryBreadCrumb\Default.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CategoryBreadCrumb\Default.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\MessageZone.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\ProductTypeUpdateRequestAddModel.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\UpdateProductType\Index.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\UpdateProductType\RequestSended.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\UpdateProductType\SelectProductType.g.cshtml.cs
+C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ProductTypeUpdateRequestDetail.g.cshtml.cs

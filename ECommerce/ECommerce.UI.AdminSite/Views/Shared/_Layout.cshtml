@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<link rel="stylesheet" href="~/css/style.css" />
+	<link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+	<link rel="stylesheet" href="~/lib/bootstrap-toggle/css/bootstrap-toggle.min.css" />
+	<script src="~/lib/jquery/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+	<script src="~/js/script.js"></script>
+	<!--<script src="~/lib/jquery.unobtrusive-ajax/jquery.unobtrusive-ajax.min.js"></script>-->
+	<script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+	<script src="~/lib/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+	<title>@ViewBag.Title</title>
+</head>
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+		<div class="container p-0">
+			<a class="navbar-brand" href="@Url.HomePage()">Admin Site</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
+				<!--header-nav-->
+				<ul class="navbar-nav m-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="@Url.HomePage()">Home</a>
+					</li>
+					<li class="nav-item active">
+						@await Component.InvokeAsync("CategoriesDropDown", new { additionalCssClass = "nav-link" })
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" asp-action="Index" asp-controller="ProductType">Product Type</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" asp-action="Index" asp-controller="Seller">Seller</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" asp-action="Index" asp-controller="Customer">Customer</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" asp-action="UpdateRequest" asp-controller="ProductType">Update Request</a>
+					</li>
+				</ul>
+				<!--header-nav-->
+
+				<div class="form-inline my-2 my-lg-0">
+					<!--Cart small-->
+					@await Component.InvokeAsync("AdminDropDown")
+					<!--Cart small-->
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!--header-->
+	<!--body-->
+	<!--breadcrumb-->
+	<!--await Component.InvokeAsync("BreadCrumb");-->
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item"><a href="#">Category</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Sub-category</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!--breadcrumb-->
+	<!--body-left-right-->
+	<div class="container mb-3">
+		<div class="row">
+			<!--left-->
+			<div class="col-3">
+				@await Component.InvokeAsync("NavigationMenu")
+			</div>
+			<!--left-->
+			<!--right-->
+			<div class="col-9 p-0">
+				@await Html.PartialAsync("MessageZone")
+				@await Html.PartialAsync("ErrorZone")
+				@RenderBody()
+			</div>
+			<!--right-->
+		</div>
+	</div>
+	<!--body-left-right-->
+	<!--body-->
+	<!--embed urls into html-->
+	@await Html.PartialAsync("EmbedUrl")
+	<!--embed urls into html-->
+</body>
+</html>

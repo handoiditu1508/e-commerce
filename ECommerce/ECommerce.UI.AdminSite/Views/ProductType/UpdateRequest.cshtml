@@ -1,0 +1,10 @@
+﻿@model ProductTypeUpdateRequestViewModel
+
+<h1>Product Type Update Requests</h1>
+
+@Html.DisplayFor(m => m.UpdateRequests, "ProductTypeUpdateRequestsTable")
+
+<div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="col-12"
+	 page-class="page-item" page-class-normal=""
+	 page-class-selected="active" page-class-disabled="disabled">
+</div>

@@ -1,0 +1,131 @@
+﻿@model ProductView
+
+@{ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];}
+<div class="container">
+	<div class="card productDetailCard">
+		<div class="container-fliud">
+			<div class="wrapper row">
+				<div class="preview col-md-6">
+					<div id="galleryResult" class="preview-pic tab-content">
+						<div class="galleryThumbnail">
+							<img class="rounded" file-content="@Model.RepresentativeImage" />
+						</div>
+					</div>
+					<div id="carouselExampleControls" class="preview-thumbnail nav nav-tabs carousel slide" data-ride="carousel" data-interval="false">
+						<div class="carousel-inner">
+							@{
+								IList<FileContent> images = eCommerce.GetProductImages(int.Parse(Model.SellerId), int.Parse(Model.ProductTypeId)).ToList();
+								short count = 1;
+								TagBuilder container = new TagBuilder("div");
+								TagBuilder carouselItem = new TagBuilder("div");
+								carouselItem.AddCssClass("carousel-item active");
+								container.InnerHtml.AppendHtml(carouselItem);
+								foreach (FileContent image in images)
+								{
+									carouselItem.InnerHtml
+										.AppendHtml($"<div class=\"galleryThumbnail\"><img src=\"{image.EncodeInBase64()}\" /></div>");
+									if (count++ == 5)
+									{
+										carouselItem = new TagBuilder("div");
+										carouselItem.AddCssClass("carousel-item active");
+										container.InnerHtml.AppendHtml(carouselItem);
+										count = 1;
+									}
+								}
+							}
+							@container.InnerHtml
+						</div>
+						<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
+				<div class="details col-md-6">
+					<h3><a asp-action="ProductType" asp-controller="Product" asp-route-productTypeId="@Model.ProductTypeId" class="font-weight-bold text-uppercase">@Model.ProductTypeName</a></h3>
+					<div>
+						<div>
+							<span class="fa fa-star checked"></span>
+							<span class="fa fa-star checked"></span>
+							<span class="fa fa-star checked"></span>
+							<span class="fa fa-star"></span>
+							<span class="fa fa-star"></span>
+						</div>
+						<span>41 reviews</span>
+					</div>
+					<p>Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
+					<h4 class="font-weight-bold text-uppercase">current price: <span class="text-warning">@CurrencyFormat.FormatWithUnit(Model.Price)</span></h4>
+					<h4 class="font-weight-bold text-uppercase">SELLER: <a class="text-primary" asp-action="Seller" asp-controller="Product" asp-route-sellerId="@Model.SellerId">@Model.SellerName</a></h4>
+					<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
+					<form asp-action="AddToCart" asp-controller="Cart" method="post" class="addToCartOnSubmit">
+						@foreach (var attribute in Model.Attributes)
+						{
+							<h5 class="font-weight-bold text-uppercase">
+								@attribute.Key:
+								@foreach (var value in attribute.Value)
+								{
+									<label class="radio-inline text-info">
+										<input checked type="radio" name="attributes[@attribute.Key]" value="@value" /> @value
+									</label>
+								}
+							</h5>
+						}
+						<div class="form-row">
+							<div class="form-group col-md-3">
+								<input class="form-control" type="number" name="quantity" value="1" />
+							</div>
+						</div>
+						<input type="hidden" name="sellerId" value="@Model.SellerId" />
+						<input type="hidden" name="productTypeId" value="@Model.ProductTypeId" />
+						<div>
+							<input class="btn btn-lg btn-success" type="submit" value="Add to Cart" />
+							<button class="btn btn-lg btn-danger" type="button"><i class="fa fa-heart"></i></button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	//small cart updating
+	function updateSmallCart() {
+		$.ajax({
+			url: $('#cartTotalQuantityUrl').val(),
+			type: 'get',
+			success: function (result) {
+				$('#cartQuantity').html(result);
+			}
+		});
+	}
+
+	$('.addToCartOnSubmit').submit(
+		function (event) {
+			// Stop form from submitting normally
+			event.preventDefault();
+			var $form = $(this);
+			$.ajax({
+				url: $form.attr('action'),
+				type: $form.attr('method'),
+				data: $form.serialize(),
+				success: function () {
+					updateSmallCart();
+				},
+				error: function (result) {
+					alert('something went wrong while adding to cart:\n' + result);
+				}
+			});
+		});
+
+	//product detail
+
+	$('.galleryThumbnail').click(function(){
+		$('#galleryResult').html($(this).clone());
+	});
+</script>

@@ -1,0 +1,58 @@
+﻿@model CategoriesDropDownViewModel
+
+@{
+	TagBuilder output = new TagBuilder("div");
+	output.AddCssClass("btn-group dropdown-hover");
+	output.AddCssClass(Model.AdditionalCssClass);
+	TagBuilder title = new TagBuilder("a");
+	title.AddCssClass("btn-block dropdown-toggle");
+	title.InnerHtml.Append("Pick Category");
+	output.InnerHtml.AppendHtml(title);
+
+	TagBuilder result = null;
+	ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
+	Stack<IList<CategoryView>> categoryStack = new Stack<IList<CategoryView>>();
+	categoryStack.Push(Model.Categories.ToList());
+	Stack<short> indexStack = new Stack<short>();
+	indexStack.Push(0);
+	Stack<TagBuilder> menuStack = new Stack<TagBuilder>();
+	TagBuilder list = new TagBuilder("ul");
+	list.AddCssClass("dropdown-menu");
+	menuStack.Push(list);
+	while (categoryStack.Any())
+	{
+		list = menuStack.Peek();
+		for (short i = indexStack.Peek(); i < categoryStack.Peek().Count(); i++)
+		{
+			TagBuilder line = new TagBuilder("li");
+			TagBuilder item = new TagBuilder("a");
+			item.AddCssClass("dropdown-item categoryPickingButton");
+			//item.Attributes["href"] = "#";
+			item.InnerHtml.Append(categoryStack.Peek()[i].Name);
+			item.InnerHtml.AppendHtml($"<p class=\"d-none\" name=\"categoryId\">{categoryStack.Peek()[i].Id}</p>");
+			line.InnerHtml.AppendHtml(item);
+			list.InnerHtml.AppendHtml(line);
+			List<CategoryView> childCategories = eCommerce.GetChildCategories(int.Parse(categoryStack.Peek()[i].Id)).ToList();
+			if (childCategories.Any())
+			{
+				line.AddCssClass("dropdown-submenu");
+				indexStack.Pop();
+				indexStack.Push((short)(i + 1));
+				indexStack.Push(0);
+				categoryStack.Push(childCategories);
+				TagBuilder newList = new TagBuilder("ul");
+				newList.AddCssClass("dropdown-menu");
+				line.InnerHtml.AppendHtml(newList);
+				menuStack.Push(newList);
+				goto loop;
+			}
+		}
+		indexStack.Pop();
+		categoryStack.Pop();
+		menuStack.Pop();
+		result = list;
+	loop:;
+	}
+	output.InnerHtml.AppendHtml(result);
+}
+@output

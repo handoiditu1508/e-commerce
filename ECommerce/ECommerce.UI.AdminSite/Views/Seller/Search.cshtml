@@ -1,0 +1,12 @@
+﻿@model SellersListViewModel
+
+@Html.DisplayFor(m => m.SearchModel, "SellerFilterForm")
+
+@Html.DisplayFor(m => m.Sellers, "SellersTable")
+
+<div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="col-12"
+	 page-class="page-item" page-class-normal=""
+	 page-class-selected="active" page-class-disabled="disabled"
+	 page-url-name="Model.SearchModel.Name" page-url-email="Model.SearchModel.Email"
+	 page-url-phoneNumber="Model.SearchModel.PhoneNumber" page-url-status="Model.SearchModel.Status">
+</div>

@@ -1,0 +1,42 @@
+﻿@model AdminView
+
+@if (Model == null)
+{
+	<div class="dropdown">
+		<button class="btn btn-success btn-sm ml-1 dropdown-toggle overflow-txt" type="button" data-toggle="dropdown">
+			<i class="fas fa-user-tie"></i>
+		</button>
+		<ul class="dropdown-menu">
+			<li>
+				<a class="dropdown-item" tabindex="-1" asp-action="Login" asp-controller="Admin"
+				   asp-route-returnUrl="@((ViewContext.RouteData.Values["Controller"].ToString() == "Admin" && ViewContext.RouteData.Values["Action"].ToString() == "Login") ?
+					Url.HomePage() : ViewContext.HttpContext.Request.PathAndQuery())">
+					Login
+				</a>
+			</li>
+		</ul>
+	</div>
+}
+else
+{
+	<div class="dropdown">
+		<button class="btn btn-success btn-sm ml-1 dropdown-toggle overflow-txt" type="button" data-toggle="dropdown" title="@Model.Email">
+			<i class="fas fa-user-tie"></i> @Model.Email
+		</button>
+		<ul class="dropdown-menu">
+			<li>
+				<a class="dropdown-item" tabindex="-1" asp-action="PersonalInformations" asp-controller="Admin">
+					Personal Informations
+				</a>
+			</li>
+			<li>
+				<form asp-action="Logout" asp-controller="Admin" method="post">
+					<input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+					<a class="dropdown-item" tabindex="-1" onclick="$(this).closest('form').submit();">
+						Logout
+					</a>
+				</form>
+			</li>
+		</ul>
+	</div>
+}

@@ -1,0 +1,18 @@
+﻿@model ProductTypesListViewModel
+
+<form asp-action="SelectProductType" method="get">
+	<div class="input-group mb-3">
+		<input class="form-control" type="text" name="searchString" value="@Model.SearchModel.SearchString" placeholder="Find product types" />
+		<div class="input-group-append">
+			<input class="btn btn-success" type="submit" value="Find" />
+		</div>
+	</div>
+</form>
+
+@Html.DisplayFor(m => m.ProductTypes, "SelectProductTypeTable")
+
+<div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="col-12"
+	 page-class="page-item" page-class-normal=""
+	 page-class-selected="active" page-class-disabled="disabled"
+	 page-url-searchString="Model.SearchModel.SearchString">
+</div>

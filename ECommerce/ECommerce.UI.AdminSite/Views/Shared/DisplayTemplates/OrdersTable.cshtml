@@ -1,0 +1,51 @@
+﻿@model IEnumerable<OrderView>
+
+<div class="table-responsive rounded">
+	<table class="table table-striped table-bordered table-hover table-condensed table-sm table-active table-secondary">
+		<thead class="thead-dark">
+			<tr>
+				<th style="width:30%;"></th>
+				<th style="width:10%;">Item</th>
+				<th style="width:10%;">Seller</th>
+				<th style="width:10%;">Attributes</th>
+				<th style="width:10%;">Quantity</th>
+				<th class="text-right" style="width:10%;">Price</th>
+				<th class="text-right" style="width:10%;">Subtotal</th>
+			</tr>
+		</thead>
+		<tbody>
+			@{
+				ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
+				string removeAction = Url.Action("RemoveFromCart", "Cart");
+				string changeQuantityAction = Url.Action("ChangeQuantity", "Cart");
+				foreach (OrderView order in Model)
+				{
+					ProductView product = eCommerce.GetProductBy(int.Parse(order.SellerId), int.Parse(order.ProductTypeId));
+					<tr class="orderTableRow">
+						<td>
+						@if (product != null)
+						{
+							<img class="rounded img-fluid" file-content="product.RepresentativeImage" alt="@order.ProductTypeName" />
+						}
+						else
+						{
+							<img class="rounded img-fluid" src="~/images/sample.png" alt="@order.ProductTypeName" />
+						}
+						</td>
+						<td class="text-left"><a class="text-decoration-none" asp-action="Informations" asp-controller="ProductType" asp-route-productTypeId="@order.ProductTypeId">@order.ProductTypeName</a></td>
+						<td class="text-left"><a class="text-decoration-none" asp-action="Informations" asp-controller="Seller" asp-route-sellerId="@order.SellerId">@order.SellerName</a></td>
+						<td class="text-left">
+							@foreach (var attribute in order.Attributes)
+							{
+								<p>@attribute.Key: @attribute.Value</p>
+							}
+						</td>
+						<td class="text-center">@order.Quantity</td>
+						<td class="text-right">@CurrencyFormat.Format(order.CurrentPrice)</td>
+						<td class="text-right">@CurrencyFormat.Format(decimal.Parse(order.CurrentPrice) * int.Parse(order.Quantity))</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+</div>

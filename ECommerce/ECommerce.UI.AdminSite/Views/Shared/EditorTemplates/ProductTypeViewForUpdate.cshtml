@@ -1,0 +1,57 @@
+﻿@model ProductTypeView
+
+<input asp-for="Id" />
+<div class="form-group">
+	<label asp-for="Name" class="control-label"></label>
+	<input asp-for="Name" class="form-control" />
+	<span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="form-group">
+	<label class="control-label">Category</label>
+	<input id="categoryHiddenPickingResult" type="hidden" asp-for="CategoryId" class="form-control" />
+	<div id="categoryPickingResult">
+		@if (Model.CategoryId != null)
+		{
+			<vc:category-bread-crumb category-id="int.Parse(Model.CategoryId)"></vc:category-bread-crumb>
+		}
+	</div>
+	<span asp-validation-for="CategoryId" class="text-danger"></span>
+</div>
+@await Component.InvokeAsync("CategoriesPickerDropDown", new { additionalCssClass = "btn btn-success" })
+
+<script type="text/javascript">
+
+	//picking category
+
+	$('.categoryPickingButton').click(
+		function (event) {
+			// Stop form from submitting normally
+			event.preventDefault();
+			var $btn = $(this);
+			var $attr = $btn.find('p[name=\'categoryId\']');
+
+			$('#categoryHiddenPickingResult').val($attr.html());
+
+			$.ajax({
+				url: $('#getCategoryBreadCrumbUrl').val(),
+				type: "get",
+				data: { categoryId: $attr.html() },
+				success: function (result) {
+					$('#categoryPickingResult').html(result);
+				},
+				error: function (result) {
+					alert('something went wrong while picking category:\n' + result);
+				}
+			});
+		});
+
+	$('#clearCategoryPicking').click(
+		function (event) {
+			// Stop btn behavior to make form validate it self
+			event.preventDefault();
+
+			//clear result of picking category
+			$('#categoryPickingResult').html('');
+			$('#categoryHiddenPickingResult').val('');
+		});
+</script>

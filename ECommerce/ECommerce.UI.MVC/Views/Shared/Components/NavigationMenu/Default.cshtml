@@ -1,0 +1,15 @@
+﻿@model IEnumerable<CategoryView>
+
+<div class="card bg-light mb-3">
+	@await Component.InvokeAsync("CategoriesList")
+</div>
+
+<div class="card bg-light">
+	<div class="card-header bg-success text-white text-uppercase">Last product</div>
+	<div class="card-body">
+		<img class="img-fluid rounded" src="~/images/sample.png" width="600" height="400" />
+		<h5 class="card-title">Product title</h5>
+		<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+		<p class="bloc_left_price">99.00 $</p>
+	</div>
+</div>

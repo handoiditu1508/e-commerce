@@ -1,0 +1,17 @@
+﻿@model ProductTypeUpdateRequestAddModel
+
+@{
+	ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
+	ProductTypeView productType = eCommerce.GetProductTypeBy(Model.ProductTypeId);
+}
+<h1>Current product type</h1>
+<h2><label>Product type name:</label></h2>
+<p>@productType.Name</p>
+<h2><label>Product type category:</label></h2>
+@await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId = int.Parse(productType.CategoryId) })
+<hr />
+<h1>Update request info:</h1>
+<form asp-action="Index" method="post">
+	@Html.EditorForModel("ProductTypeUpdateRequestAddModel")
+	<input type="submit" value="Send request" />
+</form>

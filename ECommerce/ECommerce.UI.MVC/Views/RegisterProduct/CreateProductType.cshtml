@@ -1,0 +1,49 @@
+﻿@model ProductTypeAddModel
+
+<form asp-action="CreateProductType">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	<div class="form-group">
+		<label asp-for="Name" class="control-label"></label>
+		<input asp-for="Name" class="form-control" />
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="CategoryId" class="control-label"></label>
+		<input id="categoryHiddenPickingResult" type="hidden" asp-for="CategoryId" />
+		<span asp-validation-for="CategoryId" class="text-danger"></span>
+		<div id="categoryPickingResult"></div>
+	</div>
+	@await Component.InvokeAsync("CategoriesPickerDropDown", new { additionalCssClass = "btn btn-success" })
+	<div class="form-group">
+		<input type="submit" value="Continue to Product Registration" class="btn btn-primary" />
+	</div>
+</form>
+
+<script type="text/javascript">
+
+	//picking category when create product type
+
+	$('.categoryPickingButton').click(
+		function (event) {
+			// Stop form from submitting normally
+			event.preventDefault();
+			var $btn = $(this);
+			var $attr = $btn.find('p[name=\'categoryId\']');
+
+			$('#categoryHiddenPickingResult').val($attr.html());
+
+			$.ajax({
+				url: $('#getCategoryBreadCrumbUrl').val(),
+				type: "get",
+				data: { categoryId: $attr.html() },
+				success: function (result) {
+					$('#categoryPickingResult').html(result);
+				},
+				error: function (result) {
+					alert('something went wrong while picking category:\n' + result);
+				}
+			});
+		}
+	);
+
+</script>

@@ -1,0 +1,122 @@
+﻿@model ProductSearchModel
+
+<fieldset class="border rounded">
+	<legend>Find Product Type By:</legend>
+	<form asp-action="Product" asp-controller="Seller" method="get">
+		<input type="hidden" name="sellerId" value="@Model.SellerId" />
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label class="control-label">Name</label>
+				<input class="form-control" type="text" name="searchString" value="@Model.SearchString" />
+			</div>
+			<div class="form-group col-md-6">
+				<label class="control-label">Price</label>
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<select name="priceIndication" class="custom-select">
+							@if (Model.PriceIndication == null)
+							{
+								<option value="-1">Lesser than</option>
+								<option value="0">Equal to</option>
+								<option value="1">More than</option>
+							}
+							else
+							{
+								if (Model.PriceIndication < 0)
+								{
+									<option selected value="-1">Lesser than</option>
+									<option value="0">Equal to</option>
+									<option value="1">More than</option>
+								}
+								else if (Model.PriceIndication > 0)
+								{
+									<option value="-1">Lesser than</option>
+									<option value="0">Equal to</option>
+									<option selected value="1">More than</option>
+								}
+								else
+								{
+									<option value="-1">Lesser than</option>
+									<option selected value="0">Equal to</option>
+									<option value="1">More than</option>
+								}
+							}
+						</select>
+					</div>
+					<input type=number class="form-control" name="price" value="@Model.Price" />
+				</div>
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label class="control-label">Status</label>
+				<select class="form-control" name="status" enum-type="typeof(ProductStatus)" selected="Model.Status" option-label=""></select>
+			</div>
+			<div class="form-group col-md-6">
+				<label class="control-label">Active:</label>
+				<select class="form-control" name="active" selected-bool-value="Model.Active" true-label="Active" false-label="Locked" option-label=""></select>
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label class="control-label">Product Type Status</label>
+				<select class="form-control" name="productTypeStatus" enum-type="typeof(ProductTypeStatus)" selected="Model.ProductTypeStatus" option-label=""></select>
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group col-md-12">
+				<label class="control-label">Category</label>
+				<button id="clearCategoryPicking" type="button" class="btn btn-danger btn-sm">X</button>
+				<input id="categoryHiddenPickingResult" type="hidden" name="categoryId" value="@Model.CategoryId" />
+				<div id="categoryPickingResult">
+					@if (Model.CategoryId != null)
+					{
+						<vc:category-bread-crumb category-id="(int)Model.CategoryId"></vc:category-bread-crumb>
+					}
+				</div>
+			</div>
+		</div>
+		@await Component.InvokeAsync("CategoriesPickerDropDown", new { additionalCssClass = "btn btn-success" })
+		<input type="submit" value="Search" class="btn btn-primary" />
+	</form>
+</fieldset>
+
+<script type="text/javascript">
+
+	//picking category
+
+	$('.categoryPickingButton').click(
+		function (event) {
+			// Stop form from submitting normally
+			event.preventDefault();
+			var $btn = $(this);
+			var $attr = $btn.find('p[name=\'categoryId\']');
+
+			$('#categoryHiddenPickingResult').val($attr.html());
+
+			$.ajax({
+				url: $('#getCategoryBreadCrumbUrl').val(),
+				type: "get",
+				data: { categoryId: $attr.html() },
+				success: function (result) {
+					$('#categoryPickingResult').html(result);
+				},
+				error: function (result) {
+					alert('something went wrong while picking category:\n' + result);
+				}
+			});
+		});
+
+	$('#clearCategoryPicking').click(
+		function (event) {
+			// Stop btn behavior to make form validate it self
+			event.preventDefault();
+
+			//clear result of picking category
+			$('#categoryPickingResult').html('');
+			$('#categoryHiddenPickingResult').val('');
+		});
+</script>

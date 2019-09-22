@@ -1,0 +1,12 @@
+﻿@model SellerView
+
+<h1>Seller: @Model.Name</h1>
+
+<form>
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	@Html.EditorForModel("SellerViewForUpdate")
+	<div class="form-group">
+		<input type="submit" value="Save" class="btn btn-primary" />
+	</div>
+</form>
+<a class="btn btn-info" asp-action="Product" asp-route-sellerId="@Model.Id">View products of @Model.Name</a>

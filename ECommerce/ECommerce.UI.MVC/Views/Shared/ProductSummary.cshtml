@@ -1,0 +1,25 @@
+﻿@model ProductView
+
+<div class="card d-inline-block col-3 mb-3 ml-5 p-0">
+	<img class="card-img-top productSummaryImage" file-content="Model.RepresentativeImage" alt="@Model.ProductTypeName" />
+	<div class="card-body">
+		<h4 class="card-title text-truncate">
+			<a asp-action="Detail" asp-controller="Product"
+			   asp-route-sellerId="@Model.SellerId" asp-route-productTypeId="@Model.ProductTypeId"
+			   title="@Model.ProductTypeName">@Model.ProductTypeName</a>
+		</h4>
+		<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+		<div class="form-row">
+			<div class="col-6">
+				<p class="btn btn-danger btn-block">@CurrencyFormat.Format(Model.Price)</p>
+			</div>
+			<div class="col-6">
+				<a asp-action="Detail" asp-controller="Product"
+				   asp-route-sellerId="@Model.SellerId" asp-route-productTypeId="@Model.ProductTypeId"
+				   class="btn btn-success btn-block">
+					Detail
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

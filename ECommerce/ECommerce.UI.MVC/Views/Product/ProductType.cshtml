@@ -1,0 +1,18 @@
+﻿@model ProductsListViewModel
+
+@{
+	ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
+	ProductTypeView productType = eCommerce.GetProductTypeBy((int)Model.SearchModel.ProductTypeId);
+}
+<h1>@productType.Name</h1>
+
+@foreach (ProductView p in Model.Products)
+{
+	<partial name="ProductSummary" model="p" />
+}
+
+<div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="col-12"
+	 page-class="page-item" page-class-normal=""
+	 page-class-selected="active" page-class-disabled="disabled"
+	 page-url-productTypeId="Model.SearchModel.ProductTypeId">
+</div>
