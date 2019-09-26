@@ -363,6 +363,10 @@
               "target": "Package",
               "version": "[2.2.0, )",
               "autoReferenced": true
+            },
+            "dapper": {
+              "target": "Package",
+              "version": "[2.0.4, )"
             }
           },
           "imports": [

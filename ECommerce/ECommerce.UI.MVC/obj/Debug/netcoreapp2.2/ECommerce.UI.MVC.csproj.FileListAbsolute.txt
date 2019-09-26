@@ -147,12 +147,9 @@ C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\EComme
 C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.csproj.CopyComplete
 C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.dll
 C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\ECommerce.UI.MVC.pdb
-C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Test\Index.g.cshtml.cs
 C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\RegisterProduct\SelectProductType.g.cshtml.cs
 C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\RegisterProduct\CreateProductType.g.cshtml.cs
 C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\CategoriesPickerDropDown\Default.g.cshtml.cs
-C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Test\RedirectPage.g.cshtml.cs
-C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Test\DestinationPage.g.cshtml.cs
 C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\RegisterProduct\Index.g.cshtml.cs
 C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\RegisterProduct\CreateProductType.g.cshtml.cs
 C:\Users\Morpheus\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\RegisterProduct\Index.g.cshtml.cs
@@ -186,4 +183,3 @@ C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\
 C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\UpdateProductType\Index.g.cshtml.cs
 C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\UpdateProductType\RequestSended.g.cshtml.cs
 C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\UpdateProductType\SelectProductType.g.cshtml.cs
-C:\Users\hando\Desktop\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ProductTypeUpdateRequestDetail.g.cshtml.cs

@@ -1,6 +1,6 @@
 ﻿@model AdminView
 
-<form asp-action="PersonalInformations">
+<form method="post" asp-action="PersonalInformations">
 	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 	<input asp-for="Id" />
 	<div class="form-group row">

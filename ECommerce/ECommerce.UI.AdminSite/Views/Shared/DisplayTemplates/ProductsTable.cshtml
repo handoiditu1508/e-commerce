@@ -39,7 +39,7 @@
 							   data-off="<i class='fa fa-lock'></i>" disabled />
 					</td>
 					<td>
-						<form action="@formAction" method="get">
+						<form action="@formAction" method="post">
 							<input name="sellerId" type="hidden" value="@product.SellerId" />
 							<input name="productTypeId" type="hidden" value="@product.ProductTypeId" />
 							<select class="submitOnChange form-control" name="status" enum-type="typeof(ProductStatus)" selected="product.Status"></select>

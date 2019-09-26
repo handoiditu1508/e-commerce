@@ -6,6 +6,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="dapper" Version="2.0.4" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\ECommerce.Application\ECommerce.Application.csproj" />
 	  <ProjectReference Include="..\ECommerce.Persistence.EF\ECommerce.Persistence.EF.csproj" />
 	  <ProjectReference Include="..\ECommerce.UI.MVC\ECommerce.UI.MVC.csproj" />
