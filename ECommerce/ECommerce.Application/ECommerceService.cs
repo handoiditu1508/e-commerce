@@ -140,14 +140,16 @@ namespace ECommerce.Application
 			return !errors.Any();
 		}
 
-		public void AddAdmin(AdminAddModel addModel, out ICollection<string> errors)
+		public AdminView AddAdmin(AdminAddModel addModel, out ICollection<string> errors)
 		{
 			Admin admin = addModel.ConvertToEntity();
 			if (ValidateAdmin(admin, true, true, out errors))
 			{
 				adminRepository.Add(admin);
 				unitOfWork.Commit();
+				return admin.ConvertToView();
 			}
+			return null;
 		}
 
 		public AdminView GetAdminBy(int adminId)
@@ -279,12 +281,12 @@ namespace ECommerce.Application
 			return !errors.Any();
 		}
 
-		public void AddCategory(CategoryAddModel addModel, int? parentId, out ICollection<string> errors)
+		public CategoryView AddCategory(CategoryAddModel addModel, int? parentId, out ICollection<string> errors)
 		{
 			Category category = addModel.ConvertToEntity();
 
 			if (!ValidateCategory(category, out errors))
-				return;
+				return null;
 
 			if (parentId != null)
 			{
@@ -292,25 +294,26 @@ namespace ECommerce.Application
 				if (parentCategory == null)
 				{
 					errors.Add("Parent was not found");
-					return;
+					return null;
 				}
 
 				if (parentCategory.ChildCategories.Select(c => c.Name).Contains(category.Name))
 				{
 					errors.Add($"Parent already has a child named \"{category.Name}\"");
-					return;
+					return null;
 				}
 			}
 			else if (categoryRepository.GetRoots().Select(c => c.Name).Contains(category.Name))
 			{
 				errors.Add("Root has already existed");
-				return;
+				return null;
 			}
 
 			category.ParentId = parentId;
 
 			categoryRepository.Add(category);
 			unitOfWork.Commit();
+			return category.ConvertToView();
 		}
 
 		public IEnumerable<CategoryView> GetAllRootCategories()
@@ -423,14 +426,16 @@ namespace ECommerce.Application
 			return !errors.Any();
 		}
 
-		public void AddCustomer(CustomerAddModel addModel, out ICollection<string> errors)
+		public CustomerView AddCustomer(CustomerAddModel addModel, out ICollection<string> errors)
 		{
 			Customer customer = addModel.ConvertToEntity();
 			if (ValidateCustomer(customer, true, true, out errors))
 			{
 				customerRepository.Add(customer);
 				unitOfWork.Commit();
+				return customer.ConvertToView();
 			}
+			return null;
 		}
 
 		public CustomerView GetCustomerBy(int customerId)
@@ -557,11 +562,15 @@ namespace ECommerce.Application
 		#endregion
 
 		#region Order
-		public void AddOrder(int customerId, OrderAddModel addModel, out ICollection<string> errors)
+		public OrderView AddOrder(int customerId, OrderAddModel addModel, out ICollection<string> errors)
 		{
 			Order order = addModel.ConvertToEntity();
 			if (OrderService.TryOrder(customerId, order, out errors))
+			{
 				unitOfWork.Commit();
+				return order.ConvertToView();
+			}
+			return null;
 		}
 
 		public void CancelOrder(Order order, out ICollection<string> errors)
@@ -694,14 +703,16 @@ namespace ECommerce.Application
 			return !errors.Any();
 		}
 
-		public void AddProductType(ProductTypeAddModel addModel, out ICollection<string> errors)
+		public ProductTypeView AddProductType(ProductTypeAddModel addModel, out ICollection<string> errors)
 		{
 			ProductType productType = addModel.ConvertToEntity();
 			if (ValidateProductType(productType, out errors))
 			{
 				productTypeRepository.Add(productType);
 				unitOfWork.Commit();
+				return productType.ConvertToView();
 			}
+			return null;
 		}
 
 		public ProductTypeView GetProductTypeBy(int productTypeId)
@@ -882,10 +893,15 @@ namespace ECommerce.Application
 			return productTypeRepository.GetUpdateRequest(sellerId, productTypeId)?.ConvertToView();
 		}
 
-		public void RequestAnUpdateForProductType(int sellerId, ProductTypeUpdateRequestAddModel addModel, out ICollection<string> errors)
+		public ProductTypeUpdateRequestView RequestAnUpdateForProductType(int sellerId, ProductTypeUpdateRequestAddModel addModel, out ICollection<string> errors)
 		{
-			if (UpdateProductTypeService.TryRequestAnUpdate(sellerId, addModel.ConvertToEntity(), out errors))
+			ProductTypeUpdateRequest updateRequest = addModel.ConvertToEntity();
+			if (UpdateProductTypeService.TryRequestAnUpdate(sellerId, updateRequest, out errors))
+			{
 				unitOfWork.Commit();
+				return updateRequest.ConvertToView();
+			}
+			return null;
 		}
 
 		public void DeclineAnUpdateForProductType(int sellerId, int productTypeId, out ICollection<string> errors)
@@ -902,7 +918,7 @@ namespace ECommerce.Application
 		#endregion
 
 		#region Product
-		public void RegisterProduct(int sellerId, ProductAddModel addModel, out ICollection<string> errors)
+		public ProductView RegisterProduct(int sellerId, ProductAddModel addModel, out ICollection<string> errors)
 		{
 			errors = new List<string>();
 
@@ -939,11 +955,15 @@ namespace ECommerce.Application
 			}
 
 			if (errors.Any())
-				return;
+				return null;
 
 			Product product = addModel.ConvertToEntity();
 			if (RegisterProductService.TryRegister(sellerId, product, out errors))
+			{
 				unitOfWork.Commit();
+				product.ConvertToView();
+			}
+			return null;
 		}
 
 		public void UnregisterProduct(int sellerId, int productTypeId, out ICollection<string> errors)
@@ -1274,14 +1294,16 @@ namespace ECommerce.Application
 			return !errors.Any();
 		}
 
-		public void AddSeller(SellerAddModel addModel, out ICollection<string> errors)
+		public SellerView AddSeller(SellerAddModel addModel, out ICollection<string> errors)
 		{
 			Seller seller = addModel.ConvertToEntity();
 			if (ValidateSeller(seller, true, true, out errors))
 			{
 				sellerRepository.Add(seller);
 				unitOfWork.Commit();
+				return seller.ConvertToView();
 			}
+			return null;
 		}
 
 		public SellerView GetSellerBy(int sellerId) => sellerRepository.GetBy(sellerId)?.ConvertToView() ?? null;

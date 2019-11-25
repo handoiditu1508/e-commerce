@@ -65,7 +65,7 @@ namespace ECommerce.UI.MVC.Controllers
 			if (ModelState.IsValid)
 			{
 				//add product type to database
-				eCommerce.AddProductType(addModel, out ICollection<string> errors);
+				ProductTypeView productType = eCommerce.AddProductType(addModel, out ICollection<string> errors);
 				//return if error happen
 				if(errors.Any())
 				{
@@ -73,25 +73,11 @@ namespace ECommerce.UI.MVC.Controllers
 					return View(addModel);
 				}
 
-				//get the just added product type
-				try
+				if(productType != null)
 				{
-					//find exactly 1 record
-					ProductTypeView productType = eCommerce
-						.GetProductTypesBy(new ProductTypeSearchModel
-						{
-							DateTimeModified = addModel.DateModified,
-							SearchString = addModel.Name
-						}, null, null)
-						.Single();
-
-					//if found exactly 1 record then continue to next step
 					return RedirectToAction("Index", new { productTypeId = int.Parse(productType.Id) });
 				}
-				catch(Exception)//if not exactly 1 record then throw error and return
-				{
-					errors.Add("There is a problem adding product type please try again");
-				}
+				else errors.Add("There is a problem adding product type please try again");
 			}
 			return View(addModel);
 		}
