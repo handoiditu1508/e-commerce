@@ -17,7 +17,7 @@ namespace ECommerce.UI.MVC
 			services.AddMvc(option=>
 			{
 				option.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-				option.Filters.Add(new RequireHttpsAttribute());
+				//option.Filters.Add(new RequireHttpsAttribute());
 			});
 			services.AddScoped(sp => CookieCart.GetCart(sp));
 			services.AddScoped(sp => DefaultDataTier.GetUnitOfWork(sp));
@@ -34,7 +34,7 @@ namespace ECommerce.UI.MVC
 			app.UseStatusCodePages();
 			app.UseStaticFiles();
 			app.UseSession();
-			app.UseHttpsRedirection();
+			//app.UseHttpsRedirection();
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
