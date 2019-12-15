@@ -6,23 +6,22 @@ namespace ECommerce.Application.Views
 	public class ProductTypeUpdateRequestView
 	{
 		[HiddenInput(DisplayValue = false)]
-		public string SellerId { get; set; }
+		public int SellerId { get; set; }
 		[Display(Name = "Seller")]
 		public string SellerName { get; set; }
 
 		[HiddenInput(DisplayValue = false)]
-		public string ProductTypeId { get; set; }
+		public int ProductTypeId { get; set; }
 		[Display(Name = "Product Type")]
 		public string ProductTypeName { get; set; }
 
 		[Required]
 		[MinLength(1)]
-		[MaxLength(50)]
 		[Display(Name = "Product Type Name")]
 		public string Name { get; set; }
 
 		[Required]
-		public string CategoryId { get; set; }
+		public int? CategoryId { get; set; }
 		[Display(Name = "Product Type Category")]
 		public string CategoryName { get; set; }
 

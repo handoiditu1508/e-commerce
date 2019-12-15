@@ -7,6 +7,7 @@ using ECommerce.Application.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.UI.AdminSite.Infrastructure;
 using ECommerce.UI.AdminSite.Models.ViewModels;
+using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,7 +53,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 					admin = eCommerce.GetAdminBy(loginViewModel.LoginInformation.Username);
 					if (admin != null)
 					{
-						string encryptedPassword = eCommerce.GetAdminEncryptedPassword(int.Parse(admin.Id));
+						string encryptedPassword = eCommerce.GetAdminEncryptedPassword(admin.Id);
 						if (EncryptionService.Encrypt(loginViewModel.LoginInformation.Password) == encryptedPassword)
 						{
 							loginPersistence.LoginThrough(loginViewModel.LoginInformation.Username, loginViewModel.LoginInformation.Remember);
@@ -90,7 +91,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				eCommerce.UpdateAdmin(int.Parse(admin.Id),
+				eCommerce.UpdateAdmin(admin.Id,
 					new AdminUpdateModel
 					{
 						FirstName = admin.FirstName,
@@ -104,9 +105,9 @@ namespace ECommerce.UI.AdminSite.Controllers
 				}
 				else
 				{
-					AdminView updatedAdmin = eCommerce.GetAdminBy(int.Parse(admin.Id));
+					AdminView updatedAdmin = eCommerce.GetAdminBy(admin.Id);
 					loginPersistence.Logout();
-					loginPersistence.LoginThrough(int.Parse(updatedAdmin.Id));
+					loginPersistence.LoginThrough(updatedAdmin.Id);
 					return View(updatedAdmin);
 				}
 			}

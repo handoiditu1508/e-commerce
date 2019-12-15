@@ -19,10 +19,10 @@ namespace ECommerce.Application.AddModels
 		[EnumDataType(typeof(OperatingModel))]
 		public OperatingModel Model { get; set; }
 
-		public FileContent RepresentativeImage { get; set; }
-
 		public IDictionary<string, HashSet<string>> Attributes { get; set; }
 
-		public IEnumerable<FileContent> Images{ get; set; }
+		public string RepresentativeImage { get; set; }
+
+		public IEnumerable<string> Images { get; set; }
 	}
 }

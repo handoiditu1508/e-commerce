@@ -3,6 +3,7 @@ using ECommerce.Application.Services;
 using ECommerce.Application.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.UI.AdminSite.Models;
+using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
 
@@ -58,7 +59,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 			}
 
 			string loginValue = EncryptionService.Encrypt(admin.Email +
-				eCommerce.GetAdminEncryptedPassword(int.Parse(admin.Id)) +
+				eCommerce.GetAdminEncryptedPassword(admin.Id) +
 				connectionInfo.RemoteIpAddress.ToString());
 			if (loginCookies.LoginValue != loginValue)
 			{
@@ -66,7 +67,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 				return null;
 			}
 
-			session.SetString(adminSessionKeyWord, admin.Id);
+			session.SetString(adminSessionKeyWord, admin.Id.ToString());
 			return admin;
 		}
 
@@ -75,7 +76,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 			AdminView admin = eCommerce.GetAdminBy(id);
 			if (admin != null)
 			{
-				session.SetString(adminSessionKeyWord, admin.Id);
+				session.SetString(adminSessionKeyWord, admin.Id.ToString());
 				if (rememberLogin)
 				{
 					responseCookies.SetJson(adminCookieKeyWord,
@@ -96,15 +97,15 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 			AdminView admin = eCommerce.GetAdminBy(email);
 			if (admin != null)
 			{
-				session.SetString(adminSessionKeyWord, admin.Id);
+				session.SetString(adminSessionKeyWord, admin.Id.ToString());
 				if (rememberLogin)
 				{
 					responseCookies.SetJson(adminCookieKeyWord,
 						new LoginCookies
 						{
-							UserId = int.Parse(admin.Id),
+							UserId = admin.Id,
 							LoginValue = EncryptionService.Encrypt(admin.Email +
-								eCommerce.GetAdminEncryptedPassword(int.Parse(admin.Id)) +
+								eCommerce.GetAdminEncryptedPassword(admin.Id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });

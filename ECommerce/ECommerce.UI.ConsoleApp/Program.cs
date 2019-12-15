@@ -24,17 +24,17 @@ namespace ECommerce.UI.ConsoleApp
 	{
 		static void Main(string[] args)
 		{
-			/*//ApplicationDbContext context = new ApplicationDbContext();
+			ApplicationDbContext context = new ApplicationDbContext();
 			IUnitOfWork uow = new UnitOfWork();
-			ECommerceService eCommerce = new ECommerceService(uow);*/
+			ECommerceService eCommerce = new ECommerceService(uow);
 
-			string connectionString = @"Server=(localdb)\MSSQLLocalDB;Database=ECommerce;integrated security=true;Trusted_Connection=True;MultipleActiveResultSets=True";
-			using (IDbConnection db=new SqlConnection(connectionString))
+			HashSet<string> hashSet = new HashSet<string>();
+			hashSet.Add("Trắng");
+			hashSet.Add("Đen");
+			hashSet.Add("Đỏ");
+			foreach(string s in hashSet)
 			{
-				db.Open();
-				var @params = new { Id = 1, FirstName="gold" };
-				var result = db.Query<Customer>("SELECT * FROM Customer WHERE Id = @Id AND FirstName = @FirstName", @params).SingleOrDefault();
-				Console.WriteLine(result?.Password);
+				Console.WriteLine(s);
 			}
 
 			Console.WriteLine("Done.");

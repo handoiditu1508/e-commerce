@@ -15,13 +15,13 @@
 			@{string formAction = Url.Action("UpdateRequestDetail", "ProductType");}
 			@foreach (ProductTypeUpdateRequestView updateRequest in Model)
 			{
-				ProductTypeView productType = eCommerce.GetProductTypeBy(int.Parse(updateRequest.ProductTypeId));
-				ProductView product = eCommerce.GetRepresentativeProduct(int.Parse(productType.Id));
+				ProductTypeView productType = eCommerce.GetProductTypeBy(updateRequest.ProductTypeId);
+				ProductView product = eCommerce.GetRepresentativeProduct(productType.Id);
 				<tr class="productTypeUpdateRequestRow">
 					<td>
 						@if (product != null)
 						{
-							<img class="img-fluid rounded" file-content="product.RepresentativeImage" alt="@product.ProductTypeName" />
+							<img class="img-fluid rounded" src="@($"{UIConsts.GetProductUrlById(product.SellerId, product.ProductTypeId)}/{product.RepresentativeImage}")" alt="@product.ProductTypeName" />
 						}
 						else
 						{
@@ -31,7 +31,7 @@
 					<td>
 						<h4><a asp-action="Informations" asp-controller="ProductType" asp-route-productTypeId="@productType.Id" class="text-decoration-none">@productType.Name</a></h4>
 						@{
-							int categoryId = int.Parse(productType.CategoryId);
+							int categoryId = productType.CategoryId;
 							<small>
 								@await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId })
 							</small>

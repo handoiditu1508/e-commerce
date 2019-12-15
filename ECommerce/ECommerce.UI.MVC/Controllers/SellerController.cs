@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ECommerce.Application;
 using ECommerce.Application.AddModels;
@@ -10,10 +12,15 @@ using ECommerce.Application.Services;
 using ECommerce.Application.UpdateModels;
 using ECommerce.Application.Views;
 using ECommerce.Infrastructure.UnitOfWork;
+using ECommerce.Models;
 using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Sellers;
 using ECommerce.UI.MVC.Infrastructure;
 using ECommerce.UI.MVC.Models.ViewModels;
+using ECommerce.UI.Shared;
+using ECommerce.UI.Shared.ApiModels.ResponseModels;
+using ECommerce.UI.Shared.ApiModels.UploadModels;
+using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -62,7 +69,7 @@ namespace ECommerce.UI.MVC.Controllers
 					{
 						if (seller.Status == SellerStatus.Active)
 						{
-							string encryptedPassword = eCommerce.GetSellerEncryptedPassword(int.Parse(seller.Id));
+							string encryptedPassword = eCommerce.GetSellerEncryptedPassword(seller.Id);
 							if (EncryptionService.Encrypt(loginViewModel.LoginInformation.Password) == encryptedPassword)
 							{
 								loginPersistence.LoginThrough(loginViewModel.LoginInformation.Username, loginViewModel.LoginInformation.Remember);
@@ -106,7 +113,7 @@ namespace ECommerce.UI.MVC.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				eCommerce.UpdateSeller(int.Parse(seller.Id),
+				eCommerce.UpdateSeller(seller.Id,
 					new SellerUpdateModel
 					{
 						Name = seller.Name,
@@ -119,9 +126,9 @@ namespace ECommerce.UI.MVC.Controllers
 				}
 				else
 				{
-					SellerView updatedSeller = eCommerce.GetSellerBy(int.Parse(seller.Id));
+					SellerView updatedSeller = eCommerce.GetSellerBy(seller.Id);
 					loginPersistence.Logout();
-					loginPersistence.LoginThrough(int.Parse(updatedSeller.Id));
+					loginPersistence.LoginThrough(updatedSeller.Id);
 
 					ICollection<string> messages = new List<string>();
 					messages.Add("Personal informations updated");
@@ -175,7 +182,7 @@ namespace ECommerce.UI.MVC.Controllers
 
 			ProductSearchModel searchModel = new ProductSearchModel
 			{
-				SellerId = int.Parse(seller.Id)
+				SellerId = seller.Id
 			};
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductsListViewModel
@@ -198,7 +205,7 @@ namespace ECommerce.UI.MVC.Controllers
 				return Json("Not login");
 			try
 			{
-				eCommerce.UpdateProductActive(int.Parse(seller.Id), productTypeId, active, out ICollection<string> errors);
+				eCommerce.UpdateProductActive(seller.Id, productTypeId, active, out ICollection<string> errors);
 				if (errors.Any())
 				{
 					string errorString = "";
@@ -235,16 +242,17 @@ namespace ECommerce.UI.MVC.Controllers
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new UpdateProductViewModel
 			{
+				SellerId = seller.Id,
 				ProductTypeId = productTypeId,
-				UpdateModel = eCommerce.GetProductUpdateModelBy(int.Parse(seller.Id), productTypeId),
+				UpdateModel = eCommerce.GetProductUpdateModelBy(seller.Id, productTypeId),
 				ProductAttributesNumber = productAttributesNumber
 			});
 		}
 
 		[HttpPost]
 		[SellerLoginRequired]
-		public async Task<IActionResult> UpdateProduct(UpdateProductViewModel updateViewModel, IFormFile representativeImage,
-			IList<string> keys, IList<string> values, IEnumerable<IFormFile> images)
+		public async Task<IActionResult> UpdateProduct(UpdateProductViewModel updateViewModel, IList<string> keys,
+			IList<string> values, IEnumerable<IFormFile> images)
 		{
 			SellerView seller = loginPersistence.PersistLogin();
 
@@ -252,6 +260,7 @@ namespace ECommerce.UI.MVC.Controllers
 			if (ModelState.IsValid)
 			{
 				ICollection<string> errors = new List<string>();
+				ICollection<string> messages = new List<string>();
 
 				//product attributes
 				var attributes = new Dictionary<string, HashSet<string>>();
@@ -271,52 +280,91 @@ namespace ECommerce.UI.MVC.Controllers
 				updateViewModel.UpdateModel.Attributes = attributes;
 
 				//product images
-				if (updateViewModel.UpdateImages)
+				if (updateViewModel.UpdateImages && images.Any())
 				{
-					if (images.Any())
+					if (updateViewModel.MainImageIndex == null)
+						updateViewModel.MainImageIndex = 0;
+
+					var imagesList = new List<FileContent>();
+					var imagesNameList = new List<string>();
+					short count = 0;
+					foreach (IFormFile image in images)
 					{
-						var imagesList = new List<FileContent>();
-						foreach (IFormFile image in images)
+						using (MemoryStream memoryStream = new MemoryStream())
 						{
-							using (MemoryStream memoryStream = new MemoryStream())
+							await image.CopyToAsync(memoryStream);
+							var fileContent = new FileContent(memoryStream.ToArray(), image.ContentType);
+
+							//validate images
+							if (!ImageValidationService.IsValid(fileContent.Data, out errors))
 							{
-								await image.CopyToAsync(memoryStream);
-								imagesList.Add(new FileContent(memoryStream.ToArray(), image.ContentType));
+								break;
 							}
+
+							fileContent.Name = Guid.NewGuid().ToString();
+							if (count++ == updateViewModel.MainImageIndex)
+								updateViewModel.UpdateModel.RepresentativeImage = fileContent.ImageNameWithExtension;
+
+							imagesNameList.Add(fileContent.ImageNameWithExtension);
+							imagesList.Add(fileContent);
 						}
-						updateViewModel.UpdateModel.Images = imagesList;
 					}
+
+					if (errors.Any())
+					{
+						ViewData[GlobalViewBagKeys.Errors] = errors;
+						goto end;
+					}
+
+					//upload images to store on api
+					try
+					{
+						using (var client = new HttpClient())
+						{
+							client.BaseAddress = new Uri(UIConsts.BaseUrl);
+
+							client.DefaultRequestHeaders.Clear();
+							client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+							string requestUri = $"api/Resource/UploadProductImages/Seller/{seller.Id}/ProductType/{updateViewModel.ProductTypeId}";
+							HttpResponseMessage response = await client.PostAsJsonAsync(requestUri, new ProductImagesUploadModel { Images = imagesList });
+
+							if (response.IsSuccessStatusCode)
+							{
+								var result = await response.Content.ReadAsAsync<ResponseModel>();
+								if (result.Succeed)
+								{
+									messages.Add(result.Message);
+								}
+								else errors.Add(result.Message);
+							}
+							else errors.Add("Some thing wrong happenned while calling images upload");
+						}
+					}
+					catch (Exception e)
+					{
+						while (e != null)
+						{
+							errors.Add(e.Message);
+							e = e.InnerException;
+						}
+					}
+
+					if (errors.Any())
+					{
+						ViewData[GlobalViewBagKeys.Errors] = errors;
+						goto end;
+					}
+
+					updateViewModel.UpdateModel.Images = imagesNameList;
 				}
 				else//keep old images
 				{
 					updateViewModel.UpdateModel.Images = eCommerce
-						.GetProductImages(int.Parse(seller.Id), updateViewModel.ProductTypeId);
+						.GetProductImages(seller.Id, updateViewModel.ProductTypeId);
 				}
 
-				//product representative image
-				if (updateViewModel.UpdateRepresentativeImage)
-				{
-					if (representativeImage != null)
-					{
-						using (MemoryStream memoryStream = new MemoryStream())
-						{
-							await representativeImage.CopyToAsync(memoryStream);
-							updateViewModel.UpdateModel.RepresentativeImage = new FileContent(memoryStream.ToArray(), representativeImage.ContentType);
-						}
-					}
-					else errors.Add("Representative image is required");
-				}
-				else//keep old representative image
-				{
-					updateViewModel.UpdateModel.RepresentativeImage = eCommerce.GetProductBy(int.Parse(seller.Id), updateViewModel.ProductTypeId).RepresentativeImage;
-				}
-
-				if (errors.Any())
-				{
-					return View(updateViewModel);
-				}
-
-				eCommerce.UpdateProduct(int.Parse(seller.Id), updateViewModel.ProductTypeId, updateViewModel.UpdateModel, out errors);
+				eCommerce.UpdateProduct(seller.Id, updateViewModel.ProductTypeId, updateViewModel.UpdateModel, out errors);
 
 				if (errors.Any())
 				{
@@ -324,13 +372,13 @@ namespace ECommerce.UI.MVC.Controllers
 				}
 				else
 				{
-					ICollection<string> messages = new List<string>();
 					messages.Add("Update product succeed");
 					ViewData[GlobalViewBagKeys.Messages] = messages;
 
 					return RedirectToAction("Product");
 				}
 			}
+			end:
 			return View(updateViewModel);
 		}
 	}

@@ -12,9 +12,9 @@ namespace ECommerce.Application.Extensions
 		public static ProductTypeView ConvertToView(this ProductType productType)
 			=> new ProductTypeView
 			{
-				Id = productType.Id.ToString(),
+				Id = productType.Id,
 				Name = productType.Name,
-				CategoryId = productType.CategoryId.ToString(),
+				CategoryId = productType.CategoryId,
 				CategoryName = productType.Category.Name,
 				Status = productType.Status,
 				DateModified=productType.DateModified
@@ -33,10 +33,10 @@ namespace ECommerce.Application.Extensions
 		public static ProductTypeUpdateRequestView ConvertToUpdateRequestView(this ProductType productType)
 			=> new ProductTypeUpdateRequestView
 			{
-				CategoryId = productType.CategoryId.ToString(),
+				CategoryId = productType.CategoryId,
 				CategoryName = productType.Category.Name,
 				Name = productType.Name,
-				ProductTypeId = productType.Id.ToString(),
+				ProductTypeId = productType.Id,
 				ProductTypeName = productType.Name
 			};
 	}

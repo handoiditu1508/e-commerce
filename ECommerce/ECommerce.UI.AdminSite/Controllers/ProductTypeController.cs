@@ -79,11 +79,11 @@ namespace ECommerce.UI.AdminSite.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				eCommerce.UpdateProductType(int.Parse(productType.Id),
+				eCommerce.UpdateProductType(productType.Id,
 					new ProductTypeUpdateModel
 					{
 						Name = productType.Name,
-						CategoryId = int.Parse(productType.CategoryId)
+						CategoryId = productType.CategoryId
 					},
 					out ICollection<string> errors);
 				if (errors.Any())
@@ -92,7 +92,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 				}
 				else
 				{
-					ProductTypeView updatedProductType = eCommerce.GetProductTypeBy(int.Parse(productType.Id));
+					ProductTypeView updatedProductType = eCommerce.GetProductTypeBy(productType.Id);
 
 					ICollection<string> messages = new List<string>();
 					messages.Add("Product type informations updated");

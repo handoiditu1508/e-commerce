@@ -3,6 +3,7 @@ using ECommerce.Application.Services;
 using ECommerce.Application.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.UI.MVC.Models;
+using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
 
@@ -66,7 +67,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			}
 
 			string loginValue = EncryptionService.Encrypt(customer.Email +
-				eCommerce.GetCustomerEncryptedPassword(int.Parse(customer.Id)) +
+				eCommerce.GetCustomerEncryptedPassword(customer.Id) +
 				connectionInfo.RemoteIpAddress.ToString());
 			if (loginCookies.LoginValue != loginValue)
 			{
@@ -74,7 +75,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 				return null;
 			}
 
-			session.SetString(customerSessionKeyWord, customer.Id);
+			session.SetString(customerSessionKeyWord, customer.Id.ToString());
 			return customer;
 		}
 
@@ -83,7 +84,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			CustomerView customer = eCommerce.GetCustomerBy(id);
 			if(customer!=null)
 			{
-				session.SetString(customerSessionKeyWord, customer.Id);
+				session.SetString(customerSessionKeyWord, customer.Id.ToString());
 				if (rememberLogin)
 				{
 					responseCookies.SetJson(customerCookieKeyWord,
@@ -91,7 +92,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 						{
 							UserId = id,
 							LoginValue = EncryptionService.Encrypt(customer.Email +
-								eCommerce.GetCustomerEncryptedPassword(int.Parse(customer.Id)) +
+								eCommerce.GetCustomerEncryptedPassword(customer.Id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });
@@ -104,15 +105,15 @@ namespace ECommerce.UI.MVC.Infrastructure
 			CustomerView customer = eCommerce.GetCustomerBy(email);
 			if (customer != null)
 			{
-				session.SetString(customerSessionKeyWord, customer.Id);
+				session.SetString(customerSessionKeyWord, customer.Id.ToString());
 				if (rememberLogin)
 				{
 					responseCookies.SetJson(customerCookieKeyWord,
 						new LoginCookies
 						{
-							UserId = int.Parse(customer.Id),
+							UserId = customer.Id,
 							LoginValue = EncryptionService.Encrypt(customer.Email +
-								eCommerce.GetCustomerEncryptedPassword(int.Parse(customer.Id)) +
+								eCommerce.GetCustomerEncryptedPassword(customer.Id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });

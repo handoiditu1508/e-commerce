@@ -15,7 +15,7 @@ namespace ECommerce.Persistence.EF.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -47,8 +47,7 @@ namespace ECommerce.Persistence.EF.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.Property<int?>("ParentId");
 
@@ -115,12 +114,10 @@ namespace ECommerce.Persistence.EF.Migrations
                 {
                     b.Property<int>("OrderId");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(50);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.HasKey("OrderId", "Name");
 
@@ -138,8 +135,7 @@ namespace ECommerce.Persistence.EF.Migrations
                     b.Property<DateTime>("DateModified");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.Property<int>("Status");
 
@@ -162,8 +158,7 @@ namespace ECommerce.Persistence.EF.Migrations
                         .IsRequired();
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.HasKey("SellerId", "ProductTypeId");
 
@@ -182,11 +177,16 @@ namespace ECommerce.Persistence.EF.Migrations
 
                     b.Property<bool>("Active");
 
+                    b.Property<byte[]>("Images");
+
                     b.Property<int>("Model");
 
                     b.Property<decimal>("Price");
 
                     b.Property<short>("Quantity");
+
+                    b.Property<string>("RepresentativeImage")
+                        .IsRequired();
 
                     b.Property<int>("Status");
 
@@ -203,32 +203,15 @@ namespace ECommerce.Persistence.EF.Migrations
 
                     b.Property<int>("ProductTypeId");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(50);
+                    b.Property<string>("Name");
 
-                    b.Property<string>("Value")
-                        .HasMaxLength(50);
+                    b.Property<string>("Value");
+
+                    b.Property<short>("Order");
 
                     b.HasKey("SellerId", "ProductTypeId", "Name", "Value");
 
                     b.ToTable("ProductAttribute");
-                });
-
-            modelBuilder.Entity("ECommerce.Models.Entities.Sellers.ProductImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ProductTypeId");
-
-                    b.Property<int>("SellerId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SellerId", "ProductTypeId");
-
-                    b.ToTable("ProductImage");
                 });
 
             modelBuilder.Entity("ECommerce.Models.Entities.Sellers.Seller", b =>
@@ -241,8 +224,7 @@ namespace ECommerce.Persistence.EF.Migrations
                         .IsRequired();
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -397,30 +379,6 @@ namespace ECommerce.Persistence.EF.Migrations
                         .WithMany("Products")
                         .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.OwnsOne("ECommerce.Models.Entities.FileContent", "RepresentativeImage", b1 =>
-                        {
-                            b1.Property<int>("ProductSellerId");
-
-                            b1.Property<int>("ProductTypeId");
-
-                            b1.Property<byte[]>("Data")
-                                .IsRequired()
-                                .HasColumnName("Data");
-
-                            b1.Property<string>("MimeType")
-                                .IsRequired()
-                                .HasColumnName("MimeType");
-
-                            b1.HasKey("ProductSellerId", "ProductTypeId");
-
-                            b1.ToTable("Product");
-
-                            b1.HasOne("ECommerce.Models.Entities.Sellers.Product")
-                                .WithOne("RepresentativeImage")
-                                .HasForeignKey("ECommerce.Models.Entities.FileContent", "ProductSellerId", "ProductTypeId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
                 });
 
             modelBuilder.Entity("ECommerce.Models.Entities.Sellers.ProductAttribute", b =>
@@ -429,38 +387,6 @@ namespace ECommerce.Persistence.EF.Migrations
                         .WithMany("Attributes")
                         .HasForeignKey("SellerId", "ProductTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ECommerce.Models.Entities.Sellers.ProductImage", b =>
-                {
-                    b.HasOne("ECommerce.Models.Entities.Sellers.Product", "Product")
-                        .WithMany("Images")
-                        .HasForeignKey("SellerId", "ProductTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.OwnsOne("ECommerce.Models.Entities.FileContent", "Content", b1 =>
-                        {
-                            b1.Property<int>("ProductImageId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<byte[]>("Data")
-                                .IsRequired()
-                                .HasColumnName("Data");
-
-                            b1.Property<string>("MimeType")
-                                .IsRequired()
-                                .HasColumnName("MimeType");
-
-                            b1.HasKey("ProductImageId");
-
-                            b1.ToTable("ProductImage");
-
-                            b1.HasOne("ECommerce.Models.Entities.Sellers.ProductImage")
-                                .WithOne("Content")
-                                .HasForeignKey("ECommerce.Models.Entities.FileContent", "ProductImageId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
                 });
 #pragma warning restore 612, 618
         }

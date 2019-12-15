@@ -16,3 +16,10 @@ C:\Users\hando\Desktop\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp2.2\EC
 C:\Users\hando\Desktop\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp2.2\ECommerce.Extensions.AssemblyInfo.cs
 C:\Users\hando\Desktop\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp2.2\ECommerce.Extensions.dll
 C:\Users\hando\Desktop\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp2.2\ECommerce.Extensions.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\bin\Debug\netcoreapp2.2\ECommerce.Extensions.deps.json
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\bin\Debug\netcoreapp2.2\ECommerce.Extensions.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\bin\Debug\netcoreapp2.2\ECommerce.Extensions.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp2.2\ECommerce.Extensions.AssemblyInfoInputs.cache
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp2.2\ECommerce.Extensions.AssemblyInfo.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp2.2\ECommerce.Extensions.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp2.2\ECommerce.Extensions.pdb

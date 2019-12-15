@@ -1,4 +1,5 @@
 ﻿using ECommerce.UI.MVC.Models;
+using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;

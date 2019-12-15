@@ -5,22 +5,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Migrations\20190916103512_t1.cs" />
-	  <Compile Remove="Migrations\20190916103512_t1.Designer.cs" />
-	  <Compile Remove="Migrations\20190916105215_t1.cs" />
-	  <Compile Remove="Migrations\20190916105215_t1.Designer.cs" />
-	  <Compile Remove="Migrations\20190917060406_t1.cs" />
-	  <Compile Remove="Migrations\20190917060406_t1.Designer.cs" />
-	  <Compile Remove="Migrations\20190917074338_t1.cs" />
-	  <Compile Remove="Migrations\20190917074338_t1.Designer.cs" />
-	  <Compile Remove="Migrations\20190917074543_t1.cs" />
-	  <Compile Remove="Migrations\20190917074543_t1.Designer.cs" />
-	  <Compile Remove="Migrations\20190917074726_t1.cs" />
-	  <Compile Remove="Migrations\20190917074726_t1.Designer.cs" />
-	  <Compile Remove="Migrations\20190917074941_t1.cs" />
-	  <Compile Remove="Migrations\20190917074941_t1.Designer.cs" />
-	  <Compile Remove="Migrations\20190917080955_t1.cs" />
-	  <Compile Remove="Migrations\20190917080955_t1.Designer.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

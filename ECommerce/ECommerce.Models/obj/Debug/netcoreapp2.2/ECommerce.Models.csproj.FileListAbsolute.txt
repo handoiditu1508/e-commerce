@@ -22,3 +22,14 @@ C:\Users\hando\Desktop\ECommerce\ECommerce.Models\obj\Debug\netcoreapp2.2\EComme
 C:\Users\hando\Desktop\ECommerce\ECommerce.Models\obj\Debug\netcoreapp2.2\ECommerce.Models.csproj.CopyComplete
 C:\Users\hando\Desktop\ECommerce\ECommerce.Models\obj\Debug\netcoreapp2.2\ECommerce.Models.dll
 C:\Users\hando\Desktop\ECommerce\ECommerce.Models\obj\Debug\netcoreapp2.2\ECommerce.Models.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Models\bin\Debug\netcoreapp2.2\ECommerce.Models.deps.json
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Models\bin\Debug\netcoreapp2.2\ECommerce.Models.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Models\bin\Debug\netcoreapp2.2\ECommerce.Models.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Models\bin\Debug\netcoreapp2.2\ECommerce.Extensions.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Models\bin\Debug\netcoreapp2.2\ECommerce.Extensions.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Models\obj\Debug\netcoreapp2.2\ECommerce.Models.csprojAssemblyReference.cache
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Models\obj\Debug\netcoreapp2.2\ECommerce.Models.AssemblyInfoInputs.cache
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Models\obj\Debug\netcoreapp2.2\ECommerce.Models.AssemblyInfo.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Models\obj\Debug\netcoreapp2.2\ECommerce.Models.csproj.CopyComplete
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Models\obj\Debug\netcoreapp2.2\ECommerce.Models.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Models\obj\Debug\netcoreapp2.2\ECommerce.Models.pdb

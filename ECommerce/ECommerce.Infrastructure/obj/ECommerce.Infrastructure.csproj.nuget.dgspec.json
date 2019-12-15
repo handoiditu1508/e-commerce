@@ -1,30 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj": {}
+    "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj": {
+    "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj",
+        "projectUniqueName": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj",
         "projectName": "ECommerce.Extensions",
-        "projectPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj",
+        "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj",
         "packagesPath": "C:\\Users\\hando\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Extensions\\obj\\",
+        "outputPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Extensions\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "E:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
           "C:\\Users\\hando\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -49,41 +50,48 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj": {
+    "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj",
+        "projectUniqueName": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj",
         "projectName": "ECommerce.Infrastructure",
-        "projectPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj",
+        "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\hando\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Infrastructure\\obj\\",
+        "outputPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "E:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
           "C:\\Users\\hando\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp2.2": {
             "projectReferences": {
-              "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj": {
-                "projectPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj"
+              "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj": {
+                "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj"
               }
             }
           }
@@ -105,41 +113,48 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj": {
+    "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj",
+        "projectUniqueName": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj",
         "projectName": "ECommerce.Models",
-        "projectPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj",
+        "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj",
         "packagesPath": "C:\\Users\\hando\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Models\\obj\\",
+        "outputPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "E:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
           "C:\\Users\\hando\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp2.2": {
             "projectReferences": {
-              "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj": {
-                "projectPath": "C:\\Users\\hando\\Desktop\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj"
+              "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj": {
+                "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj"
               }
             }
           }
@@ -165,10 +180,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

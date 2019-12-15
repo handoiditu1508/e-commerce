@@ -6,7 +6,6 @@ namespace ECommerce.Application.AddModels
 	{
 		[Required]
 		[MinLength(1)]
-		[MaxLength(50)]
 		public string Name { get; set; }
 
 		public int? ParentId { get; set; }

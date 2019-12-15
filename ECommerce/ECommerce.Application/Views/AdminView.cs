@@ -6,7 +6,7 @@ namespace ECommerce.Application.Views
 	public class AdminView
 	{
 		[HiddenInput(DisplayValue = false)]
-		public string Id { get; set; }
+		public int Id { get; set; }
 
 		[Required]
 		[MinLength(1)]

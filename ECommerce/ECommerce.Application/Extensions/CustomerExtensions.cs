@@ -11,7 +11,7 @@ namespace ECommerce.Application.Extensions
 		public static CustomerView ConvertToView(this Customer customer)
 			=> new CustomerView
 			{
-				Id = customer.Id.ToString(),
+				Id = customer.Id,
 				FirstName = customer.Name.FirstName,
 				MiddleName = customer.Name.MiddleName,
 				LastName = customer.Name.LastName,

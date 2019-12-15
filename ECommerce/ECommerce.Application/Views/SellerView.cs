@@ -7,11 +7,10 @@ namespace ECommerce.Application.Views
 	public class SellerView
 	{
 		[HiddenInput(DisplayValue = false)]
-		public string Id { get; set; }
+		public int Id { get; set; }
 
 		[Required]
 		[MinLength(1)]
-		[MaxLength(50)]
 		[Display(Name = "Name")]
 		public string Name { get; set; }
 

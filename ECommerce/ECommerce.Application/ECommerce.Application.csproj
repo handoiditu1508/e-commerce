@@ -6,6 +6,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
+		<PackageReference Include="System.Drawing.Common" Version="4.7.0" />
 	</ItemGroup>
 
 	<ItemGroup>

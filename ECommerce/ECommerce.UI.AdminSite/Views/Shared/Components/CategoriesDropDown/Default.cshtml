@@ -32,7 +32,7 @@
 			item.InnerHtml.Append(categoryStack.Peek()[i].Name);
 			line.InnerHtml.AppendHtml(item);
 			list.InnerHtml.AppendHtml(line);
-			List<CategoryView> childCategories = eCommerce.GetChildCategories(int.Parse(categoryStack.Peek()[i].Id)).ToList();
+			List<CategoryView> childCategories = eCommerce.GetChildCategories(categoryStack.Peek()[i].Id).ToList();
 			if (childCategories.Any())
 			{
 				line.AddCssClass("dropdown-submenu");

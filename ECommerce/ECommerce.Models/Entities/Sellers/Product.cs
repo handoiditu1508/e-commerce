@@ -1,4 +1,5 @@
-﻿using ECommerce.Models.Entities.ProductTypes;
+﻿using ECommerce.Extensions;
+using ECommerce.Models.Entities.ProductTypes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -38,25 +39,32 @@ namespace ECommerce.Models.Entities.Sellers
 		[EnumDataType(typeof(ProductStatus))]
 		public ProductStatus Status { get; set; } = ProductStatus.Validating;
 
-		[Required]
-		public virtual FileContent RepresentativeImage{ get; set; }
-
 		[InverseProperty("Product")]
 		public virtual ICollection<ProductAttribute> Attributes { get; } = new List<ProductAttribute>();
 
-		[InverseProperty("Product")]
-		public virtual ICollection<ProductImage> Images { get; } = new List<ProductImage>();
+		[Required]
+		public string RepresentativeImage { get; set; }
+
+		public byte[] Images { get; set; }
+		[NotMapped]
+		public IEnumerable<string> ConvertedImages
+		{
+			get => Images.ToObject<IEnumerable<string>>();
+			set => Images = value.ToByteArray();
+		}
 
 		public void ChangeAttributes(IDictionary<string, HashSet<string>> attributes)
 		{
 			Attributes.Clear();
 			foreach (var attribute in attributes)
 			{
+				short order = 1;
 				foreach (string value in attribute.Value)
 					Attributes.Add(new ProductAttribute
 					{
 						Name = attribute.Key,
-						Value = value
+						Value = value,
+						Order = order++
 					});
 			}
 		}
@@ -66,20 +74,6 @@ namespace ECommerce.Models.Entities.Sellers
 			Attributes.Clear();
 			foreach (ProductAttribute attribute in attributes)
 				Attributes.Add(attribute);
-		}
-
-		public void ChangeImages(IEnumerable<ProductImage> images)
-		{
-			Images.Clear();
-			foreach (ProductImage image in images)
-				Images.Add(image);
-		}
-
-		public void ChangeImages(IEnumerable<FileContent> images)
-		{
-			Images.Clear();
-			foreach (FileContent image in images)
-				Images.Add(new ProductImage(image));
 		}
 	}
 

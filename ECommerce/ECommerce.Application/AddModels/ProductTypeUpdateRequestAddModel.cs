@@ -13,7 +13,6 @@ namespace ECommerce.Application.AddModels
 
 		[Required]
 		[MinLength(1)]
-		[MaxLength(50)]
 		[Display(Name = "Product Type Name")]
 		public string Name { get; set; }
 

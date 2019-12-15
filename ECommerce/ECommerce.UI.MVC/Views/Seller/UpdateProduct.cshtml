@@ -68,17 +68,25 @@
 		</tfoot>
 	</table>
 
-	<div class="form-group">
+	<!--<div class="form-group">
 		<label class="control-label">Product's representative image:</label>
 		<input id="representativeImageCheckbox" type="checkbox" asp-for="UpdateRepresentativeImage" />Check if update
 		<div class="file-loading">
 			<input id="representativeImageFileInput" class="file registerProductFileInput" name="representativeImage" type="file" disabled />
 		</div>
-	</div>
+	</div>-->
 
 	<div class="form-group">
 		<label class="control-label">Product's images:</label>
 		<input id="imagesCheckbox" type="checkbox" asp-for="UpdateImages" />Check if update
+		<div>
+			@foreach (string image in Model.UpdateModel.Images)
+			{
+			<div style="width:100px; display:inline-block;">
+				<img src="@Html.Raw($"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{image}")" style="width:100%;" />
+			</div>
+			}
+		</div>
 		<div class="file-loading">
 			<input id="imagesFileInput" class="file registerProductFileInput" name="images" type="file" multiple disabled />
 		</div>
@@ -108,24 +116,24 @@
 		removeClass: 'btn btn-danger',
 		showUpload: false,
 		allowedFileTypes: ['image'],
-		maxFileSize: '2000',
+		maxFileSize: '5120',//5Mb
 		theme: 'fas',
 		browseOnZoneClick: 'true'
 	});
 
 	//checkboxes always start unchecked
-	$('#representativeImageCheckbox').prop('checked', false);
-	$('#imagesCheckbox').prop('checked', false);
+	/*$('#representativeImageCheckbox').prop('checked', false);
+	$('#imagesCheckbox').prop('checked', false);*/
 
 	//disable file input when uncheck check box
-	$('#representativeImageCheckbox').change(function () {
+	/*$('#representativeImageCheckbox').change(function () {
 
 		var fileInput = $('#representativeImageFileInput');
 		if (this.checked) {
 			fileInput.fileinput('enable');
 		}
 		else fileInput.fileinput('disable');
-	});
+	});*/
 
 	$('#imagesCheckbox').change(function () {
 

@@ -23,7 +23,7 @@ namespace ECommerce.UI.MVC.Components
 			while (category != null)
 			{
 				crumbs.AddFirst(new HtmlLinkAttributes(category.Name, Url.Action("Index", "Product", new { categoryId = category.Id })));
-				category = eCommerce.GetParentCategory(int.Parse(category.Id));
+				category = eCommerce.GetParentCategory(category.Id);
 			}
 			return View(crumbs);
 		}

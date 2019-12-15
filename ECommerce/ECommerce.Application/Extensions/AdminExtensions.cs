@@ -11,7 +11,7 @@ namespace ECommerce.Application.Extensions
 		public static AdminView ConvertToView(this Admin admin)
 			=> new AdminView
 			{
-				Id = admin.Id.ToString(),
+				Id = admin.Id,
 				Email = admin.Email,
 				FirstName = admin.Name.FirstName,
 				MiddleName = admin.Name.MiddleName,

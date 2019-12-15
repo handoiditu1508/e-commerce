@@ -26,7 +26,7 @@
 						@if (product == null ||
 							product.Status != ProductStatus.Active ||
 							!product.Active ||
-							eCommerce.GetProductTypeBy(int.Parse(product.ProductTypeId)).Status != ProductTypeStatus.Active)
+							eCommerce.GetProductTypeBy(product.ProductTypeId).Status != ProductTypeStatus.Active)
 						{
 							<td>This product is currently unavailable</td>
 							<td>
@@ -39,7 +39,7 @@
 						}
 						else
 						{
-							<td><img class="rounded img-fluid" file-content="product.RepresentativeImage" alt="@product.ProductTypeName" /></td>
+							<td><img class="rounded img-fluid" src="@($"{UIConsts.GetProductUrlById(line.SellerId, line.ProductTypeId)}/{product.RepresentativeImage}")" alt="@product.ProductTypeName" /></td>
 							<td class="text-left">@product.ProductTypeName</td>
 							<td class="text-left">@product.SellerName</td>
 							<td class="text-left">
@@ -56,7 +56,7 @@
 								</form>
 							</td>
 							<td class="text-right">@CurrencyFormat.Format(product.Price)</td>
-							<td class="text-right">@CurrencyFormat.Format(decimal.Parse(product.Price) * line.Quantity)</td>
+							<td class="text-right">@CurrencyFormat.Format(product.Price * line.Quantity)</td>
 							<td>
 								<form class="removeFromCartOnSubmit" action="@removeAction" method="post">
 									<input type="hidden" name="index" value="@(count++)" />

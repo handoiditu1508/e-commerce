@@ -1,5 +1,6 @@
 ﻿using ECommerce.Application.UpdateModels;
 using ECommerce.Application.Views;
+using ECommerce.Models;
 using ECommerce.Models.Entities.Sellers;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +12,18 @@ namespace ECommerce.Application.Extensions
 		public static ProductView ConvertToView(this Product product)
 			=> new ProductView
 			{
-				SellerId = product.SellerId.ToString(),
+				SellerId = product.SellerId,
 				SellerName = product.Seller.Name,
-				ProductTypeId = product.ProductTypeId.ToString(),
+				ProductTypeId = product.ProductTypeId,
 				ProductTypeName = product.ProductType.Name,
-				Price = product.Price.ToString(),
+				Price = product.Price,
 				Active = product.Active,
 				Model = product.Model,
-				Quantity = product.Quantity.ToString(),
+				Quantity = product.Quantity,
 				Status = product.Status,
 				RepresentativeImage = product.RepresentativeImage,
 				Attributes = product.Attributes.GroupBy(pa1 => pa1.Name)
-					.ToDictionary(g => g.Key, g => g.Select(pa2 => pa2.Value).ToHashSet())
+					.ToDictionary(g => g.Key, g => g.OrderBy(pa2 => pa2.Order).Select(pa2 => pa2.Value).ToHashSet())
 			};
 
 		public static IEnumerable<ProductView> ConvertToViews(this IEnumerable<Product> products)
@@ -32,10 +33,9 @@ namespace ECommerce.Application.Extensions
 			=> new ProductUpdateModel
 			{
 				Price = product.Price,
-				RepresentativeImage = product.RepresentativeImage,
 				Attributes = product.Attributes.GroupBy(pa1 => pa1.Name)
 						.ToDictionary(g => g.Key, g => g.Select(pa2 => pa2.Value).ToHashSet()),
-				Images = product.Images.Select(i => i.Content)
+				Images = product.ConvertedImages
 			};
 	}
 }

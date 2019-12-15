@@ -7,5 +7,7 @@ namespace ECommerce.UI.MVC.Models.ViewModels
 		public ProductAddModel AddModel{ get; set; }
 
 		public short ProductAttributesNumber { get; set; }
+
+		public short? MainImageIndex{ get; set; }
 	}
 }

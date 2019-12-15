@@ -70,9 +70,6 @@ namespace ECommerce.Models.Services
 			flag:;
 			}
 
-			if (product.RepresentativeImage == null)
-				errors.Add("Representative image is required");
-
 			//check product price
 			if(product.Price<1)
 				errors.Add("Price can not lower than 1");

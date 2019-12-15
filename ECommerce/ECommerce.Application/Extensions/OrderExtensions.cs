@@ -10,14 +10,14 @@ namespace ECommerce.Application.Extensions
 		public static OrderView ConvertToView(this Order order)
 			=> new OrderView
 			{
-				Id = order.Id.ToString(),
-				SellerId = order.SellerId.ToString(),
+				Id = order.Id,
+				SellerId = order.SellerId,
 				SellerName = order.Seller.Name,
-				ProductTypeId = order.ProductTypeId.ToString(),
+				ProductTypeId = order.ProductTypeId,
 				ProductTypeName = order.ProductType.Name,
-				CurrentPrice = order.CurrentPrice.ToString(),
-				Quantity = order.Quantity.ToString(),
-				CustomerId = order.CustomerId.ToString(),
+				CurrentPrice = order.CurrentPrice,
+				Quantity = order.Quantity,
+				CustomerId = order.CustomerId,
 				CustomerName = order.Customer.Name.ToString(),
 				Attributes = order.Attributes.ToDictionary(a => a.Name, a => a.Value)
 			};

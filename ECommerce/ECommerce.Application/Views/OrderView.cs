@@ -9,23 +9,23 @@ namespace ECommerce.Application.Views
 	public class OrderView
 	{
 		[HiddenInput(DisplayValue = false)]
-		public string Id { get; set; }
+		public int Id { get; set; }
 
 		[Display(Name = "Current Price")]
-		public string CurrentPrice { get; set; }
+		public decimal CurrentPrice { get; set; }
 
 		[Display(Name = "Quantity")]
-		public string Quantity { get; set; }
+		public short Quantity { get; set; }
 
-		public string SellerId { get; set; }
+		public int SellerId { get; set; }
 		[Display(Name = "Seller Name")]
 		public string SellerName { get; set; }
 
-		public string ProductTypeId { get; set; }
+		public int ProductTypeId { get; set; }
 		[Display(Name = "Product Type Name")]
 		public string ProductTypeName { get; set; }
 
-		public string CustomerId { get; set; }
+		public int CustomerId { get; set; }
 		[Display(Name = "Customer Name")]
 		public string CustomerName { get; set; }
 

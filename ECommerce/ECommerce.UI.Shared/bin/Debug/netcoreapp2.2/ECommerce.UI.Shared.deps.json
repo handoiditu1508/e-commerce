@@ -1,0 +1,49 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.2",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.2": {
+      "ECommerce.UI.Shared/1.0.0": {
+        "dependencies": {
+          "ECommerce.Models": "1.0.0"
+        },
+        "runtime": {
+          "ECommerce.UI.Shared.dll": {}
+        }
+      },
+      "ECommerce.Extensions/1.0.0": {
+        "runtime": {
+          "ECommerce.Extensions.dll": {}
+        }
+      },
+      "ECommerce.Models/1.0.0": {
+        "dependencies": {
+          "ECommerce.Extensions": "1.0.0"
+        },
+        "runtime": {
+          "ECommerce.Models.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ECommerce.UI.Shared/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ECommerce.Extensions/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ECommerce.Models/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

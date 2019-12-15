@@ -35,5 +35,9 @@ namespace ECommerce.Extensions
 
 		public static bool Contains(this string s, string value, CompareOptions options)
 			=> CultureInfo.CurrentCulture.CompareInfo.IndexOf(s, value, options) > -1;
+
+		public static bool IsNullOrEmpty(this string s) => string.IsNullOrEmpty(s);
+
+		public static bool IsNullOrWhiteSpace(this string s) => string.IsNullOrWhiteSpace(s);
 	}
 }

@@ -33,7 +33,7 @@ namespace ECommerce.UI.MVC.Controllers
 			return View(new ProductsListViewModel
 			{
 				Products = eCommerce.GetProductTypesBy(searchModel, (page - 1) * recordsPerPage, recordsPerPage)
-					.Select(p => eCommerce.GetRepresentativeProduct(int.Parse(p.Id))),
+					.Select(p => eCommerce.GetRepresentativeProduct(p.Id)),
 				PagingInfo = new PagingInfo
 				{
 					CurrentPage = (short)page,

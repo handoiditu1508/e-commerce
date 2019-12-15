@@ -61,7 +61,7 @@ namespace ECommerce.UI.MVC.Models
 		public virtual decimal ComputeTotalValue(ECommerceService eCommerce)
 		{
 			return Lines
-				.Sum(l => decimal.Parse(eCommerce.GetProductBy(l.SellerId, l.ProductTypeId).Price) * l.Quantity);
+				.Sum(l => eCommerce.GetProductBy(l.SellerId, l.ProductTypeId).Price * l.Quantity);
 		}
 
 		public int TotalQuantity => Lines.Sum(l => l.Quantity);

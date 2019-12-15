@@ -12,12 +12,12 @@ namespace ECommerce.Application.Extensions
 			=> new ProductTypeUpdateRequestView
 			{
 				Descriptions = updateRequest.Descriptions,
-				CategoryId = updateRequest.CategoryId?.ToString(),
-				CategoryName = updateRequest.Category?.Name,
+				CategoryId = updateRequest.CategoryId,
+				CategoryName = updateRequest.Category?.Name??string.Empty,
 				Name = updateRequest.Name,
-				ProductTypeId = updateRequest.ProductTypeId.ToString(),
+				ProductTypeId = updateRequest.ProductTypeId,
 				ProductTypeName = updateRequest.ProductType.Name,
-				SellerId = updateRequest.SellerId.ToString(),
+				SellerId = updateRequest.SellerId,
 				SellerName = updateRequest.Seller.Name
 			};
 

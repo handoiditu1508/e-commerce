@@ -6,7 +6,7 @@ namespace ECommerce.Application.Views
 	public class CategoryView
 	{
 		[HiddenInput(DisplayValue = false)]
-		public string Id { get; set; }
+		public int Id { get; set; }
 
 		[Required]
 		[MinLength(1)]
@@ -14,6 +14,6 @@ namespace ECommerce.Application.Views
 		[Display(Name = "Name")]
 		public string Name { get; set; }
 
-		public string ParentId { get; set; }
+		public int? ParentId { get; set; }
 	}
 }

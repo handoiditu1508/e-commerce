@@ -922,46 +922,11 @@ namespace ECommerce.Application
 		{
 			errors = new List<string>();
 
-			if (addModel.RepresentativeImage != null)
-			{
-				if (!ImageValidationService.IsValid(addModel.RepresentativeImage.Data))
-				{
-					errors.Add("Representative image is invalid");
-				}
-				if (!ImageValidationService.IsSizeValid(addModel.RepresentativeImage.Data))
-				{
-					errors.Add($"Representative image size can not larger than {ImageValidationService.AllowedSize} bytes {addModel.RepresentativeImage.Data.Length}");
-				}
-			}
-			else errors.Add("Representative image is required");
-
-			if (addModel.Images != null)
-			{
-				short count = 1;
-				foreach (FileContent image in addModel.Images)
-				{
-					if (!ImageValidationService.IsValid(image.Data))
-					{
-						errors.Add("Image is invalid");
-						break;
-					}
-					if (!ImageValidationService.IsSizeValid(image.Data))
-					{
-						errors.Add($"Size can not larger than {ImageValidationService.AllowedSize} bytes {image.Data.Length}");
-						break;
-					}
-					count++;
-				}
-			}
-
-			if (errors.Any())
-				return null;
-
 			Product product = addModel.ConvertToEntity();
 			if (RegisterProductService.TryRegister(sellerId, product, out errors))
 			{
 				unitOfWork.Commit();
-				product.ConvertToView();
+				return product.ConvertToView();
 			}
 			return null;
 		}
@@ -1046,45 +1011,14 @@ namespace ECommerce.Application
 					searchModel.Status, searchModel.Active)
 				.Count();
 
-		public IEnumerable<FileContent> GetProductImages(int sellerId, int productTypeId)
+		public IEnumerable<string> GetProductImages(int sellerId, int productTypeId)
 			=> sellerRepository
 				.GetProductBy(sellerId, productTypeId)
-				.Images
-				.Select(i => new FileContent(i.Content.Data, i.Content.MimeType));
+				.ConvertedImages;
 
 		public void UpdateProduct(int sellerId, int productTypeId, ProductUpdateModel updateModel, out ICollection<string> errors)
 		{
 			errors = new List<string>();
-
-			if (updateModel.RepresentativeImage != null)
-			{
-				if (!ImageValidationService.IsValid(updateModel.RepresentativeImage.Data))
-				{
-					errors.Add("Representative image is invalid");
-				}
-				if (!ImageValidationService.IsSizeValid(updateModel.RepresentativeImage.Data))
-				{
-					errors.Add($"Representative image size can not larger than {ImageValidationService.AllowedSize} bytes {updateModel.RepresentativeImage.Data.Length}");
-				}
-			}
-			else errors.Add("Representative image is required");
-
-			if (updateModel.Images != null)
-			{
-				foreach (FileContent image in updateModel.Images)
-				{
-					if (!ImageValidationService.IsValid(image.Data))
-					{
-						errors.Add("Image is invalid");
-						break;
-					}
-					if (!ImageValidationService.IsSizeValid(image.Data))
-					{
-						errors.Add($"Size can not larger than {ImageValidationService.AllowedSize} bytes");
-						break;
-					}
-				}
-			}
 
 			if (sellerRepository.GetProductBy(sellerId, productTypeId) == null)
 			{

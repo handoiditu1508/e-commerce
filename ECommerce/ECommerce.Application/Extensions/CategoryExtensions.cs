@@ -11,9 +11,9 @@ namespace ECommerce.Application.Extensions
 		public static CategoryView ConvertToView(this Category category)
 			=> new CategoryView
 			{
-				Id = category.Id.ToString(),
+				Id = category.Id,
 				Name = category.Name,
-				ParentId = category.ParentId.ToString()
+				ParentId = category.ParentId
 			};
 
 		public static IEnumerable<CategoryView> ConvertToViews(this IEnumerable<Category> categories)

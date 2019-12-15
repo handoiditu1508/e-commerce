@@ -21,7 +21,7 @@
 		link.Attributes["href"] = urlHelper.Action("Search", "ProductType", new { categoryId = category.Id, page = 1 });
 		link.InnerHtml.Append(category.Name);
 		listGroupItem.InnerHtml.AppendHtml(link);
-		IList<CategoryView> childs = eCommerce.GetChildCategories(int.Parse(category.Id)).ToList();
+		IList<CategoryView> childs = eCommerce.GetChildCategories(category.Id).ToList();
 		if (childs.Any())
 		{
 			listGroupItem.AddCssClass("btn-group dropdown-hover");
@@ -48,7 +48,7 @@
 					item.InnerHtml.Append(categoryStack.Peek()[i].Name);
 					line.InnerHtml.AppendHtml(item);
 					list.InnerHtml.AppendHtml(line);
-					List<CategoryView> childCategories = eCommerce.GetChildCategories(int.Parse(categoryStack.Peek()[i].Id)).ToList();
+					List<CategoryView> childCategories = eCommerce.GetChildCategories(categoryStack.Peek()[i].Id).ToList();
 					if (childCategories.Any())
 					{
 						line.AddCssClass("dropdown-submenu");

@@ -19,12 +19,12 @@
 			@foreach (ProductView product in Model)
 			{
 				<tr class="productTypeRow">
-					<td><img class="img-fluid rounded" file-content="@product.RepresentativeImage" alt="@product.ProductTypeName" /></td>
+					<td><img class="img-fluid rounded" src="@($"{UIConsts.GetProductUrlById(product.SellerId, product.ProductTypeId)}/{product.RepresentativeImage}")" alt="@product.ProductTypeName" /></td>
 					<td><a asp-action="Informations" asp-controller="Seller" asp-route-sellerId="@product.SellerId" class="text-decoration-none">@product.SellerName</a></td>
 					<td>
 						<a asp-action="Informations" asp-controller="ProductType" asp-route-productTypeId="@product.ProductTypeId" class="text-decoration-none"><h4>@product.ProductTypeName</h4></a>
 						@{
-							int categoryId = int.Parse(eCommerce.GetProductTypeBy(int.Parse(product.ProductTypeId)).CategoryId);
+							int categoryId = eCommerce.GetProductTypeBy(product.ProductTypeId).CategoryId;
 							<small>
 								@await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId })
 							</small>

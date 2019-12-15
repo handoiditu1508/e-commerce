@@ -75,24 +75,24 @@ namespace ECommerce.UI.MVC.Controllers
 			}
 
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
-			ProductTypeUpdateRequestView updateRequest = eCommerce.GetProductTypeUpdateRequestBy(int.Parse(seller.Id), int.Parse(productType.Id));
+			ProductTypeUpdateRequestView updateRequest = eCommerce.GetProductTypeUpdateRequestBy(seller.Id, productType.Id);
 			ProductTypeUpdateRequestAddModel addModel = new ProductTypeUpdateRequestAddModel();
 
 			if (updateRequest != null)
 			{
 				if (updateRequest.CategoryId != null)
 				{
-					addModel.CategoryId = int.Parse(updateRequest.CategoryId);
+					addModel.CategoryId = updateRequest.CategoryId;
 				}
 				addModel.Name = updateRequest.Name;
-				addModel.ProductTypeId = int.Parse(productType.Id);
+				addModel.ProductTypeId = productType.Id;
 				addModel.Descriptions = updateRequest.Descriptions;
 			}
 			else
 			{
-				addModel.CategoryId = int.Parse(productType.CategoryId);
+				addModel.CategoryId = productType.CategoryId;
 				addModel.Name = productType.Name;
-				addModel.ProductTypeId = int.Parse(productType.Id);
+				addModel.ProductTypeId = productType.Id;
 			}
 			return View(addModel);
 		}
@@ -103,7 +103,7 @@ namespace ECommerce.UI.MVC.Controllers
 		{
 			SellerView seller = loginPersistence.PersistLogin();
 
-			eCommerce.RequestAnUpdateForProductType(int.Parse(seller.Id), addModel, out ICollection<string> errors);
+			eCommerce.RequestAnUpdateForProductType(seller.Id, addModel, out ICollection<string> errors);
 			if (errors.Any())
 			{
 				ViewData[GlobalViewBagKeys.Errors] = errors;

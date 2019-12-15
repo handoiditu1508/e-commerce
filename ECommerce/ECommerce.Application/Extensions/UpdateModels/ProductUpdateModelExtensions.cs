@@ -10,10 +10,10 @@ namespace ECommerce.Application.Extensions.UpdateModels
 			Product product = new Product
 			{
 				Price = updateModel.Price,
+				ConvertedImages = updateModel.Images,
 				RepresentativeImage = updateModel.RepresentativeImage
 			};
 			product.ChangeAttributes(updateModel.Attributes);
-			product.ChangeImages(updateModel.Images);
 			return product;
 		}
 	}

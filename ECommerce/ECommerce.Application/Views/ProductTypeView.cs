@@ -8,13 +8,13 @@ namespace ECommerce.Application.Views
 	public class ProductTypeView
 	{
 		[HiddenInput(DisplayValue = false)]
-		public string Id { get; set; }
+		public int Id { get; set; }
 
 		[Display(Name = "Name")]
 		public string Name { get; set; }
 		
 		[Required]
-		public string CategoryId { get; set; }
+		public int CategoryId { get; set; }
 		[Display(Name = "Category")]
 		public string CategoryName { get; set; }
 

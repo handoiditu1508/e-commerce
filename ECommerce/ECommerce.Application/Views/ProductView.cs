@@ -9,20 +9,20 @@ namespace ECommerce.Application.Views
 	public class ProductView
 	{
 		[HiddenInput(DisplayValue = false)]
-		public string SellerId { get; set; }
+		public int SellerId { get; set; }
 		[Display(Name = "Seller")]
 		public string SellerName { get; set; }
 
 		[HiddenInput(DisplayValue = false)]
-		public string ProductTypeId { get; set; }
+		public int ProductTypeId { get; set; }
 		[Display(Name = "Product Type")]
 		public string ProductTypeName { get; set; }
 
 		[Display(Name = "Price")]
-		public string Price { get; set; }
+		public decimal Price { get; set; }
 
 		[Display(Name = "Quantity")]
-		public string Quantity{ get; set; }
+		public short Quantity{ get; set; }
 
 		[Display(Name = "Active")]
 		public bool Active { get; set; } = true;
@@ -35,7 +35,7 @@ namespace ECommerce.Application.Views
 		[EnumDataType(typeof(ProductStatus))]
 		public ProductStatus Status { get; set; }
 
-		public FileContent RepresentativeImage{ get; set; }
+		public string RepresentativeImage{ get; set; }
 		
 		public IDictionary<string, HashSet<string>> Attributes { get; set; }
 	}

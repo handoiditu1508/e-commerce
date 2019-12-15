@@ -20,7 +20,6 @@ namespace ECommerce.Persistence.EF
 		public DbSet<ProductTypeUpdateRequest> ProductTypeUpdateRequests { get; set; }
 		public DbSet<Product> Products { get; set; }
 		public DbSet<ProductAttribute> ProductAttributes { get; set; }
-		public DbSet<ProductImage> ProductImages{ get; set; }
 		public DbSet<Seller> Sellers { get; set; }
 
 		public ApplicationDbContext() : base() { }
@@ -66,14 +65,6 @@ namespace ECommerce.Persistence.EF
 				.HasOne(pa => pa.Product)
 				.WithMany(p => p.Attributes)
 				.HasForeignKey(pa => new { pa.SellerId, pa.ProductTypeId });
-
-			//product image has [2-properties foreign keys]
-			//connecting [ProductAttribute.Product] with [Product.Images]
-			//because product has [2-properties primary keys]
-			modelBuilder.Entity<ProductImage>()
-				.HasOne(pi => pi.Product)
-				.WithMany(p => p.Images)
-				.HasForeignKey(pi => new { pi.SellerId, pi.ProductTypeId });
 
 			//[Product Type Update Request] will not be deleted if [Category] is deleted
 			modelBuilder.Entity<ProductTypeUpdateRequest>()

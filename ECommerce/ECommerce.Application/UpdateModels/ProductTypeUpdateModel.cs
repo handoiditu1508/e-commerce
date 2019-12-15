@@ -8,7 +8,6 @@ namespace ECommerce.Application.UpdateModels
 
 		[Required]
 		[MinLength(1)]
-		[MaxLength(50)]
 		public string Name { get; set; }
 	}
 }

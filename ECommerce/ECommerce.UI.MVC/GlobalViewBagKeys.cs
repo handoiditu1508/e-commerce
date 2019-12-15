@@ -2,8 +2,8 @@
 {
 	public static class GlobalViewBagKeys
 	{
-		public static string ECommerceService { get; } = "Frosty";
-		public static string Errors { get; } = "English";
-		public static string Messages { get; } = "CCLemon";
+		public const string ECommerceService = "Frosty";
+		public const string Errors = "English";
+		public const string Messages = "CCLemon";
 	}
 }

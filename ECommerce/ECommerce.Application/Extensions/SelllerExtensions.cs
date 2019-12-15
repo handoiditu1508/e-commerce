@@ -11,7 +11,7 @@ namespace ECommerce.Application.Extensions
 		public static SellerView ConvertToView(this Seller seller)
 			=> new SellerView
 			{
-				Id = seller.Id.ToString(),
+				Id = seller.Id,
 				Email = seller.Email,
 				Name = seller.Name,
 				PhoneNumber = seller.PhoneNumber,

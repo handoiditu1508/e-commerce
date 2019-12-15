@@ -26,3 +26,16 @@ C:\Users\hando\Desktop\ECommerce\ECommerce.Infrastructure\obj\Debug\netcoreapp2.
 C:\Users\hando\Desktop\ECommerce\ECommerce.Infrastructure\obj\Debug\netcoreapp2.2\ECommerce.Infrastructure.csproj.CopyComplete
 C:\Users\hando\Desktop\ECommerce\ECommerce.Infrastructure\obj\Debug\netcoreapp2.2\ECommerce.Infrastructure.dll
 C:\Users\hando\Desktop\ECommerce\ECommerce.Infrastructure\obj\Debug\netcoreapp2.2\ECommerce.Infrastructure.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.deps.json
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\bin\Debug\netcoreapp2.2\ECommerce.Extensions.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\bin\Debug\netcoreapp2.2\ECommerce.Models.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\bin\Debug\netcoreapp2.2\ECommerce.Models.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\bin\Debug\netcoreapp2.2\ECommerce.Extensions.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\obj\Debug\netcoreapp2.2\ECommerce.Infrastructure.csprojAssemblyReference.cache
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\obj\Debug\netcoreapp2.2\ECommerce.Infrastructure.AssemblyInfoInputs.cache
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\obj\Debug\netcoreapp2.2\ECommerce.Infrastructure.AssemblyInfo.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\obj\Debug\netcoreapp2.2\ECommerce.Infrastructure.csproj.CopyComplete
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\obj\Debug\netcoreapp2.2\ECommerce.Infrastructure.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Infrastructure\obj\Debug\netcoreapp2.2\ECommerce.Infrastructure.pdb

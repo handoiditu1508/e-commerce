@@ -4,6 +4,7 @@ using ECommerce.Application.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities.Sellers;
 using ECommerce.UI.MVC.Models;
+using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
 
@@ -66,7 +67,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			}
 
 			string loginValue = EncryptionService.Encrypt(seller.Email +
-				eCommerce.GetSellerEncryptedPassword(int.Parse(seller.Id)) +
+				eCommerce.GetSellerEncryptedPassword(seller.Id) +
 				connectionInfo.RemoteIpAddress.ToString());
 			if (loginCookies.LoginValue != loginValue)
 			{
@@ -74,7 +75,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 				return null;
 			}
 
-			session.SetString(sellerSessionKeyWord, seller.Id);
+			session.SetString(sellerSessionKeyWord, seller.Id.ToString());
 			return seller;
 		}
 
@@ -83,7 +84,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			SellerView seller = eCommerce.GetSellerBy(id);
 			if (seller != null)
 			{
-				session.SetString(sellerSessionKeyWord, seller.Id);
+				session.SetString(sellerSessionKeyWord, seller.Id.ToString());
 				if (rememberLogin)
 				{
 					responseCookies.SetJson(sellerCookieKeyWord,
@@ -91,7 +92,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 						{
 							UserId = id,
 							LoginValue = EncryptionService.Encrypt(seller.Email +
-								eCommerce.GetSellerEncryptedPassword(int.Parse(seller.Id)) +
+								eCommerce.GetSellerEncryptedPassword(seller.Id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });
@@ -104,15 +105,15 @@ namespace ECommerce.UI.MVC.Infrastructure
 			SellerView seller = eCommerce.GetSellerBy(email);
 			if (seller != null)
 			{
-				session.SetString(sellerSessionKeyWord, seller.Id);
+				session.SetString(sellerSessionKeyWord, seller.Id.ToString());
 				if (rememberLogin)
 				{
 					responseCookies.SetJson(sellerCookieKeyWord,
 						new LoginCookies
 						{
-							UserId = int.Parse(seller.Id),
+							UserId = seller.Id,
 							LoginValue = EncryptionService.Encrypt(seller.Email +
-								eCommerce.GetSellerEncryptedPassword(int.Parse(seller.Id)) +
+								eCommerce.GetSellerEncryptedPassword(seller.Id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });

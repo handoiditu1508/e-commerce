@@ -70,7 +70,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				eCommerce.UpdateSeller(int.Parse(seller.Id),
+				eCommerce.UpdateSeller(seller.Id,
 					new SellerUpdateModel
 					{
 						Name = seller.Name,
@@ -83,7 +83,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 				}
 				else
 				{
-					SellerView updatedSeller = eCommerce.GetSellerBy(int.Parse(seller.Id));
+					SellerView updatedSeller = eCommerce.GetSellerBy(seller.Id);
 
 					ICollection<string> messages = new List<string>();
 					messages.Add("Seller informations updated");

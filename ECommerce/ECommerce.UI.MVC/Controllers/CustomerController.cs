@@ -7,6 +7,7 @@ using ECommerce.Application.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.UI.MVC.Infrastructure;
 using ECommerce.UI.MVC.Models.ViewModels;
+using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,7 +55,7 @@ namespace ECommerce.UI.MVC.Controllers
 					{
 						if (customer.Active)
 						{
-							string encryptedPassword = eCommerce.GetCustomerEncryptedPassword(int.Parse(customer.Id));
+							string encryptedPassword = eCommerce.GetCustomerEncryptedPassword(customer.Id);
 							if (EncryptionService.Encrypt(loginViewModel.LoginInformation.Password) == encryptedPassword)
 							{
 								loginPersistence.LoginThrough(loginViewModel.LoginInformation.Username, loginViewModel.LoginInformation.Remember);
@@ -94,7 +95,7 @@ namespace ECommerce.UI.MVC.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				eCommerce.UpdateCustomer(int.Parse(customer.Id),
+				eCommerce.UpdateCustomer(customer.Id,
 					new CustomerUpdateModel
 					{
 						FirstName=customer.FirstName,
@@ -108,9 +109,9 @@ namespace ECommerce.UI.MVC.Controllers
 				}
 				else
 				{
-					CustomerView updatedCustomer = eCommerce.GetCustomerBy(int.Parse(customer.Id));
+					CustomerView updatedCustomer = eCommerce.GetCustomerBy(customer.Id);
 					loginPersistence.Logout();
-					loginPersistence.LoginThrough(int.Parse(updatedCustomer.Id));
+					loginPersistence.LoginThrough(updatedCustomer.Id);
 
 					ICollection<string> messages = new List<string>();
 					messages.Add("Personal informations updated");

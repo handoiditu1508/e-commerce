@@ -1,0 +1,11 @@
+﻿@model IEnumerable<string>
+
+@foreach(string path in Model)
+{
+	<img height="100" width="100" src="@path" />
+}
+
+<form method="post" enctype="multipart/form-data" asp-action="UploadImage">
+	<input type="file" multiple name="images" />
+	<input type="submit" value="Upload" />
+</form>

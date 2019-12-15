@@ -19,7 +19,7 @@
 				foreach (ProductView product in Model.Products)
 				{
 					<tr class="sellerProductTableRow">
-						<td><img file-content="product.RepresentativeImage" /></td>
+						<td><img src="@($"{UIConsts.GetProductUrlById(product.SellerId, product.ProductTypeId)}/{product.RepresentativeImage}")" /></td>
 						<td>@product.ProductTypeName</td>
 						<td>@CurrencyFormat.Format(product.Price)</td>
 						<td>@product.Quantity</td>

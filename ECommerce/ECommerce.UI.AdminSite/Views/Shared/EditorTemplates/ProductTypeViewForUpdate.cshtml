@@ -9,12 +9,11 @@
 <div class="form-group">
 	<label class="control-label">Category</label>
 	<input id="categoryHiddenPickingResult" type="hidden" asp-for="CategoryId" class="form-control" />
+
 	<div id="categoryPickingResult">
-		@if (Model.CategoryId != null)
-		{
-			<vc:category-bread-crumb category-id="int.Parse(Model.CategoryId)"></vc:category-bread-crumb>
-		}
+		<vc:category-bread-crumb category-id="Model.CategoryId"></vc:category-bread-crumb>
 	</div>
+
 	<span asp-validation-for="CategoryId" class="text-danger"></span>
 </div>
 @await Component.InvokeAsync("CategoriesPickerDropDown", new { additionalCssClass = "btn btn-success" })

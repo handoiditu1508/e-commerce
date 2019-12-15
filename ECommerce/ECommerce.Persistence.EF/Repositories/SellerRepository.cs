@@ -139,9 +139,9 @@ namespace ECommerce.Persistence.EF.Repositories
 		{
 			Product presentProduct = GetProductBy(sellerId, productTypeId);
 			presentProduct.Price = product.Price;
-			presentProduct.RepresentativeImage = product.RepresentativeImage;
 			presentProduct.ChangeAttributes(product.Attributes);
-			presentProduct.ChangeImages(product.Images);
+			presentProduct.RepresentativeImage = product.RepresentativeImage;
+			presentProduct.Images = product.Images;
 		}
 
 		public void Delete(int id) => context.Sellers.Remove(GetBy(id));

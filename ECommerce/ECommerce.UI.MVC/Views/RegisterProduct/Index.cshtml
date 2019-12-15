@@ -74,18 +74,23 @@
 		</tfoot>
 	</table>
 
-	<div class="form-group">
+	<!--<div class="form-group">
 		<label class="control-label">Product's representative image:</label>
 		<div class="file-loading">
 			<input class="file registerProductFileInput" name="representativeImage" type="file" />
 		</div>
-	</div>
+	</div>-->
 
 	<div class="form-group">
 		<label class="control-label">Product's images:</label>
 		<div class="file-loading">
 			<input class="file registerProductFileInput" name="images" type="file" multiple />
 		</div>
+	</div>
+	<div class="form-group">
+		<label asp-for="MainImageIndex" class="control-label"></label>
+		<input asp-for="MainImageIndex" class="form-control" value="0" />
+		<span asp-validation-for="MainImageIndex" class="text-danger"></span>
 	</div>
 
 	<input type="submit" value="Register product" class="btn btn-success" />
@@ -112,7 +117,7 @@
 		removeClass: 'btn btn-danger',
 		showUpload: false,
 		allowedFileTypes: ['image'],
-		maxFileSize: '2000',
+		maxFileSize: '5120',//5Mb
 		theme: 'fas',
 		browseOnZoneClick: 'true'
 	});

@@ -20,12 +20,12 @@
 				string changeQuantityAction = Url.Action("ChangeQuantity", "Cart");
 				foreach (OrderView order in Model)
 				{
-					ProductView product = eCommerce.GetProductBy(int.Parse(order.SellerId), int.Parse(order.ProductTypeId));
+					ProductView product = eCommerce.GetProductBy(order.SellerId, order.ProductTypeId);
 					<tr class="orderTableRow">
 						<td>
 						@if (product != null)
 						{
-							<img class="rounded img-fluid" file-content="product.RepresentativeImage" alt="@order.ProductTypeName" />
+							<img class="rounded img-fluid" src="@($"{UIConsts.GetProductUrlById(order.SellerId, order.ProductTypeId)}/{product.RepresentativeImage}")" alt="@order.ProductTypeName" />
 						}
 						else
 						{
@@ -42,7 +42,7 @@
 						</td>
 						<td class="text-center">@order.Quantity</td>
 						<td class="text-right">@CurrencyFormat.Format(order.CurrentPrice)</td>
-						<td class="text-right">@CurrencyFormat.Format(decimal.Parse(order.CurrentPrice) * int.Parse(order.Quantity))</td>
+						<td class="text-right">@CurrencyFormat.Format(order.CurrentPrice * order.Quantity)</td>
 					</tr>
 				}
 			}
