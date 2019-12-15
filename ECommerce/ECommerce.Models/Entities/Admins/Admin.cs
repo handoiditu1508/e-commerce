@@ -20,6 +20,6 @@ namespace ECommerce.Models.Entities.Admins
 		[MinLength(6)]
 		[MaxLength(32)]
 		[DataType(DataType.Password)]
-		public string Password { get; set; }
+		public virtual string Password { get; set; }
 	}
 }

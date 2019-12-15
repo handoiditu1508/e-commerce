@@ -21,7 +21,7 @@ namespace ECommerce.Models.Entities.Customers
 		[MinLength(6)]
 		[MaxLength(32)]
 		[DataType(DataType.Password)]
-		public string Password { get; set; }
+		public virtual string Password { get; set; }
 
 		[Required]
 		public bool Active { get; set; } = true;

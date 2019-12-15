@@ -1016,6 +1016,12 @@ namespace ECommerce.Application
 				.GetProductBy(sellerId, productTypeId)
 				.ConvertedImages;
 
+		public IDictionary<string, HashSet<string>> GetProductAttributes(int sellerId, int productTypeId)
+			=> sellerRepository
+				.GetProductBy(sellerId, productTypeId)
+				.Attributes.GroupBy(pa1 => pa1.Name)
+				.ToDictionary(g => g.Key, g => g.OrderBy(pa2 => pa2.Order).Select(pa2 => pa2.Value).ToHashSet());
+
 		public void UpdateProduct(int sellerId, int productTypeId, ProductUpdateModel updateModel, out ICollection<string> errors)
 		{
 			errors = new List<string>();

@@ -23,8 +23,8 @@
 								foreach (string image in images)
 								{
 									carouselItem.InnerHtml
-										.AppendHtml($"<div class=\"galleryThumbnail\"><img src=\"{UIConsts.GetProductUrlById(Model.SellerId,Model.ProductTypeId)}/{image}\" /></div>");
-									if (count % 5 == 0 && count<images.Count())
+										.AppendHtml($"<div class=\"galleryThumbnail\"><img src=\"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{image}\" /></div>");
+									if (count % 5 == 0 && count < images.Count())
 									{
 										carouselItem = new TagBuilder("div");
 										carouselItem.AddCssClass("carousel-item");
@@ -62,7 +62,9 @@
 					<h4 class="font-weight-bold text-uppercase">SELLER: <a class="text-primary" asp-action="Seller" asp-controller="Product" asp-route-sellerId="@Model.SellerId">@Model.SellerName</a></h4>
 					<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
 					<form asp-action="AddToCart" asp-controller="Cart" method="post" class="addToCartOnSubmit">
-						@foreach (var attribute in Model.Attributes)
+					@{
+						var attributes = eCommerce.GetProductAttributes(Model.SellerId, Model.ProductTypeId);
+						foreach (var attribute in attributes)
 						{
 							<h5 class="font-weight-bold text-uppercase">
 								@attribute.Key:
@@ -74,6 +76,7 @@
 								}
 							</h5>
 						}
+					}
 						<div class="form-row">
 							<div class="form-group col-md-3">
 								<input class="form-control" type="number" name="quantity" value="1" />

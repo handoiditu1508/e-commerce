@@ -45,7 +45,7 @@ namespace ECommerce.Models.Entities.Sellers
 		[Required]
 		public string RepresentativeImage { get; set; }
 
-		public byte[] Images { get; set; }
+		public virtual byte[] Images { get; set; }
 		[NotMapped]
 		public IEnumerable<string> ConvertedImages
 		{

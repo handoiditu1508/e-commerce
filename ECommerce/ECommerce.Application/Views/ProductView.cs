@@ -36,7 +36,5 @@ namespace ECommerce.Application.Views
 		public ProductStatus Status { get; set; }
 
 		public string RepresentativeImage{ get; set; }
-		
-		public IDictionary<string, HashSet<string>> Attributes { get; set; }
 	}
 }

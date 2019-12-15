@@ -61,17 +61,20 @@
 					<h4 class="font-weight-bold text-uppercase">current price: <span class="text-warning">@CurrencyFormat.FormatWithUnit(Model.Price)</span></h4>
 					<h4 class="font-weight-bold text-uppercase">SELLER: <a class="text-primary" asp-action="Informations" asp-controller="Seller" asp-route-sellerId="@Model.SellerId">@Model.SellerName</a></h4>
 					<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
-					@foreach (var attribute in Model.Attributes)
-					{
-						<h5 class="font-weight-bold text-uppercase">
-							@attribute.Key:
-							@foreach (var value in attribute.Value)
-							{
-								<label class="radio-inline text-info">
-									<input type="radio" disabled /> @value
-								</label>
-							}
-						</h5>
+					@{
+						var attributes = eCommerce.GetProductAttributes(Model.SellerId, Model.ProductTypeId);
+						foreach (var attribute in attributes)
+						{
+							<h5 class="font-weight-bold text-uppercase">
+								@attribute.Key:
+								@foreach (var value in attribute.Value)
+								{
+									<label class="radio-inline text-info">
+										<input type="radio" disabled /> @value
+									</label>
+								}
+							</h5>
+						}
 					}
 					<h5 class="font-weight-bold text-uppercase">Quantity:<input id="productQuantity" type="text" readonly value="@Model.Quantity" /></h5>
 					<h5 class="font-weight-bold text-uppercase">Active: @Model.Active</h5>

@@ -21,9 +21,7 @@ namespace ECommerce.Application.Extensions
 				Model = product.Model,
 				Quantity = product.Quantity,
 				Status = product.Status,
-				RepresentativeImage = product.RepresentativeImage,
-				Attributes = product.Attributes.GroupBy(pa1 => pa1.Name)
-					.ToDictionary(g => g.Key, g => g.OrderBy(pa2 => pa2.Order).Select(pa2 => pa2.Value).ToHashSet())
+				RepresentativeImage = product.RepresentativeImage
 			};
 
 		public static IEnumerable<ProductView> ConvertToViews(this IEnumerable<Product> products)
