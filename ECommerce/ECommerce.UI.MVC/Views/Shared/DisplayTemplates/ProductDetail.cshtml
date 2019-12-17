@@ -23,7 +23,7 @@
 								foreach (string image in images)
 								{
 									carouselItem.InnerHtml
-										.AppendHtml($"<div class=\"galleryThumbnail\"><img src=\"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{image}\" /></div>");
+										.AppendHtml($"<div class=\"galleryThumbnail\"><img class=\"rounded m-auto mw-100 mh-100\" src=\"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{image}\" /></div>");
 									if (count % 5 == 0 && count < images.Count())
 									{
 										carouselItem = new TagBuilder("div");

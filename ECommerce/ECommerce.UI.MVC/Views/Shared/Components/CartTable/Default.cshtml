@@ -4,8 +4,8 @@
 	<table class="table table-striped table-bordered table-hover table-condensed table-sm table-active table-secondary">
 		<thead class="thead-dark">
 			<tr>
-				<th style="width:30%;"></th>
-				<th style="width:10%;">Item</th>
+				<th style="width:20%;"></th>
+				<th style="width:20%;">Item</th>
 				<th style="width:10%;">Seller</th>
 				<th style="width:10%;">Attributes</th>
 				<th style="width:10%;">Quantity</th>
@@ -22,7 +22,7 @@
 				foreach (CartLine line in Model.Lines)
 				{
 					ProductView product = eCommerce.GetProductBy(line.SellerId, line.ProductTypeId);
-					<tr class="cartTableRow">
+					<tr>
 						@if (product == null ||
 							product.Status != ProductStatus.Active ||
 							!product.Active ||
@@ -39,7 +39,7 @@
 						}
 						else
 						{
-							<td><img class="rounded img-fluid" src="@($"{UIConsts.GetProductUrlById(line.SellerId, line.ProductTypeId)}/{product.RepresentativeImage}")" alt="@product.ProductTypeName" /></td>
+							<td class="productCartImageContainer"><img class="rounded img-fluid" src="@($"{UIConsts.GetProductUrlById(line.SellerId, line.ProductTypeId)}/{product.RepresentativeImage}")" alt="@product.ProductTypeName" /></td>
 							<td class="text-left">@product.ProductTypeName</td>
 							<td class="text-left">@product.SellerName</td>
 							<td class="text-left">

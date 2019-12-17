@@ -4,8 +4,8 @@
 	<table class="table table-striped table-bordered table-hover table-condensed table-sm table-active table-secondary">
 		<thead class="thead-dark">
 			<tr>
-				<th style="width:30%;"></th>
-				<th style="width:10%;">Item</th>
+				<th style="width:15%;"></th>
+				<th style="width:25%;">Item</th>
 				<th style="width:10%;">Seller</th>
 				<th style="width:10%;">Attributes</th>
 				<th style="width:10%;">Quantity</th>
@@ -21,8 +21,8 @@
 				foreach (OrderView order in Model)
 				{
 					ProductView product = eCommerce.GetProductBy(order.SellerId, order.ProductTypeId);
-					<tr class="orderTableRow">
-						<td>
+					<tr>
+						<td class="productImageContainerForOrderTable">
 						@if (product != null)
 						{
 							<img class="rounded img-fluid" src="@($"{UIConsts.GetProductUrlById(order.SellerId, order.ProductTypeId)}/{product.RepresentativeImage}")" alt="@order.ProductTypeName" />

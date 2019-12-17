@@ -6,7 +6,7 @@
 	<table class="table table-striped table-bordered table-hover table-condensed table-sm table-secondary table-active">
 		<thead class="thead-dark">
 			<tr>
-				<th class="w-25"></th>
+				<th></th>
 				<th>Product Type</th>
 			</tr>
 		</thead>
@@ -22,16 +22,18 @@
 						ProductTypeId=productType.Id
 					};
 				}
-				<tr class="productTypeRow">
+				<tr>
 					<td>
-					@if (product.RepresentativeImage != null)
-					{
-						<img class="img-fluid rounded" src="@($"{UIConsts.GetProductUrlById(product.SellerId, product.ProductTypeId)}/{product.RepresentativeImage}")" alt="@product.ProductTypeName" />
-					}
-					else
-					{
-						<img class="img-fluid rounded" src="~/images/sample.png" alt="@product.ProductTypeName" />
-					}
+						<div class="productImageContainerForProductTypeTable">
+							@if (product.RepresentativeImage != null)
+							{
+								<img class="img-fluid rounded" src="@($"{UIConsts.GetProductUrlById(product.SellerId, product.ProductTypeId)}/{product.RepresentativeImage}")" alt="@product.ProductTypeName" />
+							}
+							else
+							{
+								<img class="img-fluid rounded" src="~/images/sample.png" alt="@product.ProductTypeName" />
+							}
+						</div>
 						<a asp-action="@ViewBag.Action" asp-controller="@ViewBag.Controller" asp-route-productTypeId="@product.ProductTypeId" class="btn btn-danger">Choose</a>
 					</td>
 					<td>

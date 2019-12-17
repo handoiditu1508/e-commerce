@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Infrastructure
 {
@@ -10,7 +11,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 		public SellerLoginRequiredAttribute() : base(typeof(SellerLoginRequiredFilter))
 		{ }
 
-		private class SellerLoginRequiredFilter : IAuthorizationFilter
+		private class SellerLoginRequiredFilter : IAsyncAuthorizationFilter
 		{
 			private SellerLoginPersistence loginPersistence;
 
@@ -19,7 +20,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 				loginPersistence = new SellerLoginPersistence(accessor, unitOfWork);
 			}
 
-			public void OnAuthorization(AuthorizationFilterContext context)
+			public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
 			{
 				if (loginPersistence.PersistLogin() == null)
 					context.Result = new RedirectToActionResult("Login", "Seller", new { });

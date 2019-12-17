@@ -1,4 +1,5 @@
-﻿using ECommerce.Infrastructure.UnitOfWork;
+﻿using System.Threading.Tasks;
+using ECommerce.Infrastructure.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -10,7 +11,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 		public CustomerLoginRequiredAttribute() : base(typeof(CustomerLoginRequiredFilter))
 		{ }
 
-		private class CustomerLoginRequiredFilter : IAuthorizationFilter
+		private class CustomerLoginRequiredFilter : IAsyncAuthorizationFilter
 		{
 			private CustomerLoginPersistence loginPersistence;
 
@@ -19,7 +20,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 				loginPersistence = new CustomerLoginPersistence(accessor, unitOfWork);
 			}
 
-			public void OnAuthorization(AuthorizationFilterContext context)
+			public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
 			{
 				if (loginPersistence.PersistLogin() == null)
 					context.Result = new RedirectToActionResult("Login", "Customer", new { });
