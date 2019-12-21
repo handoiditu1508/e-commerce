@@ -20,7 +20,7 @@
 				string changeQuantityAction = Url.Action("ChangeQuantity", "Cart");
 				foreach (OrderView order in Model)
 				{
-					ProductView product = eCommerce.GetProductBy(order.SellerId, order.ProductTypeId);
+					ProductView product = await eCommerce.GetProductByAsync(order.SellerId, order.ProductTypeId);
 					<tr>
 						<td class="productImageContainerForOrderTable">
 						@if (product != null)

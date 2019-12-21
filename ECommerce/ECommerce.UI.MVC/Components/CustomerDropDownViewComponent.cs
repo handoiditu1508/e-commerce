@@ -2,6 +2,7 @@
 using ECommerce.UI.MVC.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Components
 {
@@ -14,9 +15,9 @@ namespace ECommerce.UI.MVC.Components
 			loginPersistence = new CustomerLoginPersistence(accessor, unitOfWork);
 		}
 
-		public IViewComponentResult Invoke()
+		public async Task<IViewComponentResult> InvokeAsync()
 		{
-			return View(loginPersistence.PersistLogin());
+			return View(await loginPersistence.PersistLoginAsync());
 		}
 	}
 }

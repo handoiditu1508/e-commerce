@@ -15,7 +15,7 @@
 			@{string formAction = Url.Action("UpdateRequestDetail", "ProductType");}
 			@foreach (ProductTypeUpdateRequestView updateRequest in Model)
 			{
-				ProductTypeView productType = eCommerce.GetProductTypeBy(updateRequest.ProductTypeId);
+				ProductTypeView productType = await eCommerce.GetProductTypeByAsync(updateRequest.ProductTypeId);
 				ProductView product = eCommerce.GetRepresentativeProduct(productType.Id);
 				<tr>
 					<td class="productImageContainerForUpdateRequestTable">

@@ -1,0 +1,129 @@
+﻿@model UpdateProductAttributesViewModel
+
+<input id="sellerId" type="hidden" asp-for="SellerId" />
+<input id="productTypeId" type="hidden" asp-for="ProductTypeId" />
+
+<form asp-action="ProductAttributes" method="post" class="updateAttributesForm">
+	<div class="table-responsive rounded">
+		<table class="table table-striped table-bordered table-hover table-condensed table-sm table-active table-secondary mw-100">
+			<thead class="thead-dark">
+				<tr>
+					<th>Attribute</th>
+					<th>Values</th>
+				</tr>
+			</thead>
+			<tbody>
+				@{
+					short attributeCount = 0;
+					if (Model.Attributes != null)
+					{
+						foreach (var attribute in Model.Attributes)
+						{
+							<tr>
+								<td><input name="keys" class="form-control attributeKey" type="text" value="@attribute.Key" /></td>
+								<td>
+									<input name="values" class="attributeValues" type="text" value="@string.Join(',', attribute.Value)" data-role="tagsinput" />
+								</td>
+							</tr>
+							attributeCount++;
+						}
+					}
+					while (attributeCount++ < Model.ProductAttributesNumber)
+					{
+						<tr>
+							<td><input name="keys" class="form-control attributeKey" type="text" /></td>
+							<td>
+								<input name="values" class="attributeValues" type="text" data-role="tagsinput" />
+							</td>
+						</tr>
+					}
+				}
+			<tbody>
+			<tfoot>
+				<tr>
+					<td colspan="2" class="changeAttributeNumber">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Change attribute number here</span>
+							</div>
+							<input class="changeAttributeNumberValue form-control" asp-for="ProductAttributesNumber" type="number" />
+							<input type="hidden" class="changeAttributeNumberUrl" value="@Url.Action("ProductAttributes","Seller", new { productTypeId = Model.ProductTypeId })" />
+							<div class="input-group-append">
+								<button class="changeAttributeNumberBtn btn btn-primary">Change</button>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<input type="submit" value="Update attributes" class="btn btn-success" />
+</form>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		//change attribute number on click
+		$('.changeAttributeNumberBtn').click(function (event) {
+			event.preventDefault();
+
+			$container = $(this).closest('.changeAttributeNumber');
+
+			$value = $container.find('.changeAttributeNumberValue').val();
+
+			$link = $container.find('.changeAttributeNumberUrl').val();
+
+			window.location.replace($link + '&productAttributesNumber=' + $value);
+		});
+
+		function isNullOrSpaces(str){
+			return str === null || str.match(/^ *$/) !== null;
+		}
+
+		//update attributes
+		$('.updateAttributesForm').submit(function (event) {
+			event.preventDefault();
+
+			let attributes = {};
+
+			let valuesArrays = [];
+
+			$('.attributeValues').each(function (index, element) {
+				valuesArrays.push($(this).tagsinput('items'));
+			});
+			
+			let count = 0;
+			$('.attributeKey').each(function (index, element) {
+				if (!isNullOrSpaces($(this).val())) {
+					attributes[$(this).val()] = valuesArrays[count];
+				}
+				count++;
+			});
+
+			if (!jQuery.isEmptyObject(attributes)) {
+				let $form = $(this);
+				$.ajax({
+					url: $form.attr('action'),
+					type: 'post',
+					data: {
+						serializedUpdateViewModel: JSON.stringify({
+							SellerId: $("#sellerId").val(),
+							ProductTypeId: $('#productTypeId').val(),
+							Attributes: attributes
+						})
+					},
+					success: function (result) {
+						if (typeof result !== 'undefined' && result.length > 0) {
+							alert(result.join(";") + "_" + result.length);
+						}
+						else location.reload();
+					},
+					error: function (result) {
+						alert('Something went wrong while updating attributes\n' + JSON.stringify(result));
+					}
+				});
+			}
+		});
+
+	});
+</script>

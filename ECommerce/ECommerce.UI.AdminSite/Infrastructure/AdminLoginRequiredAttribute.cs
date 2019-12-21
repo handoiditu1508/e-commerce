@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.AdminSite.Infrastructure
 {
@@ -10,7 +11,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 		public AdminLoginRequiredAttribute() : base(typeof(AdminLoginRequiredFilter))
 		{ }
 
-		private class AdminLoginRequiredFilter : IAuthorizationFilter
+		private class AdminLoginRequiredFilter : IAsyncAuthorizationFilter
 		{
 			private AdminLoginPersistence loginPersistence;
 
@@ -19,9 +20,9 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 				loginPersistence = new AdminLoginPersistence(accessor, unitOfWork);
 			}
 
-			public void OnAuthorization(AuthorizationFilterContext context)
+			public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
 			{
-				if (loginPersistence.PersistLogin() == null)
+				if ((await loginPersistence.PersistLoginAsync()) == null)
 					context.Result = new RedirectToActionResult("Login", "Admin", new { });
 			}
 		}

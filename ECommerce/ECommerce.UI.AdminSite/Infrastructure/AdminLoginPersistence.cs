@@ -6,6 +6,7 @@ using ECommerce.UI.AdminSite.Models;
 using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.AdminSite.Infrastructure
 {
@@ -31,14 +32,14 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 			connectionInfo = accessor.HttpContext.Connection;
 		}
 
-		public AdminView PersistLogin()
+		public async Task<AdminView> PersistLoginAsync()
 		{
 			AdminView admin;
 
 			string sessionValue = session.GetString(adminSessionKeyWord);
 			if (sessionValue != null)
 			{
-				admin = eCommerce.GetAdminBy(int.Parse(sessionValue));
+				admin = await eCommerce.GetAdminByAsync(int.Parse(sessionValue));
 				if (admin != null)
 				{
 					return admin;
@@ -51,7 +52,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 			if (loginCookies == null)
 				return null;
 
-			admin = eCommerce.GetAdminBy(loginCookies.UserId);
+			admin = await eCommerce.GetAdminByAsync(loginCookies.UserId);
 			if (admin == null)
 			{
 				responseCookies.Delete(adminCookieKeyWord);
@@ -59,7 +60,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 			}
 
 			string loginValue = EncryptionService.Encrypt(admin.Email +
-				eCommerce.GetAdminEncryptedPassword(admin.Id) +
+				eCommerce.GetAdminEncryptedPasswordAsync(admin.Id) +
 				connectionInfo.RemoteIpAddress.ToString());
 			if (loginCookies.LoginValue != loginValue)
 			{
@@ -71,9 +72,9 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 			return admin;
 		}
 
-		public void LoginThrough(int id, bool rememberLogin = false)
+		public async Task LoginThroughAsync(int id, bool rememberLogin = false)
 		{
-			AdminView admin = eCommerce.GetAdminBy(id);
+			AdminView admin = await eCommerce.GetAdminByAsync(id);
 			if (admin != null)
 			{
 				session.SetString(adminSessionKeyWord, admin.Id.ToString());
@@ -84,7 +85,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 						{
 							UserId = id,
 							LoginValue = EncryptionService.Encrypt(admin.Email +
-								eCommerce.GetAdminEncryptedPassword(id) +
+								eCommerce.GetAdminEncryptedPasswordAsync(id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });
@@ -105,7 +106,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 						{
 							UserId = admin.Id,
 							LoginValue = EncryptionService.Encrypt(admin.Email +
-								eCommerce.GetAdminEncryptedPassword(admin.Id) +
+								eCommerce.GetAdminEncryptedPasswordAsync(admin.Id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });

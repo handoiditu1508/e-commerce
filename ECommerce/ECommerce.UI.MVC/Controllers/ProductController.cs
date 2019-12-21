@@ -5,7 +5,9 @@ using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
 using ECommerce.UI.MVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Controllers
 {
@@ -19,7 +21,7 @@ namespace ECommerce.UI.MVC.Controllers
 			eCommerce = new ECommerceService(unitOfWork);
 		}
 
-		public IActionResult Index(string searchString, int? categoryId = null, short? page = 1)
+		public async Task<IActionResult> Index(string searchString, int? categoryId = null, short? page = 1)
 		{
 			ProductTypeSearchModel searchModel = new ProductTypeSearchModel
 			{
@@ -32,13 +34,13 @@ namespace ECommerce.UI.MVC.Controllers
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductsListViewModel
 			{
-				Products = eCommerce.GetProductTypesBy(searchModel, (page - 1) * recordsPerPage, recordsPerPage)
+				Products = (await eCommerce.GetProductTypesByAsync(searchModel, (page - 1) * recordsPerPage, recordsPerPage))
 					.Select(p => eCommerce.GetRepresentativeProduct(p.Id)),
 				PagingInfo = new PagingInfo
 				{
 					CurrentPage = (short)page,
 					RecordsPerPage = recordsPerPage,
-					TotalRecords = eCommerce.CountProductTypesBy(searchModel)
+					TotalRecords = await eCommerce.CountProductTypesByAsync(searchModel)
 				},
 				SearchModel = new ProductSearchModel
 				{
@@ -48,13 +50,13 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 		}
 
-		public IActionResult Detail(int sellerId, int productTypeId)
+		public async Task<IActionResult> Detail(int sellerId, int productTypeId)
 		{
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
-			return View(eCommerce.GetProductBy(sellerId, productTypeId));
+			return View(await eCommerce.GetProductByAsync(sellerId, productTypeId));
 		}
 
-		public IActionResult Seller(int sellerId, short? page = 1)
+		public async Task<IActionResult> Seller(int sellerId, short? page = 1)
 		{
 			ProductSearchModel searchModel = new ProductSearchModel
 			{
@@ -66,12 +68,12 @@ namespace ECommerce.UI.MVC.Controllers
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductsListViewModel
 			{
-				Products = eCommerce.GetProductsBySellerId(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
+				Products = await eCommerce.GetProductsBySellerIdAsync(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
 				PagingInfo = new PagingInfo
 				{
 					CurrentPage = (short)page,
 					RecordsPerPage = recordsPerPage,
-					TotalRecords = eCommerce.CountProductsBySellerId(searchModel)
+					TotalRecords = await eCommerce.CountProductsBySellerIdAsync(searchModel)
 				},
 				SearchModel = searchModel
 			});
@@ -99,5 +101,13 @@ namespace ECommerce.UI.MVC.Controllers
 				SearchModel = searchModel
 			});
 		}
+
+		[HttpGet]
+		public async Task<IEnumerable<IDictionary<string, string>>> AttributesStates(int sellerId, int productTypeId)
+			=> await eCommerce.GetProductAttributesStatesAsync(sellerId, productTypeId);
+
+		[HttpGet]
+		public async Task<IDictionary<string, HashSet<string>>> Attributes(int sellerId, int productTypeId)
+			=> await eCommerce.GetProductAttributesAsync(sellerId, productTypeId);
 	}
 }

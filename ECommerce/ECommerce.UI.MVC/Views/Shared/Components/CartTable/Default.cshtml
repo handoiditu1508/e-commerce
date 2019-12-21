@@ -21,12 +21,12 @@
 				string changeQuantityAction = Url.Action("ChangeQuantity", "Cart");
 				foreach (CartLine line in Model.Lines)
 				{
-					ProductView product = eCommerce.GetProductBy(line.SellerId, line.ProductTypeId);
+					ProductView product = await eCommerce.GetProductByAsync(line.SellerId, line.ProductTypeId);
 					<tr>
 						@if (product == null ||
 							product.Status != ProductStatus.Active ||
 							!product.Active ||
-							eCommerce.GetProductTypeBy(product.ProductTypeId).Status != ProductTypeStatus.Active)
+							(await eCommerce.GetProductTypeByAsync(product.ProductTypeId)).Status != ProductTypeStatus.Active)
 						{
 							<td>This product is currently unavailable</td>
 							<td>
@@ -71,7 +71,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="6" class="text-right">Total:</td>
-				<td class="text-right">@CurrencyFormat.FormatWithUnit(Model.ComputeTotalValue(eCommerce))</td>
+				<td class="text-right">@CurrencyFormat.FormatWithUnit(Model.ComputeTotalValueAsync())</td>
 			</tr>
 		</tfoot>
 	</table>

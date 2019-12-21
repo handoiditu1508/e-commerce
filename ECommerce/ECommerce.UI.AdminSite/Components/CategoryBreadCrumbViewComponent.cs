@@ -4,6 +4,7 @@ using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.UI.AdminSite.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.AdminSite.Components
 {
@@ -16,14 +17,14 @@ namespace ECommerce.UI.AdminSite.Components
 			eCommerce = new ECommerceService(unitOfWork);
 		}
 
-		public IViewComponentResult Invoke(int categoryId)
+		public async Task<IViewComponentResult> InvokeAsync(int categoryId)
 		{
-			CategoryView category = eCommerce.GetCategoryBy(categoryId);
+			CategoryView category = await eCommerce.GetCategoryByAsync(categoryId);
 			var crumbs = new LinkedList<HtmlLinkAttributes>();
 			while (category != null)
 			{
 				crumbs.AddFirst(new HtmlLinkAttributes(category.Name, Url.Action("Search", "ProductType", new { categoryId = category.Id })));
-				category = eCommerce.GetParentCategory(category.Id);
+				category = await eCommerce.GetParentCategoryAsync(category.Id);
 			}
 			return View(crumbs);
 		}

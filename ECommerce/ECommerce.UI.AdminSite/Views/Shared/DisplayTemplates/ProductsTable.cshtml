@@ -24,7 +24,7 @@
 					<td>
 						<a asp-action="Informations" asp-controller="ProductType" asp-route-productTypeId="@product.ProductTypeId" class="text-decoration-none"><h4>@product.ProductTypeName</h4></a>
 						@{
-							int categoryId = eCommerce.GetProductTypeBy(product.ProductTypeId).CategoryId;
+							int categoryId = (await eCommerce.GetProductTypeByAsync(product.ProductTypeId)).CategoryId;
 							<small>
 								@await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId })
 							</small>

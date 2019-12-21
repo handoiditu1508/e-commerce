@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ECommerce.Application;
 using ECommerce.Application.Services;
 using ECommerce.Application.UpdateModels;
@@ -25,11 +26,11 @@ namespace ECommerce.UI.MVC.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Login(string returnUrl)
+		public async Task<IActionResult> Login(string returnUrl)
 		{
 			if (returnUrl == null)
 				returnUrl = Url.HomePage();
-			if (loginPersistence.PersistLogin() != null)
+			if ((await loginPersistence.PersistLoginAsync()) != null)
 				return Redirect(returnUrl);
 			return View(new LoginViewModel
 			{
@@ -38,14 +39,14 @@ namespace ECommerce.UI.MVC.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Login(LoginViewModel loginViewModel)
+		public async Task<IActionResult> Login(LoginViewModel loginViewModel)
 		{
 			if (!ModelState.IsValid)
 			{
 				return View(loginViewModel);
 			}
 			IList<string> errors = new List<string>();
-			CustomerView customer = loginPersistence.PersistLogin();
+			CustomerView customer = await loginPersistence.PersistLoginAsync();
 			if (customer == null)
 			{
 				if (EmailValidationService.IsValidEmail(loginViewModel.LoginInformation.Username))
@@ -55,7 +56,7 @@ namespace ECommerce.UI.MVC.Controllers
 					{
 						if (customer.Active)
 						{
-							string encryptedPassword = eCommerce.GetCustomerEncryptedPassword(customer.Id);
+							string encryptedPassword = await eCommerce.GetCustomerEncryptedPasswordAsync(customer.Id);
 							if (EncryptionService.Encrypt(loginViewModel.LoginInformation.Password) == encryptedPassword)
 							{
 								loginPersistence.LoginThrough(loginViewModel.LoginInformation.Username, loginViewModel.LoginInformation.Remember);
@@ -87,31 +88,30 @@ namespace ECommerce.UI.MVC.Controllers
 
 		[HttpGet]
 		[CustomerLoginRequired]
-		public IActionResult PersonalInformations() => View(loginPersistence.PersistLogin());
+		public async Task<IActionResult> PersonalInformations() => View(await loginPersistence.PersistLoginAsync());
 
 		[HttpPost]
 		[CustomerLoginRequired]
-		public IActionResult PersonalInformations(CustomerView customer)
+		public async Task<IActionResult> PersonalInformations(CustomerView customer)
 		{
 			if (ModelState.IsValid)
 			{
-				eCommerce.UpdateCustomer(customer.Id,
+				var message = await eCommerce.UpdateCustomerAsync(customer.Id,
 					new CustomerUpdateModel
 					{
 						FirstName=customer.FirstName,
 						MiddleName=customer.MiddleName,
 						LastName=customer.LastName
-					},
-					out ICollection<string> errors);
-				if(errors.Any())
+					});
+				if(message.Errors.Any())
 				{
-					ViewData[GlobalViewBagKeys.Errors] = errors;
+					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				}
 				else
 				{
-					CustomerView updatedCustomer = eCommerce.GetCustomerBy(customer.Id);
+					CustomerView updatedCustomer = await eCommerce.GetCustomerByAsync(customer.Id);
 					loginPersistence.Logout();
-					loginPersistence.LoginThrough(updatedCustomer.Id);
+					await loginPersistence.LoginThroughAsync(updatedCustomer.Id);
 
 					ICollection<string> messages = new List<string>();
 					messages.Add("Personal informations updated");
@@ -131,14 +131,14 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 
 		[HttpPost]
-		public IActionResult Signup(CustomerSignupViewModel signupModel)
+		public async Task<IActionResult> Signup(CustomerSignupViewModel signupModel)
 		{
 			if(ModelState.IsValid)
 			{
-				eCommerce.AddCustomer(signupModel.Customer, out ICollection<string> errors);
-				if (errors.Any())
+				var message = await eCommerce.AddCustomerAsync(signupModel.Customer);
+				if (message.Errors.Any())
 				{
-					ViewData[GlobalViewBagKeys.Errors] = errors;
+					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				}
 				else
 				{

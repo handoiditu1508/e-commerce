@@ -177,6 +177,8 @@ namespace ECommerce.Persistence.EF.Migrations
 
                     b.Property<bool>("Active");
 
+                    b.Property<byte[]>("AttributesStates");
+
                     b.Property<byte[]>("Images");
 
                     b.Property<int>("Model");

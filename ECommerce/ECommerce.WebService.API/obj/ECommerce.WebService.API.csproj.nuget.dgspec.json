@@ -4,6 +4,83 @@
     "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.WebService.API\\ECommerce.WebService.API.csproj": {}
   },
   "projects": {
+    "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Application\\ECommerce.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Application\\ECommerce.Application.csproj",
+        "projectName": "ECommerce.Application",
+        "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Application\\ECommerce.Application.csproj",
+        "packagesPath": "C:\\Users\\hando\\.nuget\\packages\\",
+        "outputPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "E:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\hando\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj": {
+                "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj"
+              },
+              "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj": {
+                "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj"
+              },
+              "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Persistence.EF\\ECommerce.Persistence.EF.csproj": {
+                "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Persistence.EF\\ECommerce.Persistence.EF.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.DataAnnotations": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Extensions\\ECommerce.Extensions.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -31,6 +108,69 @@
         "frameworks": {
           "netcoreapp2.2": {
             "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj",
+        "projectName": "ECommerce.Infrastructure",
+        "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\hando\\.nuget\\packages\\",
+        "outputPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "E:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\hando\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj": {
+                "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -106,6 +246,86 @@
         "netcoreapp2.2": {
           "dependencies": {
             "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Persistence.EF\\ECommerce.Persistence.EF.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Persistence.EF\\ECommerce.Persistence.EF.csproj",
+        "projectName": "ECommerce.Persistence.EF",
+        "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Persistence.EF\\ECommerce.Persistence.EF.csproj",
+        "packagesPath": "C:\\Users\\hando\\.nuget\\packages\\",
+        "outputPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Persistence.EF\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "E:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\hando\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj": {
+                "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Infrastructure\\ECommerce.Infrastructure.csproj"
+              },
+              "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj": {
+                "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Proxies": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[2.2.4, )"
             },
@@ -224,6 +444,9 @@
         "frameworks": {
           "netcoreapp2.2": {
             "projectReferences": {
+              "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Application\\ECommerce.Application.csproj": {
+                "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Application\\ECommerce.Application.csproj"
+              },
               "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.UI.Shared\\ECommerce.UI.Shared.csproj": {
                 "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.UI.Shared\\ECommerce.UI.Shared.csproj"
               }

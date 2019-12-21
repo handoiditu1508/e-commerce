@@ -30,7 +30,7 @@ namespace ECommerce.UI.MVC.Controllers
 		}
 
 		[SellerLoginRequired]
-		public IActionResult SelectProductType(string searchString, short? page = 1)
+		public async Task<IActionResult> SelectProductType(string searchString, short? page = 1)
 		{
 			ProductTypeSearchModel searchModel = new ProductTypeSearchModel
 			{
@@ -42,12 +42,12 @@ namespace ECommerce.UI.MVC.Controllers
 			ViewBag.Controller = "UpdateProductType";
 			return View(new ProductTypesListViewModel
 			{
-				ProductTypes = eCommerce.GetProductTypesBy(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
+				ProductTypes = await eCommerce.GetProductTypesByAsync(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
 				PagingInfo = new PagingInfo
 				{
 					CurrentPage = (short)page,
 					RecordsPerPage = recordsPerPage,
-					TotalRecords = eCommerce.CountProductTypesBy(searchModel)
+					TotalRecords = await eCommerce.CountProductTypesByAsync(searchModel)
 				},
 				SearchModel = searchModel
 			});
@@ -55,12 +55,12 @@ namespace ECommerce.UI.MVC.Controllers
 
 		[HttpGet]
 		[SellerLoginRequired]
-		public IActionResult Index(int productTypeId)
+		public async Task<IActionResult> Index(int productTypeId)
 		{
-			SellerView seller = loginPersistence.PersistLogin();
+			SellerView seller = await loginPersistence.PersistLoginAsync();
 
 			var errors = new List<string>();
-			ProductTypeView productType = eCommerce.GetProductTypeBy(productTypeId);
+			ProductTypeView productType = await eCommerce.GetProductTypeByAsync(productTypeId);
 			if (productType != null)
 			{
 				if (productType.Status == ProductTypeStatus.Locked)
@@ -75,7 +75,7 @@ namespace ECommerce.UI.MVC.Controllers
 			}
 
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
-			ProductTypeUpdateRequestView updateRequest = eCommerce.GetProductTypeUpdateRequestBy(seller.Id, productType.Id);
+			ProductTypeUpdateRequestView updateRequest = await eCommerce.GetProductTypeUpdateRequestByAsync(seller.Id, productType.Id);
 			ProductTypeUpdateRequestAddModel addModel = new ProductTypeUpdateRequestAddModel();
 
 			if (updateRequest != null)
@@ -99,14 +99,14 @@ namespace ECommerce.UI.MVC.Controllers
 
 		[HttpPost]
 		[SellerLoginRequired]
-		public IActionResult Index(ProductTypeUpdateRequestAddModel addModel)
+		public async Task<IActionResult> Index(ProductTypeUpdateRequestAddModel addModel)
 		{
-			SellerView seller = loginPersistence.PersistLogin();
+			SellerView seller = await loginPersistence.PersistLoginAsync();
 
-			eCommerce.RequestAnUpdateForProductType(seller.Id, addModel, out ICollection<string> errors);
-			if (errors.Any())
+			var message = await eCommerce.RequestAnUpdateForProductTypeAsync(seller.Id, addModel);
+			if (message.Errors.Any())
 			{
-				ViewData[GlobalViewBagKeys.Errors] = errors;
+				ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				return RedirectToAction("Index", new { productTypeId = addModel.ProductTypeId });
 			}
 			return RedirectToAction("RequestSended");

@@ -1,19 +1,20 @@
 ﻿using ECommerce.Models.Entities.Categories;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerce.Models.Repositories
 {
 	public interface ICategoryRepository : IRepository<Category>
 	{
-		void Add(Category category);
+		Task AddAsync(Category category);
 
-		Category GetBy(int id);
+		Task<Category> GetByAsync(int id);
 		IEnumerable<Category> GetRoots();
-		IEnumerable<Category> GetChilds(int parentId);
+		Task<IEnumerable<Category>> GetChildsAsync(int parentId);
 
-		void Update(int id, Category category);
+		Task UpdateAsync(int id, Category category);
 
-		void Delete(int id);
+		Task DeleteAsync(int id);
 		void Delete(Category category);
 	}
 }

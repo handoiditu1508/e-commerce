@@ -28,11 +28,14 @@ namespace ECommerce.UI.ConsoleApp
 			IUnitOfWork uow = new UnitOfWork();
 			ECommerceService eCommerce = new ECommerceService(uow);
 
-			HashSet<string> hashSet = new HashSet<string>();
-			hashSet.Add("Trắng");
-			hashSet.Add("Đen");
-			hashSet.Add("Đỏ");
-			foreach(string s in hashSet)
+			var list = new List<string>();
+			list.Add("abc");
+			list.Add("abc");
+			list.Add("abcd");
+			list.Add("abc");
+
+			var hash = list.ToHashSet<string>();
+			foreach(var s in hash)
 			{
 				Console.WriteLine(s);
 			}

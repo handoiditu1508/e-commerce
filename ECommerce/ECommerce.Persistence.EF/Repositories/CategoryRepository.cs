@@ -2,6 +2,7 @@
 using ECommerce.Models.Repositories;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Persistence.EF.Repositories
 {
@@ -11,29 +12,29 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public CategoryRepository(ApplicationDbContext context) => this.context = context;
 
-		public void Add(Category category) => context.Categories.Add(category);
+		public async Task AddAsync(Category category) => await context.Categories.AddAsync(category);
 
-		public Category GetBy(int id) => context.Categories.Find(id);
+		public async Task<Category> GetByAsync(int id) => await context.Categories.FindAsync(id);
 
 		public IEnumerable<Category> GetRoots() => context.Categories.Where(c => c.ParentId == null);
 
-		public IEnumerable<Category> GetChilds(int parentId) => GetBy(parentId).ChildCategories;
+		public async Task<IEnumerable<Category>> GetChildsAsync(int parentId) => (await GetByAsync(parentId)).ChildCategories;
 
 		public IEnumerable<Category> GetAll() => context.Categories;
 
-		public void Update(int id, Category category)
+		public async Task UpdateAsync(int id, Category category)
 		{
-			Category presentCategory = GetBy(id);
+			Category presentCategory = await GetByAsync(id);
 			presentCategory.Name = category.Name;
 		}
 
-		public void Delete(int id)
+		public async Task DeleteAsync(int id)
 		{
 			context.ProductTypeUpdateRequests
 				.RemoveRange(context
 					.ProductTypeUpdateRequests
 					.Where(ptur => ptur.CategoryId == id));
-			context.Categories.Remove(GetBy(id));
+			context.Categories.Remove(await GetByAsync(id));
 		}
 
 		public void Delete(Category category)
@@ -45,6 +46,6 @@ namespace ECommerce.Persistence.EF.Repositories
 			context.Categories.Remove(category);
 		}
 
-		public void Commit() => context.SaveChanges();
+		public async Task CommitAsync() => await context.SaveChangesAsync();
 	}
 }

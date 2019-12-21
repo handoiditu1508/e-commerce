@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ECommerce.Application;
 using ECommerce.Application.SearchModels;
 using ECommerce.Infrastructure.UnitOfWork;
@@ -72,18 +73,18 @@ namespace ECommerce.UI.AdminSite.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult ChangeActive(int customerId, bool active)
+		public async Task<IActionResult> ChangeActive(int customerId, bool active)
 		{
-			if (loginPersistence.PersistLogin() == null)
+			if ((await loginPersistence.PersistLoginAsync()) == null)
 				return Json("Not login");
 
 			try
 			{
-				eCommerce.UpdateCustomerActive(customerId, active, out ICollection<string> errors);
-				if (errors.Any())
+				var message = await eCommerce.UpdateCustomerActiveAsync(customerId, active);
+				if (message.Errors.Any())
 				{
 					string errorString = "";
-					foreach (string error in errors)
+					foreach (string error in message.Errors)
 						errorString += error + "\n";
 					errorString.Remove(errorString.Length - 1);
 					return Json(errorString);

@@ -39,7 +39,7 @@
 					<td>
 						<h4><a asp-action="Informations" asp-controller="ProductType" asp-route-productTypeId="@product.ProductTypeId" class="text-decoration-none">@product.ProductTypeName</a></h4>
 						@{
-							int categoryId = eCommerce.GetProductTypeBy(product.ProductTypeId).CategoryId;
+							int categoryId = (await eCommerce.GetProductTypeByAsync(product.ProductTypeId)).CategoryId;
 							<small>
 								@await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId })
 							</small>

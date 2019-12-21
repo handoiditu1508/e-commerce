@@ -58,32 +58,31 @@ namespace ECommerce.UI.AdminSite.Controllers
 
 		[HttpGet]
 		[AdminLoginRequired]
-		public IActionResult Informations(int sellerId)
+		public async Task<IActionResult> Informations(int sellerId)
 		{
-			SellerView seller = eCommerce.GetSellerBy(sellerId);
+			SellerView seller = await eCommerce.GetSellerByAsync(sellerId);
 			return seller != null ? View(seller) : (IActionResult)NotFound();
 		}
 
 		[HttpPost]
 		[AdminLoginRequired]
-		public IActionResult Informations(SellerView seller)
+		public async Task<IActionResult> Informations(SellerView seller)
 		{
 			if (ModelState.IsValid)
 			{
-				eCommerce.UpdateSeller(seller.Id,
+				var message = await eCommerce.UpdateSellerAsync(seller.Id,
 					new SellerUpdateModel
 					{
 						Name = seller.Name,
 						PhoneNumber = seller.PhoneNumber
-					},
-					out ICollection<string> errors);
-				if (errors.Any())
+					});
+				if (message.Errors.Any())
 				{
-					ViewData[GlobalViewBagKeys.Errors] = errors;
+					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				}
 				else
 				{
-					SellerView updatedSeller = eCommerce.GetSellerBy(seller.Id);
+					SellerView updatedSeller = await eCommerce.GetSellerByAsync(seller.Id);
 
 					ICollection<string> messages = new List<string>();
 					messages.Add("Seller informations updated");
@@ -96,7 +95,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 		}
 
 		[AdminLoginRequired]
-		public IActionResult Product(int sellerId, string searchString, int? categoryId, decimal? price,
+		public async Task<IActionResult> Product(int sellerId, string searchString, int? categoryId, decimal? price,
             short? priceIndication, ProductStatus? status, bool? active, ProductTypeStatus? productTypeStatus,
             short? page = 1)
 		{
@@ -114,30 +113,30 @@ namespace ECommerce.UI.AdminSite.Controllers
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductsListViewModel
 			{
-				Products = eCommerce.GetProductsBySellerId(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
+				Products = await eCommerce.GetProductsBySellerIdAsync(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
 				PagingInfo = new PagingInfo
 				{
 					CurrentPage = (short)page,
 					RecordsPerPage = recordsPerPage,
-					TotalRecords = eCommerce.CountProductsBySellerId(searchModel)
+					TotalRecords = await eCommerce.CountProductsBySellerIdAsync(searchModel)
 				},
 				SearchModel = searchModel
 			});
 		}
 
 		[HttpPost]
-		public IActionResult ChangeStatus(int sellerId, SellerStatus status)
+		public async Task<IActionResult> ChangeStatus(int sellerId, SellerStatus status)
 		{
-			if (loginPersistence.PersistLogin() == null)
+			if ((await loginPersistence.PersistLoginAsync()) == null)
 				return Json("Not login");
 
 			try
 			{
-				eCommerce.UpdateSellerStatus(sellerId, status, out ICollection<string> errors);
-				if (errors.Any())
+				var message = await eCommerce.UpdateSellerStatusAsync(sellerId, status);
+				if (message.Errors.Any())
 				{
 					string errorString = "";
-					foreach (string error in errors)
+					foreach (string error in message.Errors)
 						errorString += error + "\n";
 					errorString.Remove(errorString.Length - 1);
 					return Json(errorString);

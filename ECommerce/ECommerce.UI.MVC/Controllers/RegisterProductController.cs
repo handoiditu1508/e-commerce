@@ -37,7 +37,7 @@ namespace ECommerce.UI.MVC.Controllers
 		}
 
 		[SellerLoginRequired]
-		public IActionResult SelectProductType(string searchString, short? page = 1)
+		public async Task<IActionResult> SelectProductType(string searchString, short? page = 1)
 		{
 			ProductTypeSearchModel searchModel = new ProductTypeSearchModel
 			{
@@ -49,12 +49,12 @@ namespace ECommerce.UI.MVC.Controllers
 			ViewBag.Controller = "RegisterProduct";
 			return View(new ProductTypesListViewModel
 			{
-				ProductTypes = eCommerce.GetProductTypesBy(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
+				ProductTypes = await eCommerce.GetProductTypesByAsync(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
 				PagingInfo = new PagingInfo
 				{
 					CurrentPage = (short)page,
 					RecordsPerPage = recordsPerPage,
-					TotalRecords = eCommerce.CountProductTypesBy(searchModel)
+					TotalRecords = await eCommerce.CountProductTypesByAsync(searchModel)
 				},
 				SearchModel = searchModel
 			});
@@ -66,17 +66,18 @@ namespace ECommerce.UI.MVC.Controllers
 
 		[HttpPost]
 		[SellerLoginRequired]
-		public IActionResult CreateProductType(ProductTypeAddModel addModel)
+		public async Task<IActionResult> CreateProductType(ProductTypeAddModel addModel)
 		{
 			//check validation
 			if (ModelState.IsValid)
 			{
 				//add product type to database
-				ProductTypeView productType = eCommerce.AddProductType(addModel, out ICollection<string> errors);
+				var message = await eCommerce.AddProductTypeAsync(addModel);
+				ProductTypeView productType = message.Result;
 				//return if error happen
-				if(errors.Any())
+				ViewData[GlobalViewBagKeys.Errors] = message.Errors;
+				if (message.Errors.Any())
 				{
-					ViewData[GlobalViewBagKeys.Errors] = errors;
 					return View(addModel);
 				}
 
@@ -84,17 +85,17 @@ namespace ECommerce.UI.MVC.Controllers
 				{
 					return RedirectToAction("Index", new { productTypeId = productType.Id });
 				}
-				else errors.Add("There is a problem adding product type please try again");
+				else message.Errors.Add("There is a problem adding product type please try again");
 			}
 			return View(addModel);
 		}
 
 		[HttpGet]
 		[SellerLoginRequired]
-		public IActionResult Index(int productTypeId, short productAttributesNumber = 3)
+		public async Task<IActionResult> Index(int productTypeId, short productAttributesNumber = 3)
 		{
 			ICollection<string> errors = new List<string>();
-			ProductTypeView productType = eCommerce.GetProductTypeBy(productTypeId);
+			ProductTypeView productType = await eCommerce.GetProductTypeByAsync(productTypeId);
 			if (productType != null)
 			{
 				if (productType.Status == ProductTypeStatus.Locked)
@@ -125,7 +126,7 @@ namespace ECommerce.UI.MVC.Controllers
 			IList<string> values, IEnumerable<IFormFile> images)
 		{
 			//get loggged in seller
-			SellerView seller = loginPersistence.PersistLogin();
+			SellerView seller = await loginPersistence.PersistLoginAsync();
 
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			if (ModelState.IsValid)
@@ -231,11 +232,11 @@ namespace ECommerce.UI.MVC.Controllers
 				}
 				else errors.Add("Upload at least 1 image");
 
-				eCommerce.RegisterProduct(seller.Id, registerModel.AddModel, out errors);
+				var message = await eCommerce.RegisterProductAsync(seller.Id, registerModel.AddModel);
 
-				if (errors.Any())
+				if (message.Errors.Any())
 				{
-					ViewData[GlobalViewBagKeys.Errors] = errors;
+					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				}
 				else
 				{

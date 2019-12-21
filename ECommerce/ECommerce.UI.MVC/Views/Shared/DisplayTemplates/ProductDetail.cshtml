@@ -1,6 +1,10 @@
 ﻿@model ProductView
 
 @{ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];}
+
+<input type="hidden" id="sellerId" value="@Model.SellerId" />
+<input type="hidden" id="productTypeId" value="@Model.ProductTypeId" />
+
 <div class="container">
 	<div class="card productDetailCard">
 		<div class="container-fliud">
@@ -14,7 +18,7 @@
 					<div id="carouselExampleControls" class="preview-thumbnail nav nav-tabs carousel slide" data-ride="carousel" data-interval="false">
 						<div class="carousel-inner">
 							@{
-								IList<string> images = eCommerce.GetProductImages(Model.SellerId, Model.ProductTypeId).ToList();
+								IList<string> images = (await eCommerce.GetProductImagesAsync(Model.SellerId, Model.ProductTypeId)).ToList();
 								short count = 1;
 								TagBuilder container = new TagBuilder("div");
 								TagBuilder carouselItem = new TagBuilder("div");
@@ -62,21 +66,21 @@
 					<h4 class="font-weight-bold text-uppercase">SELLER: <a class="text-primary" asp-action="Seller" asp-controller="Product" asp-route-sellerId="@Model.SellerId">@Model.SellerName</a></h4>
 					<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
 					<form asp-action="AddToCart" asp-controller="Cart" method="post" class="addToCartOnSubmit">
-					@{
-						var attributes = eCommerce.GetProductAttributes(Model.SellerId, Model.ProductTypeId);
-						foreach (var attribute in attributes)
-						{
-							<h5 class="font-weight-bold text-uppercase">
-								@attribute.Key:
-								@foreach (var value in attribute.Value)
-								{
-									<label class="radio-inline text-info">
-										<input checked type="radio" name="attributes[@attribute.Key]" value="@value" /> @value
-									</label>
-								}
-							</h5>
+						@{
+							var attributes = (await eCommerce.GetProductAttributesAsync(Model.SellerId, Model.ProductTypeId));
+							foreach (var attribute in attributes)
+							{
+								<h5 class="font-weight-bold text-uppercase">
+									@attribute.Key:
+									@foreach (var value in attribute.Value)
+									{
+										<label class="radio-inline text-info">
+											<input type="radio" name="attributes[@attribute.Key]" value="@value" /> @value
+										</label>
+									}
+								</h5>
+							}
 						}
-					}
 						<div class="form-row">
 							<div class="form-group col-md-3">
 								<input class="form-control" type="number" name="quantity" value="1" />
@@ -96,39 +100,245 @@
 </div>
 
 <script type="text/javascript">
+	$(document).ready(function () {
 
-	//small cart updating
-	function updateSmallCart() {
-		$.ajax({
-			url: $('#cartTotalQuantityUrl').val(),
-			type: 'get',
-			success: function (result) {
-				$('#cartQuantity').html(result);
-			}
-		});
-	}
-
-	$('.addToCartOnSubmit').submit(
-		function (event) {
-			// Stop form from submitting normally
-			event.preventDefault();
-			var $form = $(this);
+		//small cart updating
+		function updateSmallCart() {
 			$.ajax({
-				url: $form.attr('action'),
-				type: $form.attr('method'),
-				data: $form.serialize(),
-				success: function () {
-					updateSmallCart();
-				},
-				error: function (result) {
-					alert('something went wrong while adding to cart:\n' + result);
+				url: $('#cartTotalQuantityUrl').val(),
+				type: 'get',
+				success: function (result) {
+					$('#cartQuantity').html(result);
 				}
 			});
+		}
+
+		$('.addToCartOnSubmit').submit(
+			function (event) {
+				// Stop form from submitting normally
+				event.preventDefault();
+				var $form = $(this);
+				$.ajax({
+					url: $form.attr('action'),
+					type: $form.attr('method'),
+					data: $form.serialize(),
+					success: function () {
+						updateSmallCart();
+					},
+					error: function (result) {
+						alert('something went wrong while adding to cart:\n' + result);
+					}
+				});
+			});
+
+		//product detail pics
+		$('.galleryThumbnail').click(function () {
+			$('#galleryResult').html($(this).clone());
 		});
 
-	//product detail
+		//control product attributes states
+		/*let attributeKeys = ["gender", "color", "size"];*/
+		let attributeKeys;
 
-	$('.galleryThumbnail').click(function(){
-		$('#galleryResult').html($(this).clone());
+		/*
+		let attributes = {
+    		gender: ["male", "female", "other"],
+			color: ["red", "blue", "green"],
+			size: ["s", "m", "l"]
+		};*/
+		let attributes;
+
+		/*
+		let attributesStates = [
+    		{gender: "male", color: "green", size: "l"},
+			{gender: "male", color: "green", size: "s"},
+			{gender: "male", color: "blue", size: "l"},
+			{gender: "male", color: "blue", size: "m"},
+			{gender: "male", color: "red", size: "m"},
+			{gender: "male", color: "red", size: "s"},
+			{gender: "female", color: "red", size: "s"},
+			{gender: "female", color: "red", size: "l"},
+			{gender: "female", color: "red", size: "m"},
+			{gender: "female", color: "green", size: "s"},
+			{gender: "female", color: "green", size: "l"},
+			{gender: "female", color: "green", size: "m"},
+			{gender: "other", color: "blue", size: "m"},
+			{gender: "other", color: "blue", size: "l"},
+		];*/
+		let attributesStates;
+
+		//get selector for jquery that select attributes by name
+		function getSelectorString(name) {
+			return "input[name^='attributes[" + name + "']";
+		}
+
+		//get selector for jquery that select attributes
+		function getSelectorStringAll() {
+			return "input[name^='attributes[']";
+		}
+
+		//initiate attributes container variables
+		function loadVariables() {
+			attributeKeys = [];
+			attributes = {};
+			attributesStates = [];
+
+			let sellerId = $('#sellerId').val();
+			let productTypeId = $('#productTypeId').val();
+
+			//initiate attributes from server
+			$.ajax({
+				url: $('#getProductAttributesUrl').val(),
+				type: 'get',
+				async: false,
+				data: {
+					sellerId: sellerId,
+					productTypeId: productTypeId
+				},
+				success: function (result) {
+					attributes = result;
+				},
+				error: function (result) {
+					alert('Something went wrong while loading attributes');
+				}
+			});
+
+			//initiate attributesStates from server
+			$.ajax({
+				url: $('#getProductAttributesStatesUrl').val(),
+				type: 'get',
+				async: false,
+				data: {
+					sellerId: sellerId,
+					productTypeId: productTypeId
+				},
+				success: function (result) {
+					attributesStates = result;
+				},
+				error: function (result) {
+					alert('Something went wrong while loading attributes states');
+				}
+			});
+			
+			//initiate attributeKeys from attributes's properties name
+			for (prop in attributes) {
+				if (Object.prototype.hasOwnProperty.call(attributes, prop)) {
+					
+					attributeKeys.push(prop);
+				}
+			}
+		}
+
+		//get index of name in attributeKeys
+		function getAttributeKeysIndexByName(name) {
+			for(i = 0; i < attributeKeys.length; i++) {
+				if(attributeKeys[i] == name) {
+					return i;
+				}
+			}
+			return -1;
+		}
+
+		//after check the an attribute call this function to reconfig other attributes
+		//keyName is the Name of the attribute. ex: gender, color, size
+		function configAttributesAfterChecked(keyName) {
+			disableFromIndex(getAttributeKeysIndexByName(keyName) + 1);
+
+			let shrinkingArray = attributesStates;
+			let found = false;
+			for (i = 0; i < attributeKeys.length; i++) {
+				let prop = attributeKeys[i];
+			
+				if(keyName == prop) {
+					found = true;
+				}
+				else if (found) {
+					unCheckName(prop);
+					for(j = 0; j < shrinkingArray.length; j++) {
+						let slctor = $(getSelectorString(prop)+"[value='"+shrinkingArray[j][prop]+"']");
+						slctor.prop('checked', true);
+						slctor.prop('disabled', false);
+					}
+				}
+			
+				let chcked = getChecked(prop);
+				shrinkingArray = shrinkingArray.filter(attr => attr[prop] == chcked);
+			}
+		}
+
+		//check the valid default attributes state
+		function checkFirst() {
+			if(attributeKeys == null || attributeKeys.length < 1 && attributesStates == null && attributesStates.length < 1)
+				return;
+
+			let prop = attributeKeys[0];
+			disableName(prop);
+			for(i = 0; i < attributesStates.length; i++)
+			{
+				let slctor = $(getSelectorString(prop)+"[value='"+attributesStates[i][prop]+"']");
+				slctor.prop('checked', true);
+				slctor.prop('disabled', false);
+			}
+			$(getSelectorString(attributeKeys[0]) + "[value='" + attributesStates[0][attributeKeys[0]] + "']").prop('checked', true);
+		
+			configAttributesAfterChecked(attributeKeys[0]);
+		}
+
+		//uncheck attribute by name. ex: gender, color, size
+		function unCheckName(name) {
+			$(getSelectorString(name)).prop('checked', false);
+		}
+
+		//uncheck all attributes
+		function unCheckAll() {
+			$(getSelectorStringAll()).prop('checked', false);
+		}
+
+		//disable all attributes
+		function disableAll() {
+    		$(getSelectorStringAll()).prop('disabled', true);
+		}
+
+		//disable attributes by name
+		function disableName(name) {
+			$(getSelectorString(name)).prop('disabled', true);
+		}
+
+		//disable attributes from index base on attributeKeys index
+		function disableFromIndex(index) {
+			for(i = index; i < attributeKeys.length; i++) {
+				$(getSelectorString(attributeKeys[i])).prop('disabled', true);
+			}
+		}
+
+		//enable attribute by name. ex: gender, color, size
+		function enableName(name) {
+    		$(getSelectorString(name)).prop('disabled', false);
+		}
+
+		//input = "attributes[gender]"
+		//output = "gender"
+		function getKeyName(str) {
+    		return str.substring(str.indexOf("[") + 1, str.length - 1);
+		}
+
+		//get value from the checked attribute by name
+		//ex: name = "color". Value can be on of: red, green, blue
+		function getChecked(name) {
+			return $(getSelectorString(name) + ':checked').val();
+		}
+
+		//execute when attribute is checked
+		$(getSelectorStringAll()).change(function(event) {
+    		if(!this.checked)
+        		return;
+		
+			configAttributesAfterChecked(getKeyName(this.name));
+		});
+
+		//perform functions
+		unCheckAll();
+		loadVariables();
+		checkFirst();
 	});
 </script>

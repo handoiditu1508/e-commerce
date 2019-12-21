@@ -1,10 +1,12 @@
 ﻿using ECommerce.Extensions;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Messages;
 using ECommerce.Models.Repositories;
 using ECommerce.Models.Services.ServiceFactories;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Models.Services
 {
@@ -21,15 +23,16 @@ namespace ECommerce.Models.Services
 			this.modelServiceFactory = modelServiceFactory;
 		}
 
-		public bool TryRegister(int sellerId, Product product, out ICollection<string> errors)
+		public async Task<BoolMessage> RegisterAsync(int sellerId, Product product)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check product null
 			if (product == null)
 			{
-				errors.Add("Product can not be empty");
-				return false;
+				message.Errors.Add("Product can not be empty");
+				message.Result = false;
+				return message;
 			}
 
 			if (product.Attributes != null && product.Attributes.Any())
@@ -39,14 +42,14 @@ namespace ECommerce.Models.Services
 				{
 					if (string.IsNullOrWhiteSpace(attribute.Name))
 					{
-						errors.Add("Attribute name can not be empty");
+						message.Errors.Add("Attribute name can not be empty");
 						goto flag;
 					}
 					else attribute.Name = attribute.Name.Trim().RemoveMultipleSpaces();
 
 					if (string.IsNullOrWhiteSpace(attribute.Value))
 					{
-						errors.Add("Attribute value can not be empty");
+						message.Errors.Add("Attribute value can not be empty");
 						goto flag;
 					}
 					else attribute.Value = attribute.Value.Trim().RemoveMultipleSpaces();
@@ -61,7 +64,7 @@ namespace ECommerce.Models.Services
 						if (attributes[i].Name == attributes[j].Name &&
 							attributes[i].Value == attributes[j].Value)
 						{
-							errors.Add("Each attributes must be unique");
+							message.Errors.Add("Each attributes must be unique");
 							break;
 						}
 					}
@@ -72,84 +75,95 @@ namespace ECommerce.Models.Services
 
 			//check product price
 			if(product.Price<1)
-				errors.Add("Price can not lower than 1");
+				message.Errors.Add("Price can not lower than 1");
 
 			//check seller existence
-			Seller seller = sellerRepository.GetBy(sellerId);
+			Seller seller = await sellerRepository.GetByAsync(sellerId);
 			if (seller == null)
-				errors.Add("Could not found seller");
+				message.Errors.Add("Could not found seller");
 			else if (seller.Status != SellerStatus.Active)//check seller status
-				errors.Add("Seller is unactive");
+				message.Errors.Add("Seller is unactive");
 			
 			//check product type existence
-			ProductType productType = productTypeRepository.GetBy(product.ProductTypeId);
+			ProductType productType = await productTypeRepository.GetByAsync(product.ProductTypeId);
 			if (productType == null)
-				errors.Add("Could not found product type");
+				message.Errors.Add("Could not found product type");
 			else if (productType.Status != ProductTypeStatus.Active)//check product type status
-				errors.Add("Product type is unavailable at the moment");
+				message.Errors.Add("Product type is unavailable at the moment");
 
 			//check product type already registered
 			if (seller != null && productType != null)
 				if (seller.Products.Any(p => p.ProductTypeId == productType.Id))
-					errors.Add("This seller already have registered this product type");
+					message.Errors.Add("This seller already have registered this product type");
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
 				seller.RegisterProduct(product);
-				return true;
+				message.Result = true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 
-		public bool TryUnregister(int sellerId, int productTypeId, out ICollection<string> errors)
+		public async Task<BoolMessage> UnregisterAsync(int sellerId, int productTypeId)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check product existence
-			Product product = sellerRepository.GetProductBy(sellerId, productTypeId);
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
 			if (product == null)
 			{
-				errors.Add("Could not found product");
-				return false;
+				message.Errors.Add("Could not found product");
+				message.Result = false;
+				return message;
 			}
 
 			//check if can leave this product operating model
 			OperatingModelService modelService = modelServiceFactory.GetService(product.Model);
 
-			if (modelService.CanLeaveThisModel(product, out errors))
+			message = await modelService.CanLeaveThisModelAsync(product);
+			if (message.Result)
 			{
 				product.Seller.UnregisterProduct(product);
-				return true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 
-		public bool TryChangeOperatingModel(int sellerId, int productTypeId, OperatingModel model, out ICollection<string> errors)
+		public async Task<BoolMessage> ChangeOperatingModelAsync(int sellerId, int productTypeId, OperatingModel model)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check product null
-			Product product = sellerRepository.GetProductBy(sellerId, productTypeId);
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
 			if (product == null)
 			{
-				errors.Add("Could not found product");
-				return false;
+				message.Errors.Add("Could not found product");
+				message.Result = false;
+				return message;
 			}
 
 			OperatingModelService recentModelService = modelServiceFactory.GetService(product.Model);
 			OperatingModelService alternativeModelService = modelServiceFactory.GetService(model);
 
-			if (!recentModelService.CanLeaveThisModel(product, out errors))
-				return false;
-
-			if (!alternativeModelService.CanChangeToThisModel(product, out errors))
+			message = await recentModelService.CanLeaveThisModelAsync(product);
+			if (!message.Result)
 			{
-				return false;
+				return message;
+			}
+
+			message = await alternativeModelService.CanChangeToThisModelAsync(product);
+			if (!message.Result)
+			{
+				return message;
 			}
 			else
 			{
 				product.Model = model;
-				return true;
+				message.Result = true;
+				return message;
 			}
 		}
 	}

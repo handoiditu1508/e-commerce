@@ -3,16 +3,17 @@ using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerce.Models.Repositories
 {
 	public interface IProductTypeRepository : IRepository<ProductType>
 	{
-		void Add(ProductType productType);
+		Task AddAsync(ProductType productType);
 
-		ProductType GetBy(int id);
-		IEnumerable<ProductType> GetBy(string searchString, DateTime? dateModified, int? categoryId, ProductTypeStatus? status);
-		
+		Task<ProductType> GetByAsync(int id);
+		Task<IEnumerable<ProductType>> GetByAsync(string searchString, DateTime? dateModified, int? categoryId, ProductTypeStatus? status);
+
 		IEnumerable<Order> GetOrdersBy(int productTypeId, short? quantity, decimal? totalValue,
 			short? totalValueIndication);
 
@@ -20,12 +21,12 @@ namespace ECommerce.Models.Repositories
 			short? priceIndication, ProductStatus? status, bool? active);
 
 		IEnumerable<ProductTypeUpdateRequest> GetUpdateRequests();
-		IEnumerable<ProductTypeUpdateRequest> GetUpdateRequests(int productTypeId);
-		ProductTypeUpdateRequest GetUpdateRequest(int sellerId, int productTypeId);
+		Task<IEnumerable<ProductTypeUpdateRequest>> GetUpdateRequestsAsync(int productTypeId);
+		Task<ProductTypeUpdateRequest> GetUpdateRequestAsync(int sellerId, int productTypeId);
 
-		void Update(int id, ProductType productType);
+		Task UpdateAsync(int id, ProductType productType);
 
-		void Delete(int id);
+		Task DeleteAsync(int id);
 		void Delete(ProductType productType);
 	}
 }

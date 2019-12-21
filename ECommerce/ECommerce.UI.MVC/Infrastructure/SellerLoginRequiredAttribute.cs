@@ -22,7 +22,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 
 			public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
 			{
-				if (loginPersistence.PersistLogin() == null)
+				if ((await loginPersistence.PersistLoginAsync()) == null)
 					context.Result = new RedirectToActionResult("Login", "Seller", new { });
 			}
 		}

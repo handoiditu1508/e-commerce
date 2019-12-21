@@ -9,6 +9,7 @@
 			// Stop form from submitting normally
 			event.preventDefault();
 			var $form = $(this);
+
 			$.ajax({
 				url: $form.attr('action'),
 				type: $form.attr('method'),

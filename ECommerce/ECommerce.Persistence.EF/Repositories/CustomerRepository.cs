@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Persistence.EF.Repositories
 {
@@ -15,9 +16,9 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public CustomerRepository(ApplicationDbContext context) => this.context = context;
 
-		public void Add(Customer customer) => context.Customers.Add(customer);
+		public async Task AddAsync(Customer customer) => await context.Customers.AddAsync(customer);
 
-		public Customer GetBy(int id) => context.Customers.Find(id);
+		public async Task<Customer> GetByAsync(int id) => await context.Customers.FindAsync(id);
 
 		public Customer GetBy(string email) => context.Customers.FirstOrDefault(c => c.Email == email);
 
@@ -52,7 +53,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public IEnumerable<Customer> GetAll() => context.Customers;
 
-		public Order GetOrderBy(int orderId) => context.Orders.Find(orderId);
+		public async Task<Order> GetOrderByAsync(int orderId) => await context.Orders.FindAsync(orderId);
 
 		public IEnumerable<Order> GetOrdersBy(int customerId, short? quantity, decimal? totalValue,
 			short? totalValueIndication)
@@ -74,16 +75,16 @@ namespace ECommerce.Persistence.EF.Repositories
 			return orders;
 		}
 
-		public void Update(int id, Customer customer)
+		public async Task UpdateAsync(int id, Customer customer)
 		{
-			Customer presentCustomer = GetBy(id);
+			Customer presentCustomer = await GetByAsync(id);
 			presentCustomer.Name = customer.Name;
 		}
 
-		public void Delete(int id) => context.Customers.Remove(GetBy(id));
+		public async Task DeleteAsync(int id) => context.Customers.Remove(await GetByAsync(id));
 
 		public void Delete(Customer customer) => context.Customers.Remove(customer);
 
-		public void Commit() => context.SaveChanges();
+		public async Task CommitAsync() => await context.SaveChangesAsync();
 	}
 }

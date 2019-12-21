@@ -1,6 +1,7 @@
 ﻿using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Repositories;
 using ECommerce.Persistence.EF.Repositories;
+using System.Threading.Tasks;
 
 namespace ECommerce.Persistence.EF
 {
@@ -15,7 +16,7 @@ namespace ECommerce.Persistence.EF
 
 		public UnitOfWork() => context = new ApplicationDbContext();
 
-		public void Commit() => context.SaveChanges();
+		public async Task CommitAsync() => await context.SaveChangesAsync();
 
 		public IAdminRepository GetAdminRepository()
 		{

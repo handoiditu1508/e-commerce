@@ -16,11 +16,11 @@ namespace ECommerce.UI.MVC
 		{
 			services.AddMvc(option=>
 			{
-				option.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+				//option.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 				//option.Filters.Add(new RequireHttpsAttribute());
 			});
-			services.AddScoped(sp => CookieCart.GetCart(sp));
 			services.AddScoped(sp => DefaultDataTier.GetUnitOfWork(sp));
+			services.AddScoped(sp => CookieCart.GetCart(sp));
 			services.AddHttpContextAccessor();
 			services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddMemoryCache();

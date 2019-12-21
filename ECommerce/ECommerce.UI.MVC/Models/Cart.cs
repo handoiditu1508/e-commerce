@@ -1,14 +1,41 @@
 ﻿using ECommerce.Application;
+using ECommerce.Application.Views;
+using ECommerce.Infrastructure.UnitOfWork;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Models
 {
 	public class Cart
 	{
-		public List<CartLine> Lines { get; } = new List<CartLine>();
+		[JsonIgnore]
+		public ECommerceService ECommerce { get; set; }
 
-		public virtual void AddItem(int sellerId, int productTypeId, short quantity, IDictionary<string, string> attributes)
+		[JsonIgnore]
+		public bool ProductLoaded { get; private set; } = false;
+
+		public List<CartLine> Lines = new List<CartLine>();
+
+		public void LoadLineProducts()
+		{
+			if (!ProductLoaded)
+			{
+				foreach (CartLine line in Lines)
+				{
+					line.Product = ECommerce.GetProductBy(line.SellerId, line.ProductTypeId);
+				}
+				ProductLoaded = true;
+			}
+		}
+
+		public Cart(IUnitOfWork unitOfWork)
+		{
+			ECommerce = new ECommerceService(unitOfWork);
+		}
+
+		public virtual async Task AddItemAsync(int sellerId, int productTypeId, short quantity, IDictionary<string, string> attributes)
 		{
 			CartLine newLine = new CartLine
 			{
@@ -22,7 +49,10 @@ namespace ECommerce.UI.MVC.Models
 				.FirstOrDefault(l => l.IsProductEquals(newLine));
 
 			if (line == null)
+			{
+				newLine.Product = await ECommerce.GetProductByAsync(newLine.SellerId, newLine.ProductTypeId);
 				Lines.Add(newLine);
+			}
 			else line.Quantity += quantity;
 		}
 
@@ -58,11 +88,8 @@ namespace ECommerce.UI.MVC.Models
 
 		public virtual void Clear() => Lines.Clear();
 
-		public virtual decimal ComputeTotalValue(ECommerceService eCommerce)
-		{
-			return Lines
-				.Sum(l => eCommerce.GetProductBy(l.SellerId, l.ProductTypeId).Price * l.Quantity);
-		}
+		public decimal ComputeTotalValueAsync()
+			=> Lines.Sum(l => l.Product.Price * l.Quantity);
 
 		public int TotalQuantity => Lines.Sum(l => l.Quantity);
 	}
@@ -73,6 +100,9 @@ namespace ECommerce.UI.MVC.Models
 		public int ProductTypeId { get; set; }
 		public short Quantity { get; set; }
 		public IDictionary<string, string> Attributes { get; set; } = new Dictionary<string, string>();
+
+		[JsonIgnore]
+		public virtual ProductView Product { get; set; }
 
 		public bool IsProductEquals(CartLine line)
 		{

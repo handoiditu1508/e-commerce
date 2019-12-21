@@ -11,8 +11,6 @@ namespace ECommerce.Application.UpdateModels
 		[DataType(DataType.Currency)]
 		public decimal Price { get; set; }
 
-		public IDictionary<string, HashSet<string>> Attributes { get; set; }
-
 		public string RepresentativeImage { get; set; }
 
 		public IEnumerable<string> Images{ get; set; }

@@ -14,7 +14,7 @@
 					<div id="carouselExampleControls" class="preview-thumbnail nav nav-tabs carousel slide" data-ride="carousel" data-interval="false">
 						<div class="carousel-inner">
 							@{
-								IList<string> images = eCommerce.GetProductImages(Model.SellerId, Model.ProductTypeId).ToList();
+								IList<string> images = (await eCommerce.GetProductImagesAsync(Model.SellerId, Model.ProductTypeId)).ToList();
 								short count = 1;
 								TagBuilder container = new TagBuilder("div");
 								TagBuilder carouselItem = new TagBuilder("div");
@@ -62,7 +62,7 @@
 					<h4 class="font-weight-bold text-uppercase">SELLER: <a class="text-primary" asp-action="Informations" asp-controller="Seller" asp-route-sellerId="@Model.SellerId">@Model.SellerName</a></h4>
 					<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
 					@{
-						var attributes = eCommerce.GetProductAttributes(Model.SellerId, Model.ProductTypeId);
+						var attributes = await eCommerce.GetProductAttributesAsync(Model.SellerId, Model.ProductTypeId);
 						foreach (var attribute in attributes)
 						{
 							<h5 class="font-weight-bold text-uppercase">

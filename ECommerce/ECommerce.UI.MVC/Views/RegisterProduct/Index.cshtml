@@ -2,7 +2,7 @@
 
 @{
 	ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
-	ProductTypeView productType = eCommerce.GetProductTypeBy(Model.AddModel.ProductTypeId);
+	ProductTypeView productType = await eCommerce.GetProductTypeByAsync(Model.AddModel.ProductTypeId);
 	<h1>@productType.Name</h1>
 }
 <form asp-action="Index" method="post" enctype="multipart/form-data">

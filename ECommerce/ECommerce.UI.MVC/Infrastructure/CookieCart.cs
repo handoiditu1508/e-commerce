@@ -1,10 +1,13 @@
-﻿using ECommerce.UI.MVC.Models;
+﻿using ECommerce.Application;
+using ECommerce.Infrastructure.UnitOfWork;
+using ECommerce.UI.MVC.Models;
 using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Infrastructure
 {
@@ -16,17 +19,33 @@ namespace ECommerce.UI.MVC.Infrastructure
 		[JsonIgnore]
 		private IResponseCookies responseCookies;
 
+		public CookieCart(IUnitOfWork unitOfWork) : base(unitOfWork)
+		{
+		}
+
 		public static Cart GetCart(IServiceProvider services)
 		{
 			IHttpContextAccessor accessor = services.GetRequiredService<IHttpContextAccessor>();
-			CookieCart cart = accessor.HttpContext.Request.Cookies.GetJson<CookieCart>(cartKeyWord)?? new CookieCart();
+			IUnitOfWork unitOfWork = services.GetRequiredService<IUnitOfWork>();
+
+			CookieCart cart = accessor.HttpContext.Request.Cookies.GetJson<CookieCart>(cartKeyWord);
+			if (cart == null)
+			{
+				cart = new CookieCart(unitOfWork);
+			}
+			else
+			{
+				cart.ECommerce = new ECommerceService(unitOfWork);
+				cart.LoadLineProducts();
+			}
+
 			cart.responseCookies = accessor.HttpContext.Response.Cookies;
 			return cart;
 		}
 
-		public override void AddItem(int sellerId, int productTypeId, short quantity, IDictionary<string,string> attributes)
+		public override async Task AddItemAsync(int sellerId, int productTypeId, short quantity, IDictionary<string,string> attributes)
 		{
-			base.AddItem(sellerId, productTypeId, quantity, attributes);
+			await base.AddItemAsync(sellerId, productTypeId, quantity, attributes);
 			responseCookies.SetJson(cartKeyWord, this,
 				new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });
 		}

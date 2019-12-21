@@ -2,6 +2,7 @@
 using ECommerce.UI.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Controllers
 {
@@ -15,8 +16,8 @@ namespace ECommerce.UI.MVC.Controllers
 		}
 
 		[HttpPost]
-		public void AddToCart(int sellerId, int productTypeId, IDictionary<string, string> attributes, short quantity = 1)
-			=> cart.AddItem(sellerId, productTypeId, quantity, attributes);
+		public async Task AddToCart(int sellerId, int productTypeId, IDictionary<string, string> attributes, short quantity = 1)
+			=> await cart.AddItemAsync(sellerId, productTypeId, quantity, attributes);
 
 		[HttpPost]
 		public IActionResult RemoveFromCart(int index)

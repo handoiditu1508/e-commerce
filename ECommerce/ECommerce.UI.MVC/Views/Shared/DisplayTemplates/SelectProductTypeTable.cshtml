@@ -42,7 +42,7 @@
 							descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions
 						</p>
 						@{ 
-							int categoryId = eCommerce.GetProductTypeBy(product.ProductTypeId).CategoryId;
+							int categoryId = (await eCommerce.GetProductTypeByAsync(product.ProductTypeId)).CategoryId;
 							<small>
 								@await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId })
 							</small>

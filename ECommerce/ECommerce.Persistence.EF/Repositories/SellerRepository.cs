@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Persistence.EF.Repositories
 {
@@ -17,9 +18,9 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public SellerRepository(ApplicationDbContext context) => this.context = context;
 
-		public void Add(Seller seller) => context.Sellers.Add(seller);
+		public async Task AddAsync(Seller seller) => await context.Sellers.AddAsync(seller);
 
-		public Seller GetBy(int id) => context.Sellers.Find(id);
+		public async Task<Seller> GetByAsync(int id) => await context.Sellers.FindAsync(id);
 
 		public Seller GetBy(string email) => context.Sellers.FirstOrDefault(s => s.Email == email);
 
@@ -70,7 +71,10 @@ namespace ECommerce.Persistence.EF.Repositories
 		public Product GetProductBy(int sellerId, int productTypeId)
 			=> context.Products.Find(sellerId, productTypeId);
 
-		public IEnumerable<Product> GetProductsBy(int sellerId, string searchString,
+		public async Task<Product> GetProductByAsync(int sellerId, int productTypeId)
+			=> await context.Products.FindAsync(sellerId, productTypeId);
+
+		public async Task<IEnumerable<Product>> GetProductsByAsync(int sellerId, string searchString,
 			int? categoryId, decimal? price, short? priceIndication, ProductStatus? status,
 			bool? active, ProductTypeStatus? productTypeStatus)
 		{
@@ -88,7 +92,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 			if (categoryId != null)
 			{
-				Category category = context.Categories.Find((int)categoryId);
+				Category category = await context.Categories.FindAsync((int)categoryId);
 				if (category != null)
 				{
 					IEnumerable<int> ids = from c in category.GetChildsAndSubChilds()
@@ -125,29 +129,28 @@ namespace ECommerce.Persistence.EF.Repositories
 			return products;
 		}
 
-		public IEnumerable<ProductTypeUpdateRequest> GetProductTypeUpdateRequests(int sellerId)
-			=> GetBy(sellerId)?.ProductTypeUpdateRequests ?? null;
+		public async Task<IEnumerable<ProductTypeUpdateRequest>> GetProductTypeUpdateRequestsAsync(int sellerId)
+			=> (await GetByAsync(sellerId))?.ProductTypeUpdateRequests ?? null;
 
-		public void Update(int id, Seller seller)
+		public async Task UpdateAsync(int id, Seller seller)
 		{
-			Seller presentSeller = GetBy(id);
+			Seller presentSeller = await GetByAsync(id);
 			presentSeller.Name = seller.Name;
 			presentSeller.PhoneNumber = seller.PhoneNumber;
 		}
 
-		public void UpdateProduct(int sellerId, int productTypeId, Product product)
+		public async Task UpdateProductAsync(int sellerId, int productTypeId, Product product)
 		{
-			Product presentProduct = GetProductBy(sellerId, productTypeId);
+			Product presentProduct = await GetProductByAsync(sellerId, productTypeId);
 			presentProduct.Price = product.Price;
-			presentProduct.ChangeAttributes(product.Attributes);
 			presentProduct.RepresentativeImage = product.RepresentativeImage;
-			presentProduct.Images = product.Images;
+			presentProduct.ConvertedImages = product.ConvertedImages;
 		}
 
-		public void Delete(int id) => context.Sellers.Remove(GetBy(id));
+		public async Task DeleteAsync(int id) => context.Sellers.Remove(await GetByAsync(id));
 
 		public void Delete(Seller seller) => context.Sellers.Remove(seller);
 
-		public void Commit() => context.SaveChanges();
+		public async Task CommitAsync() => await context.SaveChangesAsync();
 	}
 }

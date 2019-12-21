@@ -8,6 +8,7 @@ using ECommerce.Application.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Messages;
 using ECommerce.UI.AdminSite.Infrastructure;
 using ECommerce.UI.AdminSite.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -27,31 +28,31 @@ namespace ECommerce.UI.AdminSite.Controllers
 		}
 
 		[AdminLoginRequired]
-		public IActionResult Detail(int sellerId, int productTypeId)
+		public async Task<IActionResult> Detail(int sellerId, int productTypeId)
 		{
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
-			return View(eCommerce.GetProductBy(sellerId, productTypeId));
+			return View(await eCommerce.GetProductByAsync(sellerId, productTypeId));
 		}
 
 		[HttpPost]
-		public IActionResult ChangeQuantity(int sellerId, int productTypeId, bool isAdd, short number = 0)
+		public async Task<IActionResult> ChangeQuantity(int sellerId, int productTypeId, bool isAdd, short number = 0)
 		{
-			if (loginPersistence.PersistLogin() == null)
+			if ((await loginPersistence.PersistLoginAsync()) == null)
 				return Json("Not login");
 
 			try
 			{
-				ICollection<string> errors;
+				Message message = null;
 				if (isAdd)
 				{
-					eCommerce.AddProductQuantityThroughAdmin(sellerId, productTypeId, number, out errors);
+					message = await eCommerce.AddProductQuantityThroughAdminAsync(sellerId, productTypeId, number);
 				}
-				else eCommerce.ReduceProductQuantityThroughAdmin(sellerId, productTypeId, number, out errors);
+				else message = await eCommerce.ReduceProductQuantityThroughAdminAsync(sellerId, productTypeId, number);
 
-				if (errors.Any())
+				if (message.Errors.Any())
 				{
 					string errorString = "";
-					foreach (string error in errors)
+					foreach (string error in message.Errors)
 						errorString += error + "\n";
 					errorString.Remove(errorString.Length - 1);
 					return Json(errorString);
@@ -65,18 +66,18 @@ namespace ECommerce.UI.AdminSite.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult ChangeStatus(int sellerId, int productTypeId, ProductStatus status)
+		public async Task<IActionResult> ChangeStatus(int sellerId, int productTypeId, ProductStatus status)
 		{
-			if (loginPersistence.PersistLogin() == null)
+			if ((await loginPersistence.PersistLoginAsync()) == null)
 				return Json("Not login");
 
 			try
 			{
-				eCommerce.UpdateProductStatus(sellerId, productTypeId, status, out ICollection<string> errors);
-				if (errors.Any())
+				var message = await eCommerce.UpdateProductStatusAsync(sellerId, productTypeId, status);
+				if (message.Errors.Any())
 				{
 					string errorString = "";
-					foreach (string error in errors)
+					foreach (string error in message.Errors)
 						errorString += error + "\n";
 					errorString.Remove(errorString.Length - 1);
 					return Json(errorString);

@@ -7,6 +7,7 @@ using ECommerce.UI.MVC.Models;
 using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Infrastructure
 {
@@ -32,14 +33,14 @@ namespace ECommerce.UI.MVC.Infrastructure
 			connectionInfo = accessor.HttpContext.Connection;
 		}
 
-		public SellerView PersistLogin()
+		public async Task<SellerView> PersistLoginAsync()
 		{
 			SellerView seller;
 
 			string sessionValue = session.GetString(sellerSessionKeyWord);
 			if (sessionValue != null)
 			{
-				seller= eCommerce.GetSellerBy(int.Parse(sessionValue));
+				seller = await eCommerce.GetSellerByAsync(int.Parse(sessionValue));
 				if(seller!=null)
 				{
 					if (seller.Status != SellerStatus.Locked)
@@ -53,7 +54,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			if (loginCookies == null)
 				return null;
 
-			seller = eCommerce.GetSellerBy(loginCookies.UserId);
+			seller = await eCommerce.GetSellerByAsync(loginCookies.UserId);
 			if (seller == null)
 			{
 				responseCookies.Delete(sellerCookieKeyWord);
@@ -67,7 +68,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			}
 
 			string loginValue = EncryptionService.Encrypt(seller.Email +
-				eCommerce.GetSellerEncryptedPassword(seller.Id) +
+				eCommerce.GetSellerEncryptedPasswordAsync(seller.Id) +
 				connectionInfo.RemoteIpAddress.ToString());
 			if (loginCookies.LoginValue != loginValue)
 			{
@@ -79,9 +80,9 @@ namespace ECommerce.UI.MVC.Infrastructure
 			return seller;
 		}
 
-		public void LoginThrough(int id, bool rememberLogin = false)
+		public async Task LoginThroughAsync(int id, bool rememberLogin = false)
 		{
-			SellerView seller = eCommerce.GetSellerBy(id);
+			SellerView seller = await eCommerce.GetSellerByAsync(id);
 			if (seller != null)
 			{
 				session.SetString(sellerSessionKeyWord, seller.Id.ToString());
@@ -92,7 +93,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 						{
 							UserId = id,
 							LoginValue = EncryptionService.Encrypt(seller.Email +
-								eCommerce.GetSellerEncryptedPassword(seller.Id) +
+								eCommerce.GetSellerEncryptedPasswordAsync(seller.Id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });
@@ -113,7 +114,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 						{
 							UserId = seller.Id,
 							LoginValue = EncryptionService.Encrypt(seller.Email +
-								eCommerce.GetSellerEncryptedPassword(seller.Id) +
+								eCommerce.GetSellerEncryptedPasswordAsync(seller.Id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });

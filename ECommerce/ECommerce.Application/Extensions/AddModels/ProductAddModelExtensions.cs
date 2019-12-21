@@ -13,9 +13,9 @@ namespace ECommerce.Application.Extensions.AddModels
 				Price = addModel.Price,
 				Model = addModel.Model,
 				ConvertedImages = addModel.Images,
-				RepresentativeImage = addModel.RepresentativeImage
+				RepresentativeImage = addModel.RepresentativeImage,
+				ConvertedAttributes = addModel.Attributes
 			};
-			product.ChangeAttributes(addModel.Attributes);
 			return product;
 		}
 	}

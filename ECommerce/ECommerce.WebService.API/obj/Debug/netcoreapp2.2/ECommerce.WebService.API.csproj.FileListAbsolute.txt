@@ -21,3 +21,9 @@ E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\E
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.WebService.API\bin\Debug\netcoreapp2.2\ECommerce.Extensions.pdb
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.WebService.API\bin\Debug\netcoreapp2.2\ECommerce.Models.pdb
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.WebService.API\obj\Debug\netcoreapp2.2\ECommerce.WebService.API.csproj.CopyComplete
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.WebService.API\bin\Debug\netcoreapp2.2\ECommerce.Application.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.WebService.API\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.WebService.API\bin\Debug\netcoreapp2.2\ECommerce.Persistence.EF.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.WebService.API\bin\Debug\netcoreapp2.2\ECommerce.Application.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.WebService.API\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.WebService.API\bin\Debug\netcoreapp2.2\ECommerce.Persistence.EF.pdb

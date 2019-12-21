@@ -1,7 +1,9 @@
 ﻿using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Messages;
 using ECommerce.Models.Repositories;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Models.Services.OperatingModelServices
 {
@@ -10,83 +12,95 @@ namespace ECommerce.Models.Services.OperatingModelServices
 		public ODFService(ISellerRepository sellerRepository)
 			: base(OperatingModel.ODF, sellerRepository) { }
 
-		public override bool CanAdminAddProductQuantity(Product product, out ICollection<string> errors)
+		public override async Task<BoolMessage> CanAdminAddProductQuantityAsync(Product product)
 		{
-			errors = new List<string>();
-			errors.Add($"Admin can not add quantity for product with {ServiceOperatingModel} model");
-			return false;
+			BoolMessage message = new BoolMessage();
+			message.Errors.Add($"Admin can not add quantity for product with {ServiceOperatingModel} model");
+			message.Result = false;
+			return message;
 		}
 
-		public override bool CanSellerAddProductQuantity(Product product, out ICollection<string> errors)
+		public override async Task<BoolMessage> CanSellerAddProductQuantityAsync(Product product)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check product existence
 			if(product==null)
 			{
-				errors.Add("Could not found product");
-				return false;
+				message.Errors.Add("Could not found product");
+				message.Result = false;
+				return message;
 			}
-			
-			return !errors.Any();
+
+			if (message.Errors.Any())
+				message.Result = false;
+			else message.Result = true;
+
+			return message;
 		}
 
-		public override bool CanAdminReduceProductQuantity(Product product, out ICollection<string> errors)
+		public override async Task<BoolMessage> CanAdminReduceProductQuantityAsync(Product product)
 		{
-			errors = new List<string>();
-			errors.Add($"Admin can not reduce quantity for product with {ServiceOperatingModel} model");
-			return false;
+			BoolMessage message = new BoolMessage();
+			message.Errors.Add($"Admin can not reduce quantity for product with {ServiceOperatingModel} model");
+			message.Result = false;
+			return message;
 		}
 
-		public override bool CanSellerReduceProductQuantity(Product product, out ICollection<string> errors)
+		public override async Task<BoolMessage> CanSellerReduceProductQuantityAsync(Product product)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check product existence
 			if (product == null)
 			{
-				errors.Add("Could not found product");
-				return false;
+				message.Errors.Add("Could not found product");
+				message.Result = false;
+				return message;
 			}
 
-			return !errors.Any();
+			if (message.Errors.Any())
+				message.Result = false;
+			else message.Result = true;
+
+			return message;
 		}
 
-		public override bool CanAdminConfirmsOrder() => false;
+		public override async Task<BoolMessage> CanAdminConfirmsOrderAsync() => new BoolMessage(false);
 
-		public override bool CanAdminRejectsOrder() => false;
+		public override async Task<BoolMessage> CanAdminRejectsOrderAsync() => new BoolMessage(false);
 
-		public override bool CanAdminManagesOrder() => false;
+		public override async Task<BoolMessage> CanAdminManagesOrderAsync() => new BoolMessage(false);
 
-		public override bool CanSellerConfirmsOrder() => true;
+		public override async Task<BoolMessage> CanSellerConfirmsOrderAsync() => new BoolMessage(false);
 
-		public override bool CanSellerRejectsOrder() => true;
+		public override async Task<BoolMessage> CanSellerRejectsOrderAsync() => new BoolMessage(false);
 
-		public override bool CanSellerManagesOrder() => true;
+		public override async Task<BoolMessage> CanSellerManagesOrderAsync() => new BoolMessage(false);
 
-		public override bool CanChangeToThisModel(Product product, out ICollection<string> errors)
+		public override async Task<BoolMessage> CanChangeToThisModelAsync(Product product)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check same model
 			if (product.Model == ServiceOperatingModel)
 			{
-				errors.Add($"Model {ServiceOperatingModel} already have registered");
+				message.Errors.Add($"Model {ServiceOperatingModel} already have registered");
 			}
 
 			//check product quantity
 			if (product.Quantity != 0)
 			{
-				errors.Add($"Quantity must be zero to change to {ServiceOperatingModel} model");
+				message.Errors.Add($"Quantity must be zero to change to {ServiceOperatingModel} model");
 			}
 
-			return !errors.Any();
+			if (message.Errors.Any())
+				message.Result = false;
+			else message.Result = true;
+
+			return message;
 		}
 
-		public override bool CanLeaveThisModel(Product product, out ICollection<string> errors)
-		{
-			errors = new List<string>();
-			return true;
-		}
+		public override async Task<BoolMessage> CanLeaveThisModelAsync(Product product) => new BoolMessage(true);
 	}
 }

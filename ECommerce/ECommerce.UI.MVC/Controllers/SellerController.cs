@@ -23,6 +23,7 @@ using ECommerce.UI.Shared.ApiModels.UploadModels;
 using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ECommerce.UI.MVC.Controllers
 {
@@ -39,11 +40,11 @@ namespace ECommerce.UI.MVC.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Login(string returnUrl)
+		public async Task<IActionResult> Login(string returnUrl)
 		{
 			if (returnUrl == null)
 				returnUrl = Url.HomePage();
-			if (loginPersistence.PersistLogin() != null)
+			if ((await loginPersistence.PersistLoginAsync()) != null)
 				return Redirect(returnUrl);
 			return View(new LoginViewModel
 			{
@@ -52,14 +53,14 @@ namespace ECommerce.UI.MVC.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Login(LoginViewModel loginViewModel)
+		public async Task<IActionResult> Login(LoginViewModel loginViewModel)
 		{
 			if (!ModelState.IsValid)
 			{
 				return View(loginViewModel);
 			}
 			IList<string> errors = new List<string>();
-			SellerView seller = loginPersistence.PersistLogin();
+			SellerView seller = await loginPersistence.PersistLoginAsync();
 			if (seller == null)
 			{
 				if (EmailValidationService.IsValidEmail(loginViewModel.LoginInformation.Username))
@@ -69,7 +70,7 @@ namespace ECommerce.UI.MVC.Controllers
 					{
 						if (seller.Status == SellerStatus.Active)
 						{
-							string encryptedPassword = eCommerce.GetSellerEncryptedPassword(seller.Id);
+							string encryptedPassword = await eCommerce.GetSellerEncryptedPasswordAsync(seller.Id);
 							if (EncryptionService.Encrypt(loginViewModel.LoginInformation.Password) == encryptedPassword)
 							{
 								loginPersistence.LoginThrough(loginViewModel.LoginInformation.Username, loginViewModel.LoginInformation.Remember);
@@ -105,30 +106,29 @@ namespace ECommerce.UI.MVC.Controllers
 
 		[HttpGet]
 		[SellerLoginRequired]
-		public IActionResult PersonalInformations() => View(loginPersistence.PersistLogin());
+		public async Task<IActionResult> PersonalInformations() => View(await loginPersistence.PersistLoginAsync());
 
 		[HttpPost]
 		[SellerLoginRequired]
-		public IActionResult PersonalInformations(SellerView seller)
+		public async Task<IActionResult> PersonalInformations(SellerView seller)
 		{
 			if (ModelState.IsValid)
 			{
-				eCommerce.UpdateSeller(seller.Id,
+				var message = await eCommerce.UpdateSellerAsync(seller.Id,
 					new SellerUpdateModel
 					{
 						Name = seller.Name,
 						PhoneNumber = seller.PhoneNumber
-					},
-					out ICollection<string> errors);
-				if (errors.Any())
+					});
+				if (message.Errors.Any())
 				{
-					ViewData[GlobalViewBagKeys.Errors] = errors;
+					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				}
 				else
 				{
-					SellerView updatedSeller = eCommerce.GetSellerBy(seller.Id);
+					SellerView updatedSeller = await eCommerce.GetSellerByAsync(seller.Id);
 					loginPersistence.Logout();
-					loginPersistence.LoginThrough(updatedSeller.Id);
+					await loginPersistence.LoginThroughAsync(updatedSeller.Id);
 
 					ICollection<string> messages = new List<string>();
 					messages.Add("Personal informations updated");
@@ -148,20 +148,20 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 
 		[HttpPost]
-		public IActionResult Signup(SellerSignupViewModel signupModel)
+		public async Task<IActionResult> Signup(SellerSignupViewModel signupModel)
 		{
 			if (ModelState.IsValid)
 			{
-				eCommerce.AddSeller(new SellerAddModel
+				var message = await eCommerce.AddSellerAsync(new SellerAddModel
 				{
 					Name = signupModel.Seller.Name,
 					Email = signupModel.Seller.Email,
 					PhoneNumber=signupModel.Seller.PhoneNumber,
 					Password = signupModel.Seller.Password
-				}, out ICollection<string> errors);
-				if (errors.Any())
+				});
+				if (message.Errors.Any())
 				{
-					ViewData[GlobalViewBagKeys.Errors] = errors;
+					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				}
 				else
 				{
@@ -176,9 +176,9 @@ namespace ECommerce.UI.MVC.Controllers
 		}
 
 		[SellerLoginRequired]
-		public IActionResult Product(short? page = 1)
+		public async Task<IActionResult> Product(short? page = 1)
 		{
-			SellerView seller = loginPersistence.PersistLogin();
+			SellerView seller = await loginPersistence.PersistLoginAsync();
 
 			ProductSearchModel searchModel = new ProductSearchModel
 			{
@@ -187,29 +187,29 @@ namespace ECommerce.UI.MVC.Controllers
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductsListViewModel
 			{
-				Products = eCommerce.GetProductsBySellerId(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
+				Products = await eCommerce.GetProductsBySellerIdAsync(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
 				PagingInfo = new PagingInfo
 				{
 					CurrentPage = (short)page,
 					RecordsPerPage = recordsPerPage,
-					TotalRecords = eCommerce.CountProductsBySellerId(searchModel)
+					TotalRecords = await eCommerce.CountProductsBySellerIdAsync(searchModel)
 				}
 			});
 		}
 
 		[HttpPost]
-		public IActionResult ChangeProductActive(int productTypeId, bool active)
+		public async Task<IActionResult> ChangeProductActive(int productTypeId, bool active)
 		{
-			SellerView seller = loginPersistence.PersistLogin();
+			SellerView seller = await loginPersistence.PersistLoginAsync();
 			if (seller == null)
 				return Json("Not login");
 			try
 			{
-				eCommerce.UpdateProductActive(seller.Id, productTypeId, active, out ICollection<string> errors);
-				if (errors.Any())
+				var message = await eCommerce.UpdateProductActiveAsync(seller.Id, productTypeId, active);
+				if (message.Errors.Any())
 				{
 					string errorString = "";
-					foreach (string error in errors)
+					foreach (string error in message.Errors)
 						errorString += error + "\n";
 					errorString.Remove(errorString.Length - 1);
 					return Json(errorString);
@@ -224,12 +224,12 @@ namespace ECommerce.UI.MVC.Controllers
 
 		[HttpGet]
 		[SellerLoginRequired]
-		public IActionResult UpdateProduct(int productTypeId, short productAttributesNumber = 3)
+		public async Task<IActionResult> UpdateProduct(int productTypeId)
 		{
-			SellerView seller = loginPersistence.PersistLogin();
+			SellerView seller = await loginPersistence.PersistLoginAsync();
 
 			var errors = new List<string>();
-			ProductTypeView productType = eCommerce.GetProductTypeBy(productTypeId);
+			ProductTypeView productType = await eCommerce.GetProductTypeByAsync(productTypeId);
 			if (productType == null)
 				errors.Add("Could not found product type");
 
@@ -244,40 +244,22 @@ namespace ECommerce.UI.MVC.Controllers
 			{
 				SellerId = seller.Id,
 				ProductTypeId = productTypeId,
-				UpdateModel = eCommerce.GetProductUpdateModelBy(seller.Id, productTypeId),
-				ProductAttributesNumber = productAttributesNumber
+				UpdateModel = await eCommerce.GetProductUpdateModelByAsync(seller.Id, productTypeId)
 			});
 		}
 
 		[HttpPost]
 		[SellerLoginRequired]
-		public async Task<IActionResult> UpdateProduct(UpdateProductViewModel updateViewModel, IList<string> keys,
-			IList<string> values, IEnumerable<IFormFile> images)
+		public async Task<IActionResult> UpdateProduct(UpdateProductViewModel updateViewModel,
+		IEnumerable<IFormFile> images)
 		{
-			SellerView seller = loginPersistence.PersistLogin();
+			SellerView seller = await loginPersistence.PersistLoginAsync();
 
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			if (ModelState.IsValid)
 			{
 				ICollection<string> errors = new List<string>();
 				ICollection<string> messages = new List<string>();
-
-				//product attributes
-				var attributes = new Dictionary<string, HashSet<string>>();
-				for (short i = 0; i < keys.Count; i++)
-				{
-					if (!string.IsNullOrEmpty(keys[i]) && !attributes.Any(a => a.Key == keys[i]) && values[i] != null)
-					{
-						HashSet<string> separatedValues = values[i]
-							.Split(',', StringSplitOptions.RemoveEmptyEntries)
-							.ToHashSet();
-						if (separatedValues.Any())
-						{
-							attributes.Add(keys[i], separatedValues);
-						}
-					}
-				}
-				updateViewModel.UpdateModel.Attributes = attributes;
 
 				//product images
 				if (updateViewModel.UpdateImages && images.Any())
@@ -360,15 +342,16 @@ namespace ECommerce.UI.MVC.Controllers
 				}
 				else//keep old images
 				{
-					updateViewModel.UpdateModel.Images = eCommerce
-						.GetProductImages(seller.Id, updateViewModel.ProductTypeId);
+					updateViewModel.UpdateModel.Images = await eCommerce
+						.GetProductImagesAsync(seller.Id, updateViewModel.ProductTypeId);
+					updateViewModel.UpdateModel.RepresentativeImage = (await eCommerce.GetProductByAsync(seller.Id, updateViewModel.ProductTypeId)).RepresentativeImage;
 				}
 
-				eCommerce.UpdateProduct(seller.Id, updateViewModel.ProductTypeId, updateViewModel.UpdateModel, out errors);
+				var message = await eCommerce.UpdateProductAsync(seller.Id, updateViewModel.ProductTypeId, updateViewModel.UpdateModel);
 
-				if (errors.Any())
+				if (message.Errors.Any())
 				{
-					ViewData[GlobalViewBagKeys.Errors] = errors;
+					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				}
 				else
 				{
@@ -380,6 +363,94 @@ namespace ECommerce.UI.MVC.Controllers
 			}
 			end:
 			return View(updateViewModel);
+		}
+
+		[HttpGet]
+		[SellerLoginRequired]
+		public async Task<IActionResult> ProductAttributes(int productTypeId, short productAttributesNumber = 3)
+		{
+			SellerView seller = await loginPersistence.PersistLoginAsync();
+			var attributes = await eCommerce.GetProductAttributesAsync(seller.Id, productTypeId);
+			return View(new UpdateProductAttributesViewModel
+			{
+				SellerId = seller.Id,
+				ProductTypeId = productTypeId,
+				Attributes = attributes,
+				ProductAttributesNumber = (short)(productAttributesNumber > attributes.Count() ? productAttributesNumber : attributes.Count + 1)
+			});
+		}
+
+		[HttpPost]
+		[SellerLoginRequired]
+		public async Task<IEnumerable<string>> ProductAttributes(string serializedUpdateViewModel)
+		{
+			var updateViewModel = JsonConvert.DeserializeObject<UpdateProductAttributesViewModel>(serializedUpdateViewModel);
+			SellerView seller = await loginPersistence.PersistLoginAsync();
+
+			var errors = new List<string>();
+			if(seller.Id != updateViewModel.SellerId)
+			{
+				errors.Add("Seller is not match");
+				ViewData[GlobalViewBagKeys.Errors] = errors;
+				return errors;
+			}
+
+			var message = await eCommerce.UpdateProductAttributesAsync(updateViewModel.SellerId, updateViewModel.ProductTypeId, updateViewModel.Attributes);
+
+			return message.Errors;
+		}
+
+		[HttpGet]
+		[SellerLoginRequired]
+		public async Task<IActionResult> AttributesStates(int productTypeId)
+		{
+			SellerView seller = await loginPersistence.PersistLoginAsync();
+			var attributes = await eCommerce.GetProductAttributesAsync(seller.Id, productTypeId);
+			if (attributes != null)
+			{
+				return View(new AttributesStatesTableViewModel
+				{
+					SellerId = seller.Id,
+					ProductTypeId = productTypeId,
+					Attributes = attributes,
+					AttributesStates = await eCommerce.GetProductAttributesStatesAsync(seller.Id, productTypeId)
+				});
+			}
+			return NotFound();
+		}
+
+		[HttpPost]
+		[SellerLoginRequired]
+		public async Task<IActionResult> AddAttributesState(int productTypeId, IDictionary<string, string> attributesState)
+		{
+			SellerView seller = await loginPersistence.PersistLoginAsync();
+			
+			await eCommerce.AddProductAttributesStateAsync(seller.Id, productTypeId, attributesState);
+
+			return PartialView("AttributesStatesTable", new AttributesStatesTableViewModel
+			{
+				SellerId = seller.Id,
+				ProductTypeId = productTypeId,
+				Attributes = await eCommerce.GetProductAttributesAsync(seller.Id, productTypeId),
+				AttributesStates = await eCommerce.GetProductAttributesStatesAsync(seller.Id, productTypeId)
+			});
+		}
+
+		[HttpPost]
+		[SellerLoginRequired]
+		public async Task<IActionResult> DeleteAttributesState(int productTypeId, short index)
+		{
+			SellerView seller = await loginPersistence.PersistLoginAsync();
+
+			await eCommerce.DeleteProductAttributesStateAsync(seller.Id, productTypeId, index);
+
+			return PartialView("AttributesStatesTable", new AttributesStatesTableViewModel
+			{
+				SellerId = seller.Id,
+				ProductTypeId = productTypeId,
+				Attributes = await eCommerce.GetProductAttributesAsync(seller.Id, productTypeId),
+				AttributesStates = await eCommerce.GetProductAttributesStatesAsync(seller.Id, productTypeId)
+			});
 		}
 	}
 }

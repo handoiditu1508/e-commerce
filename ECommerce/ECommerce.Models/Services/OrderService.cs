@@ -1,10 +1,12 @@
 ﻿using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Messages;
 using ECommerce.Models.Repositories;
 using ECommerce.Models.Services.ServiceFactories;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Models.Services
 {
@@ -21,279 +23,303 @@ namespace ECommerce.Models.Services
 			this.modelServiceFactory = modelServiceFactory;
 		}
 
-		public bool TryOrder(int customerId, Order order, out ICollection<string> errors)
+		public async Task<BoolMessage> OrderAsync(int customerId, Order order)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check order null
 			if (order == null)
 			{
-				errors.Add("Order can not be empty");
-				return false;
+				message.Errors.Add("Order can not be empty");
+				message.Result = false;
+				return message;
 			}
 
 			//check quantity
 			if (order.Quantity < 1)
-				errors.Add("Quantity can not lower than 1");
+				message.Errors.Add("Quantity can not lower than 1");
 
 			//check customer existence
-			Customer customer = customerRepository.GetBy(customerId);
+			Customer customer = await customerRepository.GetByAsync(customerId);
 			if (customer == null)
-				errors.Add("Could not found customer");
+				message.Errors.Add("Could not found customer");
 			else if (!customer.Active)//check customer active or locked
-				errors.Add("Customer is locked");
+				message.Errors.Add("Customer is locked");
 
 			//check product existence
-			Product product = sellerRepository.GetProductBy(order.SellerId, order.ProductTypeId);
+			Product product = await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId);
 			if (product == null)
-				errors.Add("Could not found product");
+				message.Errors.Add("Could not found product");
 			else
 			{
 				if (product.Status != ProductStatus.Active)//check product status
-					errors.Add("Product is unavailable at the moment");
+					message.Errors.Add("Product is unavailable at the moment");
 
 				if (!product.Active)//check product active or locked
-					errors.Add("Product is locked");
+					message.Errors.Add("Product is locked");
 
 				if (product.ProductType.Status != ProductTypeStatus.Active)
-					errors.Add("Product type is unavailable at the moment");
+					message.Errors.Add("Product type is unavailable at the moment");
 			}
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
 				customer.Order(order);
-				return true;
+				message.Result = true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 
-		public bool TryCancelOrder(Order order, out ICollection<string> errors)
+		public BoolMessage CancelOrder(Order order)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check order null
 			if (order == null)
 			{
-				errors.Add("Order can not be empty");
-				return false;
+				message.Errors.Add("Order can not be empty");
+				message.Result = false;
+				return message;
 			}
 
 			//check order status
 			if (order.Status==OrderStatus.Shipped)
 			{
-				errors.Add("Can not cancel a shipped order");
+				message.Errors.Add("Can not cancel a shipped order");
 			}
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
 				order.Customer.CancelOrder(order);
-				return true;
+				message.Result = true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 
-		public bool TryConfirmOrderByAdmin(Order order, out ICollection<string> errors)
+		public async Task<BoolMessage> ConfirmOrderByAdminAsync(Order order)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check order null
 			if (order == null)
 			{
-				errors.Add("Order can not be empty");
-				return false;
+				message.Errors.Add("Order can not be empty");
+				message.Result = false;
+				return message;
 			}
 
 			//check product operating model
 			OperatingModelService modelService = modelServiceFactory
-				.GetService(sellerRepository.GetProductBy(order.SellerId, order.ProductTypeId).Model);
+				.GetService((await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId)).Model);
 
-			if (!modelService.CanAdminConfirmsOrder())
+			if (!(await modelService.CanAdminConfirmsOrderAsync()).Result)
 			{
-				errors.Add("You don't have right to confirm this order");
+				message.Errors.Add("You don't have right to confirm this order");
 			}
 
 			//check order status
 			if (order.Status != OrderStatus.Confirming)
 			{
-				errors.Add("Can only confirm an order while firming it");
+				message.Errors.Add("Can only confirm an order while firming it");
 			}
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
 				order.Status = OrderStatus.Preparing;
-				return true;
+				message.Result = true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 
-		public bool TryConfirmOrderBySeller(Order order, out ICollection<string> errors)
+		public async Task<BoolMessage> ConfirmOrderBySellerAsync(Order order)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check order null
 			if (order == null)
 			{
-				errors.Add("Order can not be empty");
-				return false;
+				message.Errors.Add("Order can not be empty");
+				message.Result = false;
+				return message;
 			}
 
 			//check product operating model
 			OperatingModelService modelService = modelServiceFactory
-				.GetService(sellerRepository.GetProductBy(order.SellerId, order.ProductTypeId).Model);
+				.GetService((await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId)).Model);
 
-			if (!modelService.CanSellerConfirmsOrder())
+			if (!(await modelService.CanSellerConfirmsOrderAsync()).Result)
 			{
-				errors.Add("You don't have right to confirm this order");
+				message.Errors.Add("You don't have right to confirm this order");
 			}
 
 			//check order status
 			if (order.Status != OrderStatus.Confirming)
 			{
-				errors.Add("Can only confirm an order while firming it");
+				message.Errors.Add("Can only confirm an order while firming it");
 			}
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
 				order.Status = OrderStatus.Preparing;
-				return true;
+				message.Result = true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 
-		public bool TryRejectOrderByAdmin(Order order, out ICollection<string> errors)
+		public async Task<BoolMessage> RejectOrderByAdminAsync(Order order)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check order null
 			if (order == null)
 			{
-				errors.Add("Order can not be empty");
-				return false;
+				message.Errors.Add("Order can not be empty");
+				message.Result = false;
+				return message;
 			}
 
 			//check product operating model
 			OperatingModelService modelService = modelServiceFactory
-				.GetService(sellerRepository.GetProductBy(order.SellerId, order.ProductTypeId).Model);
+				.GetService((await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId)).Model);
 
-			if(!modelService.CanAdminRejectsOrder())
+			if(!(await modelService.CanAdminRejectsOrderAsync()).Result)
 			{
-				errors.Add("You don't have right to reject this order");
+				message.Errors.Add("You don't have right to reject this order");
 			}
 
 			//check order status
 			if (order.Status != OrderStatus.Confirming)
 			{
-				errors.Add("Can only reject an order while firming it");
+				message.Errors.Add("Can only reject an order while firming it");
 			}
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
 				order.Seller.RejectOrder(order);
-				return true;
+				message.Result = true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 
-		public bool TryRejectOrderBySeller(Order order, out ICollection<string> errors)
+		public async Task<BoolMessage> RejectOrderBySellerAsync(Order order)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check order null
 			if (order == null)
 			{
-				errors.Add("Order can not be empty");
-				return false;
+				message.Errors.Add("Order can not be empty");
+				message.Result = false;
+				return message;
 			}
 
 			//check product operating model
 			OperatingModelService modelService = modelServiceFactory
-				.GetService(sellerRepository.GetProductBy(order.SellerId, order.ProductTypeId).Model);
+				.GetService((await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId)).Model);
 
-			if (!modelService.CanSellerRejectsOrder())
+			if (!(await modelService.CanSellerRejectsOrderAsync()).Result)
 			{
-				errors.Add("You don't have right to reject this order");
+				message.Errors.Add("You don't have right to reject this order");
 			}
 
 			//check order status
 			if (order.Status != OrderStatus.Confirming)
 			{
-				errors.Add("Can only reject an order while firming it");
+				message.Errors.Add("Can only reject an order while firming it");
 			}
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
 				order.Seller.RejectOrder(order);
-				return true;
+				message.Result = true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 
-		public bool TryChangeOrderStatusByAdmin(Order order, OrderStatus status, out ICollection<string> errors)
+		public async Task<BoolMessage> ChangeOrderStatusByAdminAsync(Order order, OrderStatus status)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check order null
 			if (order == null)
 			{
-				errors.Add("Order can not be empty");
-				return false;
+				message.Errors.Add("Order can not be empty");
+				message.Result = false;
+				return message;
 			}
 
 			//check product operating model
 			OperatingModelService modelService = modelServiceFactory
-				.GetService(sellerRepository.GetProductBy(order.SellerId, order.ProductTypeId).Model);
+				.GetService((await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId)).Model);
 
-			if (!modelService.CanAdminManagesOrder())
+			if (!(await modelService.CanAdminManagesOrderAsync()).Result)
 			{
-				errors.Add("You don't have right to manage this order");
+				message.Errors.Add("You don't have right to manage this order");
 			}
 
 			//check order status
 			if (order.Status == OrderStatus.Confirming)
 			{
-				errors.Add("Can not change an order which are waiting for confirmation");
+				message.Errors.Add("Can not change an order which are waiting for confirmation");
 			}
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
 				order.Status = status;
-				return true;
+				message.Result = true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 
-		public bool TryChangeOrderStatusBySeller(Order order, OrderStatus status, out ICollection<string> errors)
+		public async Task<BoolMessage> ChangeOrderStatusBySellerAsync(Order order, OrderStatus status)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check order null
 			if (order == null)
 			{
-				errors.Add("Order can not be empty");
-				return false;
+				message.Errors.Add("Order can not be empty");
+				message.Result = false;
+				return message;
 			}
 
 			//check product operating model
 			OperatingModelService modelService = modelServiceFactory
-				.GetService(sellerRepository.GetProductBy(order.SellerId, order.ProductTypeId).Model);
+				.GetService((await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId)).Model);
 
-			if (!modelService.CanSellerManagesOrder())
+			if (!(await modelService.CanSellerManagesOrderAsync()).Result)
 			{
-				errors.Add("You don't have right to manage this order");
+				message.Errors.Add("You don't have right to manage this order");
 			}
 
 			//check order status
 			if (order.Status == OrderStatus.Confirming)
 			{
-				errors.Add("Can not change an order which are waiting for confirmation");
+				message.Errors.Add("Can not change an order which are waiting for confirmation");
 			}
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
 				order.Status = status;
-				return true;
+				message.Result = true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 	}
 }

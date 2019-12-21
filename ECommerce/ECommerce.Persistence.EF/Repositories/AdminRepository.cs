@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Persistence.EF.Repositories
 {
@@ -15,9 +16,9 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public AdminRepository(ApplicationDbContext context) => this.context = context;
 
-		public void Add(Admin admin) => context.Admins.Add(admin);
+		public async Task AddAsync(Admin admin) => await context.Admins.AddAsync(admin);
 
-		public Admin GetBy(int id) => context.Admins.Find(id);
+		public async Task<Admin> GetByAsync(int id) => await context.Admins.FindAsync(id);
 
 		public Admin GetBy(string email) => context.Admins.FirstOrDefault(a => a.Email == email);
 
@@ -46,16 +47,16 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public IEnumerable<Admin> GetAll() => context.Admins;
 
-		public void Update(int id, Admin admin)
+		public async Task UpdateAsync(int id, Admin admin)
 		{
-			Admin presentAdmin = GetBy(id);
+			Admin presentAdmin = await GetByAsync(id);
 			presentAdmin.Name = admin.Name;
 		}
 
-		public void Delete(int id) => context.Admins.Remove(GetBy(id));
+		public async Task DeleteAsync(int id) => context.Admins.Remove(await GetByAsync(id));
 
 		public void Delete(Admin admin) => context.Admins.Remove(admin);
 
-		public void Commit() => context.SaveChanges();
+		public async Task CommitAsync() => await context.SaveChangesAsync();
 	}
 }

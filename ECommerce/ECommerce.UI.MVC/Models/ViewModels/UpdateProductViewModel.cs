@@ -10,8 +10,6 @@ namespace ECommerce.UI.MVC.Models.ViewModels
 
 		public ProductUpdateModel UpdateModel { get; set; }
 
-		public short ProductAttributesNumber { get; set; }
-
 		public bool UpdateImages { get; set; } = false;
 
 		public short? MainImageIndex { get; set; }

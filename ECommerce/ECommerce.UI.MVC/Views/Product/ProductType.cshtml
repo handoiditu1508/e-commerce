@@ -2,7 +2,7 @@
 
 @{
 	ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
-	ProductTypeView productType = eCommerce.GetProductTypeBy((int)Model.SearchModel.ProductTypeId);
+	ProductTypeView productType = await eCommerce.GetProductTypeByAsync((int)Model.SearchModel.ProductTypeId);
 }
 <h1>@productType.Name</h1>
 

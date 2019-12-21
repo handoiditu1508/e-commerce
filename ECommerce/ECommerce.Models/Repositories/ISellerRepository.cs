@@ -2,14 +2,15 @@
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerce.Models.Repositories
 {
 	public interface ISellerRepository : IRepository<Seller>
 	{
-		void Add(Seller seller);
+		Task AddAsync(Seller seller);
 
-		Seller GetBy(int id);
+		Task<Seller> GetByAsync(int id);
 		Seller GetBy(string email);
 		IEnumerable<Seller> GetBy(string email, string name, string phoneNumber,
 			SellerStatus? status);
@@ -17,18 +18,19 @@ namespace ECommerce.Models.Repositories
 		IEnumerable<Order> GetOrdersBy(int sellerId, short? quantity, decimal? totalValue,
 			short? totalValueIndication);
 
+		Task<Product> GetProductByAsync(int sellerId, int productTypeId);
 		Product GetProductBy(int sellerId, int productTypeId);
-		IEnumerable<Product> GetProductsBy(int sellerId, string searchString,
+		Task<IEnumerable<Product>> GetProductsByAsync(int sellerId, string searchString,
 			int? categoryId, decimal? price, short? priceIndication, ProductStatus? status,
 			bool? active, ProductTypeStatus? productTypeStatus);
 
-		IEnumerable<ProductTypeUpdateRequest> GetProductTypeUpdateRequests(int sellerId);
+		Task<IEnumerable<ProductTypeUpdateRequest>> GetProductTypeUpdateRequestsAsync(int sellerId);
 
-		void Update(int id, Seller seller);
+		Task UpdateAsync(int id, Seller seller);
 
-		void UpdateProduct(int sellerId, int productTypeId, Product product);
+		Task UpdateProductAsync(int sellerId, int productTypeId, Product product);
 
-		void Delete(int id);
+		Task DeleteAsync(int id);
 		void Delete(Seller seller);
 	}
 }

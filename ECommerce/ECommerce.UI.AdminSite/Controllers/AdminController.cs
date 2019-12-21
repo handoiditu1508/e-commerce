@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ECommerce.Application;
 using ECommerce.Application.Services;
 using ECommerce.Application.UpdateModels;
@@ -25,11 +26,11 @@ namespace ECommerce.UI.AdminSite.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Login(string returnUrl)
+		public async Task<IActionResult> Login(string returnUrl)
 		{
 			if (returnUrl == null)
 				returnUrl = Url.HomePage();
-			if (loginPersistence.PersistLogin() != null)
+			if ((await loginPersistence.PersistLoginAsync()) != null)
 				return Redirect(returnUrl);
 			return View(new LoginViewModel
 			{
@@ -38,14 +39,14 @@ namespace ECommerce.UI.AdminSite.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Login(LoginViewModel loginViewModel)
+		public async Task<IActionResult> Login(LoginViewModel loginViewModel)
 		{
 			if (!ModelState.IsValid)
 			{
 				return View(loginViewModel);
 			}
 			IList<string> errors = new List<string>();
-			AdminView admin = loginPersistence.PersistLogin();
+			AdminView admin = await loginPersistence.PersistLoginAsync();
 			if (admin == null)
 			{
 				if (EmailValidationService.IsValidEmail(loginViewModel.LoginInformation.Username))
@@ -53,7 +54,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 					admin = eCommerce.GetAdminBy(loginViewModel.LoginInformation.Username);
 					if (admin != null)
 					{
-						string encryptedPassword = eCommerce.GetAdminEncryptedPassword(admin.Id);
+						string encryptedPassword = await eCommerce.GetAdminEncryptedPasswordAsync(admin.Id);
 						if (EncryptionService.Encrypt(loginViewModel.LoginInformation.Password) == encryptedPassword)
 						{
 							loginPersistence.LoginThrough(loginViewModel.LoginInformation.Username, loginViewModel.LoginInformation.Remember);
@@ -83,31 +84,30 @@ namespace ECommerce.UI.AdminSite.Controllers
 
 		[HttpGet]
 		[AdminLoginRequired]
-		public IActionResult PersonalInformations() => View(loginPersistence.PersistLogin());
+		public async Task<IActionResult> PersonalInformations() => View(await loginPersistence.PersistLoginAsync());
 
 		[HttpPost]
 		[AdminLoginRequired]
-		public IActionResult PersonalInformations(AdminView admin)
+		public async Task<IActionResult> PersonalInformations(AdminView admin)
 		{
 			if (ModelState.IsValid)
 			{
-				eCommerce.UpdateAdmin(admin.Id,
+				var message = await eCommerce.UpdateAdminAsync(admin.Id,
 					new AdminUpdateModel
 					{
 						FirstName = admin.FirstName,
 						MiddleName = admin.MiddleName,
 						LastName = admin.LastName
-					},
-					out ICollection<string> errors);
-				if (errors.Any())
+					});
+				if (message.Errors.Any())
 				{
-					ViewBag.UpdateErrors = errors;
+					ViewBag.UpdateErrors = message.Errors;
 				}
 				else
 				{
-					AdminView updatedAdmin = eCommerce.GetAdminBy(admin.Id);
+					AdminView updatedAdmin = await eCommerce.GetAdminByAsync(admin.Id);
 					loginPersistence.Logout();
-					loginPersistence.LoginThrough(updatedAdmin.Id);
+					await loginPersistence.LoginThroughAsync(updatedAdmin.Id);
 					return View(updatedAdmin);
 				}
 			}

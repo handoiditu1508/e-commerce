@@ -14,12 +14,14 @@ using ECommerce.Models.Entities.Categories;
 using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Messages;
 using ECommerce.Models.Repositories;
 using ECommerce.Models.Services;
 using ECommerce.Models.Services.ServiceFactories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Application
 {
@@ -83,23 +85,24 @@ namespace ECommerce.Application
 		}
 
 		#region Admin
-		private bool ValidateAdmin(Admin admin, bool checkEmail, bool checkPassword, out ICollection<string> errors)
+		private BoolMessage ValidateAdmin(Admin admin, bool checkEmail, bool checkPassword)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			if (admin == null)
 			{
-				errors.Add("Can not validate an empty instance");
-				return false;
+				message.Errors.Add("Can not validate an empty instance");
+				message.Result = false;
+				return message;
 			}
 
 			if (admin.Name == null)
 			{
-				errors.Add("Name can not be empty");
+				message.Errors.Add("Name can not be empty");
 			}
 			else if (string.IsNullOrWhiteSpace(admin.Name.FirstName) || string.IsNullOrWhiteSpace(admin.Name.LastName))
 			{
-				errors.Add("First name and last name can not be empty");
+				message.Errors.Add("First name and last name can not be empty");
 			}
 			else
 			{
@@ -116,15 +119,15 @@ namespace ECommerce.Application
 			{
 				if (string.IsNullOrWhiteSpace(admin.Email))
 				{
-					errors.Add("Email can not be empty");
+					message.Errors.Add("Email can not be empty");
 				}
 				else if (!EmailValidationService.IsValidEmail(admin.Email))
 				{
-					errors.Add("Invalid email address");
+					message.Errors.Add("Invalid email address");
 				}
 				else if (adminRepository.GetBy(admin.Email) != null)
 				{
-					errors.Add("Email already in use");
+					message.Errors.Add("Email already in use");
 				}
 			}
 
@@ -132,31 +135,39 @@ namespace ECommerce.Application
 			{
 				if (string.IsNullOrEmpty(admin.Password))
 				{
-					errors.Add("Password can not be empty");
+					message.Errors.Add("Password can not be empty");
 				}
 				else admin.Password = EncryptionService.Encrypt(admin.Password);
 			}
 
-			return !errors.Any();
+			if (message.Errors.Any())
+				message.Result = false;
+			else message.Result = true;
+
+			return message;
 		}
 
-		public AdminView AddAdmin(AdminAddModel addModel, out ICollection<string> errors)
+		public async Task<Message<AdminView>> AddAdminAsync(AdminAddModel addModel)
 		{
+			var message = new Message<AdminView>(null);
 			Admin admin = addModel.ConvertToEntity();
-			if (ValidateAdmin(admin, true, true, out errors))
+			var validationMessage = ValidateAdmin(admin, true, true);
+			if (validationMessage.Result)
 			{
-				adminRepository.Add(admin);
-				unitOfWork.Commit();
-				return admin.ConvertToView();
+				await adminRepository.AddAsync(admin);
+				await unitOfWork.CommitAsync();
+				message.Result = admin.ConvertToView();
+				return message;
 			}
-			return null;
+			message.Errors = validationMessage.Errors;
+			return message;
 		}
 
-		public AdminView GetAdminBy(int adminId)
-			=> adminRepository.GetBy(adminId)?.ConvertToView() ?? null;
+		public async Task<AdminView> GetAdminByAsync(int adminId)
+			=> (await adminRepository.GetByAsync(adminId))?.ConvertToView() ?? null;
 
-		public AdminUpdateModel GetAdminUpdateModelBy(int adminId)
-			=> adminRepository.GetBy(adminId)?.ConvertToUpdateModel() ?? null;
+		public async Task<AdminUpdateModel> GetAdminUpdateModelByAsync(int adminId)
+			=> (await adminRepository.GetByAsync(adminId))?.ConvertToUpdateModel() ?? null;
 
 		public AdminUpdateModel GetAdminUpdateModelBy(string adminEmail)
 			=> adminRepository.GetBy(adminEmail)?.ConvertToUpdateModel() ?? null;
@@ -164,8 +175,8 @@ namespace ECommerce.Application
 		public AdminView GetAdminBy(string adminEmail)
 			=> adminRepository.GetBy(adminEmail)?.ConvertToView() ?? null;
 
-		public string GetAdminEncryptedPassword(int id)
-			=> adminRepository.GetBy(id)?.Password ?? null;
+		public async Task<string> GetAdminEncryptedPasswordAsync(int id)
+			=> (await adminRepository.GetByAsync(id))?.Password ?? null;
 
 		public IEnumerable<AdminView> GetAdminsBy(AdminSearchModel searchModel, int? startIndex, short? length)
 		{
@@ -185,91 +196,100 @@ namespace ECommerce.Application
 				.GetBy(new FullName(searchModel.FirstName, searchModel.MiddleName, searchModel.LastName))
 				.Count();
 
-		public void UpdateAdmin(int adminId, AdminUpdateModel updateModel, out ICollection<string> errors)
+		public async Task<Message> UpdateAdminAsync(int adminId, AdminUpdateModel updateModel)
 		{
+			Message message = new Message();
 			Admin admin = updateModel.ConvertToEntity();
 
-			if (ValidateAdmin(admin, false, false, out errors))
+			var validationMessage = ValidateAdmin(admin, false, false);
+			if (validationMessage.Result)
 			{
-				if (adminRepository.GetBy(adminId) != null)
+				if ((await adminRepository.GetByAsync(adminId)) != null)
 				{
-					adminRepository.Update(adminId, admin);
-					unitOfWork.Commit();
+					await adminRepository.UpdateAsync(adminId, admin);
+					await unitOfWork.CommitAsync();
 				}
-				else errors.Add("Could not found admin");
+				else message.Errors.Add("Could not found admin");
 			}
+
+			return message;
 		}
 
-		public void UpdateAdminPassword(int adminId, string password, out ICollection<string> errors)
+		public async Task<Message> UpdateAdminPasswordAsync(int adminId, string password)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 			if (!string.IsNullOrEmpty(password))
 			{
-				Admin admin = adminRepository.GetBy(adminId);
+				Admin admin = await adminRepository.GetByAsync(adminId);
 				if (admin != null)
 				{
 					admin.Password = password;
-					unitOfWork.Commit();
+					await unitOfWork.CommitAsync();
 				}
-				else errors.Add("Could not found admin");
+				else message.Errors.Add("Could not found admin");
 			}
-			else errors.Add("Password can not be empty");
+			else message.Errors.Add("Password can not be empty");
+
+			return message;
 		}
 
-		public void UpdateAdminEmail(int adminId, string email, out ICollection<string> errors)
+		public async Task<Message> UpdateAdminEmailAsync(int adminId, string email)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 			if (string.IsNullOrWhiteSpace(email))
 			{
-				errors.Add("Email can not be empty");
+				message.Errors.Add("Email can not be empty");
 			}
 			else if (!EmailValidationService.IsValidEmail(email))
 			{
-				errors.Add("Invalid email address");
+				message.Errors.Add("Invalid email address");
 			}
 			else
 			{
-				Admin admin = adminRepository.GetBy(adminId);
+				Admin admin = await adminRepository.GetByAsync(adminId);
 				if (admin != null)
 				{
 					if (adminRepository.GetBy(email) == null)
 					{
 						admin.Email = email;
-						unitOfWork.Commit();
+						await unitOfWork.CommitAsync();
 					}
-					else errors.Add("Email already in use");
+					else message.Errors.Add("Email already in use");
 				}
-				else errors.Add("Could not found admin");
+				else message.Errors.Add("Could not found admin");
 			}
+
+			return message;
 		}
 
-		public void DeleteAdmin(int adminId)
+		public async Task DeleteAdminAsync(int adminId)
 		{
-			adminRepository.Delete(adminId);
-			unitOfWork.Commit();
+			await adminRepository.DeleteAsync(adminId);
+			await unitOfWork.CommitAsync();
 		}
 
-		public void DeleteAdmin(Admin admin)
+		public async Task DeleteAdminAsync(Admin admin)
 		{
 			adminRepository.Delete(admin);
-			unitOfWork.Commit();
+			await unitOfWork.CommitAsync();
 		}
 		#endregion
 
 		#region Category
-		private bool ValidateCategory(Category category, out ICollection<string> errors)
+		private BoolMessage ValidateCategory(Category category)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			if (category == null)
 			{
-				errors.Add("Can not validate an empty instance");
-				return false;
+				message.Errors.Add("Can not validate an empty instance");
+				message.Result = false;
+				return message;
 			}
 
 			if (string.IsNullOrWhiteSpace(category.Name))
 			{
-				errors.Add("Name can not be empty");
+				message.Errors.Add("Name can not be empty");
 			}
 			else
 			{
@@ -278,114 +298,133 @@ namespace ECommerce.Application
 					.RemoveMultipleSpaces();
 			}
 
-			return !errors.Any();
+			if (message.Errors.Any())
+				message.Result = false;
+			else message.Result = true;
+
+			return message;
 		}
 
-		public CategoryView AddCategory(CategoryAddModel addModel, int? parentId, out ICollection<string> errors)
+		public async Task<Message<CategoryView>> AddCategoryAsync(CategoryAddModel addModel, int? parentId)
 		{
+			var message = new Message<CategoryView>();
 			Category category = addModel.ConvertToEntity();
 
-			if (!ValidateCategory(category, out errors))
-				return null;
+			var validationMessage = ValidateCategory(category);
+			if (!validationMessage.Result)
+			{
+				message.Errors = validationMessage.Errors;
+				return message;
+			}
 
 			if (parentId != null)
 			{
-				Category parentCategory = categoryRepository.GetBy((int)parentId);
+				Category parentCategory = await categoryRepository.GetByAsync((int)parentId);
 				if (parentCategory == null)
 				{
-					errors.Add("Parent was not found");
-					return null;
+					message.Errors.Add("Parent was not found");
+					return message;
 				}
 
 				if (parentCategory.ChildCategories.Select(c => c.Name).Contains(category.Name))
 				{
-					errors.Add($"Parent already has a child named \"{category.Name}\"");
-					return null;
+					message.Errors.Add($"Parent already has a child named \"{category.Name}\"");
+					return message;
 				}
 			}
 			else if (categoryRepository.GetRoots().Select(c => c.Name).Contains(category.Name))
 			{
-				errors.Add("Root has already existed");
-				return null;
+				message.Errors.Add("Root has already existed");
+				return message;
 			}
 
 			category.ParentId = parentId;
 
-			categoryRepository.Add(category);
-			unitOfWork.Commit();
-			return category.ConvertToView();
+			await categoryRepository.AddAsync(category);
+			await unitOfWork.CommitAsync();
+			message.Result = category.ConvertToView();
+			return message;
 		}
 
 		public IEnumerable<CategoryView> GetAllRootCategories()
 			=> categoryRepository.GetRoots().ConvertToViews();
 
-		public CategoryView GetCategoryBy(int categoryId)
-			=> categoryRepository.GetBy(categoryId)?.ConvertToView() ?? null;
+		public async Task<CategoryView> GetCategoryByAsync(int categoryId)
+			=> (await categoryRepository.GetByAsync(categoryId))?.ConvertToView() ?? null;
 
-		public CategoryUpdateModel GetCategoryUpdateModelBy(int categoryId)
-			=> categoryRepository.GetBy(categoryId)?.ConvertToUpdateModel() ?? null;
+		public async Task<CategoryUpdateModel> GetCategoryUpdateModelByAsync(int categoryId)
+			=> (await categoryRepository.GetByAsync(categoryId))?.ConvertToUpdateModel() ?? null;
 
-		public CategoryView GetCategoryByProductTypeId(int productTypeId)
-			=> productTypeRepository.GetBy(productTypeId)?.Category.ConvertToView() ?? null;
+		public async Task<CategoryView> GetCategoryByProductTypeIdAsync(int productTypeId)
+			=> (await productTypeRepository.GetByAsync(productTypeId))?.Category.ConvertToView() ?? null;
 
-		public CategoryView GetParentCategory(int categoryId)
+		public async Task<CategoryView> GetParentCategoryAsync(int categoryId)
 		{
-			Category category = categoryRepository.GetBy(categoryId);
+			Category category = (await categoryRepository.GetByAsync(categoryId));
 			return category?.ParentCategory?.ConvertToView() ?? null;
 		}
 
-		public IEnumerable<CategoryView> GetChildCategories(int categoryId)
+		public async Task<IEnumerable<CategoryView>> GetChildCategoriesAsync(int categoryId)
 		{
-			Category category = categoryRepository.GetBy(categoryId);
+			Category category = await categoryRepository.GetByAsync(categoryId);
 			return category?.ChildCategories.ConvertToViews() ?? null;
 		}
 
-		public void UpdateCategory(int categoryId, CategoryUpdateModel updateModel, out ICollection<string> errors)
+		public async Task<Message> UpdateCategoryAsync(int categoryId, CategoryUpdateModel updateModel)
 		{
+			Message message = new Message();
 			Category category = updateModel.ConvertToEntity();
 
-			if (ValidateCategory(category, out errors))
+			var validationMessage = ValidateCategory(category);
+			if (validationMessage.Result)
 			{
-				if (categoryRepository.GetBy(categoryId) != null)
+				if (categoryRepository.GetByAsync(categoryId) != null)
 				{
-					categoryRepository.Update(categoryId, category);
-					unitOfWork.Commit();
+					await categoryRepository.UpdateAsync(categoryId, category);
+					await unitOfWork.CommitAsync();
 				}
-				else errors.Add("Could not found category");
+				else message.Errors.Add("Could not found category");
 			}
+			else
+			{
+				message.Errors = validationMessage.Errors;
+			}
+
+			return message;
 		}
 
-		public void DeleteCategory(int categoryId)
+		public async Task DeleteCategoryAsync(int categoryId)
 		{
-			categoryRepository.Delete(categoryId);
-			unitOfWork.Commit();
+			await categoryRepository.DeleteAsync(categoryId);
+			await unitOfWork.CommitAsync();
 		}
 
 		public void DeleteCategory(Category category)
 		{
 			categoryRepository.Delete(category);
-			categoryRepository.Commit();
+			categoryRepository.CommitAsync();
 		}
 		#endregion
 
 		#region Customer
-		private bool ValidateCustomer(Customer customer, bool checkEmail, bool checkPassword, out ICollection<string> errors)
+		private BoolMessage ValidateCustomer(Customer customer, bool checkEmail, bool checkPassword)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			if (customer == null)
 			{
-				errors.Add("Can not validate an empty instance");
-				return false;
+				message.Errors.Add("Can not validate an empty instance");
+				message.Result = false;
+				return message;
 			}
 
 			if (customer.Name == null)
 			{
-				errors.Add("Name can not be empty");
+				message.Errors.Add("Name can not be empty");
 			}
 			else if (string.IsNullOrWhiteSpace(customer.Name.FirstName) || string.IsNullOrWhiteSpace(customer.Name.LastName))
 			{
-				errors.Add("First name and last name can not be empty");
+				message.Errors.Add("First name and last name can not be empty");
 			}
 			else
 			{
@@ -402,15 +441,15 @@ namespace ECommerce.Application
 			{
 				if (string.IsNullOrWhiteSpace(customer.Email))
 				{
-					errors.Add("Email can not be empty");
+					message.Errors.Add("Email can not be empty");
 				}
 				else if (!EmailValidationService.IsValidEmail(customer.Email))
 				{
-					errors.Add("Invalid email address");
+					message.Errors.Add("Invalid email address");
 				}
 				else if (adminRepository.GetBy(customer.Email) != null)
 				{
-					errors.Add("Email already in use");
+					message.Errors.Add("Email already in use");
 				}
 			}
 
@@ -418,40 +457,48 @@ namespace ECommerce.Application
 			{
 				if (string.IsNullOrEmpty(customer.Password))
 				{
-					errors.Add("Password can not be empty");
+					message.Errors.Add("Password can not be empty");
 				}
 				else customer.Password = EncryptionService.Encrypt(customer.Password);
 			}
 
-			return !errors.Any();
+			if (message.Errors.Any())
+				message.Result = false;
+			else message.Result = true;
+
+			return message;
 		}
 
-		public CustomerView AddCustomer(CustomerAddModel addModel, out ICollection<string> errors)
+		public async Task<Message<CustomerView>> AddCustomerAsync(CustomerAddModel addModel)
 		{
+			var message = new Message<CustomerView>();
 			Customer customer = addModel.ConvertToEntity();
-			if (ValidateCustomer(customer, true, true, out errors))
+			var validationMessage = ValidateCustomer(customer, true, true);
+			if (validationMessage.Result)
 			{
-				customerRepository.Add(customer);
-				unitOfWork.Commit();
-				return customer.ConvertToView();
+				await customerRepository.AddAsync(customer);
+				await unitOfWork.CommitAsync();
+				message.Result= customer.ConvertToView();
+				return message;
 			}
-			return null;
+			message.Errors = validationMessage.Errors;
+			return message;
 		}
 
-		public CustomerView GetCustomerBy(int customerId)
-			=> customerRepository.GetBy(customerId)?.ConvertToView() ?? null;
+		public async Task<CustomerView> GetCustomerByAsync(int customerId)
+			=> (await customerRepository.GetByAsync(customerId))?.ConvertToView() ?? null;
 
 		public CustomerView GetCustomerBy(string customerEmail)
 			=> customerRepository.GetBy(customerEmail)?.ConvertToView() ?? null;
 
-		public CustomerUpdateModel GetCustomerCustomerUpdateModelBy(int customerId)
-			=> customerRepository.GetBy(customerId)?.ConvertToUpdateModel() ?? null;
+		public async Task<CustomerUpdateModel> GetCustomerCustomerUpdateModelByAsync(int customerId)
+			=> (await customerRepository.GetByAsync(customerId))?.ConvertToUpdateModel() ?? null;
 
 		public CustomerUpdateModel GetCustomerCustomerUpdateModelBy(string customerEmail)
 			=> customerRepository.GetBy(customerEmail)?.ConvertToUpdateModel() ?? null;
 
-		public CustomerView GetCustomerByOrderId(int orderId)
-			=> customerRepository.GetOrderBy(orderId)?.Customer.ConvertToView() ?? null;
+		public async Task<CustomerView> GetCustomerByOrderIdAsync(int orderId)
+			=> (await customerRepository.GetOrderByAsync(orderId))?.Customer.ConvertToView() ?? null;
 
 		public IEnumerable<CustomerView> GetCustomersBy(CustomerSearchModel searchModel, int? startIndex, short? length)
 		{
@@ -475,148 +522,205 @@ namespace ECommerce.Application
 					searchModel.Active)
 				.Count();
 
-		public string GetCustomerEncryptedPassword(int id)
-			=> customerRepository.GetBy(id)?.Password ?? null;
+		public async Task<string> GetCustomerEncryptedPasswordAsync(int id)
+			=> (await customerRepository.GetByAsync(id))?.Password ?? null;
 
-		public void UpdateCustomer(int customerId, CustomerUpdateModel updateModel, out ICollection<string> errors)
+		public async Task<Message> UpdateCustomerAsync(int customerId, CustomerUpdateModel updateModel)
 		{
+			Message message = new Message();
 			Customer customer = updateModel.ConvertToEntity();
 
-			if (ValidateCustomer(customer, false, false, out errors))
+			var validationMessage = ValidateCustomer(customer, false, false);
+			if (validationMessage.Result)
 			{
-				if (customerRepository.GetBy(customerId) != null)
+				if ((await customerRepository.GetByAsync(customerId)) != null)
 				{
-					customerRepository.Update(customerId, customer);
-					unitOfWork.Commit();
+					await customerRepository.UpdateAsync(customerId, customer);
+					await unitOfWork.CommitAsync();
 				}
-				else errors.Add("Could not found customer");
+				else message.Errors.Add("Could not found customer");
 			}
+			else message.Errors = validationMessage.Errors;
+
+			return message;
 		}
 
-		public void UpdateCustomerPassword(int customerId, string password, out ICollection<string> errors)
+		public async Task<Message> UpdateCustomerPasswordAsync(int customerId, string password)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 			if (!string.IsNullOrEmpty(password))
 			{
-				Customer customer = customerRepository.GetBy(customerId);
+				Customer customer = await customerRepository.GetByAsync(customerId);
 				if (customer != null)
 				{
 					customer.Password = password;
-					unitOfWork.Commit();
+					await unitOfWork.CommitAsync();
 				}
-				else errors.Add("Could not found customer");
+				else message.Errors.Add("Could not found customer");
 			}
-			else errors.Add("Password can not be empty");
+			else message.Errors.Add("Password can not be empty");
+
+			return message;
 		}
 
-		public void UpdateCustomerActive(int customerId, bool active, out ICollection<string> errors)
+		public async Task<Message> UpdateCustomerActiveAsync(int customerId, bool active)
 		{
-			errors = new List<string>();
-			Customer customer = customerRepository.GetBy(customerId);
+			Message message = new Message();
+			Customer customer = await customerRepository.GetByAsync(customerId);
 			if (customer != null)
 			{
 				customer.Active = active;
-				unitOfWork.Commit();
+				await unitOfWork.CommitAsync();
 			}
-			else errors.Add("Could not found customer");
+			else message.Errors.Add("Could not found customer");
+
+			return message;
 		}
 
-		public void UpdateCustomerEmail(int customerId, string email, out ICollection<string> errors)
+		public async Task<Message> UpdateCustomerEmailAsync(int customerId, string email)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 			if (string.IsNullOrWhiteSpace(email))
 			{
-				errors.Add("Email can not be empty");
+				message.Errors.Add("Email can not be empty");
 			}
 			else if (!EmailValidationService.IsValidEmail(email))
 			{
-				errors.Add("Invalid email address");
+				message.Errors.Add("Invalid email address");
 			}
 			else
 			{
-				Customer customer = customerRepository.GetBy(customerId);
+				Customer customer = await customerRepository.GetByAsync(customerId);
 				if (customer != null)
 				{
 					if (customerRepository.GetBy(email) == null)
 					{
 						customer.Email = email;
-						unitOfWork.Commit();
+						await unitOfWork.CommitAsync();
 					}
-					else errors.Add("Email already in use");
+					else message.Errors.Add("Email already in use");
 				}
-				else errors.Add("Could not found customer");
+				else message.Errors.Add("Could not found customer");
 			}
+
+			return message;
 		}
 
-		public void DeleteCustomer(int customerId)
+		public async Task DeleteCustomerAsync(int customerId)
 		{
-			customerRepository.Delete(customerId);
-			unitOfWork.Commit();
+			await customerRepository.DeleteAsync(customerId);
+			await unitOfWork.CommitAsync();
 		}
 
-		public void DeleteCustomer(Customer customer)
+		public async Task DeleteCustomerAsync(Customer customer)
 		{
 			customerRepository.Delete(customer);
-			unitOfWork.Commit();
+			await unitOfWork.CommitAsync();
 		}
 		#endregion
 
 		#region Order
-		public OrderView AddOrder(int customerId, OrderAddModel addModel, out ICollection<string> errors)
+		public async Task<Message<OrderView>> AddOrderAsync(int customerId, OrderAddModel addModel)
 		{
+			var message = new Message<OrderView>();
 			Order order = addModel.ConvertToEntity();
-			if (OrderService.TryOrder(customerId, order, out errors))
+			var orderMessage = await OrderService.OrderAsync(customerId, order);
+			if (orderMessage.Result)
 			{
-				unitOfWork.Commit();
-				return order.ConvertToView();
+				await unitOfWork.CommitAsync();
+				message.Result = order.ConvertToView();
+				return message;
 			}
-			return null;
+			else message.Errors = orderMessage.Errors;
+			return message;
 		}
 
-		public void CancelOrder(Order order, out ICollection<string> errors)
+		public async Task<Message> CancelOrderAsync(Order order)
 		{
-			if (OrderService.TryCancelOrder(order, out errors))
-				unitOfWork.Commit();
+			Message message = new Message();
+			var orderMessage = OrderService.CancelOrder(order);
+
+			if (orderMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = orderMessage.Errors;
+
+			return message;
 		}
 
-		public void ConfirmOrderThroughAdmin(Order order, out ICollection<string> errors)
+		public async Task<Message> ConfirmOrderThroughAdminAsync(Order order)
 		{
-			if (OrderService.TryConfirmOrderByAdmin(order, out errors))
-				unitOfWork.Commit();
+			Message message = new Message();
+			var orderMessage = await OrderService.ConfirmOrderByAdminAsync(order);
+
+			if (orderMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = orderMessage.Errors;
+
+			return message;
 		}
 
-		public void ConfirmOrderThroughSeller(Order order, out ICollection<string> errors)
+		public async Task<Message> ConfirmOrderThroughSellerAsync(Order order)
 		{
-			if (OrderService.TryConfirmOrderBySeller(order, out errors))
-				unitOfWork.Commit();
+			Message message = new Message();
+			var orderMessage = await OrderService.ConfirmOrderBySellerAsync(order);
+
+			if (orderMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = orderMessage.Errors;
+
+			return message;
 		}
 
-		public void RejectOrderThroughAdmin(Order order, out ICollection<string> errors)
+		public async Task<Message> RejectOrderThroughAdminAsync(Order order)
 		{
-			if (OrderService.TryRejectOrderByAdmin(order, out errors))
-				unitOfWork.Commit();
+			Message message = new Message();
+			var orderMessage = await OrderService.RejectOrderByAdminAsync(order);
+
+			if (orderMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = orderMessage.Errors;
+
+			return message;
 		}
 
-		public void RejectOrderThroughSeller(Order order, out ICollection<string> errors)
+		public async Task<Message> RejectOrderThroughSellerAsync(Order order)
 		{
-			if (OrderService.TryRejectOrderBySeller(order, out errors))
-				unitOfWork.Commit();
+			Message message = new Message();
+			var orderMessage = await OrderService.RejectOrderBySellerAsync(order);
+
+			if (orderMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = orderMessage.Errors;
+
+			return message;
 		}
 
-		public void ChangeOrderStatusThroughAdmin(Order order, OrderStatus status, out ICollection<string> errors)
+		public async Task<Message> ChangeOrderStatusThroughAdminAsync(Order order, OrderStatus status)
 		{
-			if (OrderService.TryChangeOrderStatusByAdmin(order, status, out errors))
-				unitOfWork.Commit();
+			Message message = new Message();
+			var orderMessage = await OrderService.ChangeOrderStatusByAdminAsync(order, status);
+
+			if (orderMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = orderMessage.Errors;
+
+			return message;
 		}
 
-		public void ChangeOrderStatusThroughSeller(Order order, OrderStatus status, out ICollection<string> errors)
+		public async Task<Message> ChangeOrderStatusThroughSellerAsync(Order order, OrderStatus status)
 		{
-			if (OrderService.TryChangeOrderStatusBySeller(order, status, out errors))
-				unitOfWork.Commit();
+			Message message = new Message();
+			var orderMessage = await OrderService.ChangeOrderStatusBySellerAsync(order, status);
+
+			if (orderMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = orderMessage.Errors;
+
+			return message;
 		}
 
-		public OrderView GetOrderBy(int orderId)
-			=> customerRepository.GetOrderBy(orderId)?.ConvertToView() ?? null;
+		public async Task<OrderView> GetOrderByAsync(int orderId)
+			=> (await customerRepository.GetOrderByAsync(orderId))?.ConvertToView() ?? null;
 
 		public IEnumerable<OrderView> GetOrdersByCustomerId(OrderSearchModel searchModel, int? startIndex, short? length)
 		{
@@ -674,56 +778,66 @@ namespace ECommerce.Application
 		#endregion
 
 		#region Product Type
-		private bool ValidateProductType(ProductType productType, out ICollection<string> errors)
+		private async Task<BoolMessage> ValidateProductTypeAsync(ProductType productType)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			if (productType == null)
 			{
-				errors.Add("Can not validate an empty instance");
-				return false;
+				message.Errors.Add("Can not validate an empty instance");
+				message.Result = false;
+				return message;
 			}
 
 			if (string.IsNullOrWhiteSpace(productType.Name))
 			{
-				errors.Add("Name can not be empty");
+				message.Errors.Add("Name can not be empty");
 			}
 			else productType.Name = productType.Name.Trim().RemoveMultipleSpaces();
 
-			Category category = categoryRepository.GetBy(productType.CategoryId);
+			Category category = await categoryRepository.GetByAsync(productType.CategoryId);
 			if (category == null)
 			{
-				errors.Add("Category can not be empty");
+				message.Errors.Add("Category can not be empty");
 			}
 			else if (category.ChildCategories.Any())
 			{
-				errors.Add("Category must has no child");
+				message.Errors.Add("Category must has no child");
 			}
 
-			return !errors.Any();
+			if (message.Errors.Any())
+				message.Result = false;
+			else message.Result = true;
+
+			return message;
 		}
 
-		public ProductTypeView AddProductType(ProductTypeAddModel addModel, out ICollection<string> errors)
+		public async Task<Message<ProductTypeView>> AddProductTypeAsync(ProductTypeAddModel addModel)
 		{
+			var message = new Message<ProductTypeView>();
 			ProductType productType = addModel.ConvertToEntity();
-			if (ValidateProductType(productType, out errors))
+			var validationMessage = await ValidateProductTypeAsync(productType);
+
+			if (validationMessage.Result)
 			{
-				productTypeRepository.Add(productType);
-				unitOfWork.Commit();
-				return productType.ConvertToView();
+				await productTypeRepository.AddAsync(productType);
+				await unitOfWork.CommitAsync();
+				message.Result = productType.ConvertToView();
+				return message; ;
 			}
-			return null;
+			else message.Errors = validationMessage.Errors;
+			return message;
 		}
 
-		public ProductTypeView GetProductTypeBy(int productTypeId)
-			=> productTypeRepository.GetBy(productTypeId)?.ConvertToView() ?? null;
+		public async Task<ProductTypeView> GetProductTypeByAsync(int productTypeId)
+			=> (await productTypeRepository.GetByAsync(productTypeId))?.ConvertToView() ?? null;
 
-		public ProductTypeUpdateModel GetProductTypeUpdateModelBy(int productTypeId)
-			=> productTypeRepository.GetBy(productTypeId)?.ConvertToUpdateModel() ?? null;
+		public async Task<ProductTypeUpdateModel> GetProductTypeUpdateModelByAsync(int productTypeId)
+			=> (await productTypeRepository.GetByAsync(productTypeId))?.ConvertToUpdateModel() ?? null;
 
-		public IEnumerable<ProductTypeView> GetProductTypesBy(ProductTypeSearchModel searchModel, int? startIndex, short? length)
+		public async Task<IEnumerable<ProductTypeView>> GetProductTypesByAsync(ProductTypeSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<ProductType> productTypes = productTypeRepository.GetBy(searchModel.SearchString, searchModel.DateTimeModified, searchModel.CategoryId, searchModel.Status);
+			IEnumerable<ProductType> productTypes = await productTypeRepository.GetByAsync(searchModel.SearchString, searchModel.DateTimeModified, searchModel.CategoryId, searchModel.Status);
 
 			if (searchModel.DateModified != null)
 				productTypes = productTypes
@@ -747,9 +861,9 @@ namespace ECommerce.Application
 			return productTypes.ConvertToViews();
 		}
 
-		public int CountProductTypesBy(ProductTypeSearchModel searchModel)
+		public async Task<int> CountProductTypesByAsync(ProductTypeSearchModel searchModel)
 		{
-			IEnumerable<ProductType> productTypes = productTypeRepository.GetBy(searchModel.SearchString, searchModel.DateTimeModified, searchModel.CategoryId, searchModel.Status);
+			IEnumerable<ProductType> productTypes = await productTypeRepository.GetByAsync(searchModel.SearchString, searchModel.DateTimeModified, searchModel.CategoryId, searchModel.Status);
 
 			if (searchModel.DateModified != null)
 				productTypes = productTypes
@@ -768,80 +882,91 @@ namespace ECommerce.Application
 			return productTypes.Count();
 		}
 
-		public void UpdateProductType(int productTypeId, ProductTypeUpdateModel updateModel, out ICollection<string> errors)
+		public async Task<Message> UpdateProductTypeAsync(int productTypeId, ProductTypeUpdateModel updateModel)
 		{
+			Message message = new Message();
 			ProductType productType = updateModel.ConvertToEntity();
+			var validationMessage = await ValidateProductTypeAsync(productType);
 
-			if (ValidateProductType(productType, out errors))
+			if (validationMessage.Result)
 			{
-				if (productTypeRepository.GetBy(productTypeId) != null)
+				if ((await productTypeRepository.GetByAsync(productTypeId)) != null)
 				{
-					productTypeRepository.Update(productTypeId, productType);
-					unitOfWork.Commit();
+					await productTypeRepository.UpdateAsync(productTypeId, productType);
+					await unitOfWork.CommitAsync();
 				}
-				else errors.Add("Could not found product type");
+				else message.Errors.Add("Could not found product type");
 			}
+			else message.Errors = validationMessage.Errors;
+
+			return message;
 		}
 
-		public void UpdateProductTypeStatus(int productTypeId, ProductTypeStatus status, out ICollection<string> errors)
+		public async Task<Message> UpdateProductTypeStatusAsync(int productTypeId, ProductTypeStatus status)
 		{
-			errors = new List<string>();
-			ProductType seller = productTypeRepository.GetBy(productTypeId);
-			if (seller != null)
-			{
-				productTypeRepository.GetBy(productTypeId).Status = status;
-				unitOfWork.Commit();
-			}
-			else errors.Add("Could not found product type");
-		}
-
-		public void DeleteProductType(int productTypeId, out ICollection<string> errors)
-		{
-			errors = new List<string>();
-
-			ProductType productType = productTypeRepository.GetBy(productTypeId);
+			Message message = new Message();
+			ProductType productType = await productTypeRepository.GetByAsync(productTypeId);
 			if (productType != null)
 			{
-				errors.Add("Could not found product type");
+				(await productTypeRepository.GetByAsync(productTypeId)).Status = status;
+				await unitOfWork.CommitAsync();
+			}
+			else message.Errors.Add("Could not found product type");
+
+			return message;
+		}
+
+		public async Task<Message> DeleteProductTypeAsync(int productTypeId)
+		{
+			Message message = new Message();
+
+			ProductType productType = await productTypeRepository.GetByAsync(productTypeId);
+			if (productType != null)
+			{
+				message.Errors.Add("Could not found product type");
 			}
 			else
 			{
 				if (productType.Products.Any())
-					errors.Add("Can not delete a product type that has been registered");
+					message.Errors.Add("Can not delete a product type that has been registered");
 
 				if (productTypeRepository.GetOrdersBy(productTypeId, null, null, null).Any())
-					errors.Add("Can not delete a product type that has been ordered");
+					message.Errors.Add("Can not delete a product type that has been ordered");
 
-				if (!errors.Any())
+				if (!message.Errors.Any())
 				{
 					productTypeRepository.Delete(productType);
-					unitOfWork.Commit();
+					await unitOfWork.CommitAsync();
 				}
 			}
+
+			return message;
 		}
 
-		public void DeleteProductType(ProductType productType, out ICollection<string> errors)
+		public async Task<Message> DeleteProductTypeAsync(ProductType productType)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 
 			if (productType != null)
 			{
-				errors.Add("Could not found product type");
+				message.Errors.Add("Could not found product type");
 			}
 			else
 			{
 				if (productType.Products.Any())
-					errors.Add("Can not delete a product type that has been registered");
+					message.Errors.Add("Can not delete a product type that has been registered");
 
 				if (productType.Orders.Any())
-					errors.Add("Can not delete a product type that has been ordered");
+					message.Errors.Add("Can not delete a product type that has been ordered");
 
-				if (!errors.Any())
+				if (!message.Errors.Any())
 				{
 					productTypeRepository.Delete(productType);
-					unitOfWork.Commit();
+					await unitOfWork.CommitAsync();
 				}
 			}
+
+			return message;
 		}
 		#endregion
 
@@ -860,9 +985,9 @@ namespace ECommerce.Application
 
 		public int CountProductTypeUpdateRequests() => productTypeRepository.GetUpdateRequests().Count();
 
-		public IEnumerable<ProductTypeUpdateRequestView> GetProductTypeUpdateRequestsByProductTypeId(int productTypeId, int? startIndex, short? length)
+		public async Task<IEnumerable<ProductTypeUpdateRequestView>> GetProductTypeUpdateRequestsByProductTypeIdAsync(int productTypeId, int? startIndex, short? length)
 		{
-			IEnumerable<ProductTypeUpdateRequest> updateRequests = productTypeRepository.GetUpdateRequests(productTypeId);
+			IEnumerable<ProductTypeUpdateRequest> updateRequests = await productTypeRepository.GetUpdateRequestsAsync(productTypeId);
 
 			if (startIndex != null && startIndex > -1)
 				updateRequests = updateRequests.Skip((int)startIndex);
@@ -872,11 +997,11 @@ namespace ECommerce.Application
 			return updateRequests.ConvertToViews();
 		}
 
-		public int CountProductTypeUpdateRequestsByProductTypeId(int productTypeId) => productTypeRepository.GetUpdateRequests(productTypeId).Count();
+		public async Task<int> CountProductTypeUpdateRequestsByProductTypeIdAsync(int productTypeId) => (await productTypeRepository.GetUpdateRequestsAsync(productTypeId)).Count();
 
-		public IEnumerable<ProductTypeUpdateRequestView> GetProductTypeUpdateRequestsBySellerId(int sellerId, int? startIndex, short? length)
+		public async Task<IEnumerable<ProductTypeUpdateRequestView>> GetProductTypeUpdateRequestsBySellerIdAsync(int sellerId, int? startIndex, short? length)
 		{
-			IEnumerable<ProductTypeUpdateRequest> updateRequests = sellerRepository.GetProductTypeUpdateRequests(sellerId);
+			IEnumerable<ProductTypeUpdateRequest> updateRequests = await sellerRepository.GetProductTypeUpdateRequestsAsync(sellerId);
 
 			if (startIndex != null && startIndex > -1)
 				updateRequests = updateRequests.Skip((int)startIndex);
@@ -886,74 +1011,111 @@ namespace ECommerce.Application
 			return updateRequests.ConvertToViews();
 		}
 
-		public int CountProductTypeUpdateRequestsBySellerId(int sellerId) => sellerRepository.GetProductTypeUpdateRequests(sellerId).Count();
+		public async Task<int> CountProductTypeUpdateRequestsBySellerIdAsync(int sellerId) => (await sellerRepository.GetProductTypeUpdateRequestsAsync(sellerId)).Count();
 
-		public ProductTypeUpdateRequestView GetProductTypeUpdateRequestBy(int sellerId, int productTypeId)
+		public async Task<ProductTypeUpdateRequestView> GetProductTypeUpdateRequestByAsync(int sellerId, int productTypeId)
 		{
-			return productTypeRepository.GetUpdateRequest(sellerId, productTypeId)?.ConvertToView();
+			return (await productTypeRepository.GetUpdateRequestAsync(sellerId, productTypeId))?.ConvertToView();
 		}
 
-		public ProductTypeUpdateRequestView RequestAnUpdateForProductType(int sellerId, ProductTypeUpdateRequestAddModel addModel, out ICollection<string> errors)
+		public async Task<Message<ProductTypeUpdateRequestView>> RequestAnUpdateForProductTypeAsync(int sellerId, ProductTypeUpdateRequestAddModel addModel)
 		{
+			var message = new Message<ProductTypeUpdateRequestView>();
 			ProductTypeUpdateRequest updateRequest = addModel.ConvertToEntity();
-			if (UpdateProductTypeService.TryRequestAnUpdate(sellerId, updateRequest, out errors))
+			var updateRequestMessage = await UpdateProductTypeService.RequestAnUpdateAsync(sellerId, updateRequest);
+			if (updateRequestMessage.Result)
 			{
-				unitOfWork.Commit();
-				return updateRequest.ConvertToView();
+				await unitOfWork.CommitAsync();
+				message.Result = updateRequest.ConvertToView();
+				return message;
 			}
-			return null;
+			else message.Errors = updateRequestMessage.Errors;
+			return message;
 		}
 
-		public void DeclineAnUpdateForProductType(int sellerId, int productTypeId, out ICollection<string> errors)
+		public async Task<Message> DeclineAnUpdateForProductTypeAsync(int sellerId, int productTypeId)
 		{
-			if (UpdateProductTypeService.TryDeclineAnUpdate(sellerId, productTypeId, out errors))
-				unitOfWork.Commit();
+			var message = new Message();
+			var updateRequestMessage = await UpdateProductTypeService.DeclineAnUpdateAsync(sellerId, productTypeId);
+			if (updateRequestMessage.Result)
+			{
+				await unitOfWork.CommitAsync();
+				return message;
+			}
+			else message.Errors = updateRequestMessage.Errors;
+			return message;
 		}
 
-		public void ApplyAnUpdateForProductType(int sellerId, int productTypeId, out ICollection<string> errors)
+		public async Task<Message> ApplyAnUpdateForProductTypeAsync(int sellerId, int productTypeId)
 		{
-			if (UpdateProductTypeService.TryApplyAnUpdate(sellerId, productTypeId, out errors))
-				unitOfWork.Commit();
+			var message = new Message();
+			var updateRequestMessage = await UpdateProductTypeService.ApplyAnUpdateAsync(sellerId, productTypeId);
+			if (updateRequestMessage.Result)
+			{
+				await unitOfWork.CommitAsync();
+				return message;
+			}
+			else message.Errors = updateRequestMessage.Errors;
+			return message;
 		}
 		#endregion
 
 		#region Product
-		public ProductView RegisterProduct(int sellerId, ProductAddModel addModel, out ICollection<string> errors)
+		public async Task<Message<ProductView>> RegisterProductAsync(int sellerId, ProductAddModel addModel)
 		{
-			errors = new List<string>();
+			var message = new Message<ProductView>();
 
 			Product product = addModel.ConvertToEntity();
-			if (RegisterProductService.TryRegister(sellerId, product, out errors))
+			var productMessage = await RegisterProductService.RegisterAsync(sellerId, product);
+			if (productMessage.Result)
 			{
-				unitOfWork.Commit();
-				return product.ConvertToView();
+				await unitOfWork.CommitAsync();
+				message.Result = product.ConvertToView();
+				return message;
 			}
-			return null;
+			else message.Errors = productMessage.Errors;
+
+			return message;
 		}
 
-		public void UnregisterProduct(int sellerId, int productTypeId, out ICollection<string> errors)
+		public async Task<Message> UnregisterProductAsync(int sellerId, int productTypeId)
 		{
-			if (RegisterProductService.TryUnregister(sellerId, productTypeId, out errors))
-				unitOfWork.Commit();
+			Message message = new Message();
+			var productMessage = await RegisterProductService.UnregisterAsync(sellerId, productTypeId);
+
+			if (productMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = productMessage.Errors;
+
+			return message;
 		}
 
-		public void ChangeProductOperatingModel(int sellerId, int productTypeId, OperatingModel model, out ICollection<string> errors)
+		public async Task<Message> ChangeProductOperatingModelAsync(int sellerId, int productTypeId, OperatingModel model)
 		{
-			if (RegisterProductService.TryChangeOperatingModel(sellerId, productTypeId, model, out errors))
-				unitOfWork.Commit();
+			Message message = new Message();
+			var productMessage = await RegisterProductService.ChangeOperatingModelAsync(sellerId, productTypeId, model);
+
+			if (productMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = productMessage.Errors;
+
+			return message;
 		}
 
 		public ProductView GetProductBy(int sellerId, int productTypeId)
 			=> sellerRepository.GetProductBy(sellerId, productTypeId)?.ConvertToView() ?? null;
 
-		public ProductUpdateModel GetProductUpdateModelBy(int sellerId, int productTypeId)
-			=> sellerRepository.GetProductBy(sellerId, productTypeId)?.ConvertToUpdateModel() ?? null;
+		public async Task<ProductView> GetProductByAsync(int sellerId, int productTypeId)
+			=> (await sellerRepository.GetProductByAsync(sellerId, productTypeId))?.ConvertToView() ?? null;
 
-		public ProductView GetProductByOrderId(int orderId)
+		public async Task<ProductUpdateModel> GetProductUpdateModelByAsync(int sellerId, int productTypeId)
+			=> (await sellerRepository.GetProductByAsync(sellerId, productTypeId))?.ConvertToUpdateModel() ?? null;
+
+		public async Task<ProductView> GetProductByOrderIdAsync(int orderId)
 		{
-			Order order = customerRepository.GetOrderBy(orderId);
+			Order order = await customerRepository.GetOrderByAsync(orderId);
 			return order != null ?
-				sellerRepository.GetProductBy(order.SellerId, order.ProductTypeId)?
+				(await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId))?
 					.ConvertToView() ?? 
 					null :
 				null;
@@ -969,10 +1131,10 @@ namespace ECommerce.Application
 					null;
 		}
 
-		public IEnumerable<ProductView> GetProductsBySellerId(ProductSearchModel searchModel, int? startIndex, short? length)
+		public async Task<IEnumerable<ProductView>> GetProductsBySellerIdAsync(ProductSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<Product> products = sellerRepository
-				.GetProductsBy((int)searchModel.SellerId, searchModel.SearchString, searchModel.CategoryId,
+			IEnumerable<Product> products = await sellerRepository
+				.GetProductsByAsync((int)searchModel.SellerId, searchModel.SearchString, searchModel.CategoryId,
 					searchModel.Price, searchModel.PriceIndication, searchModel.Status, searchModel.Active,
 					searchModel.ProductTypeStatus);
 
@@ -998,11 +1160,11 @@ namespace ECommerce.Application
 			return products.ConvertToViews();
 		}
 
-		public int CountProductsBySellerId(ProductSearchModel searchModel)
-			=> sellerRepository
-				.GetProductsBy((int)searchModel.SellerId, searchModel.SearchString, searchModel.CategoryId,
+		public async Task<int> CountProductsBySellerIdAsync(ProductSearchModel searchModel)
+			=> (await sellerRepository
+				.GetProductsByAsync((int)searchModel.SellerId, searchModel.SearchString, searchModel.CategoryId,
 					searchModel.Price, searchModel.PriceIndication, searchModel.Status, searchModel.Active,
-					searchModel.ProductTypeStatus)
+					searchModel.ProductTypeStatus))
 				.Count();
 
 		public int CountProductsByProductTypeId(ProductSearchModel searchModel)
@@ -1011,198 +1173,472 @@ namespace ECommerce.Application
 					searchModel.Status, searchModel.Active)
 				.Count();
 
-		public IEnumerable<string> GetProductImages(int sellerId, int productTypeId)
-			=> sellerRepository
-				.GetProductBy(sellerId, productTypeId)
-				.ConvertedImages;
+		public async Task<IEnumerable<string>> GetProductImagesAsync(int sellerId, int productTypeId)
+			=> (await sellerRepository
+				.GetProductByAsync(sellerId, productTypeId))?
+				.ConvertedImages ?? null;
 
-		public IDictionary<string, HashSet<string>> GetProductAttributes(int sellerId, int productTypeId)
-			=> sellerRepository
-				.GetProductBy(sellerId, productTypeId)
-				.Attributes.GroupBy(pa1 => pa1.Name)
-				.ToDictionary(g => g.Key, g => g.OrderBy(pa2 => pa2.Order).Select(pa2 => pa2.Value).ToHashSet());
+		public async Task<IDictionary<string, HashSet<string>>> GetProductAttributesAsync(int sellerId, int productTypeId)
+			=> (await sellerRepository
+				.GetProductByAsync(sellerId, productTypeId))?
+				.ConvertedAttributes ?? null;
 
-		public void UpdateProduct(int sellerId, int productTypeId, ProductUpdateModel updateModel, out ICollection<string> errors)
+		public async Task<IEnumerable<IDictionary<string, string>>> GetProductAttributesStatesAsync(int sellerId, int productTypeId)
+			=> (await sellerRepository
+				.GetProductByAsync(sellerId, productTypeId))?
+				.ConvertedAttributesStates ?? null;
+
+		public async Task<Message> UpdateProductAttributesAsync(int sellerId, int productTypeId, IDictionary<string, HashSet<string>> attributes)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 
-			if (sellerRepository.GetProductBy(sellerId, productTypeId) == null)
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
+			if (product == null)
 			{
-				errors.Add("Could not found product");
+				message.Errors.Add("Could not found product");
+				return message;
 			}
 
-			if (updateModel.Attributes != null && updateModel.Attributes.Any())
+			if (attributes != null && attributes.Any())
 			{
+				var attributesToRemove = new List<string>();
 				//check product attributes
-				foreach(var attribute in updateModel.Attributes)
+				foreach (var attribute in attributes)
 				{
 					//check attribute name empty
 					if (string.IsNullOrWhiteSpace(attribute.Key))
 					{
-						errors.Add("Attribute name can not be empty");
+						message.Errors.Add("Attribute name can not be empty");
 						break;
 					}
 
 					//check attribute values count == 0
 					if (attribute.Value == null || !attribute.Value.Any())
-						break;
+					{
+						attributesToRemove.Add(attribute.Key);
+						continue;
+					}
 
 					//check attribute value empty
-					foreach (string value in attribute.Value)
+					attribute.Value.RemoveWhere(v => v.IsNullOrWhiteSpace());
+					//remove attribute if has no value
+					if (!attribute.Value.Any())
 					{
-						if (string.IsNullOrWhiteSpace(value))
-						{
-							errors.Add("Attribute value can not be empty");
-							goto flag;
-						}
+						attributesToRemove.Add(attribute.Key);
+						continue;
 					}
 				}
-			flag:;
+				//remove attribute if has no value
+				foreach (var attribute in attributesToRemove)
+				{
+					attributes.Remove(attribute);
+				}
+			}
+
+			if (!message.Errors.Any())
+			{
+				product.ConvertedAttributes = attributes;
+				await unitOfWork.CommitAsync();
+			}
+
+			return message;
+		}
+
+		public async Task<Message> UpdateProductAttributesStatesAsync(int sellerId, int productTypeId, IEnumerable<IDictionary<string, string>> attributesStates)
+		{
+			Message message = new Message();
+
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
+
+			if (product == null)
+			{
+				message.Errors.Add("Product not found");
+				return message;
+			}
+
+			var attributes = product.ConvertedAttributes;
+
+			//check attributes contains attributes states or not
+			var attributesStates2 = attributesStates.ToList();
+			for (int i = attributesStates2.Count() - 1; i > -1; i--)
+			{
+				//length
+				if (attributesStates2[i].Count != attributes.Count)
+				{
+					message.Errors.Add("Attributes states are not match with attributes");
+					return message;
+				}
+
+				foreach (var attribute in attributes)
+				{
+					//key
+					if (!attributesStates2[i].ContainsKey(attribute.Key))
+					{
+						message.Errors.Add("Attributes states are not match with attributes");
+						return message;
+					}
+				}
+
+				foreach (var state in attributesStates2[i])
+				{
+					//value
+					if (!attributes[state.Key].Contains(state.Value))
+					{
+						message.Errors.Add("Attributes states are not match with attributes");
+						return message;
+					}
+				}
+
+				//check attributes states uniqueness
+				for (int j = i + 1; j < attributesStates2.Count(); j++)
+				{
+					bool match = true;
+					foreach (var state in attributesStates2[i])
+					{
+						if (state.Value != attributesStates2[j][state.Key])
+						{
+							match = false;
+							break;
+						}
+					}
+
+					if (match)
+					{
+						attributesStates2.Remove(attributesStates2[i]);
+						break;
+					}
+				}
+			}
+
+			if (!message.Errors.Any())
+			{
+				product.ConvertedAttributesStates = attributesStates2;
+				await unitOfWork.CommitAsync();
+			}
+
+			return message;
+		}
+
+		public async Task<Message> AddProductAttributesStateAsync(int sellerId, int productTypeId, IDictionary<string, string> attributesState)
+		{
+			Message message = new Message();
+
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
+
+			if (product == null)
+			{
+				message.Errors.Add("Product not found");
+				return message;
+			}
+
+			var attributes = product.ConvertedAttributes;
+
+			//check attributes contains attributes states or not
+			//length
+			if (attributesState.Count != attributes.Count)
+			{
+				message.Errors.Add("Attributes states are not match with attributes");
+				return message;
+			}
+
+			foreach (var attribute in attributes)
+			{
+				//key
+				if (!attributesState.ContainsKey(attribute.Key))
+				{
+					message.Errors.Add("Attributes states are not match with attributes");
+					return message;
+				}
+			}
+
+			foreach (var state in attributesState)
+			{
+				//value
+				if (!attributes[state.Key].Contains(state.Value))
+				{
+					message.Errors.Add("Attributes states are not match with attributes");
+					return message;
+				}
+			}
+
+			var attributesStates = product.ConvertedAttributesStates.ToList();
+
+			//check attributes states uniqueness
+			for(short i = 0; i < attributesStates.Count;i++)
+			{
+				bool match = true;
+				foreach (var state in attributesState)
+				{
+					if (state.Value != attributesStates[i][state.Key])
+					{
+						match = false;
+						break;
+					}
+				}
+
+				if(match)
+				{
+					message.Errors.Add("Duplicated");
+					return message;
+				}
+			}
+			attributesStates.Add(attributesState);
+			product.ConvertedAttributesStates = attributesStates;
+			await unitOfWork.CommitAsync();
+
+			return message;
+		}
+
+		public async Task DeleteProductAttributesStateAsync(int sellerId, int productTypeId, IDictionary<string, string> attributesState)
+		{
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
+
+			if (product == null)
+			{
+				return;
+			}
+
+			var attributes = product.ConvertedAttributes;
+
+			//length
+			if (attributesState.Count != attributes.Count)
+			{
+				return;
+			}
+
+			foreach (var attribute in attributes)
+			{
+				//key
+				if (!attributesState.ContainsKey(attribute.Key))
+				{
+					return;
+				}
+			}
+
+			var attributesStates = product.ConvertedAttributesStates.ToList();
+
+			for (short i = 0; i < attributesStates.Count(); i++)
+			{
+				bool match = true;
+				foreach(var state in attributesState)
+				{
+					if (state.Value != attributesStates[i][state.Key])
+					{
+						match = false;
+						break;
+					}
+				}
+
+				if(match)
+				{
+					attributesStates.RemoveAt(i);
+					product.ConvertedAttributesStates = attributesStates;
+					await unitOfWork.CommitAsync();
+					return;
+				}
+			}
+		}
+
+		public async Task DeleteProductAttributesStateAsync(int sellerId, int productTypeId, short index)
+		{
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
+
+			if (product == null)
+			{
+				return;
+			}
+
+			var attributesStates = product.ConvertedAttributesStates.ToList();
+
+			if (index > -1 && index < attributesStates.Count)
+			{
+				attributesStates.RemoveAt(index);
+				product.ConvertedAttributesStates = attributesStates;
+				await unitOfWork.CommitAsync();
+			}
+		}
+
+		public async Task<Message> UpdateProductAsync(int sellerId, int productTypeId, ProductUpdateModel updateModel)
+		{
+			Message message = new Message();
+
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
+			if (product == null)
+			{
+				message.Errors.Add("Could not found product");
+				return message;
 			}
 
 			//check product price
 			if (updateModel.Price < 1)
-				errors.Add("Price can not lower than 1");
+				message.Errors.Add("Price can not lower than 1");
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
-				sellerRepository.UpdateProduct(sellerId, productTypeId, updateModel.ConvertToEntity());
-				unitOfWork.Commit();
+				await sellerRepository.UpdateProductAsync(sellerId, productTypeId, updateModel.ConvertToEntity());
+				await unitOfWork.CommitAsync();
 			}
+
+			return message;
 		}
 
-		public void UpdateProductActive(int sellerId, int productTypeId, bool active, out ICollection<string> errors)
+		public async Task<Message> UpdateProductActiveAsync(int sellerId, int productTypeId, bool active)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 
-			Product product = sellerRepository.GetProductBy(sellerId, productTypeId);
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
 			if (product != null)
 			{
 				product.Active = active;
-				unitOfWork.Commit();
+				await unitOfWork.CommitAsync();
 			}
-			else errors.Add("Could not found product");
+			else message.Errors.Add("Could not found product");
+
+			return message;
 		}
 
-		public void UpdateProductStatus(int sellerId, int productTypeId, ProductStatus status, out ICollection<string> errors)
+		public async Task<Message> UpdateProductStatusAsync(int sellerId, int productTypeId, ProductStatus status)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 
-			Product product = sellerRepository.GetProductBy(sellerId, productTypeId);
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
 			if (product != null)
 			{
 				product.Status = status;
-				unitOfWork.Commit();
+				await unitOfWork.CommitAsync();
 			}
-			else errors.Add("Could not found product");
+			else message.Errors.Add("Could not found product");
+
+			return message;
 		}
 
-		public void AddProductQuantityThroughAdmin(int sellerId, int productTypeId, short additionalNumbers, out ICollection<string> errors)
+		public async Task<Message> AddProductQuantityThroughAdminAsync(int sellerId, int productTypeId, short additionalNumbers)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 
-			Product product = sellerRepository.GetProductBy(sellerId, productTypeId);
-
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
 			if (product == null)
 			{
-				errors.Add("Could not found product");
-				return;
+				message.Errors.Add("Could not found product");
+				return message;
 			}
 
 			OperatingModelService operatingModelService = OperatingModelServiceFactory.GetService(product.Model);
 
-			if (operatingModelService.CanAdminAddProductQuantity(product, out errors))
-				unitOfWork.Commit();
+			var operatingModelMessage = await operatingModelService.CanAdminAddProductQuantityAsync(product);
+			if (operatingModelMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = operatingModelMessage.Errors;
+
+			return message;
 		}
 
-		public void ReduceProductQuantityThroughAdmin(int sellerId, int productTypeId, short reducingNumbers, out ICollection<string> errors)
+		public async Task<Message> ReduceProductQuantityThroughAdminAsync(int sellerId, int productTypeId, short reducingNumbers)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 
-			Product product = sellerRepository.GetProductBy(sellerId, productTypeId);
-
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
 			if (product == null)
 			{
-				errors.Add("Could not found product");
-				return;
+				message.Errors.Add("Could not found product");
+				return message;
 			}
 
 			OperatingModelService operatingModelService = OperatingModelServiceFactory.GetService(product.Model);
 
-			if (operatingModelService.CanAdminReduceProductQuantity(product, out errors))
-				unitOfWork.Commit();
+			var operatingModelMessage = await operatingModelService.CanAdminAddProductQuantityAsync(product);
+			if (operatingModelMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = operatingModelMessage.Errors;
+
+			return message;
 		}
 
-		public void AddProductQuantityThroughSeller(int sellerId, int productTypeId, short additionalNumbers, out ICollection<string> errors)
+		public async Task<Message> AddProductQuantityThroughSellerAsync(int sellerId, int productTypeId, short additionalNumbers)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 
-			Product product = sellerRepository.GetProductBy(sellerId, productTypeId);
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
 
 			if (product == null)
 			{
-				errors.Add("Could not found product");
-				return;
+				message.Errors.Add("Could not found product");
+				return message;
 			}
 
 			OperatingModelService operatingModelService = OperatingModelServiceFactory.GetService(product.Model);
 
-			if (operatingModelService.CanSellerAddProductQuantity(product, out errors))
-				unitOfWork.Commit();
+			var operatingModelMessage = await operatingModelService.CanSellerAddProductQuantityAsync(product);
+			if (operatingModelMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = operatingModelMessage.Errors;
+
+			return message;
 		}
 
-		public void ReduceProductQuantityThroughSeller(int sellerId, int productTypeId, short reducingNumbers, out ICollection<string> errors)
+		public async Task<Message> ReduceProductQuantityThroughSellerAsync(int sellerId, int productTypeId, short reducingNumbers)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 
-			Product product = sellerRepository.GetProductBy(sellerId, productTypeId);
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
 
 			if (product == null)
 			{
-				errors.Add("Could not found product");
-				return;
+				message.Errors.Add("Could not found product");
+				return message;
 			}
 
 			OperatingModelService operatingModelService = OperatingModelServiceFactory.GetService(product.Model);
 
-			if (operatingModelService.CanSellerReduceProductQuantity(product, out errors))
-				unitOfWork.Commit();
+			var operatingModelMessage = await operatingModelService.CanSellerReduceProductQuantityAsync(product);
+			if (operatingModelMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = operatingModelMessage.Errors;
+
+			return message;
 		}
 
-		public void ChangeProductModel(int sellerId, int productTypeId, OperatingModel model, out ICollection<string> errors)
+		public async Task<Message> ChangeProductModelAsync(int sellerId, int productTypeId, OperatingModel model)
 		{
-			if (registerProductService.TryChangeOperatingModel(sellerId, productTypeId, model, out errors))
-				unitOfWork.Commit();
+			Message message = new Message();
+
+			var productMessage = await registerProductService.ChangeOperatingModelAsync(sellerId, productTypeId, model);
+			if (productMessage.Result)
+				await unitOfWork.CommitAsync();
+			else message.Errors = productMessage.Errors;
+
+			return message;
 		}
 		#endregion
 
 		#region Seller
-		private bool ValidateSeller(Seller seller, bool checkEmail, bool checkPassword, out ICollection<string> errors)
+		private BoolMessage ValidateSeller(Seller seller, bool checkEmail, bool checkPassword)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			if (seller == null)
 			{
-				errors.Add("Can not validate an empty instance");
-				return false;
+				message.Errors.Add("Can not validate an empty instance");
+				message.Result = false;
+				return message;
 			}
 
 			if (string.IsNullOrWhiteSpace(seller.Name))
 			{
-				errors.Add("Name can not be empty");
+				message.Errors.Add("Name can not be empty");
 			}
 			else seller.Name = seller.Name.Trim().Capitalize().RemoveMultipleSpaces();
 
 			if (string.IsNullOrWhiteSpace(seller.PhoneNumber))
 			{
-				errors.Add("Phone number can not be empty");
+				message.Errors.Add("Phone number can not be empty");
 			}
 			else
 			{
 				seller.PhoneNumber = seller.PhoneNumber.Trim();
 				if (!PhoneNumberValidationService.IsValidPhoneNumber(seller.PhoneNumber))
 				{
-					errors.Add("Invalid phone number");
+					message.Errors.Add("Invalid phone number");
 				}
 			}
 
@@ -1210,15 +1646,15 @@ namespace ECommerce.Application
 			{
 				if (string.IsNullOrWhiteSpace(seller.Email))
 				{
-					errors.Add("Email can not be empty");
+					message.Errors.Add("Email can not be empty");
 				}
 				else if (!EmailValidationService.IsValidEmail(seller.Email))
 				{
-					errors.Add("Invalid email address");
+					message.Errors.Add("Invalid email address");
 				}
 				else if (adminRepository.GetBy(seller.Email) != null)
 				{
-					errors.Add("Email already in use");
+					message.Errors.Add("Email already in use");
 				}
 			}
 
@@ -1226,31 +1662,41 @@ namespace ECommerce.Application
 			{
 				if (string.IsNullOrEmpty(seller.Password))
 				{
-					errors.Add("Password can not be empty");
+					message.Errors.Add("Password can not be empty");
 				}
 				else seller.Password = EncryptionService.Encrypt(seller.Password);
 			}
 
-			return !errors.Any();
+			if (message.Errors.Any())
+				message.Result = false;
+			else message.Result = true;
+
+			return message;
 		}
 
-		public SellerView AddSeller(SellerAddModel addModel, out ICollection<string> errors)
+		public async Task<Message<SellerView>> AddSellerAsync(SellerAddModel addModel)
 		{
+			var message = new Message<SellerView>();
 			Seller seller = addModel.ConvertToEntity();
-			if (ValidateSeller(seller, true, true, out errors))
+			var validationMessage = ValidateSeller(seller, true, true);
+
+			if (validationMessage.Result)
 			{
-				sellerRepository.Add(seller);
-				unitOfWork.Commit();
-				return seller.ConvertToView();
+				await sellerRepository.AddAsync(seller);
+				await unitOfWork.CommitAsync();
+				message.Result = seller.ConvertToView();
+				return message;
 			}
-			return null;
+			else message.Errors = validationMessage.Errors;
+
+			return message;
 		}
 
-		public SellerView GetSellerBy(int sellerId) => sellerRepository.GetBy(sellerId)?.ConvertToView() ?? null;
+		public async Task<SellerView> GetSellerByAsync(int sellerId) => (await sellerRepository.GetByAsync(sellerId))?.ConvertToView() ?? null;
 
 		public SellerView GetSellerBy(string sellerEmail) => sellerRepository.GetBy(sellerEmail)?.ConvertToView() ?? null;
 
-		public SellerUpdateModel GetSellerUpdateModelBy(int sellerId) => sellerRepository.GetBy(sellerId)?.ConvertToUpdateModel() ?? null;
+		public async Task<SellerUpdateModel> GetSellerUpdateModelByAsync(int sellerId) => (await sellerRepository.GetByAsync(sellerId))?.ConvertToUpdateModel() ?? null;
 
 		public SellerUpdateModel GetSellerUpdateModelBy(string sellerEmail) => sellerRepository.GetBy(sellerEmail)?.ConvertToUpdateModel() ?? null;
 
@@ -1271,93 +1717,104 @@ namespace ECommerce.Application
 				.GetBy(searchModel.Email, searchModel.Name, searchModel.PhoneNumber, searchModel.Status)
 				.Count();
 
-		public void UpdateSeller(int sellerId, SellerUpdateModel updateModel, out ICollection<string> errors)
+		public async Task<Message> UpdateSellerAsync(int sellerId, SellerUpdateModel updateModel)
 		{
+			Message message = new Message();
 			Seller seller = updateModel.ConvertToEntity();
+			var validationMessage = ValidateSeller(seller, false, false);
 
-			if (ValidateSeller(seller, false, false, out errors))
+			if (validationMessage.Result)
 			{
-				if (sellerRepository.GetBy(sellerId) != null)
+				if ((await sellerRepository.GetByAsync(sellerId)) != null)
 				{
-					sellerRepository.Update(sellerId, seller);
-					unitOfWork.Commit();
+					await sellerRepository.UpdateAsync(sellerId, seller);
+					await unitOfWork.CommitAsync();
 				}
-				else errors.Add("Could not found seller");
+				else message.Errors.Add("Could not found seller");
 			}
+			else message.Errors = validationMessage.Errors;
+
+			return message;
 		}
 
-		public void UpdateSellerPassword(int sellerId, string password, out ICollection<string> errors)
+		public async Task<Message> UpdateSellerPasswordAsync(int sellerId, string password)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 			if (!string.IsNullOrEmpty(password))
 			{
-				Seller seller = sellerRepository.GetBy(sellerId);
+				Seller seller = await sellerRepository.GetByAsync(sellerId);
 				if (seller != null)
 				{
 					seller.Password = password;
-					unitOfWork.Commit();
+					await unitOfWork.CommitAsync();
 				}
-				else errors.Add("Could not found seller");
+				else message.Errors.Add("Could not found seller");
 			}
-			else errors.Add("Password can not be empty");
+			else message.Errors.Add("Password can not be empty");
+
+			return message;
 		}
 
-		public void UpdateSellerStatus(int sellerId, SellerStatus status, out ICollection<string> errors)
+		public async Task<Message> UpdateSellerStatusAsync(int sellerId, SellerStatus status)
 		{
-			errors = new List<string>();
-			Seller seller = sellerRepository.GetBy(sellerId);
+			Message message = new Message();
+			Seller seller = await sellerRepository.GetByAsync(sellerId);
 			if (seller != null)
 			{
-				sellerRepository.GetBy(sellerId).Status = status;
-				unitOfWork.Commit();
+				(await sellerRepository.GetByAsync(sellerId)).Status = status;
+				await unitOfWork.CommitAsync();
 			}
-			else errors.Add("Could not found seller");
+			else message.Errors.Add("Could not found seller");
+
+			return message;
 		}
 
-		public void UpdateSellerEmail(int sellerId, string email, out ICollection<string> errors)
+		public async Task<Message> UpdateSellerEmailAsync(int sellerId, string email)
 		{
-			errors = new List<string>();
+			Message message = new Message();
 			if (string.IsNullOrWhiteSpace(email))
 			{
-				errors.Add("Email can not be empty");
+				message.Errors.Add("Email can not be empty");
 			}
 			else if (!EmailValidationService.IsValidEmail(email))
 			{
-				errors.Add("Invalid email address");
+				message.Errors.Add("Invalid email address");
 			}
 			else
 			{
-				Seller seller = sellerRepository.GetBy(sellerId);
+				Seller seller = await sellerRepository.GetByAsync(sellerId);
 				if (seller != null)
 				{
 					if (sellerRepository.GetBy(email) == null)
 					{
 						seller.Email = email;
-						unitOfWork.Commit();
+						await unitOfWork.CommitAsync();
 					}
-					else errors.Add("Email already in use");
+					else message.Errors.Add("Email already in use");
 				}
-				else errors.Add("Could not found seller");
+				else message.Errors.Add("Could not found seller");
 			}
+
+			return message;
 		}
 
-		public void DeleteSeller(int sellerId)
+		public async Task DeleteSellerAsync(int sellerId)
 		{
-			if (sellerRepository.GetBy(sellerId) != null)
+			if ((await sellerRepository.GetByAsync(sellerId)) != null)
 			{
-				sellerRepository.Delete(sellerId);
-				unitOfWork.Commit();
+				await sellerRepository.DeleteAsync(sellerId);
+				await unitOfWork.CommitAsync();
 			}
 		}
 
-		public void DeleteSeller(Seller seller)
+		public async Task DeleteSellerAsync(Seller seller)
 		{
 			sellerRepository.Delete(seller);
-			unitOfWork.Commit();
+			await unitOfWork.CommitAsync();
 		}
 
-		public string GetSellerEncryptedPassword(int id)
-			=> sellerRepository.GetBy(id)?.Password ?? null;
+		public async Task<string> GetSellerEncryptedPasswordAsync(int id)
+			=> (await sellerRepository.GetByAsync(id))?.Password ?? null;
 		#endregion
 	}
 }

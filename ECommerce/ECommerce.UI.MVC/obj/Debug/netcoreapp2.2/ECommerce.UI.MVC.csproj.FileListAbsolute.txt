@@ -266,3 +266,6 @@ E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\E
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Test\Index.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.Shared.dll
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\ECommerce.UI.Shared.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\AttributesStates.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\AttributesStatesTable.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\ProductAttributes.cshtml.g.cs

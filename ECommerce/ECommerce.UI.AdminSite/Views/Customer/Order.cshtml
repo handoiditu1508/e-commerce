@@ -2,7 +2,7 @@
 
 @{
 	ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
-	CustomerView customer = eCommerce.GetCustomerBy((int)Model.SearchModel.CustomerId);
+	CustomerView customer = await eCommerce.GetCustomerByAsync((int)Model.SearchModel.CustomerId);
 }
 <h1>Customer email: @customer.Email</h1>
 <h1>Customer name: @FullName.Write(customer.FirstName, customer.MiddleName, customer.LastName)</h1>

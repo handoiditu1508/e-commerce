@@ -2,6 +2,7 @@
 using ECommerce.UI.AdminSite.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.AdminSite.Components
 {
@@ -14,9 +15,9 @@ namespace ECommerce.UI.AdminSite.Components
 			loginPersistence = new AdminLoginPersistence(accessor, unitOfWork);
 		}
 
-		public IViewComponentResult Invoke()
+		public async Task<IViewComponentResult> InvokeAsync()
 		{
-			return View(loginPersistence.PersistLogin());
+			return View(await loginPersistence.PersistLoginAsync());
 		}
 	}
 }

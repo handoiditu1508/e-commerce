@@ -6,6 +6,7 @@ using ECommerce.UI.MVC.Models;
 using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Infrastructure
 {
@@ -31,7 +32,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			connectionInfo = accessor.HttpContext.Connection;
 		}
 
-		public CustomerView PersistLogin()
+		public async Task<CustomerView> PersistLoginAsync()
 		{
 			CustomerView customer;
 
@@ -39,7 +40,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			string sessionValue = session.GetString(customerSessionKeyWord);
 			if (sessionValue != null)
 			{
-				customer = eCommerce.GetCustomerBy(int.Parse(sessionValue));
+				customer = await eCommerce.GetCustomerByAsync(int.Parse(sessionValue));
 				if(customer!=null)
 				{
 					if (customer.Active)
@@ -53,7 +54,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			if (loginCookies == null)
 				return null;
 
-			customer = eCommerce.GetCustomerBy(loginCookies.UserId);
+			customer = await eCommerce.GetCustomerByAsync(loginCookies.UserId);
 			if (customer == null)
 			{
 				responseCookies.Delete(customerCookieKeyWord);
@@ -67,7 +68,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			}
 
 			string loginValue = EncryptionService.Encrypt(customer.Email +
-				eCommerce.GetCustomerEncryptedPassword(customer.Id) +
+				eCommerce.GetCustomerEncryptedPasswordAsync(customer.Id) +
 				connectionInfo.RemoteIpAddress.ToString());
 			if (loginCookies.LoginValue != loginValue)
 			{
@@ -79,9 +80,9 @@ namespace ECommerce.UI.MVC.Infrastructure
 			return customer;
 		}
 
-		public void LoginThrough(int id, bool rememberLogin = false)
+		public async Task LoginThroughAsync(int id, bool rememberLogin = false)
 		{
-			CustomerView customer = eCommerce.GetCustomerBy(id);
+			CustomerView customer = await eCommerce.GetCustomerByAsync(id);
 			if(customer!=null)
 			{
 				session.SetString(customerSessionKeyWord, customer.Id.ToString());
@@ -92,7 +93,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 						{
 							UserId = id,
 							LoginValue = EncryptionService.Encrypt(customer.Email +
-								eCommerce.GetCustomerEncryptedPassword(customer.Id) +
+								eCommerce.GetCustomerEncryptedPasswordAsync(customer.Id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });
@@ -113,7 +114,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 						{
 							UserId = customer.Id,
 							LoginValue = EncryptionService.Encrypt(customer.Email +
-								eCommerce.GetCustomerEncryptedPassword(customer.Id) +
+								eCommerce.GetCustomerEncryptedPasswordAsync(customer.Id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });

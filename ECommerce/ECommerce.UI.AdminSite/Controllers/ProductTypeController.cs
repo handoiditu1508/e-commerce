@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ECommerce.Application;
 using ECommerce.Application.SearchModels;
 using ECommerce.Application.UpdateModels;
@@ -31,7 +32,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 		public IActionResult Index() => View(new ProductTypeSearchModel { ProductStatus = ProductStatus.Validating });
 
 		[AdminLoginRequired]
-		public IActionResult Search(string searchString, int? categoryId, ProductTypeStatus? status, string dateModified, ProductStatus? productStatus, short? page = 1)
+		public async Task<IActionResult> Search(string searchString, int? categoryId, ProductTypeStatus? status, string dateModified, ProductStatus? productStatus, short? page = 1)
         {
 			DateTime? convertedDateModified = null;
 			if (!string.IsNullOrWhiteSpace(dateModified))
@@ -54,12 +55,12 @@ namespace ECommerce.UI.AdminSite.Controllers
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductTypesListViewModel
 			{
-				ProductTypes = eCommerce.GetProductTypesBy(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
+				ProductTypes = await eCommerce.GetProductTypesByAsync(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
 				PagingInfo = new PagingInfo
 				{
 					CurrentPage = (short)page,
 					RecordsPerPage = recordsPerPage,
-					TotalRecords = eCommerce.CountProductTypesBy(searchModel)
+					TotalRecords = await eCommerce.CountProductTypesByAsync(searchModel)
 				},
 				SearchModel = searchModel
 			});
@@ -67,32 +68,31 @@ namespace ECommerce.UI.AdminSite.Controllers
 
 		[HttpGet]
 		[AdminLoginRequired]
-		public IActionResult Informations(int productTypeId)
+		public async Task<IActionResult> Informations(int productTypeId)
 		{
-			ProductTypeView productType = eCommerce.GetProductTypeBy(productTypeId);
+			ProductTypeView productType = await eCommerce.GetProductTypeByAsync(productTypeId);
 			return productType != null ? View(productType) : (IActionResult)NotFound();
 		}
 
 		[HttpPost]
 		[AdminLoginRequired]
-		public IActionResult Informations(ProductTypeView productType)
+		public async Task<IActionResult> Informations(ProductTypeView productType)
 		{
 			if (ModelState.IsValid)
 			{
-				eCommerce.UpdateProductType(productType.Id,
+				var message = await eCommerce.UpdateProductTypeAsync(productType.Id,
 					new ProductTypeUpdateModel
 					{
 						Name = productType.Name,
 						CategoryId = productType.CategoryId
-					},
-					out ICollection<string> errors);
-				if (errors.Any())
+					});
+				if (message.Errors.Any())
 				{
-					ViewData[GlobalViewBagKeys.Errors] = errors;
+					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				}
 				else
 				{
-					ProductTypeView updatedProductType = eCommerce.GetProductTypeBy(productType.Id);
+					ProductTypeView updatedProductType = await eCommerce.GetProductTypeByAsync(productType.Id);
 
 					ICollection<string> messages = new List<string>();
 					messages.Add("Product type informations updated");
@@ -146,40 +146,40 @@ namespace ECommerce.UI.AdminSite.Controllers
 		}
 
 		[AdminLoginRequired]
-		public IActionResult UpdateRequestDetail(int sellerId, int productTypeId)
+		public async Task<IActionResult> UpdateRequestDetail(int sellerId, int productTypeId)
 		{
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
-			ProductTypeUpdateRequestView updateRequest = eCommerce.GetProductTypeUpdateRequestBy(sellerId, productTypeId);
+			ProductTypeUpdateRequestView updateRequest = await eCommerce.GetProductTypeUpdateRequestByAsync(sellerId, productTypeId);
 			return updateRequest != null ? View(updateRequest) : (IActionResult)NotFound();
 		}
 
 		[HttpPost]
 		[AdminLoginRequired]
-		public IActionResult ApplyUpdateRequest(int sellerId, int productTypeId)
+		public async Task<IActionResult> ApplyUpdateRequest(int sellerId, int productTypeId)
 		{
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
-			eCommerce.ApplyAnUpdateForProductType(sellerId, productTypeId, out ICollection<string> errors);
-			if(errors.Any())
+			var message = await eCommerce.ApplyAnUpdateForProductTypeAsync(sellerId, productTypeId);
+			if(message.Errors.Any())
 			{
-				ViewData[GlobalViewBagKeys.Errors] = errors;
+				ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				return RedirectToAction("UpdateRequestDetail", new { sellerId, productTypeId });
 			}
 			return RedirectToAction("UpdateRequest");
 		}
 
 		[HttpPost]
-		public IActionResult ChangeStatus(int productTypeId, ProductTypeStatus status)
+		public async Task<IActionResult> ChangeStatus(int productTypeId, ProductTypeStatus status)
 		{
-			if (loginPersistence.PersistLogin() == null)
+			if ((await loginPersistence.PersistLoginAsync()) == null)
 				return Json("Not login");
 
 			try
 			{
-				eCommerce.UpdateProductTypeStatus(productTypeId, status, out ICollection<string> errors);
-				if (errors.Any())
+				var message = await eCommerce.UpdateProductTypeStatusAsync(productTypeId, status);
+				if (message.Errors.Any())
 				{
 					string errorString = "";
-					foreach (string error in errors)
+					foreach (string error in message.Errors)
 						errorString += error + "\n";
 					errorString.Remove(errorString.Length - 1);
 					return Json(errorString);

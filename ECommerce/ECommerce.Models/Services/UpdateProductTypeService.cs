@@ -1,11 +1,13 @@
 ﻿using ECommerce.Models.Entities.Categories;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Messages;
 using ECommerce.Models.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ECommerce.Models.Services
 {
@@ -23,91 +25,97 @@ namespace ECommerce.Models.Services
 			this.categoryRepository = categoryRepository;
 		}
 
-		public bool TryRequestAnUpdate(int sellerId, ProductTypeUpdateRequest updateRequest, out ICollection<string> errors)
+		public async Task<BoolMessage> RequestAnUpdateAsync(int sellerId, ProductTypeUpdateRequest updateRequest)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check seller existence
-			Seller seller = sellerRepository.GetBy(sellerId);
+			Seller seller = await sellerRepository.GetByAsync(sellerId);
 			if (seller == null)
-				errors.Add("Could not found seller");
+				message.Errors.Add("Could not found seller");
 			else if (seller.Status != SellerStatus.Active)//check seller status
-				errors.Add("Seller is unactive");
+				message.Errors.Add("Seller is unactive");
 
 			//check product type existence
-			ProductType productType = productTypeRepository.GetBy(updateRequest.ProductTypeId);
+			ProductType productType = await productTypeRepository.GetByAsync(updateRequest.ProductTypeId);
 			if (productType == null)
-				errors.Add("Could not found product type");
+				message.Errors.Add("Could not found product type");
 			else if (productType.Status != ProductTypeStatus.Active)//check product type status
-				errors.Add("Product type is unavailable at the moment");
+				message.Errors.Add("Product type is unavailable at the moment");
 
 			//check category existence
 			if (updateRequest.CategoryId != null)
 			{
-				Category category = categoryRepository.GetBy((int)updateRequest.CategoryId);
+				Category category = await categoryRepository.GetByAsync((int)updateRequest.CategoryId);
 				if (category == null)
-					errors.Add("Could not found category");
+					message.Errors.Add("Could not found category");
 				else if (category.ChildCategories.Any())//check category have any childs or not
-					errors.Add("Category must have no childs");
+					message.Errors.Add("Category must have no childs");
 			}
 
 			if (string.IsNullOrWhiteSpace(updateRequest.Name))
-				errors.Add("Product type name is required");
+				message.Errors.Add("Product type name is required");
 
 			if (string.IsNullOrWhiteSpace(updateRequest.Descriptions))
-				errors.Add("Update descriptions is required");
+				message.Errors.Add("Update descriptions is required");
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
 				seller.RequestUpdateForProductType(updateRequest);
-				return true;
+				message.Result = true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 
-		public bool TryApplyAnUpdate(int sellerId, int productTypeId, out ICollection<string> errors)
+		public async Task<BoolMessage> ApplyAnUpdateAsync(int sellerId, int productTypeId)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check product type existence
-			ProductType productType = productTypeRepository.GetBy(productTypeId);
+			ProductType productType = await productTypeRepository.GetByAsync(productTypeId);
 			if (productType == null)
-				errors.Add("Could not found product type");
+				message.Errors.Add("Could not found product type");
 			else if (productType.Status != ProductTypeStatus.Active)//check product type status
-				errors.Add("Product type is unavailable at the moment");
+				message.Errors.Add("Product type is unavailable at the moment");
 
 			ProductTypeUpdateRequest updateRequest
-				= productTypeRepository.GetUpdateRequest(sellerId, productTypeId);
+				= await productTypeRepository.GetUpdateRequestAsync(sellerId, productTypeId);
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
 				productType.ApplyUpdate(updateRequest);
 				productType.UpdateRequests.Remove(updateRequest);
-				return true;
+				message.Result = true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 
-		public bool TryDeclineAnUpdate(int sellerId, int productTypeId, out ICollection<string> errors)
+		public async Task<BoolMessage> DeclineAnUpdateAsync(int sellerId, int productTypeId)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage();
 
 			//check product type existence
-			ProductType productType = productTypeRepository.GetBy(productTypeId);
+			ProductType productType = await productTypeRepository.GetByAsync(productTypeId);
 			if (productType == null)
-				errors.Add("Could not found product type");
+				message.Errors.Add("Could not found product type");
 			else if (productType.Status != ProductTypeStatus.Active)//check product type status
-				errors.Add("Product type is unavailable at the moment");
+				message.Errors.Add("Product type is unavailable at the moment");
 
 			ProductTypeUpdateRequest updateRequest
-				= productTypeRepository.GetUpdateRequest(sellerId, productTypeId);
+				= await productTypeRepository.GetUpdateRequestAsync(sellerId, productTypeId);
 
-			if (!errors.Any())
+			if (!message.Errors.Any())
 			{
 				productType.DeclineUpdateRequest(updateRequest);
-				return true;
+				message.Result = true;
+				return message;
 			}
-			return false;
+			message.Result = false;
+			return message;
 		}
 	}
 }

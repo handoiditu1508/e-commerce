@@ -1,4 +1,5 @@
 ﻿using ECommerce.Models.Repositories;
+using System.Threading.Tasks;
 
 namespace ECommerce.Infrastructure.UnitOfWork
 {
@@ -10,6 +11,6 @@ namespace ECommerce.Infrastructure.UnitOfWork
 		IProductTypeRepository GetProductTypeRepository();
 		ISellerRepository GetSellerRepository();
 
-		void Commit();
+		Task CommitAsync();
 	}
 }

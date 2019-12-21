@@ -1,6 +1,8 @@
 ﻿using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Messages;
 using ECommerce.Models.Repositories;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerce.Models.Services
 {
@@ -15,28 +17,28 @@ namespace ECommerce.Models.Services
 			ServiceOperatingModel = serviceOperatingModel;
 		}
 
-		public abstract bool CanAdminAddProductQuantity(Product product, out ICollection<string> errors);
+		public abstract Task<BoolMessage> CanAdminAddProductQuantityAsync(Product product);
 
-		public abstract bool CanAdminReduceProductQuantity(Product product, out ICollection<string> errors);
+		public abstract Task<BoolMessage> CanAdminReduceProductQuantityAsync(Product product);
 
-		public abstract bool CanSellerAddProductQuantity(Product product, out ICollection<string> errors);
+		public abstract Task<BoolMessage> CanSellerAddProductQuantityAsync(Product product);
 
-		public abstract bool CanSellerReduceProductQuantity(Product product, out ICollection<string> errors);
+		public abstract Task<BoolMessage> CanSellerReduceProductQuantityAsync(Product product);
 
-		public abstract bool CanAdminConfirmsOrder();
+		public abstract Task<BoolMessage> CanAdminConfirmsOrderAsync();
 
-		public abstract bool CanAdminRejectsOrder();
+		public abstract Task<BoolMessage> CanAdminRejectsOrderAsync();
 
-		public abstract bool CanAdminManagesOrder();
+		public abstract Task<BoolMessage> CanAdminManagesOrderAsync();
 
-		public abstract bool CanSellerConfirmsOrder();
+		public abstract Task<BoolMessage> CanSellerConfirmsOrderAsync();
 
-		public abstract bool CanSellerRejectsOrder();
+		public abstract Task<BoolMessage> CanSellerRejectsOrderAsync();
 
-		public abstract bool CanSellerManagesOrder();
+		public abstract Task<BoolMessage> CanSellerManagesOrderAsync();
 
-		public abstract bool CanChangeToThisModel(Product product, out ICollection<string> errors);
+		public abstract Task<BoolMessage> CanChangeToThisModelAsync(Product product);
 
-		public abstract bool CanLeaveThisModel(Product product, out ICollection<string> errors);
+		public abstract Task<BoolMessage> CanLeaveThisModelAsync(Product product);
 	}
 }

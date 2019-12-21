@@ -31,8 +31,6 @@ namespace ECommerce.Application.Extensions
 			=> new ProductUpdateModel
 			{
 				Price = product.Price,
-				Attributes = product.Attributes.GroupBy(pa1 => pa1.Name)
-						.ToDictionary(g => g.Key, g => g.Select(pa2 => pa2.Value).ToHashSet()),
 				Images = product.ConvertedImages
 			};
 	}

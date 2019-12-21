@@ -13,7 +13,6 @@ namespace ECommerce.Application.Extensions.UpdateModels
 				ConvertedImages = updateModel.Images,
 				RepresentativeImage = updateModel.RepresentativeImage
 			};
-			product.ChangeAttributes(updateModel.Attributes);
 			return product;
 		}
 	}

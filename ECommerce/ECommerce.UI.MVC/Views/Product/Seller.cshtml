@@ -2,7 +2,7 @@
 
 @{
 	ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
-	SellerView seller = eCommerce.GetSellerBy((int)Model.SearchModel.SellerId);
+	SellerView seller = await eCommerce.GetSellerByAsync((int)Model.SearchModel.SellerId);
 }
 <h1>@seller.Name</h1>
 
