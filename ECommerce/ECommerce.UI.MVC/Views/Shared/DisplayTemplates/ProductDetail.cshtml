@@ -190,43 +190,44 @@
 			$.ajax({
 				url: $('#getProductAttributesUrl').val(),
 				type: 'get',
-				async: false,
 				data: {
 					sellerId: sellerId,
 					productTypeId: productTypeId
 				},
 				success: function (result) {
+
+					//initiate attributesStates from server
+					$.ajax({
+						url: $('#getProductAttributesStatesUrl').val(),
+						type: 'get',
+						data: {
+							sellerId: sellerId,
+							productTypeId: productTypeId
+						},
+						success: function (result) {
+							attributesStates = result;
+							checkFirst();
+						},
+						error: function (result) {
+							alert('Something went wrong while loading attributes states');
+						}
+					});
+
 					attributes = result;
+
+					//initiate attributeKeys from attributes's properties name
+					for (prop in attributes) {
+						if (Object.prototype.hasOwnProperty.call(attributes, prop)) {
+					
+							attributeKeys.push(prop);
+						}
+					}
+
 				},
 				error: function (result) {
 					alert('Something went wrong while loading attributes');
 				}
 			});
-
-			//initiate attributesStates from server
-			$.ajax({
-				url: $('#getProductAttributesStatesUrl').val(),
-				type: 'get',
-				async: false,
-				data: {
-					sellerId: sellerId,
-					productTypeId: productTypeId
-				},
-				success: function (result) {
-					attributesStates = result;
-				},
-				error: function (result) {
-					alert('Something went wrong while loading attributes states');
-				}
-			});
-			
-			//initiate attributeKeys from attributes's properties name
-			for (prop in attributes) {
-				if (Object.prototype.hasOwnProperty.call(attributes, prop)) {
-					
-					attributeKeys.push(prop);
-				}
-			}
 		}
 
 		//get index of name in attributeKeys
@@ -337,8 +338,7 @@
 		});
 
 		//perform functions
-		unCheckAll();
 		loadVariables();
-		checkFirst();
+		unCheckAll();
 	});
 </script>
