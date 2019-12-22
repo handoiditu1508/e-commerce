@@ -18,22 +18,22 @@ using ECommerce.Application;
 #line default
 #line hidden
 #line 2 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 
 #line default
 #line hidden
 #line 3 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.AddModels;
+using ECommerce.Application.WorkingModels.AddModels;
 
 #line default
 #line hidden
 #line 4 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.UpdateModels;
+using ECommerce.Application.WorkingModels.UpdateModels;
 
 #line default
 #line hidden
 #line 5 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 
 #line default
 #line hidden
@@ -98,7 +98,7 @@ using System.IO;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"f41a8a02e6737815422fce34b0e4f84b0d96eafa", @"/Views/UpdateProductType/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a33b61cb7095554506aa9d834701448aca0e027d", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5531ed2f3a93f08478d43d2718a1c43736b95650", @"/Views/_ViewImports.cshtml")]
     public class Views_UpdateProductType_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ProductTypeUpdateRequestAddModel>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Index", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -160,7 +160,7 @@ Write(await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId = produ
             WriteLiteral("\r\n<hr />\r\n<h1>Update request info:</h1>\r\n");
             EndContext();
             BeginContext(522, 154, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f41a8a02e6737815422fce34b0e4f84b0d96eafa8482", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f41a8a02e6737815422fce34b0e4f84b0d96eafa8519", async() => {
                 BeginContext(561, 3, true);
                 WriteLiteral("\r\n\t");
                 EndContext();

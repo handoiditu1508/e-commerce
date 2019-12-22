@@ -18,22 +18,22 @@ using ECommerce.Application;
 #line default
 #line hidden
 #line 2 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 
 #line default
 #line hidden
 #line 3 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.AddModels;
+using ECommerce.Application.WorkingModels.AddModels;
 
 #line default
 #line hidden
 #line 4 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.UpdateModels;
+using ECommerce.Application.WorkingModels.UpdateModels;
 
 #line default
 #line hidden
 #line 5 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 
 #line default
 #line hidden
@@ -98,7 +98,7 @@ using System.IO;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0d683ea1536710db5f2a98c4d292f36a78080543", @"/Views/Product/Seller.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a33b61cb7095554506aa9d834701448aca0e027d", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5531ed2f3a93f08478d43d2718a1c43736b95650", @"/Views/_ViewImports.cshtml")]
     public class Views_Product_Seller : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ProductsListViewModel>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("name", "ProductSummary", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -163,7 +163,7 @@ Write(seller.Name);
             WriteLiteral("\t");
             EndContext();
             BeginContext(296, 43, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "0d683ea1536710db5f2a98c4d292f36a780805439335", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "0d683ea1536710db5f2a98c4d292f36a780805439372", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();
@@ -196,7 +196,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper.Model = p;
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(346, 283, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("div", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0d683ea1536710db5f2a98c4d292f36a7808054311302", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("div", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0d683ea1536710db5f2a98c4d292f36a7808054311339", async() => {
                 BeginContext(621, 2, true);
                 WriteLiteral("\r\n");
                 EndContext();

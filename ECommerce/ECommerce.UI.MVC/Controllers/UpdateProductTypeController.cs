@@ -1,7 +1,7 @@
 ﻿using ECommerce.Application;
-using ECommerce.Application.AddModels;
-using ECommerce.Application.SearchModels;
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.AddModels;
+using ECommerce.Models.SearchModels;
+using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.ProductTypes;

@@ -18,22 +18,22 @@ using ECommerce.Application;
 #line default
 #line hidden
 #line 2 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 
 #line default
 #line hidden
 #line 3 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.AddModels;
+using ECommerce.Application.WorkingModels.AddModels;
 
 #line default
 #line hidden
 #line 4 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.UpdateModels;
+using ECommerce.Application.WorkingModels.UpdateModels;
 
 #line default
 #line hidden
 #line 5 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 
 #line default
 #line hidden
@@ -98,7 +98,7 @@ using System.IO;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"baff4b9bc36c50a1cdccd5c218f3272c7fc83989", @"/Views/Shared/Components/NavigationMenu/Default.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a33b61cb7095554506aa9d834701448aca0e027d", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5531ed2f3a93f08478d43d2718a1c43736b95650", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_Components_NavigationMenu_Default : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<CategoryView>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("img-fluid rounded"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -141,7 +141,7 @@ Write(await Component.InvokeAsync("CategoriesList"));
             WriteLiteral("\r\n</div>\r\n\r\n<div class=\"card bg-light\">\r\n\t<div class=\"card-header bg-success text-white text-uppercase\">Last product</div>\r\n\t<div class=\"card-body\">\r\n\t\t");
             EndContext();
             BeginContext(269, 84, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "baff4b9bc36c50a1cdccd5c218f3272c7fc839898447", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "baff4b9bc36c50a1cdccd5c218f3272c7fc839898484", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();

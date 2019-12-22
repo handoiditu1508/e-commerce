@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.AddModels;
+﻿using ECommerce.Application.WorkingModels.AddModels;
 
 namespace ECommerce.UI.MVC.Models.ViewModels
 {

@@ -1,5 +1,5 @@
 ﻿using ECommerce.Application;
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using Newtonsoft.Json;
 using System.Collections.Generic;

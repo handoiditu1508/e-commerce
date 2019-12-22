@@ -18,22 +18,22 @@ using ECommerce.Application;
 #line default
 #line hidden
 #line 2 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 
 #line default
 #line hidden
 #line 3 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.AddModels;
+using ECommerce.Application.WorkingModels.AddModels;
 
 #line default
 #line hidden
 #line 4 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.UpdateModels;
+using ECommerce.Application.WorkingModels.UpdateModels;
 
 #line default
 #line hidden
 #line 5 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 
 #line default
 #line hidden
@@ -98,7 +98,7 @@ using System.IO;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5be45f43b0d33fc14b50f99d5315e88281926780", @"/Views/Shared/Components/CartTable/Default.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a33b61cb7095554506aa9d834701448aca0e027d", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5531ed2f3a93f08478d43d2718a1c43736b95650", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_Components_CartTable_Default : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<Cart>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("removeFromCartOnSubmit"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -173,7 +173,7 @@ using System.IO;
             WriteLiteral("\t\t\t\t\t\t\t<td>This product is currently unavailable</td>\r\n\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t");
             EndContext();
             BeginContext(1288, 236, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5be45f43b0d33fc14b50f99d5315e882819267809435", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5be45f43b0d33fc14b50f99d5315e882819267809472", async() => {
                 BeginContext(1362, 44, true);
                 WriteLiteral("\r\n\t\t\t\t\t\t\t\t\t<input type=\"hidden\" name=\"index\"");
                 EndContext();
@@ -300,7 +300,7 @@ WriteAttributeValue("", 1766, product.ProductTypeName, 1766, 24, false);
             WriteLiteral("\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t\t<td class=\"text-center\">\r\n\t\t\t\t\t\t\t\t");
             EndContext();
             BeginContext(2127, 369, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5be45f43b0d33fc14b50f99d5315e8828192678016243", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5be45f43b0d33fc14b50f99d5315e8828192678016280", async() => {
                 BeginContext(2213, 82, true);
                 WriteLiteral("\r\n\t\t\t\t\t\t\t\t\t<input type=\"number\" name=\"quantity\" class=\"form-control quantityInput\"");
                 EndContext();
@@ -372,7 +372,7 @@ AddHtmlAttributeValue("", 2176, changeQuantityAction, 2176, 21, false);
             WriteLiteral("</td>\r\n\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t");
             EndContext();
             BeginContext(2697, 236, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5be45f43b0d33fc14b50f99d5315e8828192678020771", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5be45f43b0d33fc14b50f99d5315e8828192678020808", async() => {
                 BeginContext(2771, 44, true);
                 WriteLiteral("\r\n\t\t\t\t\t\t\t\t\t<input type=\"hidden\" name=\"index\"");
                 EndContext();

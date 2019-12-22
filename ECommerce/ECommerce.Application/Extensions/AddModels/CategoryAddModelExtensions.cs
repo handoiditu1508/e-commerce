@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.AddModels;
+﻿using ECommerce.Application.WorkingModels.AddModels;
 using ECommerce.Models.Entities.Categories;
 
 namespace ECommerce.Application.Extensions.AddModels

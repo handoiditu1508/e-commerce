@@ -18,22 +18,22 @@ using ECommerce.Application;
 #line default
 #line hidden
 #line 2 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 
 #line default
 #line hidden
 #line 3 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.AddModels;
+using ECommerce.Application.WorkingModels.AddModels;
 
 #line default
 #line hidden
 #line 4 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.UpdateModels;
+using ECommerce.Application.WorkingModels.UpdateModels;
 
 #line default
 #line hidden
 #line 5 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 
 #line default
 #line hidden
@@ -98,7 +98,7 @@ using System.IO;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4c831f6816e92f803fe8ab8fb15da5c5098108e3", @"/Views/UpdateProductType/SelectProductType.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a33b61cb7095554506aa9d834701448aca0e027d", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5531ed2f3a93f08478d43d2718a1c43736b95650", @"/Views/_ViewImports.cshtml")]
     public class Views_UpdateProductType_SelectProductType : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ProductTypesListViewModel>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "SelectProductType", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -136,7 +136,7 @@ using System.IO;
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(36, 351, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4c831f6816e92f803fe8ab8fb15da5c5098108e38818", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4c831f6816e92f803fe8ab8fb15da5c5098108e38855", async() => {
                 BeginContext(86, 96, true);
                 WriteLiteral("\r\n\t<div class=\"input-group mb-3\">\r\n\t\t<input class=\"form-control\" type=\"text\" name=\"searchString\"");
                 EndContext();
@@ -182,7 +182,7 @@ Write(Html.DisplayFor(m => m.ProductTypes, "SelectProductTypeTable"));
             WriteLiteral("\r\n\r\n");
             EndContext();
             BeginContext(458, 291, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("div", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4c831f6816e92f803fe8ab8fb15da5c5098108e311880", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("div", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4c831f6816e92f803fe8ab8fb15da5c5098108e311917", async() => {
                 BeginContext(741, 2, true);
                 WriteLiteral("\r\n");
                 EndContext();

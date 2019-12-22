@@ -33,12 +33,12 @@ using ECommerce.Application;
 #line default
 #line hidden
 #line 5 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 
 #line default
 #line hidden
 #line 6 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 
 #line default
 #line hidden
@@ -83,7 +83,7 @@ using System;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"766c0a685a3ee61fad515e1dfdf88da15f954979", @"/Views/Seller/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"05673cffe257c57949a4b08711e766d8aec1c236", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1be0c5b2f88cfbca335f9f6fedbd186ed3ee637e", @"/Views/_ViewImports.cshtml")]
     public class Views_Seller_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<SellerSearchModel>
     {
         #pragma warning disable 1998

@@ -1,5 +1,5 @@
-﻿using ECommerce.Application.SearchModels;
-using ECommerce.Application.Views;
+﻿using ECommerce.Models.SearchModels;
+using ECommerce.Application.WorkingModels.Views;
 using System.Collections.Generic;
 
 namespace ECommerce.UI.MVC.Models.ViewModels

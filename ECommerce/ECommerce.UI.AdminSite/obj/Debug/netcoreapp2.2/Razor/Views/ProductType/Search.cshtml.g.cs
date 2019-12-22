@@ -33,12 +33,12 @@ using ECommerce.Application;
 #line default
 #line hidden
 #line 5 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 
 #line default
 #line hidden
 #line 6 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 
 #line default
 #line hidden
@@ -83,7 +83,7 @@ using System;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"7d2c0c78e5b7487f6ee4873c3a743295f5fe9ac4", @"/Views/ProductType/Search.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"05673cffe257c57949a4b08711e766d8aec1c236", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1be0c5b2f88cfbca335f9f6fedbd186ed3ee637e", @"/Views/_ViewImports.cshtml")]
     public class Views_ProductType_Search : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ProductTypesListViewModel>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("col-12"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -137,7 +137,7 @@ Write(Html.DisplayFor(m=>m.ProductTypes, "ProductTypesTable"));
             WriteLiteral("\r\n\r\n");
             EndContext();
             BeginContext(161, 503, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("div", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7d2c0c78e5b7487f6ee4873c3a743295f5fe9ac48188", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("div", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7d2c0c78e5b7487f6ee4873c3a743295f5fe9ac48197", async() => {
                 BeginContext(656, 2, true);
                 WriteLiteral("\r\n");
                 EndContext();

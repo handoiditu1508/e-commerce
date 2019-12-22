@@ -4,6 +4,8 @@ using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
 using ECommerce.Models.Repositories;
+using ECommerce.Models.SearchModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -22,36 +24,50 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public async Task<ProductType> GetByAsync(int id) => await context.ProductTypes.FindAsync(id);
 
-		public async Task<IEnumerable<ProductType>> GetByAsync(string searchString, DateTime? dateModified, int? categoryId, ProductTypeStatus? status)
+		public async Task<IEnumerable<ProductType>> GetByAsync(ProductTypeSearchModel searchModel)
 		{
 			IEnumerable<ProductType> productTypes = context.ProductTypes;
 
-			if (dateModified != null)
+			if (searchModel.DateTimeModified != null)
 			{
-				productTypes = productTypes.Where(p => p.DateModified == dateModified);
+				productTypes = productTypes.Where(p => p.DateModified == searchModel.DateTimeModified);
 			}
 
-			if (categoryId != null)
+			if (searchModel.CategoryId != null)
 			{
-				Category category = await context.Categories.FindAsync((int)categoryId);
+				Category category = await context.Categories.FindAsync((int)searchModel.CategoryId);
 				if (category != null)
 				{
 					IEnumerable<int> ids = from c in category.GetChildsAndSubChilds()
 										   select c.Id;
-					ids = ids.Append((int)categoryId);
+					ids = ids.Append((int)searchModel.CategoryId);
 					productTypes = productTypes.Where(p => ids.Contains(p.CategoryId));
 				}
 				else return new ProductType[0];
 			}
 
-			if (status != null)
+			if (searchModel.Status != null)
 			{
-				productTypes = productTypes.Where(p => p.Status == status);
+				productTypes = productTypes.Where(p => p.Status == searchModel.Status);
 			}
 
-			if (!string.IsNullOrWhiteSpace(searchString))
+			if (searchModel.DateModified != null)
+				productTypes = productTypes
+					.Where(p => p.DateModified.Date == searchModel.DateModified?.Date);
+
+			if (searchModel.HasActiveProduct != null)
+				productTypes = productTypes
+					.Where(pt => pt.Products
+						.Any(p => p.Active == searchModel.HasActiveProduct));
+
+			if (searchModel.ProductStatus != null)
+				productTypes = productTypes
+					.Where(pt => pt.Products
+						.Any(p => p.Status == searchModel.ProductStatus));
+
+			if (!string.IsNullOrWhiteSpace(searchModel.SearchString))
 			{
-				string[] splitedSearchString = searchString.Trim().RemoveMultipleSpaces().ToLower().Split();
+				string[] splitedSearchString = searchModel.SearchString.Trim().RemoveMultipleSpaces().ToLower().Split();
 				productTypes = productTypes
 					.Where(p => splitedSearchString
 						.Any(s => p.Name.ToLower()
@@ -63,48 +79,115 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public IEnumerable<ProductType> GetAll() => context.ProductTypes;
 
-		public IEnumerable<Order> GetOrdersBy(int productTypeId, short? quantity, decimal? totalValue,
-			short? totalValueIndication)
+		public IEnumerable<Order> GetOrdersBy(OrderSearchModel searchModel)
 		{
-			IEnumerable<Order> orders = context.Orders.Where(o => o.ProductTypeId == productTypeId);
+			IEnumerable<Order> orders = context.Orders.Where(o => o.ProductTypeId == searchModel.ProductTypeId);
 
-			if (quantity != null)
-				orders = orders.Where(o => o.Quantity == quantity);
+			if (searchModel.Quantity != null)
+				orders = orders.Where(o => o.Quantity == searchModel.Quantity);
 
-			if (totalValue != null)
+			if (searchModel.TotalValue != null)
 			{
-				if (totalValueIndication == null || totalValueIndication == 0)
-					orders = orders.Where(o => o.Quantity * o.CurrentPrice == totalValue);
-				else if (totalValueIndication < 0)
-					orders = orders.Where(o => o.Quantity * o.CurrentPrice < totalValue);
-				else orders = orders.Where(o => o.Quantity * o.CurrentPrice > totalValue);
+				if (searchModel.TotalValueIndication == null || searchModel.TotalValueIndication == 0)
+					orders = orders.Where(o => o.Quantity * o.CurrentPrice == searchModel.TotalValue);
+				else if (searchModel.TotalValueIndication < 0)
+					orders = orders.Where(o => o.Quantity * o.CurrentPrice < searchModel.TotalValue);
+				else orders = orders.Where(o => o.Quantity * o.CurrentPrice > searchModel.TotalValue);
 			}
 
 			return orders;
 		}
 
-		public IEnumerable<Product> GetProductsBy(int productTypeId, decimal? price,
-			short? priceIndication, ProductStatus? status, bool? active)
+		public IEnumerable<Product> GetProductsBy(ProductSearchModel searchModel)
 		{
-			IEnumerable<Product> products = context.Products.Where(p => p.ProductTypeId == productTypeId);
+			IEnumerable<Product> products = context.Products.Where(p => p.ProductTypeId == searchModel.ProductTypeId);
 
-			if (status != null)
+			if (searchModel.Status != null)
 			{
-				products = products.Where(p => p.Status == status);
+				products = products.Where(p => p.Status == searchModel.Status);
 			}
 
-			if (active != null)
+			if (searchModel.Active != null)
 			{
-				products = products.Where(p => p.Active == active);
+				products = products.Where(p => p.Active == searchModel.Active);
 			}
 
-			if (price != null)
+			if (searchModel.MinimumQuantity != null)
 			{
-				if (priceIndication == null || priceIndication == 0)
-					products = products.Where(p => p.Price == price);
-				else if (priceIndication < 0)
-					products = products.Where(p => p.Price < price);
-				else products = products.Where(p => p.Price > price);
+				short mq = (short)(searchModel.MinimumQuantity - 1);
+				products = products.Where(p => p.Quantity > mq);
+			}
+
+			if (searchModel.Price != null)
+			{
+				if (searchModel.PriceIndication == null || searchModel.PriceIndication == 0)
+					products = products.Where(p => p.Price == searchModel.Price);
+				else if (searchModel.PriceIndication < 0)
+					products = products.Where(p => p.Price < searchModel.Price);
+				else products = products.Where(p => p.Price > searchModel.Price);
+			}
+
+			return products;
+		}
+
+		public async Task<IEnumerable<Product>> GetProductsDistinctAsync(ProductSearchModel searchModel)
+		{
+			IEnumerable<Product> products = context.Products
+				.Include(p => p.Seller)
+				.Include(p => p.ProductType)
+				.GroupBy(p => p.ProductTypeId)
+				.Select(g => g.First());
+
+			if (searchModel.Status != null)
+			{
+				products = products.Where(p => p.Status == searchModel.Status);
+			}
+
+			if (searchModel.Active != null)
+			{
+				products = products.Where(p => p.Active == searchModel.Active);
+			}
+
+			if (searchModel.MinimumQuantity != null)
+			{
+				short mq = (short)(searchModel.MinimumQuantity - 1);
+				products = products.Where(p => p.Quantity > mq);
+			}
+
+			if (searchModel.CategoryId != null)
+			{
+				Category category = await context.Categories.FindAsync((int)searchModel.CategoryId);
+				if (category != null)
+				{
+					IEnumerable<int> ids = from c in category.GetChildsAndSubChilds()
+										   select c.Id;
+					ids = ids.Append((int)searchModel.CategoryId);
+					products = products.Where(p => ids.Contains(p.ProductType.CategoryId));
+				}
+				else return new Product[0];
+			}
+
+			if (searchModel.Price != null)
+			{
+				if (searchModel.PriceIndication == null || searchModel.PriceIndication == 0)
+					products = products.Where(p => p.Price == searchModel.Price);
+				else if (searchModel.PriceIndication < 0)
+					products = products.Where(p => p.Price < searchModel.Price);
+				else products = products.Where(p => p.Price > searchModel.Price);
+			}
+
+			if (searchModel.ProductTypeStatus != null)
+			{
+				products = products.Where(p => p.ProductType.Status == searchModel.ProductTypeStatus);
+			}
+
+			if (!string.IsNullOrWhiteSpace(searchModel.SearchString))
+			{
+				string[] splitedSearchString = searchModel.SearchString.Trim().RemoveMultipleSpaces().ToLower().Split();
+				products = products
+					.Where(p => splitedSearchString
+						.Any(s => p.ProductType.Name.ToLower()
+							.Contains(s, CompareOptions.IgnoreNonSpace)));
 			}
 
 			return products;

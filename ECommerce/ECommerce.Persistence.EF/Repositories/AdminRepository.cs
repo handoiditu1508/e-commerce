@@ -2,6 +2,7 @@
 using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Admins;
 using ECommerce.Models.Repositories;
+using ECommerce.Models.SearchModels;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -22,24 +23,24 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public Admin GetBy(string email) => context.Admins.FirstOrDefault(a => a.Email == email);
 
-		public IEnumerable<Admin> GetBy(FullName fullName)
+		public IEnumerable<Admin> GetBy(AdminSearchModel searchModel)
 		{
 			IEnumerable<Admin> admins = context.Admins;
 
-			if (fullName != null)
+			if (searchModel != null)
 			{
-				if (!string.IsNullOrEmpty(fullName.FirstName))
+				if (!string.IsNullOrEmpty(searchModel.FirstName))
 					admins = admins
 						.Where(c => c.Name.FirstName.ToLower()
-						.Contains(fullName.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
-				if (!string.IsNullOrEmpty(fullName.MiddleName))
+						.Contains(searchModel.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
+				if (!string.IsNullOrEmpty(searchModel.MiddleName))
 					admins = admins
 						.Where(c => c.Name.MiddleName.ToLower()
-						.Contains(fullName.MiddleName.ToLower(), CompareOptions.IgnoreNonSpace));
-				if (!string.IsNullOrEmpty(fullName.LastName))
+						.Contains(searchModel.MiddleName.ToLower(), CompareOptions.IgnoreNonSpace));
+				if (!string.IsNullOrEmpty(searchModel.LastName))
 					admins = admins
 						.Where(c => c.Name.LastName.ToLower()
-						.Contains(fullName.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
+						.Contains(searchModel.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
 			}
 
 			return admins;

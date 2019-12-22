@@ -1,5 +1,5 @@
 ﻿using ECommerce.Application;
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
@@ -23,24 +23,25 @@ namespace ECommerce.UI.MVC.Controllers
 
 		public async Task<IActionResult> Index(string searchString, int? categoryId = null, short? page = 1)
 		{
-			ProductTypeSearchModel searchModel = new ProductTypeSearchModel
+			ProductSearchModel searchModel = new ProductSearchModel
 			{
 				SearchString = searchString,
 				CategoryId = categoryId,
-				Status = ProductTypeStatus.Active,
-				ProductStatus = ProductStatus.Active,
-				HasActiveProduct = true
+				Status = ProductStatus.Active,
+				ProductTypeStatus = ProductTypeStatus.Active,
+				Active = true,
+				MinimumQuantity = 1
 			};
+
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductsListViewModel
 			{
-				Products = (await eCommerce.GetProductTypesByAsync(searchModel, (page - 1) * recordsPerPage, recordsPerPage))
-					.Select(p => eCommerce.GetRepresentativeProduct(p.Id)),
+				Products = (await eCommerce.GetProductsDistinctAsync(searchModel, (page - 1) * recordsPerPage, recordsPerPage)),
 				PagingInfo = new PagingInfo
 				{
 					CurrentPage = (short)page,
 					RecordsPerPage = recordsPerPage,
-					TotalRecords = await eCommerce.CountProductTypesByAsync(searchModel)
+					TotalRecords = await eCommerce.CountProductsDistinctAsync(searchModel)
 				},
 				SearchModel = new ProductSearchModel
 				{
@@ -63,7 +64,8 @@ namespace ECommerce.UI.MVC.Controllers
 				SellerId = sellerId,
 				Status = ProductStatus.Active,
 				Active = true,
-				ProductTypeStatus = ProductTypeStatus.Active
+				ProductTypeStatus = ProductTypeStatus.Active,
+				MinimumQuantity = 1
 			};
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductsListViewModel
@@ -86,7 +88,8 @@ namespace ECommerce.UI.MVC.Controllers
 				ProductTypeId = productTypeId,
 				Status = ProductStatus.Active,
 				Active = true,
-				ProductTypeStatus = ProductTypeStatus.Active
+				ProductTypeStatus = ProductTypeStatus.Active,
+				MinimumQuantity = 1
 			};
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductsListViewModel

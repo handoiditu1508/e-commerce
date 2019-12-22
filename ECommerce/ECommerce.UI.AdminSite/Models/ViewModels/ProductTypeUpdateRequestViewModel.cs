@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.Views;
+﻿using ECommerce.Application.WorkingModels.Views;
 using System.Collections.Generic;
 
 namespace ECommerce.UI.AdminSite.Models.ViewModels

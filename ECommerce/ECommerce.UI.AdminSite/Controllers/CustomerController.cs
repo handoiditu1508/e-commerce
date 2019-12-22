@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ECommerce.Application;
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.UI.AdminSite.Infrastructure;
 using ECommerce.UI.AdminSite.Models.ViewModels;

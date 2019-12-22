@@ -1,11 +1,11 @@
-﻿using ECommerce.Application.AddModels;
+﻿using ECommerce.Application.WorkingModels.AddModels;
 using ECommerce.Application.Extensions;
 using ECommerce.Application.Extensions.AddModels;
 using ECommerce.Application.Extensions.UpdateModels;
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 using ECommerce.Application.Services;
-using ECommerce.Application.UpdateModels;
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.UpdateModels;
+using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Extensions;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities;
@@ -181,7 +181,7 @@ namespace ECommerce.Application
 		public IEnumerable<AdminView> GetAdminsBy(AdminSearchModel searchModel, int? startIndex, short? length)
 		{
 			IEnumerable<Admin> admins = adminRepository
-			.GetBy(new FullName(searchModel.FirstName, searchModel.MiddleName, searchModel.LastName));
+			.GetBy(searchModel);
 
 			if (startIndex != null && startIndex > -1)
 				admins = admins.Skip((int)startIndex);
@@ -193,7 +193,7 @@ namespace ECommerce.Application
 
 		public int CountAdminsBy(AdminSearchModel searchModel)
 			=> adminRepository
-				.GetBy(new FullName(searchModel.FirstName, searchModel.MiddleName, searchModel.LastName))
+				.GetBy(searchModel)
 				.Count();
 
 		public async Task<Message> UpdateAdminAsync(int adminId, AdminUpdateModel updateModel)
@@ -503,9 +503,7 @@ namespace ECommerce.Application
 		public IEnumerable<CustomerView> GetCustomersBy(CustomerSearchModel searchModel, int? startIndex, short? length)
 		{
 			IEnumerable<Customer> customers = customerRepository
-				.GetBy(searchModel.Email,
-					new FullName(searchModel.FirstName, searchModel.MiddleName, searchModel.LastName),
-					searchModel.Active);
+				.GetBy(searchModel);
 
 			if (startIndex != null && startIndex > -1)
 				customers = customers.Skip((int)startIndex);
@@ -517,9 +515,7 @@ namespace ECommerce.Application
 
 		public int CountCustomersBy(CustomerSearchModel searchModel)
 			=> customerRepository
-				.GetBy(searchModel.Email,
-					new FullName(searchModel.FirstName, searchModel.MiddleName, searchModel.LastName),
-					searchModel.Active)
+				.GetBy(searchModel)
 				.Count();
 
 		public async Task<string> GetCustomerEncryptedPasswordAsync(int id)
@@ -724,8 +720,7 @@ namespace ECommerce.Application
 
 		public IEnumerable<OrderView> GetOrdersByCustomerId(OrderSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<Order> orders = customerRepository
-				.GetOrdersBy((int)searchModel.CustomerId, searchModel.Quantity, searchModel.TotalValue, searchModel.TotalValueIndication);
+			IEnumerable<Order> orders = customerRepository.GetOrdersBy(searchModel);
 
 			if (startIndex != null && startIndex > -1)
 				orders = orders.Skip((int)startIndex);
@@ -737,8 +732,7 @@ namespace ECommerce.Application
 
 		public IEnumerable<OrderView> GetOrdersBySellerId(OrderSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<Order> orders = sellerRepository
-				.GetOrdersBy((int)searchModel.SellerId, searchModel.Quantity, searchModel.TotalValue, searchModel.TotalValueIndication);
+			IEnumerable<Order> orders = sellerRepository.GetOrdersBy(searchModel);
 
 			if (startIndex != null && startIndex > -1)
 				orders = orders.Skip((int)startIndex);
@@ -750,8 +744,7 @@ namespace ECommerce.Application
 
 		public IEnumerable<OrderView> GetOrdersByProductTypeId(OrderSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<Order> orders = productTypeRepository
-				.GetOrdersBy((int)searchModel.ProductTypeId, searchModel.Quantity, searchModel.TotalValue, searchModel.TotalValueIndication);
+			IEnumerable<Order> orders = productTypeRepository.GetOrdersBy(searchModel);
 
 			if (startIndex != null && startIndex > -1)
 				orders = orders.Skip((int)startIndex);
@@ -763,18 +756,14 @@ namespace ECommerce.Application
 
 		public int CountOrdersByCustomerId(OrderSearchModel searchModel)
 			=> customerRepository
-				.GetOrdersBy((int)searchModel.CustomerId, searchModel.Quantity, searchModel.TotalValue, searchModel.TotalValueIndication)
+				.GetOrdersBy(searchModel)
 				.Count();
 
 		public int CountOrdersBySellerId(OrderSearchModel searchModel)
-			=> sellerRepository
-				.GetOrdersBy((int)searchModel.SellerId, searchModel.Quantity, searchModel.TotalValue, searchModel.TotalValueIndication)
-				.Count();
+			=> sellerRepository.GetOrdersBy(searchModel).Count();
 
 		public int CountOrdersByProductTypeId(OrderSearchModel searchModel)
-			=> productTypeRepository
-				.GetOrdersBy((int)searchModel.ProductTypeId, searchModel.Quantity, searchModel.TotalValue, searchModel.TotalValueIndication)
-				.Count();
+			=> productTypeRepository.GetOrdersBy(searchModel).Count();
 		#endregion
 
 		#region Product Type
@@ -837,21 +826,7 @@ namespace ECommerce.Application
 
 		public async Task<IEnumerable<ProductTypeView>> GetProductTypesByAsync(ProductTypeSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<ProductType> productTypes = await productTypeRepository.GetByAsync(searchModel.SearchString, searchModel.DateTimeModified, searchModel.CategoryId, searchModel.Status);
-
-			if (searchModel.DateModified != null)
-				productTypes = productTypes
-					.Where(p => p.DateModified.Date == searchModel.DateModified?.Date);
-
-			if (searchModel.HasActiveProduct != null)
-				productTypes = productTypes
-					.Where(pt => pt.Products
-						.Any(p => p.Active == searchModel.HasActiveProduct));
-
-			if (searchModel.ProductStatus != null)
-				productTypes = productTypes
-					.Where(pt => pt.Products
-						.Any(p => p.Status == searchModel.ProductStatus));
+			IEnumerable<ProductType> productTypes = await productTypeRepository.GetByAsync(searchModel);
 
 			if (startIndex != null && startIndex > -1)
 				productTypes = productTypes.Skip((int)startIndex);
@@ -863,7 +838,7 @@ namespace ECommerce.Application
 
 		public async Task<int> CountProductTypesByAsync(ProductTypeSearchModel searchModel)
 		{
-			IEnumerable<ProductType> productTypes = await productTypeRepository.GetByAsync(searchModel.SearchString, searchModel.DateTimeModified, searchModel.CategoryId, searchModel.Status);
+			IEnumerable<ProductType> productTypes = await productTypeRepository.GetByAsync(searchModel);
 
 			if (searchModel.DateModified != null)
 				productTypes = productTypes
@@ -930,7 +905,7 @@ namespace ECommerce.Application
 				if (productType.Products.Any())
 					message.Errors.Add("Can not delete a product type that has been registered");
 
-				if (productTypeRepository.GetOrdersBy(productTypeId, null, null, null).Any())
+				if (productTypeRepository.GetOrdersBy(new OrderSearchModel { ProductTypeId = productTypeId }).Any())
 					message.Errors.Add("Can not delete a product type that has been ordered");
 
 				if (!message.Errors.Any())
@@ -1123,7 +1098,7 @@ namespace ECommerce.Application
 
 		public ProductView GetRepresentativeProduct(int productTypeId)
 		{
-			var products=productTypeRepository.GetProductsBy(productTypeId, null, null, null, null);
+			var products = productTypeRepository.GetProductsBy(new ProductSearchModel { ProductTypeId = productTypeId });
 			return products.LastOrDefault(p => p.Active && p.Status == ProductStatus.Active)?
 				.ConvertToView() ??
 				products.LastOrDefault()?
@@ -1133,10 +1108,19 @@ namespace ECommerce.Application
 
 		public async Task<IEnumerable<ProductView>> GetProductsBySellerIdAsync(ProductSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<Product> products = await sellerRepository
-				.GetProductsByAsync((int)searchModel.SellerId, searchModel.SearchString, searchModel.CategoryId,
-					searchModel.Price, searchModel.PriceIndication, searchModel.Status, searchModel.Active,
-					searchModel.ProductTypeStatus);
+			IEnumerable<Product> products = await sellerRepository.GetProductsByAsync(searchModel);
+
+			if (startIndex != null && startIndex > -1)
+				products = products.Skip((int)startIndex);
+			if (length != null && length > -1)
+				products = products.Take((int)length);
+
+			return products.ConvertToViews();
+		}
+
+		public async Task<IEnumerable<ProductView>> GetProductsDistinctAsync(ProductSearchModel searchModel, int? startIndex, short? length)
+		{
+			IEnumerable<Product> products = await productTypeRepository.GetProductsDistinctAsync(searchModel);
 
 			if (startIndex != null && startIndex > -1)
 				products = products.Skip((int)startIndex);
@@ -1148,9 +1132,11 @@ namespace ECommerce.Application
 
 		public IEnumerable<ProductView> GetProductsByProductTypeId(ProductSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<Product> products = productTypeRepository
-				.GetProductsBy((int)searchModel.ProductTypeId, searchModel.Price, searchModel.PriceIndication,
-					searchModel.Status, searchModel.Active);
+			IEnumerable<Product> products = productTypeRepository.GetProductsBy(searchModel);
+
+			short mq = (short)(searchModel.MinimumQuantity - 1);
+			if (searchModel.MinimumQuantity != null)
+				products = products.Where(p => p.Quantity > mq);
 
 			if (startIndex != null && startIndex > -1)
 				products = products.Skip((int)startIndex);
@@ -1162,15 +1148,15 @@ namespace ECommerce.Application
 
 		public async Task<int> CountProductsBySellerIdAsync(ProductSearchModel searchModel)
 			=> (await sellerRepository
-				.GetProductsByAsync((int)searchModel.SellerId, searchModel.SearchString, searchModel.CategoryId,
-					searchModel.Price, searchModel.PriceIndication, searchModel.Status, searchModel.Active,
-					searchModel.ProductTypeStatus))
+				.GetProductsByAsync(searchModel))
 				.Count();
 
 		public int CountProductsByProductTypeId(ProductSearchModel searchModel)
-			=> productTypeRepository
-				.GetProductsBy((int)searchModel.ProductTypeId, searchModel.Price, searchModel.PriceIndication,
-					searchModel.Status, searchModel.Active)
+			=> productTypeRepository.GetProductsBy(searchModel).Count();
+
+		public async Task<int> CountProductsDistinctAsync(ProductSearchModel searchModel)
+			=> (await productTypeRepository
+				.GetProductsDistinctAsync(searchModel))
 				.Count();
 
 		public async Task<IEnumerable<string>> GetProductImagesAsync(int sellerId, int productTypeId)
@@ -1512,9 +1498,9 @@ namespace ECommerce.Application
 			return message;
 		}
 
-		public async Task<Message> AddProductQuantityThroughAdminAsync(int sellerId, int productTypeId, short additionalNumbers)
+		public async Task<Message<short>> AddProductQuantityThroughAdminAsync(int sellerId, int productTypeId, short additionalNumbers)
 		{
-			Message message = new Message();
+			var message = new Message<short>();
 
 			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
 			if (product == null)
@@ -1527,15 +1513,19 @@ namespace ECommerce.Application
 
 			var operatingModelMessage = await operatingModelService.CanAdminAddProductQuantityAsync(product);
 			if (operatingModelMessage.Result)
+			{
+				product.Quantity += additionalNumbers;
 				await unitOfWork.CommitAsync();
+			}
 			else message.Errors = operatingModelMessage.Errors;
 
+			message.Result = product.Quantity;
 			return message;
 		}
 
-		public async Task<Message> ReduceProductQuantityThroughAdminAsync(int sellerId, int productTypeId, short reducingNumbers)
+		public async Task<Message<short>> ReduceProductQuantityThroughAdminAsync(int sellerId, int productTypeId, short reducingNumbers)
 		{
-			Message message = new Message();
+			var message = new Message<short>();
 
 			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
 			if (product == null)
@@ -1548,15 +1538,23 @@ namespace ECommerce.Application
 
 			var operatingModelMessage = await operatingModelService.CanAdminAddProductQuantityAsync(product);
 			if (operatingModelMessage.Result)
-				await unitOfWork.CommitAsync();
+			{
+				if (reducingNumbers <= product.Quantity)
+				{
+					product.Quantity -= reducingNumbers;
+					await unitOfWork.CommitAsync();
+				}
+				else message.Errors.Add("Reducing numbers must greater than quantity");
+			}
 			else message.Errors = operatingModelMessage.Errors;
 
+			message.Result = product.Quantity;
 			return message;
 		}
 
-		public async Task<Message> AddProductQuantityThroughSellerAsync(int sellerId, int productTypeId, short additionalNumbers)
+		public async Task<Message<short>> AddProductQuantityThroughSellerAsync(int sellerId, int productTypeId, short additionalNumbers)
 		{
-			Message message = new Message();
+			var message = new Message<short>();
 
 			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
 
@@ -1570,15 +1568,19 @@ namespace ECommerce.Application
 
 			var operatingModelMessage = await operatingModelService.CanSellerAddProductQuantityAsync(product);
 			if (operatingModelMessage.Result)
+			{
+				product.Quantity += additionalNumbers;
 				await unitOfWork.CommitAsync();
+			}
 			else message.Errors = operatingModelMessage.Errors;
 
+			message.Result = product.Quantity;
 			return message;
 		}
 
-		public async Task<Message> ReduceProductQuantityThroughSellerAsync(int sellerId, int productTypeId, short reducingNumbers)
+		public async Task<Message<short>> ReduceProductQuantityThroughSellerAsync(int sellerId, int productTypeId, short reducingNumbers)
 		{
-			Message message = new Message();
+			var message = new Message<short>();
 
 			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
 
@@ -1592,9 +1594,17 @@ namespace ECommerce.Application
 
 			var operatingModelMessage = await operatingModelService.CanSellerReduceProductQuantityAsync(product);
 			if (operatingModelMessage.Result)
-				await unitOfWork.CommitAsync();
+			{
+				if (reducingNumbers <= product.Quantity)
+				{
+					product.Quantity -= reducingNumbers;
+					await unitOfWork.CommitAsync();
+				}
+				else message.Errors.Add("Reducing numbers must greater than quantity");
+			}
 			else message.Errors = operatingModelMessage.Errors;
 
+			message.Result = product.Quantity;
 			return message;
 		}
 
@@ -1702,7 +1712,7 @@ namespace ECommerce.Application
 
 		public IEnumerable<SellerView> GetSellersBy(SellerSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<Seller> sellers = sellerRepository.GetBy(searchModel.Email, searchModel.Name, searchModel.PhoneNumber, searchModel.Status);
+			IEnumerable<Seller> sellers = sellerRepository.GetBy(searchModel);
 
 			if (startIndex != null && startIndex > -1)
 				sellers = sellers.Skip((int)startIndex);
@@ -1714,7 +1724,7 @@ namespace ECommerce.Application
 
 		public int CountSellersBy(SellerSearchModel searchModel)
 			=> sellerRepository
-				.GetBy(searchModel.Email, searchModel.Name, searchModel.PhoneNumber, searchModel.Status)
+				.GetBy(searchModel)
 				.Count();
 
 		public async Task<Message> UpdateSellerAsync(int sellerId, SellerUpdateModel updateModel)

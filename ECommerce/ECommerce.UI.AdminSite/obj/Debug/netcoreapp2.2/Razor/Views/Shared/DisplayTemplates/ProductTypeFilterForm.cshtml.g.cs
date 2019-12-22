@@ -33,12 +33,12 @@ using ECommerce.Application;
 #line default
 #line hidden
 #line 5 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 
 #line default
 #line hidden
 #line 6 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 
 #line default
 #line hidden
@@ -83,7 +83,7 @@ using System;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"c4ebe01d7b9a732e7eff6facb616a5a69e42b2d5", @"/Views/Shared/DisplayTemplates/ProductTypeFilterForm.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"05673cffe257c57949a4b08711e766d8aec1c236", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1be0c5b2f88cfbca335f9f6fedbd186ed3ee637e", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_DisplayTemplates_ProductTypeFilterForm : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ProductTypeSearchModel>
     {
         private global::AspNetCore.Views_Shared_DisplayTemplates_ProductTypeFilterForm.__Generated__CategoryBreadCrumbViewComponentTagHelper __CategoryBreadCrumbViewComponentTagHelper;
@@ -122,7 +122,7 @@ using System;
             WriteLiteral("\r\n<fieldset class=\"border rounded\">\r\n\t<legend>Find Product Type By:</legend>\r\n\t");
             EndContext();
             BeginContext(110, 1774, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c4ebe01d7b9a732e7eff6facb616a5a69e42b2d58793", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c4ebe01d7b9a732e7eff6facb616a5a69e42b2d58802", async() => {
                 BeginContext(178, 176, true);
                 WriteLiteral("\r\n\t\t<div class=\"form-row\">\r\n\t\t\t<div class=\"form-group col-md-6\">\r\n\t\t\t\t<label class=\"control-label\">Name</label>\r\n\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"searchString\"");
                 EndContext();
@@ -147,7 +147,7 @@ WriteAttributeValue("", 563, Model.DateModified?.ToString("yyyy-MM-dd"), 563, 43
                 WriteLiteral(" />\r\n\t\t\t</div>\r\n\t\t\t<div class=\"form-group col-md-2\">\r\n\t\t\t\t<label class=\"control-label\">Status</label>\r\n\t\t\t\t");
                 EndContext();
                 BeginContext(714, 130, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c4ebe01d7b9a732e7eff6facb616a5a69e42b2d510731", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c4ebe01d7b9a732e7eff6facb616a5a69e42b2d510740", async() => {
                 }
                 );
                 __ECommerce_UI_AdminSite_Infrastructure_EnumSelectListTagHelper = CreateTagHelper<global::ECommerce.UI.AdminSite.Infrastructure.EnumSelectListTagHelper>();
@@ -180,7 +180,7 @@ __ECommerce_UI_AdminSite_Infrastructure_EnumSelectListTagHelper.Selected = Model
                 WriteLiteral("\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<div class=\"form-row\">\r\n\t\t\t<div class=\"form-group col-md-6\">\r\n\t\t\t\t<label class=\"control-label\">Have products with status:</label>\r\n\t\t\t\t");
                 EndContext();
                 BeginContext(1004, 140, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c4ebe01d7b9a732e7eff6facb616a5a69e42b2d513544", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c4ebe01d7b9a732e7eff6facb616a5a69e42b2d513553", async() => {
                 }
                 );
                 __ECommerce_UI_AdminSite_Infrastructure_EnumSelectListTagHelper = CreateTagHelper<global::ECommerce.UI.AdminSite.Infrastructure.EnumSelectListTagHelper>();
@@ -239,7 +239,7 @@ WriteAttributeValue("", 1460, Model.CategoryId, 1460, 17, false);
                 WriteLiteral("\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(1572, 87, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("vc:category-bread-crumb", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c4ebe01d7b9a732e7eff6facb616a5a69e42b2d517421", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("vc:category-bread-crumb", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c4ebe01d7b9a732e7eff6facb616a5a69e42b2d517430", async() => {
                 }
                 );
                 __CategoryBreadCrumbViewComponentTagHelper = CreateTagHelper<global::AspNetCore.Views_Shared_DisplayTemplates_ProductTypeFilterForm.__Generated__CategoryBreadCrumbViewComponentTagHelper>();

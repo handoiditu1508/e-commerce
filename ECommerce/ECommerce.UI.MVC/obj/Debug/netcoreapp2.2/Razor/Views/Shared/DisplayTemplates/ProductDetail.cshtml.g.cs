@@ -18,22 +18,22 @@ using ECommerce.Application;
 #line default
 #line hidden
 #line 2 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 
 #line default
 #line hidden
 #line 3 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.AddModels;
+using ECommerce.Application.WorkingModels.AddModels;
 
 #line default
 #line hidden
 #line 4 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.UpdateModels;
+using ECommerce.Application.WorkingModels.UpdateModels;
 
 #line default
 #line hidden
 #line 5 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 
 #line default
 #line hidden
@@ -98,7 +98,7 @@ using System.IO;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"e6c5a9a0a0ffc3072436cca0a0e0580ca67ed58a", @"/Views/Shared/DisplayTemplates/ProductDetail.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a33b61cb7095554506aa9d834701448aca0e027d", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5531ed2f3a93f08478d43d2718a1c43736b95650", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_DisplayTemplates_ProductDetail : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ProductView>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "ProductType", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -235,7 +235,7 @@ WriteAttributeValue("", 556, $"{UIConsts.GetProductUrlById(Model.SellerId, Model
 					<h3>");
             EndContext();
             BeginContext(2393, 166, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e6c5a9a0a0ffc3072436cca0a0e0580ca67ed58a14282", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e6c5a9a0a0ffc3072436cca0a0e0580ca67ed58a14319", async() => {
                 BeginContext(2534, 21, false);
 #line 53 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\Shared\DisplayTemplates\ProductDetail.cshtml"
                                                                                                                                                                Write(Model.ProductTypeName);
@@ -299,7 +299,7 @@ WriteAttributeValue("", 556, $"{UIConsts.GetProductUrlById(Model.SellerId, Model
             WriteLiteral("</span></h4>\r\n\t\t\t\t\t<h4 class=\"font-weight-bold text-uppercase\">SELLER: ");
             EndContext();
             BeginContext(3243, 127, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e6c5a9a0a0ffc3072436cca0a0e0580ca67ed58a18573", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e6c5a9a0a0ffc3072436cca0a0e0580ca67ed58a18610", async() => {
                 BeginContext(3350, 16, false);
 #line 66 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\Shared\DisplayTemplates\ProductDetail.cshtml"
                                                                                                                                                                              Write(Model.SellerName);
@@ -341,7 +341,7 @@ WriteAttributeValue("", 556, $"{UIConsts.GetProductUrlById(Model.SellerId, Model
             WriteLiteral("</h4>\r\n\t\t\t\t\t<p class=\"vote\"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>\r\n\t\t\t\t\t");
             EndContext();
             BeginContext(3489, 1167, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e6c5a9a0a0ffc3072436cca0a0e0580ca67ed58a21870", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e6c5a9a0a0ffc3072436cca0a0e0580ca67ed58a21907", async() => {
                 BeginContext(3580, 2, true);
                 WriteLiteral("\r\n");
                 EndContext();

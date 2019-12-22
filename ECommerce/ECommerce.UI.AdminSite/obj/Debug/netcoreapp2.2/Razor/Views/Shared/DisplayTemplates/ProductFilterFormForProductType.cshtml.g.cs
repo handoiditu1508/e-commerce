@@ -33,12 +33,12 @@ using ECommerce.Application;
 #line default
 #line hidden
 #line 5 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 
 #line default
 #line hidden
 #line 6 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 
 #line default
 #line hidden
@@ -83,7 +83,7 @@ using System;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"f7ec6da4caf0e917628745f159f506e9cec6b75b", @"/Views/Shared/DisplayTemplates/ProductFilterFormForProductType.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"05673cffe257c57949a4b08711e766d8aec1c236", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1be0c5b2f88cfbca335f9f6fedbd186ed3ee637e", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_DisplayTemplates_ProductFilterFormForProductType : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ProductSearchModel>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("value", "-1", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -129,7 +129,7 @@ using System;
             WriteLiteral("\r\n<fieldset class=\"border rounded\">\r\n\t<legend>Find Product Type By:</legend>\r\n\t");
             EndContext();
             BeginContext(106, 1988, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b10737", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b10746", async() => {
                 BeginContext(175, 45, true);
                 WriteLiteral("\r\n\t\t<input type=\"hidden\" name=\"productTypeId\"");
                 EndContext();
@@ -153,7 +153,7 @@ WriteAttributeValue("", 228, Model.ProductTypeId, 228, 20, false);
                 WriteLiteral("\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(560, 39, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b12383", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b12392", async() => {
                     BeginContext(579, 11, true);
                     WriteLiteral("Lesser than");
                     EndContext();
@@ -175,7 +175,7 @@ WriteAttributeValue("", 228, Model.ProductTypeId, 228, 20, false);
                 WriteLiteral("\r\n\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(609, 35, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b13868", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b13877", async() => {
                     BeginContext(627, 8, true);
                     WriteLiteral("Equal to");
                     EndContext();
@@ -197,7 +197,7 @@ WriteAttributeValue("", 228, Model.ProductTypeId, 228, 20, false);
                 WriteLiteral("\r\n\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(654, 36, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b15349", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b15358", async() => {
                     BeginContext(672, 9, true);
                     WriteLiteral("More than");
                     EndContext();
@@ -231,7 +231,7 @@ WriteAttributeValue("", 228, Model.ProductTypeId, 228, 20, false);
                 WriteLiteral("\t\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(785, 48, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b17234", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b17243", async() => {
                     BeginContext(813, 11, true);
                     WriteLiteral("Lesser than");
                     EndContext();
@@ -256,7 +256,7 @@ WriteAttributeValue("", 228, Model.ProductTypeId, 228, 20, false);
                 WriteLiteral("\r\n\t\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(844, 35, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b19044", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b19053", async() => {
                     BeginContext(862, 8, true);
                     WriteLiteral("Equal to");
                     EndContext();
@@ -278,7 +278,7 @@ WriteAttributeValue("", 228, Model.ProductTypeId, 228, 20, false);
                 WriteLiteral("\r\n\t\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(890, 36, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b20527", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b20536", async() => {
                     BeginContext(908, 9, true);
                     WriteLiteral("More than");
                     EndContext();
@@ -310,7 +310,7 @@ WriteAttributeValue("", 228, Model.ProductTypeId, 228, 20, false);
                 WriteLiteral("\t\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(1004, 39, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b22396", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b22405", async() => {
                     BeginContext(1023, 11, true);
                     WriteLiteral("Lesser than");
                     EndContext();
@@ -332,7 +332,7 @@ WriteAttributeValue("", 228, Model.ProductTypeId, 228, 20, false);
                 WriteLiteral("\r\n\t\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(1054, 35, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b23886", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b23895", async() => {
                     BeginContext(1072, 8, true);
                     WriteLiteral("Equal to");
                     EndContext();
@@ -354,7 +354,7 @@ WriteAttributeValue("", 228, Model.ProductTypeId, 228, 20, false);
                 WriteLiteral("\r\n\t\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(1100, 45, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b25372", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b25381", async() => {
                     BeginContext(1127, 9, true);
                     WriteLiteral("More than");
                     EndContext();
@@ -389,7 +389,7 @@ WriteAttributeValue("", 228, Model.ProductTypeId, 228, 20, false);
                 WriteLiteral("\t\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(1192, 39, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b27536", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b27545", async() => {
                     BeginContext(1211, 11, true);
                     WriteLiteral("Lesser than");
                     EndContext();
@@ -411,7 +411,7 @@ WriteAttributeValue("", 228, Model.ProductTypeId, 228, 20, false);
                 WriteLiteral("\r\n\t\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(1242, 44, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b29026", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b29035", async() => {
                     BeginContext(1269, 8, true);
                     WriteLiteral("Equal to");
                     EndContext();
@@ -436,7 +436,7 @@ WriteAttributeValue("", 228, Model.ProductTypeId, 228, 20, false);
                 WriteLiteral("\r\n\t\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(1297, 36, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b30835", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b30844", async() => {
                     BeginContext(1315, 9, true);
                     WriteLiteral("More than");
                     EndContext();
@@ -477,7 +477,7 @@ WriteAttributeValue("", 1451, Model.Price, 1451, 12, false);
                 WriteLiteral(" />\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<div class=\"form-row\">\r\n\t\t\t<div class=\"form-group col-md-6\">\r\n\t\t\t\t<label class=\"control-label\">Active</label>\r\n\t\t\t\t");
                 EndContext();
                 BeginContext(1619, 148, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b33455", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b33464", async() => {
                 }
                 );
                 __ECommerce_UI_AdminSite_Infrastructure_BooleanSelectListTagHelper = CreateTagHelper<global::ECommerce.UI.AdminSite.Infrastructure.BooleanSelectListTagHelper>();
@@ -508,7 +508,7 @@ __ECommerce_UI_AdminSite_Infrastructure_BooleanSelectListTagHelper.SelectedBoolV
                 WriteLiteral("\r\n\t\t\t</div>\r\n\t\t\t<div class=\"form-group col-md-6\">\r\n\t\t\t\t<label class=\"control-label\">Status</label>\r\n\t\t\t\t");
                 EndContext();
                 BeginContext(1871, 126, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b36174", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7ec6da4caf0e917628745f159f506e9cec6b75b36183", async() => {
                 }
                 );
                 __ECommerce_UI_AdminSite_Infrastructure_EnumSelectListTagHelper = CreateTagHelper<global::ECommerce.UI.AdminSite.Infrastructure.EnumSelectListTagHelper>();

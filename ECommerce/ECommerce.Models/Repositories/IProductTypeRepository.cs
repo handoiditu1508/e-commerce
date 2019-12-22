@@ -1,6 +1,7 @@
 ﻿using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.SearchModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,13 +13,13 @@ namespace ECommerce.Models.Repositories
 		Task AddAsync(ProductType productType);
 
 		Task<ProductType> GetByAsync(int id);
-		Task<IEnumerable<ProductType>> GetByAsync(string searchString, DateTime? dateModified, int? categoryId, ProductTypeStatus? status);
+		Task<IEnumerable<ProductType>> GetByAsync(ProductTypeSearchModel searchModel);
 
-		IEnumerable<Order> GetOrdersBy(int productTypeId, short? quantity, decimal? totalValue,
-			short? totalValueIndication);
+		IEnumerable<Order> GetOrdersBy(OrderSearchModel searchModel);
 
-		IEnumerable<Product> GetProductsBy(int productTypeId, decimal? price,
-			short? priceIndication, ProductStatus? status, bool? active);
+		IEnumerable<Product> GetProductsBy(ProductSearchModel searchModel);
+
+		Task<IEnumerable<Product>> GetProductsDistinctAsync(ProductSearchModel searchModel);
 
 		IEnumerable<ProductTypeUpdateRequest> GetUpdateRequests();
 		Task<IEnumerable<ProductTypeUpdateRequest>> GetUpdateRequestsAsync(int productTypeId);

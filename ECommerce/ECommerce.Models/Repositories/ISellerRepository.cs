@@ -1,6 +1,7 @@
 ﻿using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.SearchModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,17 +13,13 @@ namespace ECommerce.Models.Repositories
 
 		Task<Seller> GetByAsync(int id);
 		Seller GetBy(string email);
-		IEnumerable<Seller> GetBy(string email, string name, string phoneNumber,
-			SellerStatus? status);
+		IEnumerable<Seller> GetBy(SellerSearchModel searchModel);
 
-		IEnumerable<Order> GetOrdersBy(int sellerId, short? quantity, decimal? totalValue,
-			short? totalValueIndication);
+		IEnumerable<Order> GetOrdersBy(OrderSearchModel searchModel);
 
 		Task<Product> GetProductByAsync(int sellerId, int productTypeId);
 		Product GetProductBy(int sellerId, int productTypeId);
-		Task<IEnumerable<Product>> GetProductsByAsync(int sellerId, string searchString,
-			int? categoryId, decimal? price, short? priceIndication, ProductStatus? status,
-			bool? active, ProductTypeStatus? productTypeStatus);
+		Task<IEnumerable<Product>> GetProductsByAsync(ProductSearchModel searchModel);
 
 		Task<IEnumerable<ProductTypeUpdateRequest>> GetProductTypeUpdateRequestsAsync(int sellerId);
 

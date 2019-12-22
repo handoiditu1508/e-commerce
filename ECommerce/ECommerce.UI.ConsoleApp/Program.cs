@@ -2,8 +2,8 @@
 using ECommerce.Application;
 using ECommerce.Application.Extensions;
 using ECommerce.Application.Extensions.UpdateModels;
-using ECommerce.Application.SearchModels;
-using ECommerce.Application.Views;
+using ECommerce.Models.SearchModels;
+using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Customers;
@@ -28,20 +28,25 @@ namespace ECommerce.UI.ConsoleApp
 			IUnitOfWork uow = new UnitOfWork();
 			ECommerceService eCommerce = new ECommerceService(uow);
 
-			var list = new List<string>();
-			list.Add("abc");
-			list.Add("abc");
-			list.Add("abcd");
-			list.Add("abc");
+			var list = new int[] {1,2,3,4,5,6,7 };
 
-			var hash = list.ToHashSet<string>();
-			foreach(var s in hash)
-			{
-				Console.WriteLine(s);
-			}
+			var x = list.Where(i => i == Test.GetNum() + 1);
+			Console.WriteLine(x.Count());
+			Console.WriteLine(Test.count);
 
 			Console.WriteLine("Done.");
 			Console.ReadKey();
+		}
+	}
+
+	public class Test
+	{
+		public static int count = 0;
+
+		public static int GetNum()
+		{
+			count++;
+			return 5;
 		}
 	}
 }

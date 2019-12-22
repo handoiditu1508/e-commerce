@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.AddModels;
+﻿using ECommerce.Application.WorkingModels.AddModels;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 

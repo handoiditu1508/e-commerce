@@ -4,7 +4,7 @@
 <input type="hidden" id="productTypeId" value="@Model.ProductTypeId" />
 
 <div id="AttributesStatesTableContainer">
-	@await Html.PartialAsync("AttributesStatesTable");
+	@await Html.PartialAsync("AttributesStatesTable")
 </div>
 
 <script type="text/javascript">
@@ -27,7 +27,11 @@ $(document).ready(function(){
 					attributesState: attributesState
 				},
 				success: function (result) {
-					$('#AttributesStatesTableContainer').html(result);
+					if(Array.isArray(result))
+					{
+						alert(result.join(';'));
+					}
+					else $('#AttributesStatesTableContainer').html(result);
 				},
 				error: function (result) {
 					alert('Something went wrong while adding attributes state');
@@ -45,7 +49,11 @@ $(document).ready(function(){
 				type: $form.attr('method'),
 				data: $form.serialize(),
 				success: function (result) {
-					$('#AttributesStatesTableContainer').html(result);
+					if(Array.isArray(result))
+					{
+						alert(result.join(';'));
+					}
+					else $('#AttributesStatesTableContainer').html(result);
 				},
 				error: function (result) {
 					alert('Something went wrong while deleting attributes state');

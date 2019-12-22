@@ -1,5 +1,6 @@
 ﻿using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Admins;
+using ECommerce.Models.SearchModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace ECommerce.Models.Repositories
 
 		Task<Admin> GetByAsync(int id);
 		Admin GetBy(string email);
-		IEnumerable<Admin> GetBy(FullName fullName);
+		IEnumerable<Admin> GetBy(AdminSearchModel searchModel);
 
 		Task UpdateAsync(int id, Admin admin);
 

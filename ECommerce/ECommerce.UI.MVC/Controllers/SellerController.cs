@@ -6,11 +6,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ECommerce.Application;
-using ECommerce.Application.AddModels;
-using ECommerce.Application.SearchModels;
+using ECommerce.Application.WorkingModels.AddModels;
+using ECommerce.Models.SearchModels;
 using ECommerce.Application.Services;
-using ECommerce.Application.UpdateModels;
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.UpdateModels;
+using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models;
 using ECommerce.Models.Entities;
@@ -24,6 +24,7 @@ using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using ECommerce.Models.Messages;
 
 namespace ECommerce.UI.MVC.Controllers
 {
@@ -420,10 +421,11 @@ namespace ECommerce.UI.MVC.Controllers
 		}
 
 		[HttpPost]
-		[SellerLoginRequired]
 		public async Task<IActionResult> AddAttributesState(int productTypeId, IDictionary<string, string> attributesState)
 		{
 			SellerView seller = await loginPersistence.PersistLoginAsync();
+			if (seller == null)
+				return Json(new string[] { "Not login" });
 			
 			await eCommerce.AddProductAttributesStateAsync(seller.Id, productTypeId, attributesState);
 
@@ -436,11 +438,12 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 		}
 
-		[HttpPost]
 		[SellerLoginRequired]
 		public async Task<IActionResult> DeleteAttributesState(int productTypeId, short index)
 		{
 			SellerView seller = await loginPersistence.PersistLoginAsync();
+			if (seller == null)
+				return Json(new string[] { "Not login" });
 
 			await eCommerce.DeleteProductAttributesStateAsync(seller.Id, productTypeId, index);
 
@@ -451,6 +454,40 @@ namespace ECommerce.UI.MVC.Controllers
 				Attributes = await eCommerce.GetProductAttributesAsync(seller.Id, productTypeId),
 				AttributesStates = await eCommerce.GetProductAttributesStatesAsync(seller.Id, productTypeId)
 			});
+		}
+
+		[HttpGet]
+		public async Task<Message<short>> AddProductQuantity(int productTypeId, short numbers = 0)
+		{
+			var message = new Message<short>();
+
+			SellerView seller = await loginPersistence.PersistLoginAsync();
+			if (seller == null)
+			{
+				message.Errors.Add("Not login");
+				return message;
+			}
+
+			message = await eCommerce.AddProductQuantityThroughSellerAsync(seller.Id, productTypeId, numbers);
+
+			return message;
+		}
+
+		[HttpGet]
+		public async Task<Message<short>> ReduceProductQuantity(int productTypeId, short numbers = 0)
+		{
+			var message = new Message<short>();
+
+			SellerView seller = await loginPersistence.PersistLoginAsync();
+			if (seller == null)
+			{
+				message.Errors.Add("Not login");
+				return message;
+			}
+
+			message = await eCommerce.ReduceProductQuantityThroughSellerAsync(seller.Id, productTypeId, numbers);
+
+			return message;
 		}
 	}
 }

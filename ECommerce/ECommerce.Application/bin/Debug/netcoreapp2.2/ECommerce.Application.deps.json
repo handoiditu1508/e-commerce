@@ -1197,6 +1197,7 @@
       "ECommerce.Models/1.0.0": {
         "dependencies": {
           "ECommerce.Extensions": "1.0.0",
+          "Microsoft.AspNetCore.Mvc.DataAnnotations": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.4"
         },
         "runtime": {

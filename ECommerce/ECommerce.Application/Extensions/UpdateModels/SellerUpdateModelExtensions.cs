@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.UpdateModels;
+﻿using ECommerce.Application.WorkingModels.UpdateModels;
 using ECommerce.Models.Entities.Sellers;
 
 namespace ECommerce.Application.Extensions.UpdateModels

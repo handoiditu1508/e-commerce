@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.UpdateModels;
+﻿using ECommerce.Application.WorkingModels.UpdateModels;
 using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Customers;
 

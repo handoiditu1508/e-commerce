@@ -1,5 +1,5 @@
-﻿using ECommerce.Application.AddModels;
-using ECommerce.Application.Views;
+﻿using ECommerce.Application.WorkingModels.AddModels;
+using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Models.Entities.ProductTypes;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using ECommerce.Application;
 using ECommerce.Application.Services;
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.UI.AdminSite.Models;
 using ECommerce.UI.Shared.Extensions;

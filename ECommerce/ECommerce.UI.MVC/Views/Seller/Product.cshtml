@@ -16,13 +16,33 @@
 			@{
 				ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
 				string formAction=Url.Action("ChangeProductActive","Seller");
+				string addQuantityAction=Url.Action("AddProductQuantity","Seller");
+				string reduceQuantityAction=Url.Action("ReduceProductQuantity","Seller");
 				foreach (ProductView product in Model.Products)
 				{
 					<tr>
 						<td class="sellerProductTableImageContainer"><img src="@($"{UIConsts.GetProductUrlById(product.SellerId, product.ProductTypeId)}/{product.RepresentativeImage}")" /></td>
 						<td>@product.ProductTypeName</td>
 						<td>@CurrencyFormat.Format(product.Price)</td>
-						<td>@product.Quantity</td>
+						<td>
+							<div class="float-left" id="@Html.Raw($"product{product.ProductTypeId}Quantity")">@product.Quantity</div>
+							<div class="float-right">
+								<form class="changeQuantityForm" action="@addQuantityAction" method="get" actionName="adding">
+									<input type="hidden" name="productTypeId" value="@product.ProductTypeId" />
+									<input type="hidden" name="numbers" value="0" />
+									<button type="submit" class="btn btn-secondary">
+										<i class="fa fa-plus" aria-hidden="true"></i>
+									</button>
+								</form>
+								<form class="changeQuantityForm" action="@reduceQuantityAction" method="get" actionName="reducing">
+									<input type="hidden" name="productTypeId" value="@product.ProductTypeId" />
+									<input type="hidden" name="numbers" value="0" />
+									<button type="submit" class="btn btn-secondary">
+										<i class="fa fa-minus" aria-hidden="true"></i>
+									</button>
+								</form>
+							</div>
+						</td>
 						<td>
 							<form action="@formAction" method="post">
 								<input type="hidden" name="productTypeId" value="@product.ProductTypeId" />
@@ -51,10 +71,10 @@
 </div>
 
 <script type="text/javascript">
+$(document).ready(function(){
 	//change user state
-
 	$('.submitOnChange').change(function () {
-		var $form = $(this).closest('form');
+		let $form = $(this).closest('form');
 		$.ajax({
 			url: $form.attr('action'),
 			type: $form.attr('method'),
@@ -68,4 +88,63 @@
 			}
 		});
 	});
+
+	//change product quantity
+	$('.changeQuantityForm').submit(function (event) {
+		event.preventDefault();
+		let $form = $(this);
+
+		let actionName = $form.attr("actionName");
+
+		let changingNumbers = prompt("Please enter " + actionName + " numbers:", "0");
+
+		if (changingNumbers == null) {
+			alert("Empty value entered. Nothing changed");
+			return;
+		}
+
+		if (isNaN(changingNumbers)) {
+			alert("Numbers must be an integer");
+			return;
+		}
+
+		let convertedChangingNumbers = Number(changingNumbers);
+		if (convertedChangingNumbers != changingNumbers) {
+			alert("Numbers must be an integer");
+			return;
+		}
+
+		if (convertedChangingNumbers == 0)
+			return;
+
+		if (convertedChangingNumbers < 0) {
+			alert("Numbers must be greater than zero");
+			return;
+		}
+
+		$form.find("input[name='numbers']").val(convertedChangingNumbers);
+
+		$.ajax({
+			url: $form.attr('action'),
+			type: $form.attr('method'),
+			data: $form.serialize(),
+			success: function (result) {
+				if(result.errors.length < 1)
+				{
+					let sltor = "#product" + $form.find("input[name='productTypeId']").val() + "Quantity";
+					$(sltor).html(result.result);
+				}
+				else alert(result.errors.join(';'));
+
+				$form.find("input[name='numbers']").val(0);
+			},
+			error: function (result) {
+				alert('Something went wrong while ' + actionName + ' product quantity');
+
+				$form.find("input[name='numbers']").val(0);
+			}
+		});
+		
+	});
+});
 </script>

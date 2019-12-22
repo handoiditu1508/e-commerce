@@ -18,22 +18,22 @@ using ECommerce.Application;
 #line default
 #line hidden
 #line 2 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.Views;
+using ECommerce.Application.WorkingModels.Views;
 
 #line default
 #line hidden
 #line 3 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.AddModels;
+using ECommerce.Application.WorkingModels.AddModels;
 
 #line default
 #line hidden
 #line 4 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.UpdateModels;
+using ECommerce.Application.WorkingModels.UpdateModels;
 
 #line default
 #line hidden
 #line 5 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Application.SearchModels;
+using ECommerce.Models.SearchModels;
 
 #line default
 #line hidden
@@ -98,7 +98,7 @@ using System.IO;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1d85806c9752650d1a7eca3c2d446396ed161011", @"/Views/Shared/Components/CustomerDropDown/Default.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a33b61cb7095554506aa9d834701448aca0e027d", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5531ed2f3a93f08478d43d2718a1c43736b95650", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_Components_CustomerDropDown_Default : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<CustomerView>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("dropdown-item"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -146,7 +146,7 @@ using System.IO;
             WriteLiteral("\t<div class=\"dropdown\">\r\n\t\t<button class=\"btn btn-success btn-sm ml-1 dropdown-toggle overflow-txt\" type=\"button\" data-toggle=\"dropdown\">\r\n\t\t\t<i class=\"fas fa-user\"></i> Customer\r\n\t\t</button>\r\n\t\t<ul class=\"dropdown-menu\">\r\n\t\t\t<li>\r\n\t\t\t\t");
             EndContext();
             BeginContext(283, 345, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1d85806c9752650d1a7eca3c2d446396ed1610119784", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1d85806c9752650d1a7eca3c2d446396ed1610119821", async() => {
                 BeginContext(606, 18, true);
                 WriteLiteral("\r\n\t\t\t\t\tLogin\r\n\t\t\t\t");
                 EndContext();
@@ -186,7 +186,7 @@ using System.IO;
             WriteLiteral("\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\t");
             EndContext();
             BeginContext(653, 348, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1d85806c9752650d1a7eca3c2d446396ed16101112827", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1d85806c9752650d1a7eca3c2d446396ed16101112864", async() => {
                 BeginContext(978, 19, true);
                 WriteLiteral("\r\n\t\t\t\t\tSignup\r\n\t\t\t\t");
                 EndContext();
@@ -256,7 +256,7 @@ WriteAttributeValue("", 1187, Model.Email, 1187, 12, false);
             WriteLiteral("\r\n\t\t</button>\r\n\t\t<ul class=\"dropdown-menu\">\r\n\t\t\t<li>\r\n\t\t\t\t");
             EndContext();
             BeginContext(1304, 137, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1d85806c9752650d1a7eca3c2d446396ed16101117327", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1d85806c9752650d1a7eca3c2d446396ed16101117364", async() => {
                 BeginContext(1403, 34, true);
                 WriteLiteral("\r\n\t\t\t\t\tPersonal Informations\r\n\t\t\t\t");
                 EndContext();
@@ -282,7 +282,7 @@ WriteAttributeValue("", 1187, Model.Email, 1187, 12, false);
             WriteLiteral("\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\t");
             EndContext();
             BeginContext(1466, 297, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1d85806c9752650d1a7eca3c2d446396ed16101119153", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1d85806c9752650d1a7eca3c2d446396ed16101119190", async() => {
                 BeginContext(1532, 44, true);
                 WriteLiteral("\r\n\t\t\t\t\t<input type=\"hidden\" name=\"returnUrl\"");
                 EndContext();

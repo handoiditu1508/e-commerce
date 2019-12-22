@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.AddModels;
+﻿using ECommerce.Application.WorkingModels.AddModels;
 using ECommerce.Models.Entities.ProductTypes;
 using System;
 using System.Collections.Generic;

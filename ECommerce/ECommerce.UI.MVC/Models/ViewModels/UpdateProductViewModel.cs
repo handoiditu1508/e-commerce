@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.UpdateModels;
+﻿using ECommerce.Application.WorkingModels.UpdateModels;
 
 namespace ECommerce.UI.MVC.Models.ViewModels
 {

@@ -2,6 +2,7 @@
 using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.Repositories;
+using ECommerce.Models.SearchModels;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -22,16 +23,18 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public Customer GetBy(string email) => context.Customers.FirstOrDefault(c => c.Email == email);
 
-		public IEnumerable<Customer> GetBy(string email, FullName name, bool? active)
+		public IEnumerable<Customer> GetBy(CustomerSearchModel searchModel)
 		{
 			IEnumerable<Customer> customers = context.Customers;
 
-			if (active != null)
-				customers = customers.Where(c => c.Active == active);
 
-			if (!string.IsNullOrEmpty(email))
-				customers = customers.Where(c => c.Email.ToLower().Contains(email.ToLower(), CompareOptions.IgnoreNonSpace));
+			if (searchModel.Active != null)
+				customers = customers.Where(c => c.Active == searchModel.Active);
 
+			if (!string.IsNullOrEmpty(searchModel.Email))
+				customers = customers.Where(c => c.Email.ToLower().Contains(searchModel.Email.ToLower(), CompareOptions.IgnoreNonSpace));
+
+			FullName name = new FullName(searchModel.FirstName, searchModel.MiddleName, searchModel.LastName);
 			if (name != null)
 			{
 				if (!string.IsNullOrEmpty(name.FirstName))
@@ -55,21 +58,20 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public async Task<Order> GetOrderByAsync(int orderId) => await context.Orders.FindAsync(orderId);
 
-		public IEnumerable<Order> GetOrdersBy(int customerId, short? quantity, decimal? totalValue,
-			short? totalValueIndication)
+		public IEnumerable<Order> GetOrdersBy(OrderSearchModel searchModel)
 		{
-			IEnumerable<Order> orders = context.Orders.Where(o=>o.CustomerId==customerId);
+			IEnumerable<Order> orders = context.Orders.Where(o=>o.CustomerId== searchModel.CustomerId);
 
-			if (quantity != null)
-				orders = orders.Where(o => o.Quantity == quantity);
+			if (searchModel.Quantity != null)
+				orders = orders.Where(o => o.Quantity == searchModel.Quantity);
 
-			if (totalValue != null)
+			if (searchModel.TotalValue != null)
 			{
-				if (totalValueIndication == null || totalValueIndication == 0)
-					orders = orders.Where(o => o.Quantity * o.CurrentPrice == totalValue);
-				else if (totalValueIndication < 0)
-					orders = orders.Where(o => o.Quantity * o.CurrentPrice < totalValue);
-				else orders = orders.Where(o => o.Quantity * o.CurrentPrice > totalValue);
+				if (searchModel.TotalValueIndication == null || searchModel.TotalValueIndication == 0)
+					orders = orders.Where(o => o.Quantity * o.CurrentPrice == searchModel.TotalValue);
+				else if (searchModel.TotalValueIndication < 0)
+					orders = orders.Where(o => o.Quantity * o.CurrentPrice < searchModel.TotalValue);
+				else orders = orders.Where(o => o.Quantity * o.CurrentPrice > searchModel.TotalValue);
 			}
 
 			return orders;

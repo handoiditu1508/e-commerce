@@ -1,5 +1,5 @@
-﻿using ECommerce.Application.UpdateModels;
-using ECommerce.Application.Views;
+﻿using ECommerce.Application.WorkingModels.UpdateModels;
+using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.Views;
+﻿using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Models.Entities.Customers;
 using System.Collections.Generic;
 using System.Linq;
