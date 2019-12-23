@@ -29,12 +29,12 @@ $(document).ready(function(){
 				success: function (result) {
 					if(Array.isArray(result))
 					{
-						alert(result.join(';'));
+						showErrors(result);
 					}
 					else $('#AttributesStatesTableContainer').html(result);
 				},
-				error: function (result) {
-					alert('Something went wrong while adding attributes state');
+				error: function (result) {\
+					showErrors(['Something went wrong while adding attributes state', JSON.stringify(result)]);
 				}
 			});
 		});
@@ -51,12 +51,12 @@ $(document).ready(function(){
 				success: function (result) {
 					if(Array.isArray(result))
 					{
-						alert(result.join(';'));
+						showErrors(result);
 					}
 					else $('#AttributesStatesTableContainer').html(result);
 				},
 				error: function (result) {
-					alert('Something went wrong while deleting attributes state');
+					showErrors(['Something went wrong while deleting attributes state', JSON.stringify(result)]);
 				}
 			});
 		});

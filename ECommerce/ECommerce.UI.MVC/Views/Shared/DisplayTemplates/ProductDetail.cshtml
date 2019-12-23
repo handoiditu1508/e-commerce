@@ -106,7 +106,7 @@
 		function updateSmallCart() {
 			$.ajax({
 				url: $('#cartTotalQuantityUrl').val(),
-				type: 'get',
+				type: $('#cartTotalQuantityUrl').attr("urlMethod"),
 				success: function (result) {
 					$('#cartQuantity').html(result);
 				}
@@ -126,7 +126,7 @@
 						updateSmallCart();
 					},
 					error: function (result) {
-						alert('something went wrong while adding to cart:\n' + result);
+						showErrors(['Something went wrong while adding to cart', JSON.stringify(result)]);
 					}
 				});
 			});
@@ -189,7 +189,7 @@
 			//initiate attributes from server
 			$.ajax({
 				url: $('#getProductAttributesUrl').val(),
-				type: 'get',
+				type: $('#getProductAttributesUrl').attr("urlMethod"),
 				data: {
 					sellerId: sellerId,
 					productTypeId: productTypeId
@@ -199,7 +199,7 @@
 					//initiate attributesStates from server
 					$.ajax({
 						url: $('#getProductAttributesStatesUrl').val(),
-						type: 'get',
+						type: $('#getProductAttributesStatesUrl').attr("urlMethod"),
 						data: {
 							sellerId: sellerId,
 							productTypeId: productTypeId
@@ -209,7 +209,7 @@
 							checkFirst();
 						},
 						error: function (result) {
-							alert('Something went wrong while loading attributes states');
+							showErrors(['Something went wrong while loading attributes states', JSON.stringify(result)]);
 						}
 					});
 
@@ -225,7 +225,7 @@
 
 				},
 				error: function (result) {
-					alert('Something went wrong while loading attributes');
+					showErrors(['Something went wrong while loading attributes', JSON.stringify(result)]);
 				}
 			});
 		}

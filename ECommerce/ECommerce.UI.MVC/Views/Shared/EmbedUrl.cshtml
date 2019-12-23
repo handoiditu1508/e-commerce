@@ -1,5 +1,5 @@
-﻿<input id="cartTotalQuantityUrl" type="hidden" value="@Url.Action("TotalQuantity", "Cart")" />
-<input id="getCategoryBreadCrumbUrl" type="hidden" value="@Url.Action("GetBreadCrumb", "Category")" />
-<input id="getProductAttributesStatesUrl" type="hidden" value="@Url.Action("AttributesStates", "Product")" />
-<input id="getProductAttributesUrl" type="hidden" value="@Url.Action("Attributes", "Product")" />
-<input id="addAttributesStateUrl" type="hidden" value="@Url.Action("AddAttributesState", "Seller")" />
+﻿<input id="cartTotalQuantityUrl" type="hidden" value="@Url.Action("TotalQuantity", "Cart")" urlMethod="get" />
+<input id="getCategoryBreadCrumbUrl" type="hidden" value="@Url.Action("GetBreadCrumb", "Category")" urlMethod="get" />
+<input id="getProductAttributesStatesUrl" type="hidden" value="@Url.Action("AttributesStates", "Product")" urlMethod="get" />
+<input id="getProductAttributesUrl" type="hidden" value="@Url.Action("Attributes", "Product")" urlMethod="get" />
+<input id="addAttributesStateUrl" type="hidden" value="@Url.Action("AddAttributesState", "Seller")" urlMethod="post" />

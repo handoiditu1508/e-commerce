@@ -109,7 +109,7 @@ namespace ECommerce.UI.MVC.Controllers
 		[SellerLoginRequired]
 		public async Task<IActionResult> PersonalInformations() => View(await loginPersistence.PersistLoginAsync());
 
-		[HttpPost]
+		[HttpPut]
 		[SellerLoginRequired]
 		public async Task<IActionResult> PersonalInformations(SellerView seller)
 		{
@@ -176,6 +176,7 @@ namespace ECommerce.UI.MVC.Controllers
 			return View(signupModel);
 		}
 
+		[HttpGet]
 		[SellerLoginRequired]
 		public async Task<IActionResult> Product(short? page = 1)
 		{
@@ -198,7 +199,7 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 		}
 
-		[HttpPost]
+		[HttpPut]
 		public async Task<IActionResult> ChangeProductActive(int productTypeId, bool active)
 		{
 			SellerView seller = await loginPersistence.PersistLoginAsync();
@@ -249,7 +250,7 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 		}
 
-		[HttpPost]
+		[HttpPut]
 		[SellerLoginRequired]
 		public async Task<IActionResult> UpdateProduct(UpdateProductViewModel updateViewModel,
 		IEnumerable<IFormFile> images)
@@ -381,7 +382,7 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 		}
 
-		[HttpPost]
+		[HttpPut]
 		[SellerLoginRequired]
 		public async Task<IEnumerable<string>> ProductAttributes(string serializedUpdateViewModel)
 		{
@@ -420,7 +421,7 @@ namespace ECommerce.UI.MVC.Controllers
 			return NotFound();
 		}
 
-		[HttpPost]
+		[HttpPut]
 		public async Task<IActionResult> AddAttributesState(int productTypeId, IDictionary<string, string> attributesState)
 		{
 			SellerView seller = await loginPersistence.PersistLoginAsync();
@@ -438,6 +439,7 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 		}
 
+		[HttpDelete]
 		[SellerLoginRequired]
 		public async Task<IActionResult> DeleteAttributesState(int productTypeId, short index)
 		{
@@ -456,7 +458,7 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 		}
 
-		[HttpGet]
+		[HttpPut]
 		public async Task<Message<short>> AddProductQuantity(int productTypeId, short numbers = 0)
 		{
 			var message = new Message<short>();
@@ -473,7 +475,7 @@ namespace ECommerce.UI.MVC.Controllers
 			return message;
 		}
 
-		[HttpGet]
+		[HttpPut]
 		public async Task<Message<short>> ReduceProductQuantity(int productTypeId, short numbers = 0)
 		{
 			var message = new Message<short>();

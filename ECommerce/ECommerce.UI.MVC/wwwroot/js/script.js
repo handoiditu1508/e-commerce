@@ -15,5 +15,4 @@
 	$('.dropdown-toggle, .dropdown-item').click(function () {
 		$(this).next('ul').toggle();
 	});
-
 });

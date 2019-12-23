@@ -19,25 +19,27 @@ namespace ECommerce.UI.MVC.Controllers
 		public async Task AddToCart(int sellerId, int productTypeId, IDictionary<string, string> attributes, short quantity = 1)
 			=> await cart.AddItemAsync(sellerId, productTypeId, quantity, attributes);
 
-		[HttpPost]
+		[HttpDelete]
 		public IActionResult RemoveFromCart(int index)
 		{
 			cart.RemoveLine(index);
 			return ViewComponent("CartTable", new { cart });
 		}
 
-		[HttpPost]
+		[HttpPut]
 		public IActionResult ChangeQuantity(int index, short quantity)
 		{
 			cart.ChangeItemQuantity(index, quantity);
 			return ViewComponent("CartTable", new { cart });
 		}
 
+		[HttpGet]
 		public IActionResult Index()
 		{
 			return View(cart);
 		}
 
+		[HttpGet]
 		public IActionResult TotalQuantity()
 		{
 			return Json(cart.TotalQuantity);

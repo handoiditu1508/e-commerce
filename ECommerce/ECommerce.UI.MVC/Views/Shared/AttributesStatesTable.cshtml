@@ -13,6 +13,7 @@
 		<tbody>
 			@{
 				short count = 0;
+				string deleteAttributesStateUrl = Url.Action("DeleteAttributesState","Seller");
 				foreach (var attributesState in Model.AttributesStates)
 				{
 				<tr>
@@ -21,9 +22,9 @@
 					<td>@attributesState[attribute.Key]</td>
 					}
 					<td>
-						<form class="deleteAttributesStateOnSubmit" asp-action="DeleteAttributesState" asp-controller="Seller" method="post">
+						<form class="deleteAttributesStateOnSubmit" action="@deleteAttributesStateUrl" method="delete">
 							<input type="hidden" name="ProductTypeId" value="@Model.ProductTypeId" />
-							<input type="hidden" name="index" value="@Html.Raw(count++)" />
+							<input type="hidden" name="index" value="@(count++)" />
 							<input class="btn btn-warning" type="submit" value="Delete" />
 						</form>
 					</td>

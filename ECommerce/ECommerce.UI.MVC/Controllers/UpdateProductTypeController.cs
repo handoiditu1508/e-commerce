@@ -29,6 +29,7 @@ namespace ECommerce.UI.MVC.Controllers
 			loginPersistence = new SellerLoginPersistence(accessor, unitOfWork);
 		}
 
+		[HttpGet]
 		[SellerLoginRequired]
 		public async Task<IActionResult> SelectProductType(string searchString, short? page = 1)
 		{
@@ -112,6 +113,7 @@ namespace ECommerce.UI.MVC.Controllers
 			return RedirectToAction("RequestSended");
 		}
 
+		[HttpGet]
 		public IActionResult RequestSended()
 		{
 			return View();

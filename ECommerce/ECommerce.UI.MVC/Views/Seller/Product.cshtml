@@ -25,16 +25,16 @@
 						<td>@product.ProductTypeName</td>
 						<td>@CurrencyFormat.Format(product.Price)</td>
 						<td>
-							<div class="float-left" id="@Html.Raw($"product{product.ProductTypeId}Quantity")">@product.Quantity</div>
+							<div class="float-left" id="@($"product{product.ProductTypeId}Quantity")">@product.Quantity</div>
 							<div class="float-right">
-								<form class="changeQuantityForm" action="@addQuantityAction" method="get" actionName="adding">
+								<form class="changeQuantityForm" action="@addQuantityAction" method="put" actionName="adding">
 									<input type="hidden" name="productTypeId" value="@product.ProductTypeId" />
 									<input type="hidden" name="numbers" value="0" />
 									<button type="submit" class="btn btn-secondary">
 										<i class="fa fa-plus" aria-hidden="true"></i>
 									</button>
 								</form>
-								<form class="changeQuantityForm" action="@reduceQuantityAction" method="get" actionName="reducing">
+								<form class="changeQuantityForm" action="@reduceQuantityAction" method="put" actionName="reducing">
 									<input type="hidden" name="productTypeId" value="@product.ProductTypeId" />
 									<input type="hidden" name="numbers" value="0" />
 									<button type="submit" class="btn btn-secondary">
@@ -44,7 +44,7 @@
 							</div>
 						</td>
 						<td>
-							<form action="@formAction" method="post">
+							<form action="@formAction" method="put">
 								<input type="hidden" name="productTypeId" value="@product.ProductTypeId" />
 								<input @(product.Active ? "checked" : "") class="submitOnChange" name="active"
 										type="checkbox" data-toggle="toggle" value="true"
@@ -81,10 +81,10 @@ $(document).ready(function(){
 			data: $form.serialize(),
 			success: function (result) {
 				if (result != '')
-					alert(result);
+					showErrors([result]);
 			},
 			error: function (result) {
-				alert('something went wrong while changing product active:\n' + result);
+				showErrors(['Something went wrong while changing product active', JSON.stringify(result)]);
 			}
 		});
 	});
@@ -134,13 +134,12 @@ $(document).ready(function(){
 					let sltor = "#product" + $form.find("input[name='productTypeId']").val() + "Quantity";
 					$(sltor).html(result.result);
 				}
-				else alert(result.errors.join(';'));
+				else showErrors(result.errors);
 
 				$form.find("input[name='numbers']").val(0);
 			},
 			error: function (result) {
-				alert('Something went wrong while ' + actionName + ' product quantity');
-
+				showErrors(['Something went wrong while ' + actionName + ' product quantity', JSON.stringify(result)]);
 				$form.find("input[name='numbers']").val(0);
 			}
 		});

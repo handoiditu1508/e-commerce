@@ -21,6 +21,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using ECommerce.Models.Messages;
 
 namespace ECommerce.UI.MVC.Controllers
 {
@@ -36,6 +37,7 @@ namespace ECommerce.UI.MVC.Controllers
 			loginPersistence = new SellerLoginPersistence(accessor, unitOfWork);
 		}
 
+		[HttpGet]
 		[SellerLoginRequired]
 		public async Task<IActionResult> SelectProductType(string searchString, short? page = 1)
 		{
@@ -248,6 +250,23 @@ namespace ECommerce.UI.MVC.Controllers
 			}
 			end:
 			return View(registerModel);
+		}
+
+		[HttpDelete]
+		public async Task<Message> Unregister(int productTypeId)
+		{
+			var message = new Message();
+
+			SellerView seller = await loginPersistence.PersistLoginAsync();
+			if (seller == null)
+			{
+				message.Errors.Add("Not login");
+				return message;
+			}
+
+			message = await eCommerce.UnregisterProductAsync(seller.Id, productTypeId);
+
+			return message;
 		}
 	}
 }

@@ -90,7 +90,7 @@ namespace ECommerce.UI.MVC.Controllers
 		[CustomerLoginRequired]
 		public async Task<IActionResult> PersonalInformations() => View(await loginPersistence.PersistLoginAsync());
 
-		[HttpPost]
+		[HttpPut]
 		[CustomerLoginRequired]
 		public async Task<IActionResult> PersonalInformations(CustomerView customer)
 		{

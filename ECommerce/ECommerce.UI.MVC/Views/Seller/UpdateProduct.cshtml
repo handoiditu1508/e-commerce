@@ -5,9 +5,10 @@
 	ProductTypeView productType = await eCommerce.GetProductTypeByAsync(Model.ProductTypeId);
 	<h1>@productType.Name</h1>
 }
-<a class="btn btn-success" asp-action="AttributesStates" asp-controller="Seller" asp-route-productTypeId="@Model.ProductTypeId">Product Attributes States</a>
-<a class="btn btn-success" asp-action="ProductAttributes" asp-controller="Seller" asp-route-productTypeId="@Model.ProductTypeId">Product Attributes</a>
-<form asp-action="UpdateProduct" method="post" enctype="multipart/form-data">
+<a class="btn btn-outline-success" asp-action="AttributesStates" asp-controller="Seller" asp-route-productTypeId="@Model.ProductTypeId">Product Attributes States</a>
+<a class="btn btn-outline-success" asp-action="ProductAttributes" asp-controller="Seller" asp-route-productTypeId="@Model.ProductTypeId">Product Attributes</a>
+<button id="unregisterBtn" class="btn btn-danger" urlAction="@Url.Action("Unregister","RegisterProduct",new { productTypeId=Model.ProductTypeId })" urlMethod="delete" redirectUrl="@Url.Action("Product","Seller")">Unregister</button>
+<form asp-action="UpdateProduct" method="put" enctype="multipart/form-data">
 	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 	<input type="hidden" asp-for="ProductTypeId" />
@@ -25,7 +26,7 @@
 			@foreach (string image in Model.UpdateModel.Images)
 			{
 			<div style="width:100px; display:inline-block;">
-				<img src="@Html.Raw($"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{image}")" style="width:100%;" />
+				<img src="@($"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{image}")" style="width:100%;" />
 			</div>
 			}
 		</div>
@@ -58,6 +59,28 @@ $(document).ready(function(){
 			fileInput.fileinput('enable');
 		}
 		else fileInput.fileinput('disable');
+	});
+
+	$('#unregisterBtn').click(function (event) {
+		event.preventDefault();
+		if (!confirm("Warning: this action will delete this product parmanently"))
+			return;
+
+		showErrors(["Something went wrong while unregister product", "asdsd"]);
+		$.ajax({
+			url: $(this).attr("urlAction"),
+			type: $(this).attr("urlMethod"),
+			success: function (result) {
+				if (result.errors.length < 1) {
+					alert("Product successfully unregistered");
+					location.replace(window.location.protocol + "//" + window.location.host + $(this).attr("redirectUrl"));
+				}
+				else showErrors(result.errors);
+			},
+			error: function (result) {
+				showErrors(["Something went wrong while unregister product", JSON.stringify(result)]);
+			}
+		});
 	});
 });
 </script>

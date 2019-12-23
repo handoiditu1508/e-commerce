@@ -30,7 +30,7 @@
 						{
 							<td>This product is currently unavailable</td>
 							<td>
-								<form class="removeFromCartOnSubmit" action="@removeAction" method="post">
+								<form class="removeFromCartOnSubmit" action="@removeAction" method="delete">
 									<input type="hidden" name="index" value="@(count++)" />
 									<input type="submit" class="btn btn-sm btn-danger" value="Remove" />
 								</form>
@@ -49,7 +49,7 @@
 								}
 							</td>
 							<td class="text-center">
-								<form class="changeCartQuantityOnSubmit" action="@changeQuantityAction" method="post">
+								<form class="changeCartQuantityOnSubmit" action="@changeQuantityAction" method="put">
 									<input type="number" name="quantity" class="form-control quantityInput" value="@line.Quantity" />
 									<input type="hidden" name="index" value="@count" />
 									<input type="submit" class="btn btn-sm btn-warning" value="Change" disabled hidden />
@@ -58,7 +58,7 @@
 							<td class="text-right">@CurrencyFormat.Format(product.Price)</td>
 							<td class="text-right">@CurrencyFormat.Format(product.Price * line.Quantity)</td>
 							<td>
-								<form class="removeFromCartOnSubmit" action="@removeAction" method="post">
+								<form class="removeFromCartOnSubmit" action="@removeAction" method="delete">
 									<input type="hidden" name="index" value="@(count++)" />
 									<input type="submit" class="btn btn-sm btn-danger" value="Remove" />
 								</form>

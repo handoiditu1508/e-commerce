@@ -34,13 +34,13 @@
 
 			$.ajax({
 				url: $('#getCategoryBreadCrumbUrl').val(),
-				type: "get",
+				type: $('#getCategoryBreadCrumbUrl').attr("urlMethod"),
 				data: { categoryId: $attr.html() },
 				success: function (result) {
 					$('#categoryPickingResult').html(result);
 				},
 				error: function (result) {
-					alert('something went wrong while picking category:\n' + result);
+					showErrors(['Something went wrong while picking category', JSON.stringify(result)]);
 				}
 			});
 		}

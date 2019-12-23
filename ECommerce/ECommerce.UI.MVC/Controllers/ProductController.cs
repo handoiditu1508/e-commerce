@@ -21,6 +21,7 @@ namespace ECommerce.UI.MVC.Controllers
 			eCommerce = new ECommerceService(unitOfWork);
 		}
 
+		[HttpGet]
 		public async Task<IActionResult> Index(string searchString, int? categoryId = null, short? page = 1)
 		{
 			ProductSearchModel searchModel = new ProductSearchModel
@@ -51,12 +52,14 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 		}
 
+		[HttpGet]
 		public async Task<IActionResult> Detail(int sellerId, int productTypeId)
 		{
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(await eCommerce.GetProductByAsync(sellerId, productTypeId));
 		}
 
+		[HttpGet]
 		public async Task<IActionResult> Seller(int sellerId, short? page = 1)
 		{
 			ProductSearchModel searchModel = new ProductSearchModel
@@ -81,6 +84,7 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 		}
 
+		[HttpGet]
 		public IActionResult ProductType(int productTypeId, short? page = 1)
 		{
 			ProductSearchModel searchModel = new ProductSearchModel
