@@ -29,9 +29,9 @@ namespace ECommerce.Application.Services
 
 		public static bool IsAspectRatioValid(byte[] data)
 		{
-			using(var image = Image.FromStream(new MemoryStream(data)))
+			using (var image = Image.FromStream(new MemoryStream(data)))
 			{
-				return (image.Width/image.Height) == (RatioX/RatioY);
+				return (image.Width / image.Height) == (RatioX / RatioY);
 			}
 		}
 

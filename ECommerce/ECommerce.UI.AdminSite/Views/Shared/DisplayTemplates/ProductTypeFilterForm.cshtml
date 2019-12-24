@@ -23,20 +23,22 @@
 				<select class="form-control" name="productStatus" enum-type="typeof(ProductStatus)" selected="Model.ProductStatus" option-label=""></select>
 			</div>
 		</div>
-		<div class="form-row">
-			<div class="form-group col-md-12">
-				<label class="control-label">Category</label>
-				<button id="clearCategoryPicking" type="button" class="btn btn-danger btn-sm">X</button>
-				<input id="categoryHiddenPickingResult" type="hidden" name="categoryId" value="@Model.CategoryId" />
-				<div id="categoryPickingResult">
-					@if (Model.CategoryId != null)
-					{
-						<vc:category-bread-crumb category-id="(int)Model.CategoryId"></vc:category-bread-crumb>
-					}
+		<div class="categoryPickerContainer">
+			<div class="form-row">
+				<div class="form-group col-md-12">
+					<label class="control-label">Category</label>
+					<button class="clearCategoryPicking" type="button" class="btn btn-danger btn-sm">X</button>
+					<input class="categoryHiddenPickingResult" type="hidden" name="categoryId" value="@Model.CategoryId" />
+					<div class="categoryPickingResult">
+						@if (Model.CategoryId != null)
+						{
+							<vc:category-bread-crumb category-id="(int)Model.CategoryId"></vc:category-bread-crumb>
+						}
+					</div>
 				</div>
 			</div>
+			@await Component.InvokeAsync("CategoriesPickerDropDown", new { additionalCssClass = "btn btn-success" })
 		</div>
-		@await Component.InvokeAsync("CategoriesPickerDropDown", new { additionalCssClass = "btn btn-success" })
 		<input type="submit" value="Search" class="btn btn-primary" />
 	</form>
 </fieldset>
@@ -52,14 +54,15 @@
 			var $btn = $(this);
 			var $attr = $btn.find('p[name=\'categoryId\']');
 
-			$('#categoryHiddenPickingResult').val($attr.html());
+			let container = $(this).closest(".categoryPickerContainer");
+			container.find(".categoryHiddenPickingResult").val($attr.html());
 
 			$.ajax({
 				url: $('#getCategoryBreadCrumbUrl').val(),
 				type: "get",
 				data: { categoryId: $attr.html() },
 				success: function (result) {
-					$('#categoryPickingResult').html(result);
+					container.find(".categoryPickingResult").html(result);
 				},
 				error: function (result) {
 					alert('something went wrong while picking category:\n' + result);
@@ -67,13 +70,14 @@
 			});
 		});
 
-	$('#clearCategoryPicking').click(
+	$('.clearCategoryPicking').click(
 		function (event) {
 			// Stop btn behavior to make form validate it self
 			event.preventDefault();
 
 			//clear result of picking category
-			$('#categoryPickingResult').html('');
-			$('#categoryHiddenPickingResult').val('');
+			let container = $(this).closest(".categoryPickerContainer");
+			container.find(".categoryHiddenPickingResult").val('');
+			container.find('.categoryPickingResult').html('');
 		});
 </script>

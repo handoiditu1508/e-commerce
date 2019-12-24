@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ECommerce.UI.AdminSite.Models.ViewModels
+namespace ECommerce.UI.Shared.Models.ViewModels
 {
 	public class LoginViewModel
 	{

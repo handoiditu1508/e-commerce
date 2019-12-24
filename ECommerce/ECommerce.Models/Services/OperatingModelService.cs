@@ -1,7 +1,6 @@
 ﻿using ECommerce.Models.Entities.Sellers;
 using ECommerce.Models.Messages;
 using ECommerce.Models.Repositories;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ECommerce.Models.Services

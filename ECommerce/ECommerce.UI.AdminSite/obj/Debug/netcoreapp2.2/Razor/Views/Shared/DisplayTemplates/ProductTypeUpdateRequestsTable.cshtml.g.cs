@@ -73,17 +73,32 @@ using ECommerce.UI.Shared.Extensions;
 #line default
 #line hidden
 #line 13 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using Microsoft.AspNetCore.Mvc.Routing;
+using ECommerce.UI.Shared.Models;
 
 #line default
 #line hidden
 #line 14 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
+using ECommerce.UI.Shared.Models.ViewModels;
+
+#line default
+#line hidden
+#line 15 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
+using ECommerce.UI.Shared.Infrastructure;
+
+#line default
+#line hidden
+#line 16 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Mvc.Routing;
+
+#line default
+#line hidden
+#line 17 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
 using System;
 
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"54015db294c7de8e55eae478d5f37e0454a0c87c", @"/Views/Shared/DisplayTemplates/ProductTypeUpdateRequestsTable.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1be0c5b2f88cfbca335f9f6fedbd186ed3ee637e", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"bff579e791ba8af17542aaeffd7dc288340fa240", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_DisplayTemplates_ProductTypeUpdateRequestsTable : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<ProductTypeUpdateRequestView>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("img-fluid rounded"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -196,7 +211,7 @@ WriteAttributeValue("", 1042, product.ProductTypeName, 1042, 24, false);
             WriteLiteral("\t\t\t\t\t\t\t");
             EndContext();
             BeginContext(1109, 83, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "54015db294c7de8e55eae478d5f37e0454a0c87c12262", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "54015db294c7de8e55eae478d5f37e0454a0c87c12878", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -230,7 +245,7 @@ AddHtmlAttributeValue("", 1171, productType.Name, 1171, 17, false);
             WriteLiteral("\t\t\t\t\t</td>\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<h4>");
             EndContext();
             BeginContext(1236, 150, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54015db294c7de8e55eae478d5f37e0454a0c87c14395", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54015db294c7de8e55eae478d5f37e0454a0c87c15011", async() => {
                 BeginContext(1366, 16, false);
 #line 32 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\Shared\DisplayTemplates\ProductTypeUpdateRequestsTable.cshtml"
                                                                                                                                                         Write(productType.Name);
@@ -294,7 +309,7 @@ AddHtmlAttributeValue("", 1171, productType.Name, 1171, 17, false);
             WriteLiteral("\t\t\t\t\t</td>\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<h4>");
             EndContext();
             BeginContext(1607, 156, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54015db294c7de8e55eae478d5f37e0454a0c87c18651", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54015db294c7de8e55eae478d5f37e0454a0c87c19267", async() => {
                 BeginContext(1735, 24, false);
 #line 41 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\Shared\DisplayTemplates\ProductTypeUpdateRequestsTable.cshtml"
                                                                                                                                                       Write(updateRequest.SellerName);
@@ -336,7 +351,7 @@ AddHtmlAttributeValue("", 1171, productType.Name, 1171, 17, false);
             WriteLiteral("</h4>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t");
             EndContext();
             BeginContext(1799, 296, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54015db294c7de8e55eae478d5f37e0454a0c87c21848", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54015db294c7de8e55eae478d5f37e0454a0c87c22464", async() => {
                 BeginContext(1839, 50, true);
                 WriteLiteral("\r\n\t\t\t\t\t\t\t<input name=\"productTypeId\" type=\"hidden\"");
                 EndContext();

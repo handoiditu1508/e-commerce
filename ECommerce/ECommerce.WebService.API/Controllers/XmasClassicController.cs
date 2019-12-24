@@ -1,7 +1,6 @@
 ﻿using ECommerce.WebService.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,7 +51,7 @@ namespace ECommerce.WebService.API.Controllers
 		[HttpPut("{id}")]
 		public async Task<Song> Update(int id, [FromBody]Song song)
 		{
-			if(song.Id == id)
+			if (song.Id == id)
 			{
 				Song oldSong = songs.FirstOrDefault(s => s.Id == id);
 				songs.Remove(oldSong);

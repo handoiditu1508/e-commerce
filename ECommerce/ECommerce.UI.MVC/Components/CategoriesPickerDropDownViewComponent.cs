@@ -1,6 +1,7 @@
 ﻿using ECommerce.Application;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.UI.MVC.Models.ViewModels;
+using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.UI.MVC.Components

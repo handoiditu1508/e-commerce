@@ -4,6 +4,6 @@ namespace ECommerce.UI.Shared.ApiModels.DeleteModels
 {
 	public class ProductImagesDeleteModel
 	{
-		public IEnumerable<string> Images{ get; set; }
+		public IEnumerable<string> Images { get; set; }
 	}
 }

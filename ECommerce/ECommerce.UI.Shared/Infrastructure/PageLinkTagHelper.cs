@@ -1,4 +1,4 @@
-﻿using ECommerce.UI.AdminSite.Models.ViewModels;
+﻿using ECommerce.UI.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Collections.Generic;
 
-namespace ECommerce.UI.AdminSite.Infrastructure
+namespace ECommerce.UI.Shared.Infrastructure
 {
 	[HtmlTargetElement("div", Attributes = "page-model")]
 	public class PageLinkTagHelper : TagHelper
@@ -28,7 +28,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 
 		[HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
 		public Dictionary<string, object> PageUrlValues { get; set; } = new Dictionary<string, object>();
-		
+
 		public string PageClass { get; set; }
 		public string PageClassNormal { get; set; }
 		public string PageClassSelected { get; set; }

@@ -381,6 +381,9 @@
         "frameworks": {
           "netcoreapp2.2": {
             "projectReferences": {
+              "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Application\\ECommerce.Application.csproj": {
+                "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Application\\ECommerce.Application.csproj"
+              },
               "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj": {
                 "projectPath": "E:\\My Stuffs\\Công việc ở trường\\Thương mại điện tử\\e-commerce\\ECommerce\\ECommerce.Models\\ECommerce.Models.csproj"
               }

@@ -1,25 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommerce.Application;
-using ECommerce.Models.SearchModels;
-using ECommerce.Application.Services;
+﻿using ECommerce.Application;
 using ECommerce.Application.WorkingModels.UpdateModels;
 using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.SearchModels;
 using ECommerce.UI.AdminSite.Infrastructure;
 using ECommerce.UI.AdminSite.Models.ViewModels;
+using ECommerce.UI.Shared.Models;
+using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.AdminSite.Controllers
 {
-    public class SellerController : Controller
-    {
+	public class SellerController : Controller
+	{
 		private ECommerceService eCommerce;
 		private AdminLoginPersistence loginPersistence;
 		private short recordsPerPage = 20;
@@ -96,20 +96,20 @@ namespace ECommerce.UI.AdminSite.Controllers
 
 		[AdminLoginRequired]
 		public async Task<IActionResult> Product(int sellerId, string searchString, int? categoryId, decimal? price,
-            short? priceIndication, ProductStatus? status, bool? active, ProductTypeStatus? productTypeStatus,
-            short? page = 1)
+			short? priceIndication, ProductStatus? status, bool? active, ProductTypeStatus? productTypeStatus,
+			short? page = 1)
 		{
 			ProductSearchModel searchModel = new ProductSearchModel
-            {
-                SellerId = sellerId,
-                SearchString = searchString,
-                CategoryId = categoryId,
-                Price = price,
-                PriceIndication = priceIndication,
-                Status = status,
-                Active = active,
-                ProductTypeStatus = productTypeStatus
-            };
+			{
+				SellerId = sellerId,
+				SearchString = searchString,
+				CategoryId = categoryId,
+				Price = price,
+				PriceIndication = priceIndication,
+				Status = status,
+				Active = active,
+				ProductTypeStatus = productTypeStatus
+			};
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductsListViewModel
 			{
@@ -120,7 +120,22 @@ namespace ECommerce.UI.AdminSite.Controllers
 					RecordsPerPage = recordsPerPage,
 					TotalRecords = await eCommerce.CountProductsBySellerIdAsync(searchModel)
 				},
-				SearchModel = searchModel
+				SearchModel = new ProductSearchViewModel
+				{
+					SearchModel = searchModel,
+
+					Url = Url.Action("Product", "Seller"),
+
+					ShowSearchString = true,
+					ShowCategoryId = true,
+					ShowPrice = true,
+					ShowPriceIndication = true,
+					ShowActive = true,
+					ShowStatus = true,
+					ShowProductTypeStatus = true,
+
+					ShowMinimumQuantity = false
+				}
 			});
 		}
 
@@ -142,7 +157,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 					return Json(errorString);
 				}
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				return Json(e.Message);
 			}

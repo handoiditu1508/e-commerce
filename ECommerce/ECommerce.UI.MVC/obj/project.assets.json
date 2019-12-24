@@ -4950,6 +4950,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.2",
         "dependencies": {
+          "ECommerce.Application": "1.0.0",
           "ECommerce.Models": "1.0.0",
           "Microsoft.AspNetCore.App": "2.2.5"
         },

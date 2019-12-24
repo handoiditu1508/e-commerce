@@ -1,4 +1,4 @@
-﻿namespace ECommerce.UI.MVC.Models
+﻿namespace ECommerce.UI.Shared.Models
 {
 	public class LoginCookies
 	{

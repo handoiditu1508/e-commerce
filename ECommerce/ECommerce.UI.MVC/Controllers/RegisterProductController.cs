@@ -1,17 +1,19 @@
 ﻿using ECommerce.Application;
-using ECommerce.Application.WorkingModels.AddModels;
-using ECommerce.Models.SearchModels;
 using ECommerce.Application.Services;
+using ECommerce.Application.WorkingModels.AddModels;
 using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
-using ECommerce.Models;
 using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.ProductTypes;
+using ECommerce.Models.Messages;
+using ECommerce.Models.SearchModels;
 using ECommerce.UI.MVC.Infrastructure;
 using ECommerce.UI.MVC.Models.ViewModels;
 using ECommerce.UI.Shared;
 using ECommerce.UI.Shared.ApiModels.ResponseModels;
 using ECommerce.UI.Shared.ApiModels.UploadModels;
+using ECommerce.UI.Shared.Models;
+using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,7 +23,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using ECommerce.Models.Messages;
 
 namespace ECommerce.UI.MVC.Controllers
 {
@@ -83,7 +84,7 @@ namespace ECommerce.UI.MVC.Controllers
 					return View(addModel);
 				}
 
-				if(productType != null)
+				if (productType != null)
 				{
 					return RedirectToAction("Index", new { productTypeId = productType.Id });
 				}
@@ -145,7 +146,7 @@ namespace ECommerce.UI.MVC.Controllers
 						HashSet<string> separatedValues = values[i]
 							.Split(',', StringSplitOptions.RemoveEmptyEntries)
 							.ToHashSet();
-						if(separatedValues.Any())
+						if (separatedValues.Any())
 						{
 							attributes.Add(keys[i], separatedValues);
 						}
@@ -215,9 +216,9 @@ namespace ECommerce.UI.MVC.Controllers
 							else errors.Add("Something wrong happenned while calling images upload");
 						}
 					}
-					catch(Exception e)
+					catch (Exception e)
 					{
-						while(e!=null)
+						while (e != null)
 						{
 							errors.Add(e.Message);
 							e = e.InnerException;
@@ -248,7 +249,7 @@ namespace ECommerce.UI.MVC.Controllers
 					return RedirectToAction("Product", "Seller");
 				}
 			}
-			end:
+		end:
 			return View(registerModel);
 		}
 

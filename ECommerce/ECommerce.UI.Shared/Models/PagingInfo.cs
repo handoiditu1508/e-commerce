@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ECommerce.UI.MVC.Models.ViewModels
+namespace ECommerce.UI.Shared.Models
 {
 	public class PagingInfo
 	{

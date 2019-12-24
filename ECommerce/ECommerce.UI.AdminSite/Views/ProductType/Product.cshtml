@@ -2,14 +2,14 @@
 
 <h1>Product Type: @Model.Products.FirstOrDefault()?.ProductTypeName</h1>
 
-@Html.DisplayFor(m => m.SearchModel, "ProductFilterFormForProductType")
+@await Html.PartialAsync("ProductFilterForm", Model.SearchModel)
 
 @Html.DisplayFor(m => m.Products, "ProductsTable")
 
 <div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="col-12"
 	 page-class="page-item" page-class-normal=""
 	 page-class-selected="active" page-class-disabled="disabled"
-	 page-url-status="Model.SearchModel.Status" page-url-active="Model.SearchModel.Active"
-	 page-url-price="Model.SearchModel.Price" page-url-priceIndication="Model.SearchModel.PriceIndication"
-	 page-url-productTypeId="Model.SearchModel.ProductTypeId">
+	 page-url-status="Model.SearchModel.SearchModel.Status" page-url-active="Model.SearchModel.SearchModel.Active"
+	 page-url-price="Model.SearchModel.SearchModel.Price" page-url-priceIndication="Model.SearchModel.SearchModel.PriceIndication"
+	 page-url-productTypeId="Model.SearchModel.SearchModel.ProductTypeId">
 </div>

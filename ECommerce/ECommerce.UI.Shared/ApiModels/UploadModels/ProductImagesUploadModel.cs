@@ -5,6 +5,6 @@ namespace ECommerce.UI.Shared.ApiModels.UploadModels
 {
 	public class ProductImagesUploadModel
 	{
-		public IEnumerable<FileContent> Images{ get; set; }
+		public IEnumerable<FileContent> Images { get; set; }
 	}
 }

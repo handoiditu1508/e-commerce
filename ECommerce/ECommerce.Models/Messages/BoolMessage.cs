@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ECommerce.Models.Messages
+﻿namespace ECommerce.Models.Messages
 {
 	public class BoolMessage : Message<bool>
 	{

@@ -1,15 +1,9 @@
-﻿using ECommerce.Models;
-using ECommerce.UI.Shared;
-using ECommerce.UI.Shared.ApiModels.DeleteModels;
+﻿using ECommerce.UI.Shared;
 using ECommerce.UI.Shared.ApiModels.ResponseModels;
 using ECommerce.UI.Shared.ApiModels.UploadModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ECommerce.WebService.API.Controllers
@@ -32,7 +26,7 @@ namespace ECommerce.WebService.API.Controllers
 			string path = Path.Combine(_environment.WebRootPath, UIConsts.GetProductPathById(sellerId, productTypeId));
 
 			//delete directory
-			if(Directory.Exists(path))
+			if (Directory.Exists(path))
 				Directory.Delete(path, true);
 
 			//recreate directory

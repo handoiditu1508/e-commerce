@@ -2,7 +2,7 @@
 
 @{
 	ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
-	SellerView seller = await eCommerce.GetSellerByAsync((int)Model.SearchModel.SellerId);
+	SellerView seller = await eCommerce.GetSellerByAsync((int)Model.SearchModel.SearchModel.SellerId);
 }
 <h1>@seller.Name</h1>
 
@@ -14,5 +14,5 @@
 <div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="col-12"
 	 page-class="page-item" page-class-normal=""
 	 page-class-selected="active" page-class-disabled="disabled"
-	 page-url-sellerId="Model.SearchModel.SellerId">
+	 page-url-sellerId="Model.SearchModel.SearchModel.SellerId">
 </div>

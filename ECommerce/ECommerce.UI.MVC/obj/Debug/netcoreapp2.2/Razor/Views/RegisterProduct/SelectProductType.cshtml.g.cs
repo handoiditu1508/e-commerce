@@ -63,42 +63,57 @@ using ECommerce.UI.Shared;
 #line default
 #line hidden
 #line 11 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Models.Entities;
+using ECommerce.UI.Shared.Models;
 
 #line default
 #line hidden
 #line 12 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Models.Entities.Sellers;
+using ECommerce.UI.Shared.Models.ViewModels;
 
 #line default
 #line hidden
 #line 13 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.Models.Entities.ProductTypes;
+using ECommerce.Models.Entities;
 
 #line default
 #line hidden
 #line 14 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.UI.Shared.Extensions;
+using ECommerce.Models.Entities.Sellers;
 
 #line default
 #line hidden
 #line 15 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using Microsoft.AspNetCore.Mvc.Routing;
+using ECommerce.Models.Entities.ProductTypes;
 
 #line default
 #line hidden
 #line 16 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using System;
+using ECommerce.UI.Shared.Extensions;
 
 #line default
 #line hidden
 #line 17 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
+using ECommerce.UI.Shared.Infrastructure;
+
+#line default
+#line hidden
+#line 18 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Mvc.Routing;
+
+#line default
+#line hidden
+#line 19 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
+using System;
+
+#line default
+#line hidden
+#line 20 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
 using System.IO;
 
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a4b1cb3c95871b45fcdb5170930c55ef534f2518", @"/Views/RegisterProduct/SelectProductType.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5531ed2f3a93f08478d43d2718a1c43736b95650", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1b6fcef8398f58ef3ee210f9ab95ac587e8d9508", @"/Views/_ViewImports.cshtml")]
     public class Views_RegisterProduct_SelectProductType : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ProductTypesListViewModel>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("float-left"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -132,7 +147,7 @@ using System.IO;
         private global::Microsoft.AspNetCore.Mvc.TagHelpers.FormTagHelper __Microsoft_AspNetCore_Mvc_TagHelpers_FormTagHelper;
         private global::Microsoft.AspNetCore.Mvc.TagHelpers.RenderAtEndOfFormTagHelper __Microsoft_AspNetCore_Mvc_TagHelpers_RenderAtEndOfFormTagHelper;
         private global::Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper __Microsoft_AspNetCore_Mvc_TagHelpers_AnchorTagHelper;
-        private global::ECommerce.UI.MVC.Infrastructure.PageLinkTagHelper __ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper;
+        private global::ECommerce.UI.Shared.Infrastructure.PageLinkTagHelper __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper;
         #pragma warning disable 1998
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
@@ -140,7 +155,7 @@ using System.IO;
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(36, 370, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a4b1cb3c95871b45fcdb5170930c55ef534f25189990", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a4b1cb3c95871b45fcdb5170930c55ef534f251810594", async() => {
                 BeginContext(105, 96, true);
                 WriteLiteral("\r\n\t<div class=\"input-group mb-3\">\r\n\t\t<input class=\"form-control\" type=\"text\" name=\"searchString\"");
                 EndContext();
@@ -177,7 +192,7 @@ WriteAttributeValue("", 209, Model.SearchModel.SearchString, 209, 31, false);
             WriteLiteral("\r\n\r\n<div class=\"card bg-info text-white float-right\">\r\n\t<div class=\"card-body\">\r\n\t\t<p class=\"card-title\">Can\'t find what you\'re looking for?</p>\r\n\t\t");
             EndContext();
             BeginContext(554, 75, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a4b1cb3c95871b45fcdb5170930c55ef534f251812868", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a4b1cb3c95871b45fcdb5170930c55ef534f251813473", async() => {
                 BeginContext(612, 13, true);
                 WriteLiteral("Create New!!!");
                 EndContext();
@@ -210,20 +225,20 @@ Write(Html.DisplayFor(m => m.ProductTypes, "SelectProductTypeTable"));
             WriteLiteral("\r\n\r\n");
             EndContext();
             BeginContext(717, 291, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("div", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a4b1cb3c95871b45fcdb5170930c55ef534f251814785", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("div", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a4b1cb3c95871b45fcdb5170930c55ef534f251815390", async() => {
                 BeginContext(1000, 2, true);
                 WriteLiteral("\r\n");
                 EndContext();
             }
             );
-            __ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper = CreateTagHelper<global::ECommerce.UI.MVC.Infrastructure.PageLinkTagHelper>();
-            __tagHelperExecutionContext.Add(__ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper);
+            __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper = CreateTagHelper<global::ECommerce.UI.Shared.Infrastructure.PageLinkTagHelper>();
+            __tagHelperExecutionContext.Add(__ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper);
 #line 21 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\RegisterProduct\SelectProductType.cshtml"
-__ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper.PageModel = Model.PagingInfo;
+__ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageModel = Model.PagingInfo;
 
 #line default
 #line hidden
-            __tagHelperExecutionContext.AddTagHelperAttribute("page-model", __ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper.PageModel, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+            __tagHelperExecutionContext.AddTagHelperAttribute("page-model", __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageModel, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
             BeginWriteTagHelperAttribute();
 #line 21 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\RegisterProduct\SelectProductType.cshtml"
                                     WriteLiteral(ViewContext.RouteData.Values["Action"].ToString());
@@ -231,27 +246,27 @@ __ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper.PageModel = Model.PagingInfo
 #line default
 #line hidden
             __tagHelperStringValueBuffer = EndWriteTagHelperAttribute();
-            __ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper.PageAction = __tagHelperStringValueBuffer;
-            __tagHelperExecutionContext.AddTagHelperAttribute("page-action", __ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper.PageAction, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+            __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageAction = __tagHelperStringValueBuffer;
+            __tagHelperExecutionContext.AddTagHelperAttribute("page-action", __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageAction, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
             __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_5);
-            __ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper.PageClass = (string)__tagHelperAttribute_6.Value;
+            __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageClass = (string)__tagHelperAttribute_6.Value;
             __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_6);
-            __ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper.PageClassNormal = (string)__tagHelperAttribute_7.Value;
+            __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageClassNormal = (string)__tagHelperAttribute_7.Value;
             __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_7);
-            __ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper.PageClassSelected = (string)__tagHelperAttribute_8.Value;
+            __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageClassSelected = (string)__tagHelperAttribute_8.Value;
             __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_8);
-            __ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper.PageClassDisabled = (string)__tagHelperAttribute_9.Value;
+            __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageClassDisabled = (string)__tagHelperAttribute_9.Value;
             __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_9);
-            if (__ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper.PageUrlValues == null)
+            if (__ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageUrlValues == null)
             {
-                throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("page-url-searchString", "ECommerce.UI.MVC.Infrastructure.PageLinkTagHelper", "PageUrlValues"));
+                throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("page-url-searchString", "ECommerce.UI.Shared.Infrastructure.PageLinkTagHelper", "PageUrlValues"));
             }
 #line 24 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\RegisterProduct\SelectProductType.cshtml"
-__ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper.PageUrlValues["searchString"] = Model.SearchModel.SearchString;
+__ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageUrlValues["searchString"] = Model.SearchModel.SearchString;
 
 #line default
 #line hidden
-            __tagHelperExecutionContext.AddTagHelperAttribute("page-url-searchString", __ECommerce_UI_MVC_Infrastructure_PageLinkTagHelper.PageUrlValues["searchString"], global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+            __tagHelperExecutionContext.AddTagHelperAttribute("page-url-searchString", __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageUrlValues["searchString"], global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
             await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
             if (!__tagHelperExecutionContext.Output.IsContentModified)
             {

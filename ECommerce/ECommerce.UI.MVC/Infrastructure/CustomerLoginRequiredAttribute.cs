@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using ECommerce.Infrastructure.UnitOfWork;
+﻿using ECommerce.Infrastructure.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Infrastructure
 {

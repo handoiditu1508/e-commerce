@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommerce.Application;
+﻿using ECommerce.Application;
 using ECommerce.Application.Services;
 using ECommerce.Application.WorkingModels.UpdateModels;
 using ECommerce.Application.WorkingModels.Views;
@@ -9,13 +6,17 @@ using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.UI.MVC.Infrastructure;
 using ECommerce.UI.MVC.Models.ViewModels;
 using ECommerce.UI.Shared.Extensions;
+using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Controllers
 {
-    public class CustomerController : Controller
-    {
+	public class CustomerController : Controller
+	{
 		private ECommerceService eCommerce;
 		private CustomerLoginPersistence loginPersistence;
 
@@ -99,11 +100,11 @@ namespace ECommerce.UI.MVC.Controllers
 				var message = await eCommerce.UpdateCustomerAsync(customer.Id,
 					new CustomerUpdateModel
 					{
-						FirstName=customer.FirstName,
-						MiddleName=customer.MiddleName,
-						LastName=customer.LastName
+						FirstName = customer.FirstName,
+						MiddleName = customer.MiddleName,
+						LastName = customer.LastName
 					});
-				if(message.Errors.Any())
+				if (message.Errors.Any())
 				{
 					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				}
@@ -133,7 +134,7 @@ namespace ECommerce.UI.MVC.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Signup(CustomerSignupViewModel signupModel)
 		{
-			if(ModelState.IsValid)
+			if (ModelState.IsValid)
 			{
 				var message = await eCommerce.AddCustomerAsync(signupModel.Customer);
 				if (message.Errors.Any())

@@ -1,5 +1,4 @@
-﻿using ECommerce.UI.MVC.Infrastructure;
-using ECommerce.UI.MVC.Models;
+﻿using ECommerce.UI.Shared.Models;
 using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -21,7 +20,7 @@ namespace ECommerce.UI.MVC.Components
 					switch (action)
 					{
 						case "Index":
-							crumbs.Add(new HtmlLinkAttributes("Cart",  "#"));
+							crumbs.Add(new HtmlLinkAttributes("Cart", "#"));
 							break;
 					}
 					break;
@@ -29,18 +28,18 @@ namespace ECommerce.UI.MVC.Components
 					switch (action)
 					{
 						case "Login":
-							crumbs.Add(new HtmlLinkAttributes("Customer Login",  "#"));
+							crumbs.Add(new HtmlLinkAttributes("Customer Login", "#"));
 							break;
 						case "PersonalInformations":
-							crumbs.Add(new HtmlLinkAttributes("Customer Informations",  "#"));
+							crumbs.Add(new HtmlLinkAttributes("Customer Informations", "#"));
 							break;
 						case "Signup":
-							crumbs.Add(new HtmlLinkAttributes("Customer Signup",  "#"));
+							crumbs.Add(new HtmlLinkAttributes("Customer Signup", "#"));
 							break;
 					}
 					break;
 				case "Home":
-					switch(action)
+					switch (action)
 					{
 						case "Index":
 							crumbs = new List<HtmlLinkAttributes> { new HtmlLinkAttributes("Home", "#") };
@@ -55,7 +54,7 @@ namespace ECommerce.UI.MVC.Components
 							crumbs.Add(new HtmlLinkAttributes("Detail", "#"));
 							break;
 						case "Index":
-							crumbs.Add(new HtmlLinkAttributes("Product",  "#"));
+							crumbs.Add(new HtmlLinkAttributes("Product", "#"));
 							break;
 						case "ProductType":
 							crumbs.Add(new HtmlLinkAttributes("Product", Url.Action("Index", controller)));
@@ -68,7 +67,7 @@ namespace ECommerce.UI.MVC.Components
 					}
 					break;
 				case "RegisterProduct":
-					switch(action)
+					switch (action)
 					{
 						case "CreateProductType":
 							crumbs.Add(new HtmlLinkAttributes("Create Product Type", "#"));
@@ -85,13 +84,13 @@ namespace ECommerce.UI.MVC.Components
 					switch (action)
 					{
 						case "Login":
-							crumbs.Add(new HtmlLinkAttributes("Seller Login",  "#"));
+							crumbs.Add(new HtmlLinkAttributes("Seller Login", "#"));
 							break;
 						case "PersonalInformations":
-							crumbs.Add(new HtmlLinkAttributes("Seller Informations",  "#"));
+							crumbs.Add(new HtmlLinkAttributes("Seller Informations", "#"));
 							break;
 						case "Signup":
-							crumbs.Add(new HtmlLinkAttributes("Seller Signup",  "#"));
+							crumbs.Add(new HtmlLinkAttributes("Seller Signup", "#"));
 							break;
 					}
 					break;

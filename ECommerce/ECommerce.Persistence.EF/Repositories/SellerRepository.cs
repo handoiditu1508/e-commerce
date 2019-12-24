@@ -115,10 +115,10 @@ namespace ECommerce.Persistence.EF.Repositories
 				else products = products.Where(p => p.Price > searchModel.Price);
 			}
 
-            if(searchModel.ProductTypeStatus !=null)
-            {
-                products = products.Where(p => p.ProductType.Status == searchModel.ProductTypeStatus);
-            }
+			if (searchModel.ProductTypeStatus != null)
+			{
+				products = products.Where(p => p.ProductType.Status == searchModel.ProductTypeStatus);
+			}
 
 			if (!string.IsNullOrWhiteSpace(searchModel.SearchString))
 			{

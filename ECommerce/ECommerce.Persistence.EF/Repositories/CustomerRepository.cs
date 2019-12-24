@@ -60,7 +60,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public IEnumerable<Order> GetOrdersBy(OrderSearchModel searchModel)
 		{
-			IEnumerable<Order> orders = context.Orders.Where(o=>o.CustomerId== searchModel.CustomerId);
+			IEnumerable<Order> orders = context.Orders.Where(o => o.CustomerId == searchModel.CustomerId);
 
 			if (searchModel.Quantity != null)
 				orders = orders.Where(o => o.Quantity == searchModel.Quantity);

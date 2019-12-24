@@ -1,5 +1,4 @@
-﻿using ECommerce.Models.Entities;
-using ECommerce.Models.Entities.Sellers;
+﻿using ECommerce.Models.Entities.Sellers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

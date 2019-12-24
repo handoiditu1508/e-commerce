@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Controllers
 {
-    public class CartController : Controller
-    {
+	public class CartController : Controller
+	{
 		private Cart cart;
 
 		public CartController(Cart cart, IUnitOfWork unitOfWork)

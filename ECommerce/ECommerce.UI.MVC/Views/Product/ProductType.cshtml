@@ -2,7 +2,7 @@
 
 @{
 	ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
-	ProductTypeView productType = await eCommerce.GetProductTypeByAsync((int)Model.SearchModel.ProductTypeId);
+	ProductTypeView productType = await eCommerce.GetProductTypeByAsync((int)Model.SearchModel.SearchModel.ProductTypeId);
 }
 <h1>@productType.Name</h1>
 
@@ -14,5 +14,5 @@
 <div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="col-12"
 	 page-class="page-item" page-class-normal=""
 	 page-class-selected="active" page-class-disabled="disabled"
-	 page-url-productTypeId="Model.SearchModel.ProductTypeId">
+	 page-url-productTypeId="Model.SearchModel.SearchModel.ProductTypeId">
 </div>

@@ -4,7 +4,6 @@ using ECommerce.Models.Entities.Sellers;
 using ECommerce.Models.Messages;
 using ECommerce.Models.Repositories;
 using ECommerce.Models.Services.ServiceFactories;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -85,7 +84,7 @@ namespace ECommerce.Models.Services
 			}
 
 			//check order status
-			if (order.Status==OrderStatus.Shipped)
+			if (order.Status == OrderStatus.Shipped)
 			{
 				message.Errors.Add("Can not cancel a shipped order");
 			}
@@ -190,7 +189,7 @@ namespace ECommerce.Models.Services
 			OperatingModelService modelService = modelServiceFactory
 				.GetService((await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId)).Model);
 
-			if(!(await modelService.CanAdminRejectsOrderAsync()).Result)
+			if (!(await modelService.CanAdminRejectsOrderAsync()).Result)
 			{
 				message.Errors.Add("You don't have right to reject this order");
 			}

@@ -1,14 +1,12 @@
-﻿using ECommerce.Application.WorkingModels.AddModels;
-using ECommerce.Application.Extensions;
+﻿using ECommerce.Application.Extensions;
 using ECommerce.Application.Extensions.AddModels;
 using ECommerce.Application.Extensions.UpdateModels;
-using ECommerce.Models.SearchModels;
 using ECommerce.Application.Services;
+using ECommerce.Application.WorkingModels.AddModels;
 using ECommerce.Application.WorkingModels.UpdateModels;
 using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Extensions;
 using ECommerce.Infrastructure.UnitOfWork;
-using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Admins;
 using ECommerce.Models.Entities.Categories;
 using ECommerce.Models.Entities.Customers;
@@ -16,6 +14,7 @@ using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
 using ECommerce.Models.Messages;
 using ECommerce.Models.Repositories;
+using ECommerce.Models.SearchModels;
 using ECommerce.Models.Services;
 using ECommerce.Models.Services.ServiceFactories;
 using System;
@@ -478,7 +477,7 @@ namespace ECommerce.Application
 			{
 				await customerRepository.AddAsync(customer);
 				await unitOfWork.CommitAsync();
-				message.Result= customer.ConvertToView();
+				message.Result = customer.ConvertToView();
 				return message;
 			}
 			message.Errors = validationMessage.Errors;
@@ -1091,7 +1090,7 @@ namespace ECommerce.Application
 			Order order = await customerRepository.GetOrderByAsync(orderId);
 			return order != null ?
 				(await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId))?
-					.ConvertToView() ?? 
+					.ConvertToView() ??
 					null :
 				null;
 		}
@@ -1350,7 +1349,7 @@ namespace ECommerce.Application
 			var attributesStates = product.ConvertedAttributesStates.ToList();
 
 			//check attributes states uniqueness
-			for(short i = 0; i < attributesStates.Count;i++)
+			for (short i = 0; i < attributesStates.Count; i++)
 			{
 				bool match = true;
 				foreach (var state in attributesState)
@@ -1362,7 +1361,7 @@ namespace ECommerce.Application
 					}
 				}
 
-				if(match)
+				if (match)
 				{
 					message.Errors.Add("Duplicated");
 					return message;
@@ -1406,7 +1405,7 @@ namespace ECommerce.Application
 			for (short i = 0; i < attributesStates.Count(); i++)
 			{
 				bool match = true;
-				foreach(var state in attributesState)
+				foreach (var state in attributesState)
 				{
 					if (state.Value != attributesStates[i][state.Key])
 					{
@@ -1415,7 +1414,7 @@ namespace ECommerce.Application
 					}
 				}
 
-				if(match)
+				if (match)
 				{
 					attributesStates.RemoveAt(i);
 					product.ConvertedAttributesStates = attributesStates;

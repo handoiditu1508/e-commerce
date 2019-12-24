@@ -19,7 +19,7 @@ namespace ECommerce.Application.WorkingModels.AddModels
 
 		[Required]
 		public int ProductTypeId { get; set; }
-		
-		public IDictionary<string,string> Attributes { get; set; }
+
+		public IDictionary<string, string> Attributes { get; set; }
 	}
 }

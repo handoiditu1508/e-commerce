@@ -1,7 +1,6 @@
 ﻿using ECommerce.Models.Entities.Sellers;
 using ECommerce.Models.Messages;
 using ECommerce.Models.Repositories;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,7 +24,7 @@ namespace ECommerce.Models.Services.OperatingModelServices
 			BoolMessage message = new BoolMessage();
 
 			//check product existence
-			if(product==null)
+			if (product == null)
 			{
 				message.Errors.Add("Could not found product");
 				message.Result = false;

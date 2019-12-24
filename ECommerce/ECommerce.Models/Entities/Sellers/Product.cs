@@ -59,7 +59,7 @@ namespace ECommerce.Models.Entities.Sellers
 					if (oldAttribute.Key == null)//old attributes don't have that Name
 					{
 						//add new added attribute to attribute states
-						foreach(var attributeState in attributeStates)
+						foreach (var attributeState in attributeStates)
 						{
 							attributeState.Add(attribute.Key, attribute.Value.First());
 						}
@@ -70,13 +70,13 @@ namespace ECommerce.Models.Entities.Sellers
 						var attributeStatesToRemove = new List<IDictionary<string, string>>();
 						foreach (var attributeState in attributeStates)
 						{
-							if(!attribute.Value.Contains(attributeState[attribute.Key]))
+							if (!attribute.Value.Contains(attributeState[attribute.Key]))
 							{
 								attributeStatesToRemove.Add(attributeState);
 							}
 						}
 						//remove if value not in
-						foreach(var attributeState in attributeStatesToRemove)
+						foreach (var attributeState in attributeStatesToRemove)
 						{
 							attributeStates.Remove(attributeState);
 						}
@@ -111,14 +111,14 @@ namespace ECommerce.Models.Entities.Sellers
 						bool match = true;
 						foreach (var pair in attributeStates[i])
 						{
-							if(attributeStates[j][pair.Key] != pair.Value)
+							if (attributeStates[j][pair.Key] != pair.Value)
 							{
 								match = false;
 								break;
 							}
 						}
 
-						if(match)
+						if (match)
 						{
 							attributeStates.RemoveAt(j--);
 						}

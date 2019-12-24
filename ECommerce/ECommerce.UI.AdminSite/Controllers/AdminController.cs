@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommerce.Application;
+﻿using ECommerce.Application;
 using ECommerce.Application.Services;
 using ECommerce.Application.WorkingModels.UpdateModels;
 using ECommerce.Application.WorkingModels.Views;
@@ -9,13 +6,17 @@ using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.UI.AdminSite.Infrastructure;
 using ECommerce.UI.AdminSite.Models.ViewModels;
 using ECommerce.UI.Shared.Extensions;
+using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.AdminSite.Controllers
 {
-    public class AdminController : Controller
-    {
+	public class AdminController : Controller
+	{
 		private ECommerceService eCommerce;
 		private AdminLoginPersistence loginPersistence;
 

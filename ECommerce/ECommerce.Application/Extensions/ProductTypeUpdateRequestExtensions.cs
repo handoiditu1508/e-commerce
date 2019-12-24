@@ -13,7 +13,7 @@ namespace ECommerce.Application.Extensions
 			{
 				Descriptions = updateRequest.Descriptions,
 				CategoryId = updateRequest.CategoryId,
-				CategoryName = updateRequest.Category?.Name??string.Empty,
+				CategoryName = updateRequest.Category?.Name ?? string.Empty,
 				Name = updateRequest.Name,
 				ProductTypeId = updateRequest.ProductTypeId,
 				ProductTypeName = updateRequest.ProductType.Name,

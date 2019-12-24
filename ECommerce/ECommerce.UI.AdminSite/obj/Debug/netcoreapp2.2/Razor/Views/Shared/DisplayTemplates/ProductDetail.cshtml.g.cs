@@ -73,17 +73,32 @@ using ECommerce.UI.Shared.Extensions;
 #line default
 #line hidden
 #line 13 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using Microsoft.AspNetCore.Mvc.Routing;
+using ECommerce.UI.Shared.Models;
 
 #line default
 #line hidden
 #line 14 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
+using ECommerce.UI.Shared.Models.ViewModels;
+
+#line default
+#line hidden
+#line 15 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
+using ECommerce.UI.Shared.Infrastructure;
+
+#line default
+#line hidden
+#line 16 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Mvc.Routing;
+
+#line default
+#line hidden
+#line 17 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
 using System;
 
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"64f731fd1bf2226d97a6e596d9315204c8c04b9a", @"/Views/Shared/DisplayTemplates/ProductDetail.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1be0c5b2f88cfbca335f9f6fedbd186ed3ee637e", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"bff579e791ba8af17542aaeffd7dc288340fa240", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_DisplayTemplates_ProductDetail : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ProductView>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Informations", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -123,8 +138,8 @@ using System;
         private global::Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper __Microsoft_AspNetCore_Mvc_TagHelpers_AnchorTagHelper;
         private global::Microsoft.AspNetCore.Mvc.TagHelpers.FormTagHelper __Microsoft_AspNetCore_Mvc_TagHelpers_FormTagHelper;
         private global::Microsoft.AspNetCore.Mvc.TagHelpers.RenderAtEndOfFormTagHelper __Microsoft_AspNetCore_Mvc_TagHelpers_RenderAtEndOfFormTagHelper;
-        private global::ECommerce.UI.AdminSite.Infrastructure.EnumSelectListTagHelper __ECommerce_UI_AdminSite_Infrastructure_EnumSelectListTagHelper;
-        private global::ECommerce.UI.AdminSite.Infrastructure.BooleanSelectListTagHelper __ECommerce_UI_AdminSite_Infrastructure_BooleanSelectListTagHelper;
+        private global::ECommerce.UI.Shared.Infrastructure.EnumSelectListTagHelper __ECommerce_UI_Shared_Infrastructure_EnumSelectListTagHelper;
+        private global::ECommerce.UI.Shared.Infrastructure.BooleanSelectListTagHelper __ECommerce_UI_Shared_Infrastructure_BooleanSelectListTagHelper;
         #pragma warning disable 1998
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
@@ -207,7 +222,7 @@ WriteAttributeValue("", 416, $"{UIConsts.GetProductUrlById(Model.SellerId, Model
 					<h3>");
             EndContext();
             BeginContext(2197, 171, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64f731fd1bf2226d97a6e596d9315204c8c04b9a15447", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64f731fd1bf2226d97a6e596d9315204c8c04b9a16051", async() => {
                 BeginContext(2343, 21, false);
 #line 49 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\Shared\DisplayTemplates\ProductDetail.cshtml"
                                                                                                                                                                     Write(Model.ProductTypeName);
@@ -271,7 +286,7 @@ WriteAttributeValue("", 416, $"{UIConsts.GetProductUrlById(Model.SellerId, Model
             WriteLiteral("</span></h4>\r\n\t\t\t\t\t<h4 class=\"font-weight-bold text-uppercase\">SELLER: ");
             EndContext();
             BeginContext(3052, 132, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64f731fd1bf2226d97a6e596d9315204c8c04b9a19766", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64f731fd1bf2226d97a6e596d9315204c8c04b9a20370", async() => {
                 BeginContext(3164, 16, false);
 #line 62 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\Shared\DisplayTemplates\ProductDetail.cshtml"
                                                                                                                                                                                   Write(Model.SellerName);
@@ -390,7 +405,7 @@ WriteAttributeValue("", 3877, Model.Quantity, 3877, 15, false);
             WriteLiteral("</h5>\r\n\t\t\t\t\t<h5 class=\"font-weight-bold text-uppercase\">Status:</h5>\r\n\t\t\t\t\t");
             EndContext();
             BeginContext(4048, 370, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64f731fd1bf2226d97a6e596d9315204c8c04b9a26838", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64f731fd1bf2226d97a6e596d9315204c8c04b9a27442", async() => {
                 BeginContext(4119, 44, true);
                 WriteLiteral("\r\n\t\t\t\t\t\t<input name=\"sellerId\" type=\"hidden\"");
                 EndContext();
@@ -415,25 +430,25 @@ WriteAttributeValue("", 4247, Model.ProductTypeId, 4247, 20, false);
                 WriteLiteral(" />\r\n\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(4279, 125, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64f731fd1bf2226d97a6e596d9315204c8c04b9a28336", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64f731fd1bf2226d97a6e596d9315204c8c04b9a28940", async() => {
                 }
                 );
-                __ECommerce_UI_AdminSite_Infrastructure_EnumSelectListTagHelper = CreateTagHelper<global::ECommerce.UI.AdminSite.Infrastructure.EnumSelectListTagHelper>();
-                __tagHelperExecutionContext.Add(__ECommerce_UI_AdminSite_Infrastructure_EnumSelectListTagHelper);
+                __ECommerce_UI_Shared_Infrastructure_EnumSelectListTagHelper = CreateTagHelper<global::ECommerce.UI.Shared.Infrastructure.EnumSelectListTagHelper>();
+                __tagHelperExecutionContext.Add(__ECommerce_UI_Shared_Infrastructure_EnumSelectListTagHelper);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_5);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_6);
 #line 85 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\Shared\DisplayTemplates\ProductDetail.cshtml"
-__ECommerce_UI_AdminSite_Infrastructure_EnumSelectListTagHelper.EnumType = typeof(ProductStatus);
+__ECommerce_UI_Shared_Infrastructure_EnumSelectListTagHelper.EnumType = typeof(ProductStatus);
 
 #line default
 #line hidden
-                __tagHelperExecutionContext.AddTagHelperAttribute("enum-type", __ECommerce_UI_AdminSite_Infrastructure_EnumSelectListTagHelper.EnumType, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+                __tagHelperExecutionContext.AddTagHelperAttribute("enum-type", __ECommerce_UI_Shared_Infrastructure_EnumSelectListTagHelper.EnumType, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
 #line 85 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\Shared\DisplayTemplates\ProductDetail.cshtml"
-__ECommerce_UI_AdminSite_Infrastructure_EnumSelectListTagHelper.Selected = Model.Status;
+__ECommerce_UI_Shared_Infrastructure_EnumSelectListTagHelper.Selected = Model.Status;
 
 #line default
 #line hidden
-                __tagHelperExecutionContext.AddTagHelperAttribute("selected", __ECommerce_UI_AdminSite_Infrastructure_EnumSelectListTagHelper.Selected, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+                __tagHelperExecutionContext.AddTagHelperAttribute("selected", __ECommerce_UI_Shared_Infrastructure_EnumSelectListTagHelper.Selected, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
                 await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
                 if (!__tagHelperExecutionContext.Output.IsContentModified)
                 {
@@ -469,25 +484,25 @@ __ECommerce_UI_AdminSite_Infrastructure_EnumSelectListTagHelper.Selected = Model
             WriteLiteral("\r\n\t\t\t\t\t<h5 class=\"font-weight-bold text-uppercase\">Add or reduce quantity:</h5>\r\n\t\t\t\t\t");
             EndContext();
             BeginContext(4504, 793, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64f731fd1bf2226d97a6e596d9315204c8c04b9a32489", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64f731fd1bf2226d97a6e596d9315204c8c04b9a33072", async() => {
                 BeginContext(4615, 154, true);
                 WriteLiteral("\r\n\t\t\t\t\t\t<div class=\"form-row\">\r\n\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"input-group-prepend\">\r\n\t\t\t\t\t\t\t\t\t\t");
                 EndContext();
                 BeginContext(4769, 117, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64f731fd1bf2226d97a6e596d9315204c8c04b9a33084", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64f731fd1bf2226d97a6e596d9315204c8c04b9a33667", async() => {
                 }
                 );
-                __ECommerce_UI_AdminSite_Infrastructure_BooleanSelectListTagHelper = CreateTagHelper<global::ECommerce.UI.AdminSite.Infrastructure.BooleanSelectListTagHelper>();
-                __tagHelperExecutionContext.Add(__ECommerce_UI_AdminSite_Infrastructure_BooleanSelectListTagHelper);
+                __ECommerce_UI_Shared_Infrastructure_BooleanSelectListTagHelper = CreateTagHelper<global::ECommerce.UI.Shared.Infrastructure.BooleanSelectListTagHelper>();
+                __tagHelperExecutionContext.Add(__ECommerce_UI_Shared_Infrastructure_BooleanSelectListTagHelper);
 #line 93 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\Shared\DisplayTemplates\ProductDetail.cshtml"
-__ECommerce_UI_AdminSite_Infrastructure_BooleanSelectListTagHelper.SelectedBoolValue = null;
+__ECommerce_UI_Shared_Infrastructure_BooleanSelectListTagHelper.SelectedBoolValue = null;
 
 #line default
 #line hidden
-                __tagHelperExecutionContext.AddTagHelperAttribute("selected-bool-value", __ECommerce_UI_AdminSite_Infrastructure_BooleanSelectListTagHelper.SelectedBoolValue, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
-                __ECommerce_UI_AdminSite_Infrastructure_BooleanSelectListTagHelper.TrueLabel = (string)__tagHelperAttribute_10.Value;
+                __tagHelperExecutionContext.AddTagHelperAttribute("selected-bool-value", __ECommerce_UI_Shared_Infrastructure_BooleanSelectListTagHelper.SelectedBoolValue, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+                __ECommerce_UI_Shared_Infrastructure_BooleanSelectListTagHelper.TrueLabel = (string)__tagHelperAttribute_10.Value;
                 __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_10);
-                __ECommerce_UI_AdminSite_Infrastructure_BooleanSelectListTagHelper.FalseLabel = (string)__tagHelperAttribute_11.Value;
+                __ECommerce_UI_Shared_Infrastructure_BooleanSelectListTagHelper.FalseLabel = (string)__tagHelperAttribute_11.Value;
                 __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_11);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_12);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_13);

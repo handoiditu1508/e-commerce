@@ -3727,6 +3727,7 @@
       },
       "ECommerce.UI.Shared/1.0.0": {
         "dependencies": {
+          "ECommerce.Application": "1.0.0",
           "ECommerce.Models": "1.0.0",
           "Microsoft.AspNetCore.App": "2.2.5"
         },

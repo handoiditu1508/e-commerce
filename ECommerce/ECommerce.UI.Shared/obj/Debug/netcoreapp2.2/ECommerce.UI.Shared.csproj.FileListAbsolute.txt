@@ -13,3 +13,9 @@ E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\E
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.Shared\obj\Debug\netcoreapp2.2\ECommerce.UI.Shared.pdb
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.Shared\bin\Debug\netcoreapp2.2\ECommerce.UI.Shared.runtimeconfig.json
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.Shared\bin\Debug\netcoreapp2.2\ECommerce.UI.Shared.runtimeconfig.dev.json
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.Shared\bin\Debug\netcoreapp2.2\ECommerce.Application.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.Shared\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.Shared\bin\Debug\netcoreapp2.2\ECommerce.Persistence.EF.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.Shared\bin\Debug\netcoreapp2.2\ECommerce.Application.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.Shared\bin\Debug\netcoreapp2.2\ECommerce.Infrastructure.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.Shared\bin\Debug\netcoreapp2.2\ECommerce.Persistence.EF.pdb

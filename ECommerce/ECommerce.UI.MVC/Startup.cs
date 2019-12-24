@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +13,7 @@ namespace ECommerce.UI.MVC
 	{
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddMvc(option=>
+			services.AddMvc(option =>
 			{
 				//option.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 				//option.Filters.Add(new RequireHttpsAttribute());
@@ -81,7 +80,7 @@ namespace ECommerce.UI.MVC
 					name: null,
 					template: "Products/",
 					defaults: new { controller = "Product", action = "Index", page = 1 });
-				
+
 				routes.MapRoute(
 					name: "Default",
 					template: "{controller=Home}/{action=Index}/{id?}");

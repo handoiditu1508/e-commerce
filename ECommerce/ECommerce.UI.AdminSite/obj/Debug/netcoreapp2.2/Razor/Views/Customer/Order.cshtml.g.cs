@@ -73,17 +73,32 @@ using ECommerce.UI.Shared.Extensions;
 #line default
 #line hidden
 #line 13 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using Microsoft.AspNetCore.Mvc.Routing;
+using ECommerce.UI.Shared.Models;
 
 #line default
 #line hidden
 #line 14 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
+using ECommerce.UI.Shared.Models.ViewModels;
+
+#line default
+#line hidden
+#line 15 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
+using ECommerce.UI.Shared.Infrastructure;
+
+#line default
+#line hidden
+#line 16 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Mvc.Routing;
+
+#line default
+#line hidden
+#line 17 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
 using System;
 
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"420605c24b63dd909699db0017279f99379f2f33", @"/Views/Customer/Order.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1be0c5b2f88cfbca335f9f6fedbd186ed3ee637e", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"bff579e791ba8af17542aaeffd7dc288340fa240", @"/Views/_ViewImports.cshtml")]
     public class Views_Customer_Order : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<OrdersListViewModel>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("col-12"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -109,7 +124,7 @@ using System;
                 return __backed__tagHelperScopeManager;
             }
         }
-        private global::ECommerce.UI.AdminSite.Infrastructure.PageLinkTagHelper __ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper;
+        private global::ECommerce.UI.Shared.Infrastructure.PageLinkTagHelper __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper;
         #pragma warning disable 1998
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
@@ -157,20 +172,20 @@ Write(Html.DisplayFor(m => m.Orders, "OrdersTable"));
             WriteLiteral("\r\n\r\n");
             EndContext();
             BeginContext(424, 287, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("div", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "420605c24b63dd909699db0017279f99379f2f339064", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("div", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "420605c24b63dd909699db0017279f99379f2f339674", async() => {
                 BeginContext(703, 2, true);
                 WriteLiteral("\r\n");
                 EndContext();
             }
             );
-            __ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper = CreateTagHelper<global::ECommerce.UI.AdminSite.Infrastructure.PageLinkTagHelper>();
-            __tagHelperExecutionContext.Add(__ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper);
+            __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper = CreateTagHelper<global::ECommerce.UI.Shared.Infrastructure.PageLinkTagHelper>();
+            __tagHelperExecutionContext.Add(__ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper);
 #line 12 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\Customer\Order.cshtml"
-__ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper.PageModel = Model.PagingInfo;
+__ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageModel = Model.PagingInfo;
 
 #line default
 #line hidden
-            __tagHelperExecutionContext.AddTagHelperAttribute("page-model", __ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper.PageModel, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+            __tagHelperExecutionContext.AddTagHelperAttribute("page-model", __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageModel, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
             BeginWriteTagHelperAttribute();
 #line 12 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\Customer\Order.cshtml"
                                     WriteLiteral(ViewContext.RouteData.Values["Action"].ToString());
@@ -178,27 +193,27 @@ __ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper.PageModel = Model.Pagi
 #line default
 #line hidden
             __tagHelperStringValueBuffer = EndWriteTagHelperAttribute();
-            __ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper.PageAction = __tagHelperStringValueBuffer;
-            __tagHelperExecutionContext.AddTagHelperAttribute("page-action", __ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper.PageAction, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+            __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageAction = __tagHelperStringValueBuffer;
+            __tagHelperExecutionContext.AddTagHelperAttribute("page-action", __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageAction, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
             __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_0);
-            __ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper.PageClass = (string)__tagHelperAttribute_1.Value;
+            __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageClass = (string)__tagHelperAttribute_1.Value;
             __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_1);
-            __ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper.PageClassNormal = (string)__tagHelperAttribute_2.Value;
+            __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageClassNormal = (string)__tagHelperAttribute_2.Value;
             __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_2);
-            __ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper.PageClassSelected = (string)__tagHelperAttribute_3.Value;
+            __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageClassSelected = (string)__tagHelperAttribute_3.Value;
             __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_3);
-            __ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper.PageClassDisabled = (string)__tagHelperAttribute_4.Value;
+            __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageClassDisabled = (string)__tagHelperAttribute_4.Value;
             __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_4);
-            if (__ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper.PageUrlValues == null)
+            if (__ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageUrlValues == null)
             {
-                throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("page-url-customerId", "ECommerce.UI.AdminSite.Infrastructure.PageLinkTagHelper", "PageUrlValues"));
+                throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("page-url-customerId", "ECommerce.UI.Shared.Infrastructure.PageLinkTagHelper", "PageUrlValues"));
             }
 #line 15 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\Customer\Order.cshtml"
-__ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper.PageUrlValues["customerId"] = Model.SearchModel.CustomerId;
+__ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageUrlValues["customerId"] = Model.SearchModel.CustomerId;
 
 #line default
 #line hidden
-            __tagHelperExecutionContext.AddTagHelperAttribute("page-url-customerId", __ECommerce_UI_AdminSite_Infrastructure_PageLinkTagHelper.PageUrlValues["customerId"], global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+            __tagHelperExecutionContext.AddTagHelperAttribute("page-url-customerId", __ECommerce_UI_Shared_Infrastructure_PageLinkTagHelper.PageUrlValues["customerId"], global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
             await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
             if (!__tagHelperExecutionContext.Output.IsContentModified)
             {

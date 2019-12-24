@@ -1,23 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommerce.Application;
-using ECommerce.Models.SearchModels;
+﻿using ECommerce.Application;
 using ECommerce.Application.WorkingModels.UpdateModels;
 using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.SearchModels;
 using ECommerce.UI.AdminSite.Infrastructure;
 using ECommerce.UI.AdminSite.Models.ViewModels;
+using ECommerce.UI.Shared.Models;
+using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.AdminSite.Controllers
 {
-    public class ProductTypeController : Controller
-    {
+	public class ProductTypeController : Controller
+	{
 		private ECommerceService eCommerce;
 		private AdminLoginPersistence loginPersistence;
 		private short recordsPerPage = PagingInfo.DefaultRecordsPerPage;
@@ -33,7 +35,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 
 		[AdminLoginRequired]
 		public async Task<IActionResult> Search(string searchString, int? categoryId, ProductTypeStatus? status, string dateModified, ProductStatus? productStatus, short? page = 1)
-        {
+		{
 			DateTime? convertedDateModified = null;
 			if (!string.IsNullOrWhiteSpace(dateModified))
 			{
@@ -125,7 +127,22 @@ namespace ECommerce.UI.AdminSite.Controllers
 					RecordsPerPage = recordsPerPage,
 					TotalRecords = eCommerce.CountProductsByProductTypeId(searchModel)
 				},
-				SearchModel = searchModel
+				SearchModel = new ProductSearchViewModel
+				{
+					SearchModel = searchModel,
+
+					Url = Url.Action("Product", "ProductType"),
+
+					ShowPrice = true,
+					ShowPriceIndication = true,
+					ShowActive = true,
+					ShowStatus = true,
+
+					ShowSearchString = false,
+					ShowCategoryId = false,
+					ShowMinimumQuantity = false,
+					ShowProductTypeStatus = false
+				}
 			});
 		}
 
@@ -135,8 +152,8 @@ namespace ECommerce.UI.AdminSite.Controllers
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductTypeUpdateRequestViewModel
 			{
-				UpdateRequests=eCommerce.GetProductTypeUpdateRequests((page - 1) * recordsPerPage, recordsPerPage),
-				PagingInfo=new PagingInfo
+				UpdateRequests = eCommerce.GetProductTypeUpdateRequests((page - 1) * recordsPerPage, recordsPerPage),
+				PagingInfo = new PagingInfo
 				{
 					CurrentPage = (short)page,
 					RecordsPerPage = recordsPerPage,
@@ -159,7 +176,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 		{
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			var message = await eCommerce.ApplyAnUpdateForProductTypeAsync(sellerId, productTypeId);
-			if(message.Errors.Any())
+			if (message.Errors.Any())
 			{
 				ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				return RedirectToAction("UpdateRequestDetail", new { sellerId, productTypeId });
@@ -191,5 +208,5 @@ namespace ECommerce.UI.AdminSite.Controllers
 			}
 			return Json("");
 		}
-    }
+	}
 }

@@ -1,7 +1,7 @@
 ﻿using ECommerce.Application.WorkingModels.Views;
 using System.Collections.Generic;
 
-namespace ECommerce.UI.MVC.Models.ViewModels
+namespace ECommerce.UI.Shared.Models.ViewModels
 {
 	public class CategoriesDropDownViewModel
 	{

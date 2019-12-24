@@ -7,43 +7,44 @@
 		<input asp-for="Name" class="form-control" />
 		<span asp-validation-for="Name" class="text-danger"></span>
 	</div>
-	<div class="form-group">
-		<label asp-for="CategoryId" class="control-label"></label>
-		<input id="categoryHiddenPickingResult" type="hidden" asp-for="CategoryId" />
-		<span asp-validation-for="CategoryId" class="text-danger"></span>
-		<div id="categoryPickingResult"></div>
+	<div class="categoryPickerContainer">
+		<div class="form-group">
+			<label asp-for="CategoryId" class="control-label"></label>
+			<input class="categoryHiddenPickingResult" type="hidden" asp-for="CategoryId" />
+			<span asp-validation-for="CategoryId" class="text-danger"></span>
+			<div class="categoryPickingResult"></div>
+		</div>
+		@await Component.InvokeAsync("CategoriesPickerDropDown", new { additionalCssClass = "btn btn-success" })
 	</div>
-	@await Component.InvokeAsync("CategoriesPickerDropDown", new { additionalCssClass = "btn btn-success" })
 	<div class="form-group">
 		<input type="submit" value="Continue to Product Registration" class="btn btn-primary" />
 	</div>
 </form>
 
 <script type="text/javascript">
-
+$(document).ready(function () {
 	//picking category when create product type
 
-	$('.categoryPickingButton').click(
-		function (event) {
-			// Stop form from submitting normally
-			event.preventDefault();
-			var $btn = $(this);
-			var $attr = $btn.find('p[name=\'categoryId\']');
+	$('.categoryPickingButton').click(function (event) {
+		// Stop form from submitting normally
+		event.preventDefault();
+		let $btn = $(this);
+		let $attr = $btn.find('p[name=\'categoryId\']');
 
-			$('#categoryHiddenPickingResult').val($attr.html());
+		let container = $(this).closest(".categoryPickerContainer");
+		container.find(".categoryHiddenPickingResult").val($attr.html());
 
-			$.ajax({
-				url: $('#getCategoryBreadCrumbUrl').val(),
-				type: $('#getCategoryBreadCrumbUrl').attr("urlMethod"),
-				data: { categoryId: $attr.html() },
-				success: function (result) {
-					$('#categoryPickingResult').html(result);
-				},
-				error: function (result) {
-					showErrors(['Something went wrong while picking category', JSON.stringify(result)]);
-				}
-			});
-		}
-	);
-
+		$.ajax({
+			url: $('#getCategoryBreadCrumbUrl').val(),
+			type: $('#getCategoryBreadCrumbUrl').attr("urlMethod"),
+			data: { categoryId: $attr.html() },
+			success: function (result) {
+				container.find(".categoryPickingResult").html(result);
+			},
+			error: function (result) {
+				showErrors(['Something went wrong while picking category', JSON.stringify(result)]);
+			}
+		});
+	});
+});
 </script>

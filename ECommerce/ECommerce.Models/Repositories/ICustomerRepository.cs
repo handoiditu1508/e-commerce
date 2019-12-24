@@ -1,5 +1,4 @@
-﻿using ECommerce.Models.Entities;
-using ECommerce.Models.Entities.Customers;
+﻿using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.SearchModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;

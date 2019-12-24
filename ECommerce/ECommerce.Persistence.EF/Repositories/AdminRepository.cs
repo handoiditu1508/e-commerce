@@ -1,5 +1,4 @@
 ﻿using ECommerce.Extensions;
-using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Admins;
 using ECommerce.Models.Repositories;
 using ECommerce.Models.SearchModels;

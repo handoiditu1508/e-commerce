@@ -2,7 +2,6 @@
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
 using ECommerce.Models.SearchModels;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

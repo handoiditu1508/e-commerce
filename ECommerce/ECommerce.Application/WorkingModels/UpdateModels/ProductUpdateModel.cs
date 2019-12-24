@@ -1,5 +1,4 @@
-﻿using ECommerce.Models.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ECommerce.Application.WorkingModels.UpdateModels
@@ -13,6 +12,6 @@ namespace ECommerce.Application.WorkingModels.UpdateModels
 
 		public string RepresentativeImage { get; set; }
 
-		public IEnumerable<string> Images{ get; set; }
+		public IEnumerable<string> Images { get; set; }
 	}
 }

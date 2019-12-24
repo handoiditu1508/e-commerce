@@ -4,6 +4,7 @@ using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.UI.AdminSite.Models;
 using ECommerce.UI.Shared.Extensions;
+using ECommerce.UI.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;

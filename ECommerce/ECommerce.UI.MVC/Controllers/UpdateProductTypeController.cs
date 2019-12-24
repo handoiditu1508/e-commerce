@@ -1,24 +1,23 @@
 ﻿using ECommerce.Application;
 using ECommerce.Application.WorkingModels.AddModels;
-using ECommerce.Models.SearchModels;
 using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
-using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.ProductTypes;
+using ECommerce.Models.SearchModels;
 using ECommerce.UI.MVC.Infrastructure;
 using ECommerce.UI.MVC.Models.ViewModels;
+using ECommerce.UI.Shared.Models;
+using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Controllers
 {
-    public class UpdateProductTypeController : Controller
-    {
+	public class UpdateProductTypeController : Controller
+	{
 		private ECommerceService eCommerce;
 		private SellerLoginPersistence loginPersistence;
 		private short recordsPerPage = PagingInfo.DefaultRecordsPerPage;

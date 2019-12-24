@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommerce.Application;
-using ECommerce.Models.SearchModels;
+﻿using ECommerce.Application;
 using ECommerce.Infrastructure.UnitOfWork;
+using ECommerce.Models.SearchModels;
 using ECommerce.UI.AdminSite.Infrastructure;
 using ECommerce.UI.AdminSite.Models.ViewModels;
+using ECommerce.UI.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.AdminSite.Controllers
 {
 	public class CustomerController : Controller
-    {
+	{
 		private ECommerceService eCommerce;
 		private AdminLoginPersistence loginPersistence;
 		private short recordsPerPage = 20;

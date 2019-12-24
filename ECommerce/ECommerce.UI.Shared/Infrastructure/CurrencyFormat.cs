@@ -1,4 +1,4 @@
-﻿namespace ECommerce.UI.AdminSite.Infrastructure
+﻿namespace ECommerce.UI.Shared.Infrastructure
 {
 	public class CurrencyFormat
 	{

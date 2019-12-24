@@ -3,7 +3,7 @@ using ECommerce.Application.Services;
 using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities.Sellers;
-using ECommerce.UI.MVC.Models;
+using ECommerce.UI.Shared.Models;
 using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -41,7 +41,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			if (sessionValue != null)
 			{
 				seller = await eCommerce.GetSellerByAsync(int.Parse(sessionValue));
-				if(seller!=null)
+				if (seller != null)
 				{
 					if (seller.Status != SellerStatus.Locked)
 						return seller;

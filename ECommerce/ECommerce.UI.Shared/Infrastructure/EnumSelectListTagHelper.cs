@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
 
-namespace ECommerce.UI.AdminSite.Infrastructure
+namespace ECommerce.UI.Shared.Infrastructure
 {
 	[HtmlTargetElement("select", Attributes = "enum-type")]
 	public class EnumSelectListTagHelper : TagHelper
@@ -45,7 +44,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 					TagBuilder option = new TagBuilder("option");
 					option.Attributes["value"] = ((int)value).ToString();
 					option.InnerHtml.Append(value.ToString());
-					if (Equals(value,Selected))
+					if (Equals(value, Selected))
 						option.Attributes["selected"] = "true";
 					select.InnerHtml.AppendHtml(option);
 				}

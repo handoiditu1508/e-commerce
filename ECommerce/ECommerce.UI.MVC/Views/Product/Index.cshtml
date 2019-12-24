@@ -1,9 +1,11 @@
 ﻿@model ProductsListViewModel
 
-@if (Model.SearchModel.CategoryId != null)
+@if (Model.SearchModel.SearchModel.CategoryId != null)
 {
-	await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId = Model.SearchModel.CategoryId });
+	await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId = Model.SearchModel.SearchModel.CategoryId });
 }
+
+@await Html.PartialAsync("ProductFilterForm", Model.SearchModel)
 
 @foreach (ProductView p in Model.Products)
 {
@@ -13,5 +15,6 @@
 <div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="col-12"
 	 page-class="page-item" page-class-normal=""
 	 page-class-selected="active" page-class-disabled="disabled"
-	 page-url-searchString="Model.SearchModel.SearchString" page-url-categoryId="Model.SearchModel.CategoryId">
+	 page-url-searchString="Model.SearchModel.SearchModel.SearchString" page-url-categoryId="Model.SearchModel.SearchModel.CategoryId"
+	 page-url-price="Model.SearchModel.SearchModel.Price" page-url-priceIndication="Model.SearchModel.SearchModel.PriceIndication">
 </div>

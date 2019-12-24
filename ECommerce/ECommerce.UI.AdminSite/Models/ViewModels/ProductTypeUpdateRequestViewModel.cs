@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.WorkingModels.Views;
+using ECommerce.UI.Shared.Models;
 using System.Collections.Generic;
 
 namespace ECommerce.UI.AdminSite.Models.ViewModels

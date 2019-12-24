@@ -6,17 +6,19 @@
 	<input asp-for="Name" class="form-control" />
 	<span asp-validation-for="Name" class="text-danger"></span>
 </div>
-<div class="form-group">
-	<label class="control-label">Category</label>
-	<input id="categoryHiddenPickingResult" type="hidden" asp-for="CategoryId" class="form-control" />
+<div class="categoryPickerContainer">
+	<div class="form-group">
+		<label class="control-label">Category</label>
+		<input class="categoryHiddenPickingResult" type="hidden" asp-for="CategoryId" class="form-control" />
 
-	<div id="categoryPickingResult">
-		<vc:category-bread-crumb category-id="Model.CategoryId"></vc:category-bread-crumb>
+		<div class="categoryPickingResult">
+			<vc:category-bread-crumb category-id="Model.CategoryId"></vc:category-bread-crumb>
+		</div>
+
+		<span asp-validation-for="CategoryId" class="text-danger"></span>
 	</div>
-
-	<span asp-validation-for="CategoryId" class="text-danger"></span>
+	@await Component.InvokeAsync("CategoriesPickerDropDown", new { additionalCssClass = "btn btn-success" })
 </div>
-@await Component.InvokeAsync("CategoriesPickerDropDown", new { additionalCssClass = "btn btn-success" })
 
 <script type="text/javascript">
 
@@ -29,28 +31,19 @@
 			var $btn = $(this);
 			var $attr = $btn.find('p[name=\'categoryId\']');
 
-			$('#categoryHiddenPickingResult').val($attr.html());
+			let container = $(this).closest(".categoryPickerContainer");
+			container.find(".categoryHiddenPickingResult").val($attr.html());
 
 			$.ajax({
 				url: $('#getCategoryBreadCrumbUrl').val(),
 				type: "get",
 				data: { categoryId: $attr.html() },
 				success: function (result) {
-					$('#categoryPickingResult').html(result);
+					container.find(".categoryPickingResult").html(result);
 				},
 				error: function (result) {
 					alert('something went wrong while picking category:\n' + result);
 				}
 			});
-		});
-
-	$('#clearCategoryPicking').click(
-		function (event) {
-			// Stop btn behavior to make form validate it self
-			event.preventDefault();
-
-			//clear result of picking category
-			$('#categoryPickingResult').html('');
-			$('#categoryHiddenPickingResult').val('');
 		});
 </script>

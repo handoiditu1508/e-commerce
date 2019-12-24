@@ -1,7 +1,5 @@
-﻿using ECommerce.Models.Entities;
-using ECommerce.Models.Entities.Sellers;
+﻿using ECommerce.Models.Entities.Sellers;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ECommerce.Application.WorkingModels.Views
@@ -22,7 +20,7 @@ namespace ECommerce.Application.WorkingModels.Views
 		public decimal Price { get; set; }
 
 		[Display(Name = "Quantity")]
-		public short Quantity{ get; set; }
+		public short Quantity { get; set; }
 
 		[Display(Name = "Active")]
 		public bool Active { get; set; } = true;
@@ -35,6 +33,6 @@ namespace ECommerce.Application.WorkingModels.Views
 		[EnumDataType(typeof(ProductStatus))]
 		public ProductStatus Status { get; set; }
 
-		public string RepresentativeImage{ get; set; }
+		public string RepresentativeImage { get; set; }
 	}
 }

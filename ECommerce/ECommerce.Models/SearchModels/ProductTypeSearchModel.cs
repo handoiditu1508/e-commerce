@@ -12,6 +12,6 @@ namespace ECommerce.Models.SearchModels
 		public DateTime? DateModified { get; set; }
 		public DateTime? DateTimeModified { get; set; }
 		public bool? HasActiveProduct { get; set; }
-		public ProductStatus? ProductStatus{ get; set; }
+		public ProductStatus? ProductStatus { get; set; }
 	}
 }

@@ -1,12 +1,13 @@
 ﻿using ECommerce.Application;
-using ECommerce.Models.SearchModels;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.SearchModels;
 using ECommerce.UI.MVC.Models.ViewModels;
+using ECommerce.UI.Shared.Models;
+using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Controllers
@@ -22,12 +23,15 @@ namespace ECommerce.UI.MVC.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Index(string searchString, int? categoryId = null, short? page = 1)
+		public async Task<IActionResult> Index(string searchString, int? categoryId = null,
+			decimal? price = null, short? priceIndication = null, short? page = 1)
 		{
 			ProductSearchModel searchModel = new ProductSearchModel
 			{
 				SearchString = searchString,
 				CategoryId = categoryId,
+				Price = price,
+				PriceIndication = priceIndication,
 				Status = ProductStatus.Active,
 				ProductTypeStatus = ProductTypeStatus.Active,
 				Active = true,
@@ -44,10 +48,21 @@ namespace ECommerce.UI.MVC.Controllers
 					RecordsPerPage = recordsPerPage,
 					TotalRecords = await eCommerce.CountProductsDistinctAsync(searchModel)
 				},
-				SearchModel = new ProductSearchModel
+				SearchModel = new ProductSearchViewModel
 				{
-					SearchString = searchString,
-					CategoryId = categoryId
+					SearchModel = searchModel,
+
+					Url = Url.Action("Index", "Product"),
+
+					ShowCategoryId = true,
+					ShowPrice = true,
+					ShowPriceIndication = true,
+					ShowSearchString = true,
+
+					ShowActive = false,
+					ShowMinimumQuantity = false,
+					ShowProductTypeStatus = false,
+					ShowStatus = false
 				}
 			});
 		}
@@ -80,7 +95,10 @@ namespace ECommerce.UI.MVC.Controllers
 					RecordsPerPage = recordsPerPage,
 					TotalRecords = await eCommerce.CountProductsBySellerIdAsync(searchModel)
 				},
-				SearchModel = searchModel
+				SearchModel = new ProductSearchViewModel
+				{
+					SearchModel = searchModel
+				}
 			});
 		}
 
@@ -105,7 +123,10 @@ namespace ECommerce.UI.MVC.Controllers
 					RecordsPerPage = recordsPerPage,
 					TotalRecords = eCommerce.CountProductsByProductTypeId(searchModel)
 				},
-				SearchModel = searchModel
+				SearchModel = new ProductSearchViewModel
+				{
+					SearchModel = searchModel
+				}
 			});
 		}
 

@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace ECommerce.UI.AdminSite.Infrastructure
+namespace ECommerce.UI.Shared.Infrastructure
 {
 	[HtmlTargetElement("select", Attributes = "selected-bool-value")]
 	public class BooleanSelectListTagHelper : TagHelper
 	{
-		public bool? SelectedBoolValue{ get; set; }
+		public bool? SelectedBoolValue { get; set; }
 
 		public string OptionLabel { get; set; }
 
-		public string TrueLabel{ get; set; }
+		public string TrueLabel { get; set; }
 
-		public string FalseLabel{ get; set; }
+		public string FalseLabel { get; set; }
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{

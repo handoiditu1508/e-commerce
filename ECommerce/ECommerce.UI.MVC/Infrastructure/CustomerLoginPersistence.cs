@@ -2,7 +2,7 @@
 using ECommerce.Application.Services;
 using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
-using ECommerce.UI.MVC.Models;
+using ECommerce.UI.Shared.Models;
 using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -41,7 +41,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			if (sessionValue != null)
 			{
 				customer = await eCommerce.GetCustomerByAsync(int.Parse(sessionValue));
-				if(customer!=null)
+				if (customer != null)
 				{
 					if (customer.Active)
 						return customer;
@@ -61,7 +61,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 				return null;
 			}
 
-			if(!customer.Active)
+			if (!customer.Active)
 			{
 				responseCookies.Delete(customerCookieKeyWord);
 				return null;
@@ -83,7 +83,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 		public async Task LoginThroughAsync(int id, bool rememberLogin = false)
 		{
 			CustomerView customer = await eCommerce.GetCustomerByAsync(id);
-			if(customer!=null)
+			if (customer != null)
 			{
 				session.SetString(customerSessionKeyWord, customer.Id.ToString());
 				if (rememberLogin)

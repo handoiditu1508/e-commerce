@@ -14,7 +14,7 @@ namespace ECommerce.Models.Services.ServiceFactories
 
 		public OperatingModelService GetService(OperatingModel model)
 		{
-			switch(model)
+			switch (model)
 			{
 				case OperatingModel.ODF: return new ODFService(sellerRepository);
 			}

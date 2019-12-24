@@ -1,35 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using ECommerce.Application;
-using ECommerce.Application.WorkingModels.AddModels;
-using ECommerce.Models.SearchModels;
+﻿using ECommerce.Application;
 using ECommerce.Application.Services;
+using ECommerce.Application.WorkingModels.AddModels;
 using ECommerce.Application.WorkingModels.UpdateModels;
 using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
-using ECommerce.Models;
 using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Messages;
+using ECommerce.Models.SearchModels;
 using ECommerce.UI.MVC.Infrastructure;
 using ECommerce.UI.MVC.Models.ViewModels;
 using ECommerce.UI.Shared;
 using ECommerce.UI.Shared.ApiModels.ResponseModels;
 using ECommerce.UI.Shared.ApiModels.UploadModels;
 using ECommerce.UI.Shared.Extensions;
+using ECommerce.UI.Shared.Models;
+using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using ECommerce.Models.Messages;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace ECommerce.UI.MVC.Controllers
 {
-    public class SellerController : Controller
-    {
+	public class SellerController : Controller
+	{
 		private ECommerceService eCommerce;
 		private SellerLoginPersistence loginPersistence;
 		private short recordsPerPage = PagingInfo.DefaultRecordsPerPage;
@@ -78,11 +79,11 @@ namespace ECommerce.UI.MVC.Controllers
 							}
 							else errors.Add("Wrong password");
 						}
-						else switch(seller.Status)
-						{
-							case SellerStatus.Locked:errors.Add("Account was locked"); break;
-							case SellerStatus.Validating:errors.Add("Account are waiting for validating");break;
-						}
+						else switch (seller.Status)
+							{
+								case SellerStatus.Locked: errors.Add("Account was locked"); break;
+								case SellerStatus.Validating: errors.Add("Account are waiting for validating"); break;
+							}
 					}
 					else errors.Add("Email not found");
 				}
@@ -157,7 +158,7 @@ namespace ECommerce.UI.MVC.Controllers
 				{
 					Name = signupModel.Seller.Name,
 					Email = signupModel.Seller.Email,
-					PhoneNumber=signupModel.Seller.PhoneNumber,
+					PhoneNumber = signupModel.Seller.PhoneNumber,
 					Password = signupModel.Seller.Password
 				});
 				if (message.Errors.Any())
@@ -363,7 +364,7 @@ namespace ECommerce.UI.MVC.Controllers
 					return RedirectToAction("Product");
 				}
 			}
-			end:
+		end:
 			return View(updateViewModel);
 		}
 
@@ -390,7 +391,7 @@ namespace ECommerce.UI.MVC.Controllers
 			SellerView seller = await loginPersistence.PersistLoginAsync();
 
 			var errors = new List<string>();
-			if(seller.Id != updateViewModel.SellerId)
+			if (seller.Id != updateViewModel.SellerId)
 			{
 				errors.Add("Seller is not match");
 				ViewData[GlobalViewBagKeys.Errors] = errors;
@@ -427,7 +428,7 @@ namespace ECommerce.UI.MVC.Controllers
 			SellerView seller = await loginPersistence.PersistLoginAsync();
 			if (seller == null)
 				return Json(new string[] { "Not login" });
-			
+
 			await eCommerce.AddProductAttributesStateAsync(seller.Id, productTypeId, attributesState);
 
 			return PartialView("AttributesStatesTable", new AttributesStatesTableViewModel

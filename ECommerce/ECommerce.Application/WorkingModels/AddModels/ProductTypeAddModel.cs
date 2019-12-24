@@ -9,7 +9,7 @@ namespace ECommerce.Application.WorkingModels.AddModels
 		[MinLength(1)]
 		public string Name { get; set; }
 
-		[Required(ErrorMessage ="Category is required")]
+		[Required(ErrorMessage = "Category is required")]
 		[Display(Name = "Category")]
 		public int CategoryId { get; set; }
 

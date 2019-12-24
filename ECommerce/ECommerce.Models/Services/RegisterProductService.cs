@@ -74,7 +74,7 @@ namespace ECommerce.Models.Services
 			}
 
 			//check product price
-			if(product.Price<1)
+			if (product.Price < 1)
 				message.Errors.Add("Price can not lower than 1");
 
 			//check seller existence
@@ -83,7 +83,7 @@ namespace ECommerce.Models.Services
 				message.Errors.Add("Could not found seller");
 			else if (seller.Status != SellerStatus.Active)//check seller status
 				message.Errors.Add("Seller is unactive");
-			
+
 			//check product type existence
 			ProductType productType = await productTypeRepository.GetByAsync(product.ProductTypeId);
 			if (productType == null)

@@ -43,7 +43,7 @@ namespace ECommerce.UI.MVC.Infrastructure
 			return cart;
 		}
 
-		public override async Task AddItemAsync(int sellerId, int productTypeId, short quantity, IDictionary<string,string> attributes)
+		public override async Task AddItemAsync(int sellerId, int productTypeId, short quantity, IDictionary<string, string> attributes)
 		{
 			await base.AddItemAsync(sellerId, productTypeId, quantity, attributes);
 			responseCookies.SetJson(cartKeyWord, this,

@@ -12,7 +12,7 @@ namespace ECommerce.Application.WorkingModels.Views
 
 		[Display(Name = "Name")]
 		public string Name { get; set; }
-		
+
 		[Required]
 		public int CategoryId { get; set; }
 		[Display(Name = "Category")]
@@ -20,7 +20,7 @@ namespace ECommerce.Application.WorkingModels.Views
 
 		[DataType(DataType.DateTime)]
 		[Display(Name = "Date Modified")]
-		public DateTime DateModified{ get; set; }
+		public DateTime DateModified { get; set; }
 
 		[Display(Name = "Status")]
 		public ProductTypeStatus Status { get; set; }
