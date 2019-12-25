@@ -88,32 +88,37 @@ using ECommerce.Models.Entities.ProductTypes;
 #line default
 #line hidden
 #line 16 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.UI.Shared.Extensions;
+using ECommerce.Models.Entities.Customers;
 
 #line default
 #line hidden
 #line 17 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using ECommerce.UI.Shared.Infrastructure;
+using ECommerce.UI.Shared.Extensions;
 
 #line default
 #line hidden
 #line 18 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using Microsoft.AspNetCore.Mvc.Routing;
+using ECommerce.UI.Shared.Infrastructure;
 
 #line default
 #line hidden
 #line 19 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
-using System;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 #line default
 #line hidden
 #line 20 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
+using System;
+
+#line default
+#line hidden
+#line 21 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\Views\_ViewImports.cshtml"
 using System.IO;
 
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"e6f306b442856b24044117df2e75d30d47d87a7f", @"/Views/Shared/Components/SmallCart/Default.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1b6fcef8398f58ef3ee210f9ab95ac587e8d9508", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"48a62bbe6e59876a3b95efd28fbfbfe91884dc3f", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_Components_SmallCart_Default : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<int>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("btn btn-success btn-sm ml-1"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -145,7 +150,7 @@ using System.IO;
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(14, 195, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e6f306b442856b24044117df2e75d30d47d87a7f7943", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e6f306b442856b24044117df2e75d30d47d87a7f8145", async() => {
                 BeginContext(94, 96, true);
                 WriteLiteral("\r\n\t<i class=\"fa fa-shopping-cart\"></i> Cart\r\n\t<span id=\"cartQuantity\" class=\"badge badge-light\">");
                 EndContext();

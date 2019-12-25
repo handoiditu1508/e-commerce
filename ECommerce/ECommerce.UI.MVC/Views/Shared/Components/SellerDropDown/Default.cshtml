@@ -52,6 +52,11 @@ else
 				</a>
 			</li>
 			<li>
+				<a class="dropdown-item" tabindex="-1" asp-action="Order" asp-controller="Seller">
+					Manage Orders
+				</a>
+			</li>
+			<li>
 				<form asp-action="Logout" asp-controller="Seller" method="post">
 					<input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
 					<a class="dropdown-item" tabindex="-1" onclick="$(this).closest('form').submit();">

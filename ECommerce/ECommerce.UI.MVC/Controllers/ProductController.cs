@@ -52,7 +52,7 @@ namespace ECommerce.UI.MVC.Controllers
 				{
 					SearchModel = searchModel,
 
-					Url = Url.Action("Index", "Product"),
+					Url = Url.Action(nameof(Index), nameof(ProductController)),
 
 					ShowCategoryId = true,
 					ShowPrice = true,

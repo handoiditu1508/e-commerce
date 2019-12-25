@@ -7,6 +7,8 @@
 	<ItemGroup>
 	  <Compile Remove="Migrations\20191218005214_Product_Class__AttributesStatus_Property.cs" />
 	  <Compile Remove="Migrations\20191218005214_Product_Class__AttributesStatus_Property.Designer.cs" />
+	  <Compile Remove="Migrations\20191225041952_test.cs" />
+	  <Compile Remove="Migrations\20191225041952_test.Designer.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

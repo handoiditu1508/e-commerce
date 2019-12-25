@@ -124,7 +124,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 				{
 					SearchModel = searchModel,
 
-					Url = Url.Action("Product", "Seller"),
+					Url = Url.Action(nameof(Product), nameof(Seller)),
 
 					ShowSearchString = true,
 					ShowCategoryId = true,

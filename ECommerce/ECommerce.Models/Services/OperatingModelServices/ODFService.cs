@@ -65,17 +65,13 @@ namespace ECommerce.Models.Services.OperatingModelServices
 			return message;
 		}
 
-		public override async Task<BoolMessage> CanAdminConfirmsOrderAsync() => new BoolMessage(false);
-
-		public override async Task<BoolMessage> CanAdminRejectsOrderAsync() => new BoolMessage(false);
+		public override async Task<BoolMessage> CanAdminCancelsOrderAsync() => new BoolMessage(false);
 
 		public override async Task<BoolMessage> CanAdminManagesOrderAsync() => new BoolMessage(false);
 
-		public override async Task<BoolMessage> CanSellerConfirmsOrderAsync() => new BoolMessage(false);
+		public override async Task<BoolMessage> CanSellerCancelsOrderAsync() => new BoolMessage(true);
 
-		public override async Task<BoolMessage> CanSellerRejectsOrderAsync() => new BoolMessage(false);
-
-		public override async Task<BoolMessage> CanSellerManagesOrderAsync() => new BoolMessage(false);
+		public override async Task<BoolMessage> CanSellerManagesOrderAsync() => new BoolMessage(true);
 
 		public override async Task<BoolMessage> CanChangeToThisModelAsync(Product product)
 		{

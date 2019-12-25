@@ -131,7 +131,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 				{
 					SearchModel = searchModel,
 
-					Url = Url.Action("Product", "ProductType"),
+					Url = Url.Action(nameof(Product), nameof(ProductTypeController)),
 
 					ShowPrice = true,
 					ShowPriceIndication = true,

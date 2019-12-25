@@ -8,13 +8,15 @@ namespace ECommerce.UI.Shared.Models.ViewModels
 
 		public string Url { get; set; }
 
-		public bool ShowSearchString { get; set; }
-		public bool ShowCategoryId { get; set; }
-		public bool ShowPrice { get; set; }
-		public bool ShowPriceIndication { get; set; }
-		public bool ShowStatus { get; set; }
-		public bool ShowActive { get; set; }
-		public bool ShowProductTypeStatus { get; set; }
-		public bool ShowMinimumQuantity { get; set; }
+		public bool ShowSellerId { get; set; } = false;
+		public bool ShowProductTypeId { get; set; } = false;
+		public bool ShowSearchString { get; set; } = false;
+		public bool ShowCategoryId { get; set; } = false;
+		public bool ShowPrice { get; set; } = false;
+		public bool ShowPriceIndication { get; set; } = false;
+		public bool ShowStatus { get; set; } = false;
+		public bool ShowActive { get; set; } = false;
+		public bool ShowProductTypeStatus { get; set; } = false;
+		public bool ShowMinimumQuantity { get; set; } = false;
 	}
 }

@@ -19,7 +19,9 @@ namespace ECommerce.Application.Extensions
 				Quantity = order.Quantity,
 				CustomerId = order.CustomerId,
 				CustomerName = order.Customer.Name.ToString(),
-				Attributes = order.Attributes.ToDictionary(a => a.Name, a => a.Value)
+				Status = order.Status,
+				Attributes = order.Attributes.ToDictionary(a => a.Name, a => a.Value),
+				Value = order.Value
 			};
 
 		public static IEnumerable<OrderView> ConvertToViews(this IEnumerable<Order> orders)

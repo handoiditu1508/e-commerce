@@ -109,6 +109,7 @@
 </div>
 
 <script type="text/javascript">
+$(document).ready(function () {
 	//change product status
 
 	$('.submitOnChange').change(function () {
@@ -132,4 +133,5 @@
 	$('.galleryThumbnail').click(function(){
 		$('#galleryResult').html($(this).clone());
 	});
+});
 </script>

@@ -88,7 +88,7 @@ namespace ECommerce.UI.MVC.Models
 
 		public virtual void Clear() => Lines.Clear();
 
-		public decimal ComputeTotalValueAsync()
+		public decimal ComputeTotalValue()
 			=> Lines.Sum(l => l.Product.Price * l.Quantity);
 
 		public int TotalQuantity => Lines.Sum(l => l.Quantity);

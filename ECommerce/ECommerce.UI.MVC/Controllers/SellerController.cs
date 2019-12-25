@@ -5,6 +5,7 @@ using ECommerce.Application.WorkingModels.UpdateModels;
 using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities;
+using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.Entities.Sellers;
 using ECommerce.Models.Messages;
 using ECommerce.Models.SearchModels;
@@ -201,28 +202,16 @@ namespace ECommerce.UI.MVC.Controllers
 		}
 
 		[HttpPut]
-		public async Task<IActionResult> ChangeProductActive(int productTypeId, bool active)
+		public async Task<Message> ChangeProductActive(int productTypeId, bool active)
 		{
+			Message message = new Message();
 			SellerView seller = await loginPersistence.PersistLoginAsync();
 			if (seller == null)
-				return Json("Not login");
-			try
 			{
-				var message = await eCommerce.UpdateProductActiveAsync(seller.Id, productTypeId, active);
-				if (message.Errors.Any())
-				{
-					string errorString = "";
-					foreach (string error in message.Errors)
-						errorString += error + "\n";
-					errorString.Remove(errorString.Length - 1);
-					return Json(errorString);
-				}
+				message.Errors.Add("Not login");
+				return message;
 			}
-			catch (Exception e)
-			{
-				return Json(e.Message);
-			}
-			return Json("");
+			return await eCommerce.UpdateProductActiveAsync(seller.Id, productTypeId, active);
 		}
 
 		[HttpGet]
@@ -491,6 +480,81 @@ namespace ECommerce.UI.MVC.Controllers
 			message = await eCommerce.ReduceProductQuantityThroughSellerAsync(seller.Id, productTypeId, numbers);
 
 			return message;
+		}
+
+		[HttpGet]
+		[SellerLoginRequired]
+		public async Task<IActionResult> Order(int? productTypeId, int? customerId, short? quantity, short? quantityIndication,
+			decimal? totalValue, short? totalValueIndication, OrderStatus? status, short? page = 1)
+		{
+			SellerView seller = await loginPersistence.PersistLoginAsync();
+
+			OrderSearchModel searchModel = new OrderSearchModel
+			{
+				SellerId = seller.Id,
+				CustomerId = customerId,
+				ProductTypeId = productTypeId,
+				Quantity = quantity,
+				QuantityIndication = quantityIndication,
+				Status = status,
+				TotalValue = totalValue,
+				TotalValueIndication = totalValueIndication
+			};
+
+			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
+			return View(new OrdersListViewModel
+			{
+				Orders = eCommerce.GetOrdersBySellerId(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
+				PagingInfo = new PagingInfo
+				{
+					CurrentPage = (short)page,
+					RecordsPerPage = recordsPerPage,
+					TotalRecords = eCommerce.CountOrdersBySellerId(searchModel)
+				},
+				SearchModel = new OrderSearchViewModel
+				{
+					SearchModel = searchModel,
+					Url = Url.Action(nameof(Order), nameof(SellerController)),
+
+					ShowCustomerId = true,
+					ShowProductTypeId = true,
+					ShowQuantity = true,
+					ShowQuantityIndication = true,
+					ShowTotalValue = true,
+					ShowTotalValueIndication = true,
+					ShowStatus = true
+				}
+			});
+		}
+
+		[HttpPut]
+		public async Task<Message> ChangeOrderStatus(int orderId, OrderStatus status)
+		{
+			var message = new Message();
+
+			SellerView seller = await loginPersistence.PersistLoginAsync();
+			if (seller == null)
+			{
+				message.Errors.Add("Not login");
+				return message;
+			}
+
+			return await eCommerce.ChangeOrderStatusBySellerAsync(orderId, status);
+		}
+
+		[HttpDelete]
+		public async Task<Message> CancelOrder(int orderId)
+		{
+			var message = new Message();
+
+			SellerView seller = await loginPersistence.PersistLoginAsync();
+			if (seller == null)
+			{
+				message.Errors.Add("Not login");
+				return message;
+			}
+
+			return await eCommerce.CancelOrderBySellerAsync(orderId);
 		}
 	}
 }

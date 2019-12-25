@@ -15,6 +15,7 @@ namespace ECommerce.Models.Repositories
 
 		Task<Order> GetOrderByAsync(int orderId);
 		IEnumerable<Order> GetOrdersBy(OrderSearchModel searchModel);
+		IEnumerable<Order> GetAllOrdersBy(OrderSearchModel searchModel);
 
 		Task UpdateAsync(int id, Customer customer);
 

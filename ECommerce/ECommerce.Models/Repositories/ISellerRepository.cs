@@ -20,6 +20,7 @@ namespace ECommerce.Models.Repositories
 		Task<Product> GetProductByAsync(int sellerId, int productTypeId);
 		Product GetProductBy(int sellerId, int productTypeId);
 		Task<IEnumerable<Product>> GetProductsByAsync(ProductSearchModel searchModel);
+		Task<IEnumerable<Product>> GetAllProductsByAsync(ProductSearchModel searchModel);
 
 		Task<IEnumerable<ProductTypeUpdateRequest>> GetProductTypeUpdateRequestsAsync(int sellerId);
 
@@ -29,5 +30,7 @@ namespace ECommerce.Models.Repositories
 
 		Task DeleteAsync(int id);
 		void Delete(Seller seller);
+
+		void DeleteOrder(Order order);
 	}
 }

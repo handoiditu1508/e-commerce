@@ -71,35 +71,7 @@ namespace ECommerce.Models.Services
 			return message;
 		}
 
-		public BoolMessage CancelOrder(Order order)
-		{
-			BoolMessage message = new BoolMessage();
-
-			//check order null
-			if (order == null)
-			{
-				message.Errors.Add("Order can not be empty");
-				message.Result = false;
-				return message;
-			}
-
-			//check order status
-			if (order.Status == OrderStatus.Shipped)
-			{
-				message.Errors.Add("Can not cancel a shipped order");
-			}
-
-			if (!message.Errors.Any())
-			{
-				order.Customer.CancelOrder(order);
-				message.Result = true;
-				return message;
-			}
-			message.Result = false;
-			return message;
-		}
-
-		public async Task<BoolMessage> ConfirmOrderByAdminAsync(Order order)
+		public async Task<BoolMessage> CancelOrderByAdminAsync(Order order)
 		{
 			BoolMessage message = new BoolMessage();
 
@@ -115,94 +87,14 @@ namespace ECommerce.Models.Services
 			OperatingModelService modelService = modelServiceFactory
 				.GetService((await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId)).Model);
 
-			if (!(await modelService.CanAdminConfirmsOrderAsync()).Result)
-			{
-				message.Errors.Add("You don't have right to confirm this order");
-			}
-
-			//check order status
-			if (order.Status != OrderStatus.Confirming)
-			{
-				message.Errors.Add("Can only confirm an order while firming it");
-			}
-
-			if (!message.Errors.Any())
-			{
-				order.Status = OrderStatus.Preparing;
-				message.Result = true;
-				return message;
-			}
-			message.Result = false;
-			return message;
-		}
-
-		public async Task<BoolMessage> ConfirmOrderBySellerAsync(Order order)
-		{
-			BoolMessage message = new BoolMessage();
-
-			//check order null
-			if (order == null)
-			{
-				message.Errors.Add("Order can not be empty");
-				message.Result = false;
-				return message;
-			}
-
-			//check product operating model
-			OperatingModelService modelService = modelServiceFactory
-				.GetService((await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId)).Model);
-
-			if (!(await modelService.CanSellerConfirmsOrderAsync()).Result)
-			{
-				message.Errors.Add("You don't have right to confirm this order");
-			}
-
-			//check order status
-			if (order.Status != OrderStatus.Confirming)
-			{
-				message.Errors.Add("Can only confirm an order while firming it");
-			}
-
-			if (!message.Errors.Any())
-			{
-				order.Status = OrderStatus.Preparing;
-				message.Result = true;
-				return message;
-			}
-			message.Result = false;
-			return message;
-		}
-
-		public async Task<BoolMessage> RejectOrderByAdminAsync(Order order)
-		{
-			BoolMessage message = new BoolMessage();
-
-			//check order null
-			if (order == null)
-			{
-				message.Errors.Add("Order can not be empty");
-				message.Result = false;
-				return message;
-			}
-
-			//check product operating model
-			OperatingModelService modelService = modelServiceFactory
-				.GetService((await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId)).Model);
-
-			if (!(await modelService.CanAdminRejectsOrderAsync()).Result)
+			if (!(await modelService.CanAdminCancelsOrderAsync()).Result)
 			{
 				message.Errors.Add("You don't have right to reject this order");
 			}
 
-			//check order status
-			if (order.Status != OrderStatus.Confirming)
-			{
-				message.Errors.Add("Can only reject an order while firming it");
-			}
-
 			if (!message.Errors.Any())
 			{
-				order.Seller.RejectOrder(order);
+				sellerRepository.DeleteOrder(order);
 				message.Result = true;
 				return message;
 			}
@@ -210,7 +102,7 @@ namespace ECommerce.Models.Services
 			return message;
 		}
 
-		public async Task<BoolMessage> RejectOrderBySellerAsync(Order order)
+		public async Task<BoolMessage> CancelOrderBySellerAsync(Order order)
 		{
 			BoolMessage message = new BoolMessage();
 
@@ -226,20 +118,14 @@ namespace ECommerce.Models.Services
 			OperatingModelService modelService = modelServiceFactory
 				.GetService((await sellerRepository.GetProductByAsync(order.SellerId, order.ProductTypeId)).Model);
 
-			if (!(await modelService.CanSellerRejectsOrderAsync()).Result)
+			if (!(await modelService.CanSellerCancelsOrderAsync()).Result)
 			{
 				message.Errors.Add("You don't have right to reject this order");
 			}
 
-			//check order status
-			if (order.Status != OrderStatus.Confirming)
-			{
-				message.Errors.Add("Can only reject an order while firming it");
-			}
-
 			if (!message.Errors.Any())
 			{
-				order.Seller.RejectOrder(order);
+				sellerRepository.DeleteOrder(order);
 				message.Result = true;
 				return message;
 			}
@@ -266,12 +152,6 @@ namespace ECommerce.Models.Services
 			if (!(await modelService.CanAdminManagesOrderAsync()).Result)
 			{
 				message.Errors.Add("You don't have right to manage this order");
-			}
-
-			//check order status
-			if (order.Status == OrderStatus.Confirming)
-			{
-				message.Errors.Add("Can not change an order which are waiting for confirmation");
 			}
 
 			if (!message.Errors.Any())
@@ -303,12 +183,6 @@ namespace ECommerce.Models.Services
 			if (!(await modelService.CanSellerManagesOrderAsync()).Result)
 			{
 				message.Errors.Add("You don't have right to manage this order");
-			}
-
-			//check order status
-			if (order.Status == OrderStatus.Confirming)
-			{
-				message.Errors.Add("Can not change an order which are waiting for confirmation");
 			}
 
 			if (!message.Errors.Any())

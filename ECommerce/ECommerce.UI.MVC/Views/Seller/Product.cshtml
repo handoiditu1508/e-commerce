@@ -72,7 +72,7 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	//change user state
+	//change product active
 	$('.submitOnChange').change(function () {
 		let $form = $(this).closest('form');
 		$.ajax({
@@ -80,8 +80,8 @@ $(document).ready(function(){
 			type: $form.attr('method'),
 			data: $form.serialize(),
 			success: function (result) {
-				if (result != '')
-					showErrors([result]);
+				if (result.errors.length > 0)
+					showErrors(result.errors)
 			},
 			error: function (result) {
 				showErrors(['Something went wrong while changing product active', JSON.stringify(result)]);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ECommerce.Models.Entities.Customers;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -27,6 +28,12 @@ namespace ECommerce.Application.WorkingModels.Views
 		[Display(Name = "Customer Name")]
 		public string CustomerName { get; set; }
 
+		[Display(Name = "Status")]
+		public OrderStatus Status { get; set; }
+
+		[Display(Name = "Attributes")]
 		public IDictionary<string, string> Attributes { get; set; }
+
+		public decimal Value { get; set; }
 	}
 }

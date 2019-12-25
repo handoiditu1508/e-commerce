@@ -270,3 +270,6 @@ E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\E
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\AttributesStatesTable.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\ProductAttributes.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ProductFilterForm.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\OrderFilterForm.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Seller\Order.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Customer\Order.cshtml.g.cs

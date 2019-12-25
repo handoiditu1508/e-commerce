@@ -48,7 +48,7 @@ namespace ECommerce.Models.Entities.Sellers
 
 		public void UnregisterProduct(Product product) => Products.Remove(product);
 
-		public void RejectOrder(Order order) => Orders.Remove(order);
+		public void CancelOrder(Order order) => Orders.Remove(order);
 
 		public void RequestUpdateForProductType(ProductTypeUpdateRequest updateRequest)
 		{

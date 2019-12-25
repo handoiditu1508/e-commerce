@@ -3,9 +3,12 @@ using ECommerce.Application.Services;
 using ECommerce.Application.WorkingModels.UpdateModels;
 using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
+using ECommerce.Models.Entities.Customers;
+using ECommerce.Models.SearchModels;
 using ECommerce.UI.MVC.Infrastructure;
 using ECommerce.UI.MVC.Models.ViewModels;
 using ECommerce.UI.Shared.Extensions;
+using ECommerce.UI.Shared.Models;
 using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +22,7 @@ namespace ECommerce.UI.MVC.Controllers
 	{
 		private ECommerceService eCommerce;
 		private CustomerLoginPersistence loginPersistence;
+		private short recordsPerPage = PagingInfo.DefaultRecordsPerPage;
 
 		public CustomerController(IHttpContextAccessor accessor, IUnitOfWork unitOfWork)
 		{
@@ -151,6 +155,51 @@ namespace ECommerce.UI.MVC.Controllers
 				}
 			}
 			return View(signupModel);
+		}
+
+		[HttpGet]
+		[CustomerLoginRequired]
+		public async Task<IActionResult> Order(int? sellerId, int? productTypeId, short? quantity, short? quantityIndication,
+			decimal? totalValue, short? totalValueIndication, OrderStatus? status, short? page = 1)
+		{
+			CustomerView customer = await loginPersistence.PersistLoginAsync();
+
+			OrderSearchModel searchModel = new OrderSearchModel
+			{
+				SellerId = sellerId,
+				CustomerId = customer.Id,
+				ProductTypeId = productTypeId,
+				Quantity = quantity,
+				QuantityIndication = quantityIndication,
+				Status = status,
+				TotalValue = totalValue,
+				TotalValueIndication = totalValueIndication
+			};
+
+			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
+			return View(new OrdersListViewModel
+			{
+				Orders = eCommerce.GetOrdersBySellerId(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
+				PagingInfo = new PagingInfo
+				{
+					CurrentPage = (short)page,
+					RecordsPerPage = recordsPerPage,
+					TotalRecords = eCommerce.CountOrdersBySellerId(searchModel)
+				},
+				SearchModel = new OrderSearchViewModel
+				{
+					SearchModel = searchModel,
+					Url = Url.Action(nameof(Order), nameof(CustomerController)),
+
+					ShowSellerId = true,
+					ShowProductTypeId = true,
+					ShowQuantity = true,
+					ShowQuantityIndication = true,
+					ShowTotalValue = true,
+					ShowTotalValueIndication = true,
+					ShowStatus = true
+				}
+			});
 		}
 	}
 }

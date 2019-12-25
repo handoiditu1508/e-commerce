@@ -38,15 +38,17 @@ namespace ECommerce.Models.Entities.Customers
 
 		[Required]
 		[EnumDataType(typeof(OrderStatus))]
-		public OrderStatus Status { get; set; } = OrderStatus.Confirming;
+		public OrderStatus Status { get; set; } = OrderStatus.Preparing;
 
 		[InverseProperty("Order")]
 		public virtual ICollection<OrderAttribute> Attributes { get; } = new List<OrderAttribute>();
+
+		[NotMapped]
+		public decimal Value => CurrentPrice * Quantity;
 	}
 
 	public enum OrderStatus
 	{
-		Confirming,
 		Preparing,
 		Shipping,
 		Shipped

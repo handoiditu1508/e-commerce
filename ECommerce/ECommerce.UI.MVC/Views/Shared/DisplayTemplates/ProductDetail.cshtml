@@ -186,6 +186,7 @@
 			let sellerId = $('#sellerId').val();
 			let productTypeId = $('#productTypeId').val();
 
+			let executeCheckFirstNext = false;
 			//initiate attributes from server
 			$.ajax({
 				url: $('#getProductAttributesUrl').val(),
@@ -195,37 +196,54 @@
 					productTypeId: productTypeId
 				},
 				success: function (result) {
-
-					//initiate attributesStates from server
-					$.ajax({
-						url: $('#getProductAttributesStatesUrl').val(),
-						type: $('#getProductAttributesStatesUrl').attr("urlMethod"),
-						data: {
-							sellerId: sellerId,
-							productTypeId: productTypeId
-						},
-						success: function (result) {
-							attributesStates = result;
-							checkFirst();
-						},
-						error: function (result) {
-							showErrors(['Something went wrong while loading attributes states', JSON.stringify(result)]);
+					if (executeCheckFirstNext) {
+						attributes = result;
+						//initiate attributeKeys from attributes's properties name
+						for (prop in attributes) {
+							if (Object.prototype.hasOwnProperty.call(attributes, prop)) {
+								attributeKeys.push(prop);
+							}
 						}
-					});
 
-					attributes = result;
+						checkFirst();
+					}
+					else {
+						executeCheckFirstNext = true;
 
-					//initiate attributeKeys from attributes's properties name
-					for (prop in attributes) {
-						if (Object.prototype.hasOwnProperty.call(attributes, prop)) {
-					
-							attributeKeys.push(prop);
+						attributes = result;
+						//initiate attributeKeys from attributes's properties name
+						for (prop in attributes) {
+							if (Object.prototype.hasOwnProperty.call(attributes, prop)) {
+								attributeKeys.push(prop);
+							}
 						}
 					}
-
 				},
 				error: function (result) {
 					showErrors(['Something went wrong while loading attributes', JSON.stringify(result)]);
+				}
+			});
+
+			//initiate attributesStates from server
+			$.ajax({
+				url: $('#getProductAttributesStatesUrl').val(),
+				type: $('#getProductAttributesStatesUrl').attr("urlMethod"),
+				data: {
+					sellerId: sellerId,
+					productTypeId: productTypeId
+				},
+				success: function (result) {
+					if (executeCheckFirstNext) {
+						attributesStates = result;
+						checkFirst();
+					}
+					else {
+						executeCheckFirstNext = true;
+						attributesStates = result;
+					}
+				},
+				error: function (result) {
+					showErrors(['Something went wrong while loading attributes states', JSON.stringify(result)]);
 				}
 			});
 		}
@@ -339,6 +357,5 @@
 
 		//perform functions
 		loadVariables();
-		unCheckAll();
 	});
 </script>

@@ -16,6 +16,33 @@
 	</div>
 	}
 
+	<div class="form-row">
+		@if (Model.ShowSellerId)
+		{
+		<div class="form-group col-md-6">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<label asp-for="SearchModel.SellerId" class="control-label input-group-text"></label>
+				</div>
+				<input name="sellerId" asp-for="SearchModel.SellerId" class="form-control" />
+			</div>
+			<span asp-validation-for="SearchModel.SellerId" class="text-danger"></span>
+		</div>
+		}
+		@if (Model.ShowProductTypeId)
+		{
+		<div class="form-group col-md-6">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<label asp-for="SearchModel.ProductTypeId" class="control-label input-group-text"></label>
+				</div>
+				<input name="productTypeId" asp-for="SearchModel.ProductTypeId" class="form-control" />
+			</div>
+			<span asp-validation-for="SearchModel.ProductTypeId" class="text-danger"></span>
+		</div>
+		}
+	</div>
+
 	@if(Model.ShowMinimumQuantity)
 	{
 	<div class="form-group">
@@ -43,7 +70,7 @@
 				{
 					<option value="-1">Lesser than</option>
 					<option value="0">Equal to</option>
-					<option value="1">More than</option>
+					<option value="1">Greater than</option>
 				}
 				else
 				{
@@ -51,19 +78,19 @@
 					{
 						<option selected value="-1">Lesser than</option>
 						<option value="0">Equal to</option>
-						<option value="1">More than</option>
+						<option value="1">Greater than</option>
 					}
 					else if (Model.SearchModel.PriceIndication > 0)
 					{
 						<option value="-1">Lesser than</option>
 						<option value="0">Equal to</option>
-						<option selected value="1">More than</option>
+						<option selected value="1">Greater than</option>
 					}
 					else
 					{
 						<option value="-1">Lesser than</option>
 						<option selected value="0">Equal to</option>
-						<option value="1">More than</option>
+						<option value="1">Greater than</option>
 					}
 				}
 			</select>
@@ -93,7 +120,7 @@
 			<div class="input-group-prepend">
 				<label asp-for="SearchModel.Status" class="control-label input-group-text"></label>
 			</div>
-			<select class="form-control" name="status" enum-type="Model.SearchModel.Status.GetType()" selected="Model.SearchModel.Status" option-label=""></select>
+			<select class="form-control" name="status" enum-type="typeof(ProductStatus)" selected="Model.SearchModel.Status" option-label=""></select>
 		</div>
 	</div>
 	}
@@ -105,7 +132,7 @@
 			<div class="input-group-prepend">
 				<label asp-for="SearchModel.ProductTypeStatus" class="control-label input-group-text"></label>
 			</div>
-			<select class="form-control" name="status" enum-type="Model.SearchModel.ProductTypeStatus.GetType()" selected="Model.SearchModel.ProductTypeStatus" option-label=""></select>
+			<select class="form-control" name="status" enum-type="typeof(ProductTypeStatus)" selected="Model.SearchModel.ProductTypeStatus" option-label=""></select>
 		</div>
 	</div>
 	}
@@ -115,7 +142,7 @@
 	<div class="categoryPickerContainer">
 		<div class="form-row categoryPickerContainer">
 			<div class="form-group col-md-12">
-				<label class="control-label">Category</label>
+				<label asp-for="SearchModel.CategoryId" class="control-label"></label>
 				<button class="clearCategoryPicking btn btn-danger btn-sm" type="button">X</button>
 				<input class="categoryHiddenPickingResult" type="hidden" name="categoryId" value="@Model.SearchModel.CategoryId" />
 				<div class="categoryPickingResult">

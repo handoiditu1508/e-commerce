@@ -26,7 +26,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public async Task<IEnumerable<ProductType>> GetByAsync(ProductTypeSearchModel searchModel)
 		{
-			IEnumerable<ProductType> productTypes = context.ProductTypes;
+			IQueryable<ProductType> productTypes = context.ProductTypes;
 
 			if (searchModel.DateTimeModified != null)
 			{
@@ -53,7 +53,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 			if (searchModel.DateModified != null)
 				productTypes = productTypes
-					.Where(p => p.DateModified.Date == searchModel.DateModified?.Date);
+					.Where(p => p.DateModified.Date == searchModel.DateModified.Value.Date);
 
 			if (searchModel.HasActiveProduct != null)
 				productTypes = productTypes
@@ -74,17 +74,32 @@ namespace ECommerce.Persistence.EF.Repositories
 							.Contains(s, CompareOptions.IgnoreNonSpace)));
 			}
 
-			return productTypes;
+			return productTypes.Include(p => p.Category);
 		}
 
-		public IEnumerable<ProductType> GetAll() => context.ProductTypes;
+		public IEnumerable<ProductType> GetAll() => context.ProductTypes.Include(p => p.Category);
 
 		public IEnumerable<Order> GetOrdersBy(OrderSearchModel searchModel)
 		{
-			IEnumerable<Order> orders = context.Orders.Where(o => o.ProductTypeId == searchModel.ProductTypeId);
+			IQueryable<Order> orders = context.Orders.Where(o => o.ProductTypeId == searchModel.ProductTypeId);
+
+			if (searchModel.SellerId != null)
+				orders = orders.Where(o => o.SellerId == searchModel.SellerId);
+
+			if (searchModel.CustomerId != null)
+				orders = orders.Where(o => o.CustomerId == searchModel.CustomerId);
+
+			if (searchModel.Status != null)
+				orders = orders.Where(o => o.Status == searchModel.Status);
 
 			if (searchModel.Quantity != null)
-				orders = orders.Where(o => o.Quantity == searchModel.Quantity);
+			{
+				if (searchModel.QuantityIndication == null || searchModel.QuantityIndication == 0)
+					orders = orders.Where(o => o.Quantity == searchModel.Quantity);
+				else if (searchModel.Quantity < 0)
+					orders = orders.Where(o => o.Quantity < searchModel.Quantity);
+				else orders = orders.Where(o => o.Quantity > searchModel.TotalValue);
+			}
 
 			if (searchModel.TotalValue != null)
 			{
@@ -95,7 +110,10 @@ namespace ECommerce.Persistence.EF.Repositories
 				else orders = orders.Where(o => o.Quantity * o.CurrentPrice > searchModel.TotalValue);
 			}
 
-			return orders;
+			return orders
+				.Include(o => o.ProductType)
+				.Include(o => o.Seller)
+				.Include(o => o.Customer.Name);
 		}
 
 		public IEnumerable<Product> GetProductsBy(ProductSearchModel searchModel)
@@ -193,10 +211,17 @@ namespace ECommerce.Persistence.EF.Repositories
 			return products;
 		}
 
-		public IEnumerable<ProductTypeUpdateRequest> GetUpdateRequests() => context.ProductTypeUpdateRequests;
+		public IEnumerable<ProductTypeUpdateRequest> GetUpdateRequests()
+			=> context.ProductTypeUpdateRequests
+				.Include(u => u.Category)
+				.Include(u => u.ProductType)
+				.Include(u => u.Seller);
 
-		public async Task<IEnumerable<ProductTypeUpdateRequest>> GetUpdateRequestsAsync(int productTypeId)
-			=> (await GetByAsync(productTypeId))?.UpdateRequests ?? null;
+		public IEnumerable<ProductTypeUpdateRequest> GetUpdateRequests(int productTypeId)
+			=> context.ProductTypeUpdateRequests.Where(u=>u.ProductTypeId==productTypeId)
+				.Include(u => u.Category)
+				.Include(u => u.ProductType)
+				.Include(u => u.Seller);
 
 		public async Task<ProductTypeUpdateRequest> GetUpdateRequestAsync(int sellerId, int productTypeId)
 			=> await context.ProductTypeUpdateRequests.FindAsync(sellerId, productTypeId);

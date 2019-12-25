@@ -5,6 +5,7 @@ using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
 using ECommerce.Models.Repositories;
 using ECommerce.Models.SearchModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -50,10 +51,25 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public IEnumerable<Order> GetOrdersBy(OrderSearchModel searchModel)
 		{
-			IEnumerable<Order> orders = context.Orders.Where(o => o.SellerId == searchModel.SellerId);
+			IQueryable<Order> orders = context.Orders.Where(o => o.SellerId == searchModel.SellerId);
+
+			if (searchModel.CustomerId != null)
+				orders = orders.Where(o => o.CustomerId == searchModel.CustomerId);
+
+			if (searchModel.ProductTypeId != null)
+				orders = orders.Where(o => o.ProductTypeId == searchModel.ProductTypeId);
+
+			if (searchModel.Status != null)
+				orders = orders.Where(o => o.Status == searchModel.Status);
 
 			if (searchModel.Quantity != null)
-				orders = orders.Where(o => o.Quantity == searchModel.Quantity);
+			{
+				if (searchModel.QuantityIndication == null || searchModel.QuantityIndication == 0)
+					orders = orders.Where(o => o.Quantity == searchModel.Quantity);
+				else if (searchModel.Quantity < 0)
+					orders = orders.Where(o => o.Quantity < searchModel.Quantity);
+				else orders = orders.Where(o => o.Quantity > searchModel.TotalValue);
+			}
 
 			if (searchModel.TotalValue != null)
 			{
@@ -64,7 +80,10 @@ namespace ECommerce.Persistence.EF.Repositories
 				else orders = orders.Where(o => o.Quantity * o.CurrentPrice > searchModel.TotalValue);
 			}
 
-			return orders;
+			return orders
+				.Include(o => o.ProductType)
+				.Include(o => o.Seller)
+				.Include(o => o.Customer.Name);
 		}
 
 		public Product GetProductBy(int sellerId, int productTypeId)
@@ -76,6 +95,75 @@ namespace ECommerce.Persistence.EF.Repositories
 		public async Task<IEnumerable<Product>> GetProductsByAsync(ProductSearchModel searchModel)
 		{
 			IEnumerable<Product> products = context.Products.Where(p => p.SellerId == searchModel.SellerId);
+
+			if (searchModel.Status != null)
+			{
+				products = products.Where(p => p.Status == searchModel.Status);
+			}
+
+			if (searchModel.Active != null)
+			{
+				products = products.Where(p => p.Active == searchModel.Active);
+			}
+
+			if (searchModel.MinimumQuantity != null)
+			{
+				short mq = (short)(searchModel.MinimumQuantity - 1);
+				products = products.Where(p => p.Quantity > mq);
+			}
+
+			if (searchModel.CategoryId != null)
+			{
+				Category category = await context.Categories.FindAsync((int)searchModel.CategoryId);
+				if (category != null)
+				{
+					IEnumerable<int> ids = from c in category.GetChildsAndSubChilds()
+										   select c.Id;
+					ids = ids.Append((int)searchModel.CategoryId);
+					products = products.Where(p => ids.Contains(p.ProductType.CategoryId));
+				}
+				else return new Product[0];
+			}
+
+			if (searchModel.Price != null)
+			{
+				if (searchModel.PriceIndication == null || searchModel.PriceIndication == 0)
+					products = products.Where(p => p.Price == searchModel.Price);
+				else if (searchModel.PriceIndication < 0)
+					products = products.Where(p => p.Price < searchModel.Price);
+				else products = products.Where(p => p.Price > searchModel.Price);
+			}
+
+			if (searchModel.ProductTypeStatus != null)
+			{
+				products = products.Where(p => p.ProductType.Status == searchModel.ProductTypeStatus);
+			}
+
+			if (!string.IsNullOrWhiteSpace(searchModel.SearchString))
+			{
+				string[] splitedSearchString = searchModel.SearchString.Trim().RemoveMultipleSpaces().ToLower().Split();
+				products = products
+					.Where(p => splitedSearchString
+						.Any(s => p.ProductType.Name.ToLower()
+							.Contains(s, CompareOptions.IgnoreNonSpace)));
+			}
+
+			return products;
+		}
+
+		public async Task<IEnumerable<Product>> GetAllProductsByAsync(ProductSearchModel searchModel)
+		{
+			IEnumerable<Product> products = context.Products;
+
+			if (searchModel.SellerId != null)
+			{
+				products = products.Where(p => p.SellerId == searchModel.SellerId);
+			}
+
+			if (searchModel.ProductTypeId != null)
+			{
+				products = products.Where(p => p.ProductTypeId == searchModel.ProductTypeId);
+			}
 
 			if (searchModel.Status != null)
 			{
@@ -153,6 +241,8 @@ namespace ECommerce.Persistence.EF.Repositories
 		public async Task DeleteAsync(int id) => context.Sellers.Remove(await GetByAsync(id));
 
 		public void Delete(Seller seller) => context.Sellers.Remove(seller);
+
+		public void DeleteOrder(Order order) => context.Orders.Remove(order);
 
 		public async Task CommitAsync() => await context.SaveChangesAsync();
 	}

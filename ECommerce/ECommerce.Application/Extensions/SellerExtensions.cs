@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ECommerce.Application.Extensions
 {
-	public static class SelllerExtensions
+	public static class SellerExtensions
 	{
 		public static SellerView ConvertToView(this Seller seller)
 			=> new SellerView

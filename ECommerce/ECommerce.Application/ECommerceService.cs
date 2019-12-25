@@ -630,10 +630,13 @@ namespace ECommerce.Application
 			return message;
 		}
 
-		public async Task<Message> CancelOrderAsync(Order order)
+		public async Task<Message> CancelOrderByAdminAsync(int orderId)
 		{
 			Message message = new Message();
-			var orderMessage = OrderService.CancelOrder(order);
+
+			Order order = await customerRepository.GetOrderByAsync(orderId);
+
+			var orderMessage = await OrderService.CancelOrderByAdminAsync(order);
 
 			if (orderMessage.Result)
 				await unitOfWork.CommitAsync();
@@ -642,10 +645,13 @@ namespace ECommerce.Application
 			return message;
 		}
 
-		public async Task<Message> ConfirmOrderThroughAdminAsync(Order order)
+		public async Task<Message> CancelOrderBySellerAsync(int orderId)
 		{
 			Message message = new Message();
-			var orderMessage = await OrderService.ConfirmOrderByAdminAsync(order);
+
+			Order order = await customerRepository.GetOrderByAsync(orderId);
+
+			var orderMessage = await OrderService.CancelOrderBySellerAsync(order);
 
 			if (orderMessage.Result)
 				await unitOfWork.CommitAsync();
@@ -654,61 +660,49 @@ namespace ECommerce.Application
 			return message;
 		}
 
-		public async Task<Message> ConfirmOrderThroughSellerAsync(Order order)
+		public async Task<Message<OrderStatus>> ChangeOrderStatusByAdminAsync(int orderId, OrderStatus status)
 		{
-			Message message = new Message();
-			var orderMessage = await OrderService.ConfirmOrderBySellerAsync(order);
+			var message = new Message<OrderStatus>();
 
-			if (orderMessage.Result)
-				await unitOfWork.CommitAsync();
-			else message.Errors = orderMessage.Errors;
+			Order order = await customerRepository.GetOrderByAsync(orderId);
+			if (order == null)
+			{
+				message.Errors.Add("Could not found order");
+				return message;
+			}
+			else message.Result = order.Status;
 
-			return message;
-		}
-
-		public async Task<Message> RejectOrderThroughAdminAsync(Order order)
-		{
-			Message message = new Message();
-			var orderMessage = await OrderService.RejectOrderByAdminAsync(order);
-
-			if (orderMessage.Result)
-				await unitOfWork.CommitAsync();
-			else message.Errors = orderMessage.Errors;
-
-			return message;
-		}
-
-		public async Task<Message> RejectOrderThroughSellerAsync(Order order)
-		{
-			Message message = new Message();
-			var orderMessage = await OrderService.RejectOrderBySellerAsync(order);
-
-			if (orderMessage.Result)
-				await unitOfWork.CommitAsync();
-			else message.Errors = orderMessage.Errors;
-
-			return message;
-		}
-
-		public async Task<Message> ChangeOrderStatusThroughAdminAsync(Order order, OrderStatus status)
-		{
-			Message message = new Message();
 			var orderMessage = await OrderService.ChangeOrderStatusByAdminAsync(order, status);
 
 			if (orderMessage.Result)
+			{
 				await unitOfWork.CommitAsync();
+				message.Result = status;
+			}
 			else message.Errors = orderMessage.Errors;
 
 			return message;
 		}
 
-		public async Task<Message> ChangeOrderStatusThroughSellerAsync(Order order, OrderStatus status)
+		public async Task<Message<OrderStatus>> ChangeOrderStatusBySellerAsync(int orderId, OrderStatus status)
 		{
-			Message message = new Message();
+			var message = new Message<OrderStatus>();
+
+			Order order = await customerRepository.GetOrderByAsync(orderId);
+			if (order == null)
+			{
+				message.Errors.Add("Could not found order");
+				return message;
+			}
+			else message.Result = order.Status;
+
 			var orderMessage = await OrderService.ChangeOrderStatusBySellerAsync(order, status);
 
 			if (orderMessage.Result)
+			{
 				await unitOfWork.CommitAsync();
+				message.Result = status;
+			}
 			else message.Errors = orderMessage.Errors;
 
 			return message;
@@ -753,6 +747,18 @@ namespace ECommerce.Application
 			return orders.ConvertToViews();
 		}
 
+		public IEnumerable<OrderView> GetOrders(OrderSearchModel searchModel, int? startIndex, short? length)
+		{
+			IEnumerable<Order> orders = customerRepository.GetAllOrdersBy(searchModel);
+
+			if (startIndex != null && startIndex > -1)
+				orders = orders.Skip((int)startIndex);
+			if (length != null && length > -1)
+				orders = orders.Take((int)length);
+
+			return orders.ConvertToViews();
+		}
+
 		public int CountOrdersByCustomerId(OrderSearchModel searchModel)
 			=> customerRepository
 				.GetOrdersBy(searchModel)
@@ -763,6 +769,9 @@ namespace ECommerce.Application
 
 		public int CountOrdersByProductTypeId(OrderSearchModel searchModel)
 			=> productTypeRepository.GetOrdersBy(searchModel).Count();
+
+		public int CountOrders(OrderSearchModel searchModel)
+			=> customerRepository.GetAllOrdersBy(searchModel).Count();
 		#endregion
 
 		#region Product Type
@@ -959,9 +968,9 @@ namespace ECommerce.Application
 
 		public int CountProductTypeUpdateRequests() => productTypeRepository.GetUpdateRequests().Count();
 
-		public async Task<IEnumerable<ProductTypeUpdateRequestView>> GetProductTypeUpdateRequestsByProductTypeIdAsync(int productTypeId, int? startIndex, short? length)
+		public IEnumerable<ProductTypeUpdateRequestView> GetProductTypeUpdateRequestsByProductTypeId(int productTypeId, int? startIndex, short? length)
 		{
-			IEnumerable<ProductTypeUpdateRequest> updateRequests = await productTypeRepository.GetUpdateRequestsAsync(productTypeId);
+			IEnumerable<ProductTypeUpdateRequest> updateRequests = productTypeRepository.GetUpdateRequests(productTypeId);
 
 			if (startIndex != null && startIndex > -1)
 				updateRequests = updateRequests.Skip((int)startIndex);
@@ -971,7 +980,7 @@ namespace ECommerce.Application
 			return updateRequests.ConvertToViews();
 		}
 
-		public async Task<int> CountProductTypeUpdateRequestsByProductTypeIdAsync(int productTypeId) => (await productTypeRepository.GetUpdateRequestsAsync(productTypeId)).Count();
+		public int CountProductTypeUpdateRequestsByProductTypeId(int productTypeId) => productTypeRepository.GetUpdateRequests(productTypeId).Count();
 
 		public async Task<IEnumerable<ProductTypeUpdateRequestView>> GetProductTypeUpdateRequestsBySellerIdAsync(int sellerId, int? startIndex, short? length)
 		{
@@ -1129,6 +1138,18 @@ namespace ECommerce.Application
 			return products.ConvertToViews();
 		}
 
+		public async Task<IEnumerable<ProductView>> GetProductsAsync(ProductSearchModel searchModel, int? startIndex, short? length)
+		{
+			IEnumerable<Product> products = await sellerRepository.GetAllProductsByAsync(searchModel);
+
+			if (startIndex != null && startIndex > -1)
+				products = products.Skip((int)startIndex);
+			if (length != null && length > -1)
+				products = products.Take((int)length);
+
+			return products.ConvertToViews();
+		}
+
 		public IEnumerable<ProductView> GetProductsByProductTypeId(ProductSearchModel searchModel, int? startIndex, short? length)
 		{
 			IEnumerable<Product> products = productTypeRepository.GetProductsBy(searchModel);
@@ -1157,6 +1178,9 @@ namespace ECommerce.Application
 			=> (await productTypeRepository
 				.GetProductsDistinctAsync(searchModel))
 				.Count();
+
+		public async Task<int> CountProductsAsync(ProductSearchModel searchModel, int? startIndex, short? length)
+			=> (await sellerRepository.GetAllProductsByAsync(searchModel)).Count();
 
 		public async Task<IEnumerable<string>> GetProductImagesAsync(int sellerId, int productTypeId)
 			=> (await sellerRepository

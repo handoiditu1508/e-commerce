@@ -3,6 +3,7 @@ using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.Repositories;
 using ECommerce.Models.SearchModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -21,11 +22,11 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public async Task<Customer> GetByAsync(int id) => await context.Customers.FindAsync(id);
 
-		public Customer GetBy(string email) => context.Customers.FirstOrDefault(c => c.Email == email);
+		public Customer GetBy(string email) => context.Customers.Include(c => c.Name).FirstOrDefault(c => c.Email == email);
 
 		public IEnumerable<Customer> GetBy(CustomerSearchModel searchModel)
 		{
-			IEnumerable<Customer> customers = context.Customers;
+			IQueryable<Customer> customers = context.Customers;
 
 
 			if (searchModel.Active != null)
@@ -51,19 +52,34 @@ namespace ECommerce.Persistence.EF.Repositories
 						.Contains(name.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
 			}
 
-			return customers;
+			return customers.Include(c => c.Name);
 		}
 
-		public IEnumerable<Customer> GetAll() => context.Customers;
+		public IEnumerable<Customer> GetAll() => context.Customers.Include(c => c.Name);
 
 		public async Task<Order> GetOrderByAsync(int orderId) => await context.Orders.FindAsync(orderId);
 
 		public IEnumerable<Order> GetOrdersBy(OrderSearchModel searchModel)
 		{
-			IEnumerable<Order> orders = context.Orders.Where(o => o.CustomerId == searchModel.CustomerId);
+			IQueryable<Order> orders = context.Orders.Where(o => o.CustomerId == searchModel.CustomerId);
+
+			if (searchModel.SellerId != null)
+				orders = orders.Where(o => o.SellerId == searchModel.SellerId);
+
+			if (searchModel.ProductTypeId != null)
+				orders = orders.Where(o => o.ProductTypeId == searchModel.ProductTypeId);
+
+			if (searchModel.Status != null)
+				orders = orders.Where(o => o.Status == searchModel.Status);
 
 			if (searchModel.Quantity != null)
-				orders = orders.Where(o => o.Quantity == searchModel.Quantity);
+			{
+				if (searchModel.QuantityIndication == null || searchModel.QuantityIndication == 0)
+					orders = orders.Where(o => o.Quantity == searchModel.Quantity);
+				else if (searchModel.Quantity < 0)
+					orders = orders.Where(o => o.Quantity < searchModel.Quantity);
+				else orders = orders.Where(o => o.Quantity > searchModel.TotalValue);
+			}
 
 			if (searchModel.TotalValue != null)
 			{
@@ -74,7 +90,50 @@ namespace ECommerce.Persistence.EF.Repositories
 				else orders = orders.Where(o => o.Quantity * o.CurrentPrice > searchModel.TotalValue);
 			}
 
-			return orders;
+			return orders
+				.Include(o=>o.ProductType)
+				.Include(o=>o.Seller)
+				.Include(o=>o.Customer.Name);
+		}
+
+		public IEnumerable<Order> GetAllOrdersBy(OrderSearchModel searchModel)
+		{
+			IQueryable<Order> orders = context.Orders.Where(o => o.CustomerId == searchModel.CustomerId);
+
+			if (searchModel.SellerId != null)
+				orders = orders.Where(o => o.SellerId == searchModel.SellerId);
+
+			if (searchModel.CustomerId != null)
+				orders = orders.Where(o => o.CustomerId == searchModel.CustomerId);
+
+			if (searchModel.ProductTypeId != null)
+				orders = orders.Where(o => o.ProductTypeId == searchModel.ProductTypeId);
+
+			if (searchModel.Status != null)
+				orders = orders.Where(o => o.Status == searchModel.Status);
+
+			if (searchModel.Quantity != null)
+			{
+				if (searchModel.QuantityIndication == null || searchModel.QuantityIndication == 0)
+					orders = orders.Where(o => o.Quantity == searchModel.Quantity);
+				else if (searchModel.Quantity < 0)
+					orders = orders.Where(o => o.Quantity < searchModel.Quantity);
+				else orders = orders.Where(o => o.Quantity > searchModel.TotalValue);
+			}
+
+			if (searchModel.TotalValue != null)
+			{
+				if (searchModel.TotalValueIndication == null || searchModel.TotalValueIndication == 0)
+					orders = orders.Where(o => o.Quantity * o.CurrentPrice == searchModel.TotalValue);
+				else if (searchModel.TotalValueIndication < 0)
+					orders = orders.Where(o => o.Quantity * o.CurrentPrice < searchModel.TotalValue);
+				else orders = orders.Where(o => o.Quantity * o.CurrentPrice > searchModel.TotalValue);
+			}
+
+			return orders
+				.Include(o => o.ProductType)
+				.Include(o => o.Seller)
+				.Include(o => o.Customer.Name);
 		}
 
 		public async Task UpdateAsync(int id, Customer customer)
