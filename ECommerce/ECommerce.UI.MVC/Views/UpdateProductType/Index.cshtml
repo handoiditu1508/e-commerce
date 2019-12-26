@@ -12,6 +12,10 @@
 <hr />
 <h1>Update request info:</h1>
 <form asp-action="Index" method="post">
-	@Html.EditorForModel("ProductTypeUpdateRequestAddModel")
+	@await Html.PartialAsync("ProductTypeUpdateRequestAddModel", Model)
 	<input type="submit" value="Send request" />
 </form>
+
+@section Scripts {
+	<script type="text/javascript" src="~/js/category-picker.js"></script>
+}

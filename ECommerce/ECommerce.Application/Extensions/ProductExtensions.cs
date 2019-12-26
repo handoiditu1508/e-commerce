@@ -30,7 +30,7 @@ namespace ECommerce.Application.Extensions
 			=> new ProductUpdateModel
 			{
 				Price = product.Price,
-				Images = product.ConvertedImages
+				Images = product.Images
 			};
 	}
 }

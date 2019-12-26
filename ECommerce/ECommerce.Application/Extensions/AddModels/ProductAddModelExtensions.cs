@@ -12,9 +12,9 @@ namespace ECommerce.Application.Extensions.AddModels
 				ProductTypeId = addModel.ProductTypeId,
 				Price = addModel.Price,
 				Model = addModel.Model,
-				ConvertedImages = addModel.Images,
+				Images = addModel.Images,
 				RepresentativeImage = addModel.RepresentativeImage,
-				ConvertedAttributes = addModel.Attributes
+				Attributes = addModel.Attributes
 			};
 			return product;
 		}

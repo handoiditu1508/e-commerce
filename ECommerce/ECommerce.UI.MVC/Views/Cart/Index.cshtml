@@ -1,67 +1,12 @@
 ﻿@model Cart
 
-<div id="cartTableContainer">
-	@await Component.InvokeAsync("CartTable", Model)
-</div>
+@await Component.InvokeAsync("CartTable", Model)
 
-<script type="text/javascript">
+@section Scripts {
+	<script type="text/javascript" src="~/js/update-small-cart.js"></script>
+	<script type="text/javascript" src="~/js/cart-table.js"></script>
+}
 
-	//small cart updating
-	function updateSmallCart() {
-		$.ajax({
-			url: $('#cartTotalQuantityUrl').val(),
-			type: $('#cartTotalQuantityUrl').attr("urlMethod"),
-			success: function (result) {
-				$('#cartQuantity').html(result);
-			}
-		});
-	}
-
-	//reload cart table when remove product
-	$('#cartTableContainer').on('submit', '.removeFromCartOnSubmit',
-		function (event) {
-			// Stop form from submitting normally
-			event.preventDefault();
-			var $form = $(this);
-
-			$.ajax({
-				url: $form.attr('action'),
-				type: $form.attr('method'),
-				data: $form.serialize(),
-				success: function (result) {
-					updateSmallCart();
-					$('#cartTableContainer').html(result);
-				},
-				error: function (result) {
-					showErrors(['Something went wrong while removing from cart', JSON.stringify(result)]);
-				}
-			});
-		});
-
-	//reload cart table when change product quantity
-	$('#cartTableContainer').on('submit', '.changeCartQuantityOnSubmit',
-		function (event) {
-			// Stop form from submitting normally
-			event.preventDefault();
-			var $form = $(this);
-			$.ajax({
-				url: $form.attr('action'),
-				type: $form.attr('method'),
-				data: $form.serialize(),
-				success: function (result) {
-					updateSmallCart();
-					$('#cartTableContainer').html(result);
-				},
-				error: function (result) {
-					showErrors(['Something went wrong while changing cart quantity', JSON.stringify(result)]);
-				}
-			});
-		});
-
-	//remove disable form btn when quantity input changed
-	$('#cartTableContainer').on('change', '.quantityInput',
-		function () {
-			var $submitBtn = $(this).closest('.changeCartQuantityOnSubmit').find('input[type=submit]');
-			$submitBtn.removeAttr('disabled hidden');
-		});
-</script>
+@section Styles {
+	<link rel="stylesheet" href="~/css/cart-table.css" />
+}

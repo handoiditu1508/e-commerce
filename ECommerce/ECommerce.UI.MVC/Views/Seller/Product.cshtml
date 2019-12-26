@@ -15,17 +15,17 @@
 		<tbody>
 			@{
 				ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
-				string formAction=Url.Action("ChangeProductActive","Seller");
-				string addQuantityAction=Url.Action("AddProductQuantity","Seller");
-				string reduceQuantityAction=Url.Action("ReduceProductQuantity","Seller");
+				string formAction = Url.Action("ChangeProductActive", "Seller");
+				string addQuantityAction = Url.Action("AddProductQuantity", "Seller");
+				string reduceQuantityAction = Url.Action("ReduceProductQuantity", "Seller");
 				foreach (ProductView product in Model.Products)
 				{
 					<tr>
 						<td class="sellerProductTableImageContainer"><img src="@($"{UIConsts.GetProductUrlById(product.SellerId, product.ProductTypeId)}/{product.RepresentativeImage}")" /></td>
 						<td>@product.ProductTypeName</td>
 						<td>@CurrencyFormat.Format(product.Price)</td>
-						<td>
-							<div class="float-left" id="@($"product{product.ProductTypeId}Quantity")">@product.Quantity</div>
+						<td class="productQuantityCell">
+							<div class="float-left @($"product{product.ProductTypeId}Quantity")">@product.Quantity</div>
 							<div class="float-right">
 								<form class="changeQuantityForm" action="@addQuantityAction" method="put" actionName="adding">
 									<input type="hidden" name="productTypeId" value="@product.ProductTypeId" />
@@ -47,10 +47,11 @@
 							<form action="@formAction" method="put">
 								<input type="hidden" name="productTypeId" value="@product.ProductTypeId" />
 								<input @(product.Active ? "checked" : "") class="submitOnChange" name="active"
-										type="checkbox" data-toggle="toggle" value="true"
-										data-onstyle="success" data-offstyle="danger" data-size="small"
-										data-on="<i class='fas fa-lock-open'></i>"
-										data-off="<i class='fa fa-lock'></i>" />
+									   type="checkbox" data-toggle="toggle" value="true"
+									   error="Something went wrong while changing product active"
+									   data-onstyle="success" data-offstyle="danger" data-size="small"
+									   data-on="<i class='fas fa-lock-open'></i>"
+									   data-off="<i class='fa fa-lock'></i>" />
 							</form>
 						</td>
 						<td>@product.Status</td>
@@ -70,80 +71,11 @@
 	 page-class-selected="active" page-class-disabled="disabled">
 </div>
 
-<script type="text/javascript">
-$(document).ready(function(){
-	//change product active
-	$('.submitOnChange').change(function () {
-		let $form = $(this).closest('form');
-		$.ajax({
-			url: $form.attr('action'),
-			type: $form.attr('method'),
-			data: $form.serialize(),
-			success: function (result) {
-				if (result.errors.length > 0)
-					showErrors(result.errors)
-			},
-			error: function (result) {
-				showErrors(['Something went wrong while changing product active', JSON.stringify(result)]);
-			}
-		});
-	});
+@section Scripts {
+	<script type="text/javascript" src="~/js/submit-on-change.js"></script>
+	<script type="text/javascript" src="~/js/seller-change-product-quantity.js"></script>
+}
 
-	//change product quantity
-	$('.changeQuantityForm').submit(function (event) {
-		event.preventDefault();
-		let $form = $(this);
-
-		let actionName = $form.attr("actionName");
-
-		let changingNumbers = prompt("Please enter " + actionName + " numbers:", "0");
-
-		if (changingNumbers == null) {
-			alert("Empty value entered. Nothing changed");
-			return;
-		}
-
-		if (isNaN(changingNumbers)) {
-			alert("Numbers must be an integer");
-			return;
-		}
-
-		let convertedChangingNumbers = Number(changingNumbers);
-		if (convertedChangingNumbers != changingNumbers) {
-			alert("Numbers must be an integer");
-			return;
-		}
-
-		if (convertedChangingNumbers == 0)
-			return;
-
-		if (convertedChangingNumbers < 0) {
-			alert("Numbers must be greater than zero");
-			return;
-		}
-
-		$form.find("input[name='numbers']").val(convertedChangingNumbers);
-
-		$.ajax({
-			url: $form.attr('action'),
-			type: $form.attr('method'),
-			data: $form.serialize(),
-			success: function (result) {
-				if(result.errors.length < 1)
-				{
-					let sltor = "#product" + $form.find("input[name='productTypeId']").val() + "Quantity";
-					$(sltor).html(result.result);
-				}
-				else showErrors(result.errors);
-
-				$form.find("input[name='numbers']").val(0);
-			},
-			error: function (result) {
-				showErrors(['Something went wrong while ' + actionName + ' product quantity', JSON.stringify(result)]);
-				$form.find("input[name='numbers']").val(0);
-			}
-		});
-		
-	});
-});
-</script>
+@section Styles {
+	<link rel="stylesheet" href="~/css/seller-product-table.css" />
+}

@@ -1,64 +1,7 @@
 ﻿@model AttributesStatesTableViewModel
 
-<input type="hidden" id="sellerId" value="@Model.SellerId" />
-<input type="hidden" id="productTypeId" value="@Model.ProductTypeId" />
+@await Html.PartialAsync("AttributesStatesTable")
 
-<div id="AttributesStatesTableContainer">
-	@await Html.PartialAsync("AttributesStatesTable")
-</div>
-
-<script type="text/javascript">
-$(document).ready(function(){
-
-	//add attributes state
-	$('#AttributesStatesTableContainer').on('click', '.addAttributesStatesBtn',
-		function (event) {
-
-			let attributesState = {};
-			$('.addAttributesStatesInput').each(function (index, element) {
-				attributesState[$(this).attr('name')] = $(this).val();
-			});
-
-			$.ajax({
-				url: $('#addAttributesStateUrl').val(),
-				type: 'post',
-				data: {
-					productTypeId: $('#productTypeId').val(),
-					attributesState: attributesState
-				},
-				success: function (result) {
-					if(Array.isArray(result))
-					{
-						showErrors(result);
-					}
-					else $('#AttributesStatesTableContainer').html(result);
-				},
-				error: function (result) {\
-					showErrors(['Something went wrong while adding attributes state', JSON.stringify(result)]);
-				}
-			});
-		});
-
-	//delete attributes state
-	$('#AttributesStatesTableContainer').on('submit', '.deleteAttributesStateOnSubmit',
-		function (event) {
-			event.preventDefault();
-			let $form = $(this);
-			$.ajax({
-				url: $form.attr('action'),
-				type: $form.attr('method'),
-				data: $form.serialize(),
-				success: function (result) {
-					if(Array.isArray(result))
-					{
-						showErrors(result);
-					}
-					else $('#AttributesStatesTableContainer').html(result);
-				},
-				error: function (result) {
-					showErrors(['Something went wrong while deleting attributes state', JSON.stringify(result)]);
-				}
-			});
-		});
-});
-</script>
+@section Scripts {
+	<script type="text/javascript" src="~/js/attributes-states-table.js"></script>
+}

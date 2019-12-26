@@ -1,0 +1,11 @@
+﻿/*limits size for seller's products table rows and restricts image size*/
+.sellerProductTableImageContainer {
+	height: 150px;
+	display: flex;
+}
+
+	.sellerProductTableImageContainer img {
+		margin: auto;
+		max-height: 100%;
+		max-width: 100%;
+	}

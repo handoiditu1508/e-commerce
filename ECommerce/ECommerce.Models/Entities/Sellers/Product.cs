@@ -40,17 +40,18 @@ namespace ECommerce.Models.Entities.Sellers
 		[EnumDataType(typeof(ProductStatus))]
 		public ProductStatus Status { get; set; } = ProductStatus.Validating;
 
+		[Column(nameof(Attributes))]
 		[InverseProperty("Product")]
-		public virtual ICollection<ProductAttribute> Attributes { get; set; } = new List<ProductAttribute>();
+		public virtual ICollection<ProductAttribute> SplittedAttributes { get; set; } = new List<ProductAttribute>();
 		[NotMapped]
-		public IDictionary<string, HashSet<string>> ConvertedAttributes
+		public IDictionary<string, HashSet<string>> Attributes
 		{
-			get => Attributes.ToFormalForm();
+			get => SplittedAttributes.ToFormalForm();
 			set
 			{
-				var attributeStates = ConvertedAttributesStates.ToList();
-				var oldAttributes = ConvertedAttributes;
-				Attributes.Clear();
+				var attributeStates = AttributesStates.ToList();
+				var oldAttributes = Attributes;
+				SplittedAttributes.Clear();
 
 				foreach (var attribute in value)
 				{
@@ -85,7 +86,7 @@ namespace ECommerce.Models.Entities.Sellers
 					//add attribute
 					short order = 1;
 					foreach (string val in attribute.Value)
-						Attributes.Add(new ProductAttribute
+						SplittedAttributes.Add(new ProductAttribute
 						{
 							Name = attribute.Key,
 							Value = val,
@@ -127,25 +128,27 @@ namespace ECommerce.Models.Entities.Sellers
 			}
 		}
 
-		public virtual byte[] AttributesStates { get; set; }
+		[Column(nameof(AttributesStates))]
+		public virtual byte[] SerializedAttributesStates { get; set; }
 		[NotMapped]
-		public IEnumerable<IDictionary<string, string>> ConvertedAttributesStates
+		public IEnumerable<IDictionary<string, string>> AttributesStates
 		{
-			get => AttributesStates.ToObject<IEnumerable<IDictionary<string, string>>>()
+			get => SerializedAttributesStates.ToObject<IEnumerable<IDictionary<string, string>>>()
 				?? new List<IDictionary<string, string>>();
-			set => AttributesStates = value.ToByteArray();
+			set => SerializedAttributesStates = value.ToByteArray();
 		}
 
 		[Required]
 		public string RepresentativeImage { get; set; }
 
-		public virtual byte[] Images { get; set; }
+		[Column(nameof(Images))]
+		public virtual byte[] SerializedImages { get; set; }
 		[NotMapped]
-		public IEnumerable<string> ConvertedImages
+		public IEnumerable<string> Images
 		{
-			get => Images.ToObject<IEnumerable<string>>()
+			get => SerializedImages.ToObject<IEnumerable<string>>()
 				?? new List<string>();
-			set => Images = value.ToByteArray();
+			set => SerializedImages = value.ToByteArray();
 		}
 	}
 

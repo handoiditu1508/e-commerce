@@ -9,7 +9,7 @@
 	</div>
 </form>
 
-@Html.DisplayFor(m => m.ProductTypes, "SelectProductTypeTable")
+@await Html.PartialAsync("SelectProductTypeTable", Model.ProductTypes)
 
 <div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="col-12"
 	 page-class="page-item" page-class-normal=""

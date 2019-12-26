@@ -63,7 +63,7 @@ namespace ECommerce.Persistence.EF
 			//because product has [2-properties primary keys]
 			modelBuilder.Entity<ProductAttribute>()
 				.HasOne(pa => pa.Product)
-				.WithMany(p => p.Attributes)
+				.WithMany(p => p.SplittedAttributes)
 				.HasForeignKey(pa => new { pa.SellerId, pa.ProductTypeId });
 
 			//[Product Type Update Request] will not be deleted if [Category] is deleted

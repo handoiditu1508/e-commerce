@@ -1,8 +1,8 @@
 ﻿@model LoginViewModel
 
 <form class="col-4" method="post">
-	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-	@Html.EditorForModel()
+	<div asp-validation-summary="All" class="text-danger"></div>
+	@await Html.PartialAsync("LoginViewModel", Model)
 	<div class="form-group">
 		<input type="submit" value="Login" class="btn btn-primary" />
 	</div>

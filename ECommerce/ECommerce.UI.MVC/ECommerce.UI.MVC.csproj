@@ -20,4 +20,8 @@
 		<ProjectReference Include="..\ECommerce.UI.Shared\ECommerce.UI.Shared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Views\Shared\EditorTemplates\" />
+	</ItemGroup>
+
 </Project>

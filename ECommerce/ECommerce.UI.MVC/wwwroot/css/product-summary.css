@@ -1,0 +1,11 @@
+﻿/*retricts size for product summary image*/
+.productSummaryImageContainer {
+	height: 200px;
+	display: flex;
+}
+
+	.productSummaryImageContainer img {
+		margin: auto;
+		max-height: 100%;
+		max-width: 100%;
+	}

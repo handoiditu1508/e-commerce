@@ -1,0 +1,11 @@
+﻿/*limits size for cart table rows and restricts image size*/
+.productCartImageContainer {
+	height: 150px;
+	display: flex;
+}
+
+	.productCartImageContainer img {
+		margin: auto;
+		max-height: 100%;
+		max-width: 100%;
+	}

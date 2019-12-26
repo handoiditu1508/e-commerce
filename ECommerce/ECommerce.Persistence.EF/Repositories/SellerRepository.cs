@@ -235,7 +235,7 @@ namespace ECommerce.Persistence.EF.Repositories
 			Product presentProduct = await GetProductByAsync(sellerId, productTypeId);
 			presentProduct.Price = product.Price;
 			presentProduct.RepresentativeImage = product.RepresentativeImage;
-			presentProduct.ConvertedImages = product.ConvertedImages;
+			presentProduct.Images = product.Images;
 		}
 
 		public async Task DeleteAsync(int id) => context.Sellers.Remove(await GetByAsync(id));

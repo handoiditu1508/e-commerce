@@ -11,19 +11,3 @@
 	</div>
 	<button id="closeErrorZoneBtn" class="btn btn-sm btn-danger float-right">X</button>
 </div>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	$('#closeErrorZoneBtn').click(
-		function (event) {
-			event.preventDefault();
-			//close error zone
-			$('#errorZone').addClass("d-none");
-		});
-});
-
-function showErrors(errorsArray) {
-	document.getElementById("errorContent").innerHTML = "<p>" + errorsArray.join("</p><p>") + "</p>";
-	document.getElementById("errorZone").classList.remove("d-none");
-}
-</script>

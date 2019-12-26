@@ -160,5 +160,8 @@
 	<!--embed urls into html-->
 	@await Html.PartialAsync("EmbedUrl")
 	<!--embed urls into html-->
+
+	@await RenderSectionAsync("Styles", false)
+	@await RenderSectionAsync("Scripts", false)
 </body>
 </html>

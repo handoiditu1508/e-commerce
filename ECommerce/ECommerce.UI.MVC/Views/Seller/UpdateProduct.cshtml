@@ -7,7 +7,7 @@
 }
 <a class="btn btn-outline-success" asp-action="AttributesStates" asp-controller="Seller" asp-route-productTypeId="@Model.ProductTypeId">Product Attributes States</a>
 <a class="btn btn-outline-success" asp-action="ProductAttributes" asp-controller="Seller" asp-route-productTypeId="@Model.ProductTypeId">Product Attributes</a>
-<button id="unregisterBtn" class="btn btn-danger" urlAction="@Url.Action("Unregister","RegisterProduct",new { productTypeId=Model.ProductTypeId })" urlMethod="delete" redirectUrl="@Url.Action("Product","Seller")">Unregister</button>
+<button class="unregisterBtn btn btn-danger" urlAction="@Url.Action("Unregister","RegisterProduct",new { productTypeId=Model.ProductTypeId })" urlMethod="delete" redirectUrl="@Url.Action("Product","Seller")">Unregister</button>
 <form asp-action="UpdateProduct" method="put" enctype="multipart/form-data">
 	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -19,9 +19,9 @@
 		<span asp-validation-for="UpdateModel.Price" class="text-danger"></span>
 	</div>
 
-	<div class="form-group">
+	<div class="form-group imageUpdateContainer">
 		<label class="control-label">Product's images:</label>
-		<input id="imagesCheckbox" type="checkbox" asp-for="UpdateImages" />Check if update
+		<input class="imagesCheckbox" type="checkbox" asp-for="UpdateImages" />Check if update
 		<div>
 			@foreach (string image in Model.UpdateModel.Images)
 			{
@@ -31,7 +31,7 @@
 			}
 		</div>
 		<div class="file-loading">
-			<input id="imagesFileInput" class="file registerProductFileInput" name="images" type="file" multiple disabled />
+			<input class="imagesFileInput file registerProductFileInput" name="images" type="file" multiple disabled />
 		</div>
 	</div>
 
@@ -39,48 +39,7 @@
 	<input type="reset" class="btn btn-outline-secondary" value="Reset" />
 </form>
 
-<script type="text/javascript">
-$(document).ready(function(){
-	//upload images
-	$('.registerProductFileInput').fileinput({
-        allowedFileExtensions: ['jpg', 'png', 'gif', 'jpeg'],
-		removeClass: 'btn btn-danger',
-		showUpload: false,
-		allowedFileTypes: ['image'],
-		maxFileSize: '5120',//5Mb
-		theme: 'fas',
-		browseOnZoneClick: 'true'
-	});
-
-	$('#imagesCheckbox').change(function () {
-
-		let fileInput = $('#imagesFileInput');
-		if (this.checked) {
-			fileInput.fileinput('enable');
-		}
-		else fileInput.fileinput('disable');
-	});
-
-	$('#unregisterBtn').click(function (event) {
-		event.preventDefault();
-		if (!confirm("Warning: this action will delete this product parmanently"))
-			return;
-
-		showErrors(["Something went wrong while unregister product", "asdsd"]);
-		$.ajax({
-			url: $(this).attr("urlAction"),
-			type: $(this).attr("urlMethod"),
-			success: function (result) {
-				if (result.errors.length < 1) {
-					alert("Product successfully unregistered");
-					location.replace(window.location.protocol + "//" + window.location.host + $(this).attr("redirectUrl"));
-				}
-				else showErrors(result.errors);
-			},
-			error: function (result) {
-				showErrors(["Something went wrong while unregister product", JSON.stringify(result)]);
-			}
-		});
-	});
-});
-</script>
+@section Scripts {
+	<script type="text/javascript" src="~/js/upload-image-constraint.js"></script>
+	<script type="text/javascript" src="~/js/update-product.js"></script>
+}

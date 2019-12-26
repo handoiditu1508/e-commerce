@@ -46,9 +46,9 @@
 				<td>
 					<form asp-action="ChangeOrderStatus" asp-controller="Seller" method="put">
 						<input type="hidden" name="orderId" value="@order.Id" />
-						<select class="form-control submitOnChange" name="status" enum-type="typeof(OrderStatus)" selected="order.Status"></select>
+						<select error="Something went wrong while changing order status" class="form-control submitOnChange" name="status" enum-type="typeof(OrderStatus)" selected="order.Status"></select>
 					</form>
-					<form asp-action="CancelOrder" asp-controller="Seller" method="delete" class="cancelOrderForm">
+					<form error="Something went wrong while changing order status" asp-action="CancelOrder" asp-controller="Seller" method="delete" class="cancelOrderForm">
 						<input type="hidden" name="orderId" value="@order.Id" />
 						<input type="submit" class="btn btn-outline-danger" value="Cancel" />
 					</form>
@@ -68,43 +68,7 @@
 	 page-url-status="Model.SearchModel.SearchModel.Status">
 </div>
 
-<script type="text/javascript">
-	$(document).ready(function () {
-		//change order status
-
-		$('.submitOnChange').change(function () {
-			var $form = $(this).closest('form');
-			$.ajax({
-				url: $form.attr('action'),
-				type: $form.attr('method'),
-				data: $form.serialize(),
-				success: function (result) {
-					if (result.errors.length > 0)
-						showErrors(result.errors);
-				},
-				error: function (result) {
-					showErrors(['Something went wrong while changing order status', JSON.stringify(result)]);
-				}
-			});
-		});
-
-		$('.cancelOrderForm').submit(function (event) {
-			event.preventDefault();
-
-			var $form = $(this);
-			$.ajax({
-				url: $form.attr('action'),
-				type: $form.attr('method'),
-				data: $form.serialize(),
-				success: function (result) {
-					if (result.errors.length > 0)
-						showErrors(result.errors);
-					else $form.closest("tr").remove();
-				},
-				error: function (result) {
-					showErrors(['Something went wrong while changing order status', JSON.stringify(result)]);
-				}
-			});
-		});
-	});
-</script>
+@section Scripts {
+	<script type="text/javascript" src="~/js/submit-on-change.js"></script>
+	<script type="text/javascript" src="~/js/seller-cancel-order.js"></script>
+}

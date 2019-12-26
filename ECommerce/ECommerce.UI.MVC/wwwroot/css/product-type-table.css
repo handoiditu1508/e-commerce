@@ -1,0 +1,13 @@
+﻿/*limits size for select product type table rows and restricts image size*/
+
+.productImageContainerForProductTypeTable {
+	height: 200px;
+	width: 200px;
+	display: flex;
+}
+
+	.productImageContainerForProductTypeTable img {
+		margin: auto;
+		max-height: 100%;
+		max-width: 100%;
+	}

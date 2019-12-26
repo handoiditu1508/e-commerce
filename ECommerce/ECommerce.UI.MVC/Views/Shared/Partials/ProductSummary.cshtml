@@ -1,5 +1,9 @@
 ﻿@model ProductView
 
+@{
+//required: product-summary.css
+}
+
 <div class="card d-inline-block col-3 mb-3 ml-5 p-0">
 	<div class="productSummaryImageContainer">
 		<img src="@($"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{Model.RepresentativeImage}")" alt="@Model.ProductTypeName" />

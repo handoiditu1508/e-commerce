@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<CategoryView>
 
 @{
+//required: script.js(imported in _Layout.cshtml)
+}
+
+@{
 	TagBuilder header = new TagBuilder("div");
 	header.AddCssClass("card-header bg-primary text-white text-uppercase");
 	TagBuilder headerIcon = new TagBuilder("i");

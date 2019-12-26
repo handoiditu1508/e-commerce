@@ -1,78 +1,83 @@
 ﻿@model Cart
-
-<div class="table-responsive rounded">
-	<table class="table table-striped table-bordered table-hover table-condensed table-sm table-active table-secondary">
-		<thead class="thead-dark">
-			<tr>
-				<th style="width:20%;"></th>
-				<th style="width:20%;">Item</th>
-				<th style="width:10%;">Seller</th>
-				<th style="width:10%;">Attributes</th>
-				<th style="width:10%;">Quantity</th>
-				<th class="text-right" style="width:10%;">Price</th>
-				<th class="text-right" style="width:10%;">Subtotal</th>
-			</tr>
-		</thead>
-		<tbody>
-			@{
-				ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
-				short count = 0;
-				string removeAction = Url.Action("RemoveFromCart", "Cart");
-				string changeQuantityAction = Url.Action("ChangeQuantity", "Cart");
-				foreach (CartLine line in Model.Lines)
-				{
-					ProductView product = await eCommerce.GetProductByAsync(line.SellerId, line.ProductTypeId);
-					<tr>
-						@if (product == null ||
-							product.Status != ProductStatus.Active ||
-							!product.Active ||
-							(await eCommerce.GetProductTypeByAsync(product.ProductTypeId)).Status != ProductTypeStatus.Active)
-						{
-							<td>This product is currently unavailable</td>
-							<td>
-								<form class="removeFromCartOnSubmit" action="@removeAction" method="delete">
-									<input type="hidden" name="index" value="@(count++)" />
-									<input type="submit" class="btn btn-sm btn-danger" value="Remove" />
-								</form>
-							</td>
+@{
+//required: update-small-cart.js, cart-table.js
+//required: cart-table.css
+}
+<div class="cartTableContainer">
+	<div class="table-responsive rounded">
+		<table class="table table-striped table-bordered table-hover table-condensed table-sm table-active table-secondary">
+			<thead class="thead-dark">
+				<tr>
+					<th style="width:20%;"></th>
+					<th style="width:20%;">Item</th>
+					<th style="width:10%;">Seller</th>
+					<th style="width:10%;">Attributes</th>
+					<th style="width:10%;">Quantity</th>
+					<th class="text-right" style="width:10%;">Price</th>
+					<th class="text-right" style="width:10%;">Subtotal</th>
+				</tr>
+			</thead>
+			<tbody>
+				@{
+					ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
+					short count = 0;
+					string removeAction = Url.Action("RemoveFromCart", "Cart");
+					string changeQuantityAction = Url.Action("ChangeQuantity", "Cart");
+					foreach (CartLine line in Model.Lines)
+					{
+						ProductView product = await eCommerce.GetProductByAsync(line.SellerId, line.ProductTypeId);
+						<tr>
+							@if (product == null ||
+								product.Status != ProductStatus.Active ||
+								!product.Active ||
+								(await eCommerce.GetProductTypeByAsync(product.ProductTypeId)).Status != ProductTypeStatus.Active)
+							{
+								<td>This product is currently unavailable</td>
+								<td>
+									<form class="removeFromCartOnSubmit" action="@removeAction" method="delete">
+										<input type="hidden" name="index" value="@(count++)" />
+										<input type="submit" class="btn btn-sm btn-danger" value="Remove" />
+									</form>
+								</td>
 							
-						}
-						else
-						{
-							<td class="productCartImageContainer"><img class="rounded img-fluid" src="@($"{UIConsts.GetProductUrlById(line.SellerId, line.ProductTypeId)}/{product.RepresentativeImage}")" alt="@product.ProductTypeName" /></td>
-							<td class="text-left">@product.ProductTypeName</td>
-							<td class="text-left">@product.SellerName</td>
-							<td class="text-left">
-								@foreach (var attribute in line.Attributes)
-								{
-									<p>@attribute.Key: @attribute.Value</p>
-								}
-							</td>
-							<td class="text-center">
-								<form class="changeCartQuantityOnSubmit" action="@changeQuantityAction" method="put">
-									<input type="number" name="quantity" class="form-control quantityInput" value="@line.Quantity" />
-									<input type="hidden" name="index" value="@count" />
-									<input type="submit" class="btn btn-sm btn-warning" value="Change" disabled hidden />
-								</form>
-							</td>
-							<td class="text-right">@CurrencyFormat.Format(product.Price)</td>
-							<td class="text-right">@CurrencyFormat.Format(product.Price * line.Quantity)</td>
-							<td>
-								<form class="removeFromCartOnSubmit" action="@removeAction" method="delete">
-									<input type="hidden" name="index" value="@(count++)" />
-									<input type="submit" class="btn btn-sm btn-danger" value="Remove" />
-								</form>
-							</td>
-						}
-					</tr>
+							}
+							else
+							{
+								<td class="productCartImageContainer"><img class="rounded img-fluid" src="@($"{UIConsts.GetProductUrlById(line.SellerId, line.ProductTypeId)}/{product.RepresentativeImage}")" alt="@product.ProductTypeName" /></td>
+								<td class="text-left">@product.ProductTypeName</td>
+								<td class="text-left">@product.SellerName</td>
+								<td class="text-left">
+									@foreach (var attribute in line.Attributes)
+									{
+										<p>@attribute.Key: @attribute.Value</p>
+									}
+								</td>
+								<td class="text-center">
+									<form class="changeCartQuantityOnSubmit" action="@changeQuantityAction" method="put">
+										<input type="number" name="quantity" class="form-control quantityInput" value="@line.Quantity" />
+										<input type="hidden" name="index" value="@count" />
+										<input type="submit" class="btn btn-sm btn-warning" value="Change" disabled hidden />
+									</form>
+								</td>
+								<td class="text-right">@CurrencyFormat.Format(product.Price)</td>
+								<td class="text-right">@CurrencyFormat.Format(product.Price * line.Quantity)</td>
+								<td>
+									<form class="removeFromCartOnSubmit" action="@removeAction" method="delete">
+										<input type="hidden" name="index" value="@(count++)" />
+										<input type="submit" class="btn btn-sm btn-danger" value="Remove" />
+									</form>
+								</td>
+							}
+						</tr>
+					}
 				}
-			}
-		</tbody>
-		<tfoot>
-			<tr>
-				<td colspan="6" class="text-right">Total:</td>
-				<td class="text-right">@CurrencyFormat.FormatWithUnit(Model.ComputeTotalValue())</td>
-			</tr>
-		</tfoot>
-	</table>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6" class="text-right">Total:</td>
+					<td class="text-right">@CurrencyFormat.FormatWithUnit(Model.ComputeTotalValue())</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
 </div>

@@ -1,0 +1,58 @@
+﻿@model AttributesStatesTableViewModel
+
+@{
+//required: attributes-states-table.js
+}
+<div class="AttributesStatesTableContainer">
+	<input type="hidden" class="sellerId" value="@Model.SellerId" />
+	<input type="hidden" class="productTypeId" value="@Model.ProductTypeId" />
+
+	<div class="table-responsive rounded">
+		<table class="table table-striped table-bordered table-hover table-condensed table-sm table-active table-secondary">
+			<thead class="thead-dark">
+				<tr>
+					@foreach (var attribute in Model.Attributes)
+					{
+						<th>@attribute.Key</th>
+					}
+				</tr>
+			</thead>
+			<tbody>
+				@{
+					short count = 0;
+					string deleteAttributesStateUrl = Url.Action("DeleteAttributesState","Seller");
+					foreach (var attributesState in Model.AttributesStates)
+					{
+					<tr>
+						@foreach (var attribute in Model.Attributes)
+						{
+						<td>@attributesState[attribute.Key]</td>
+						}
+						<td>
+							<form class="deleteAttributesStateOnSubmit" action="@deleteAttributesStateUrl" method="delete">
+								<input type="hidden" name="ProductTypeId" value="@Model.ProductTypeId" />
+								<input type="hidden" name="index" value="@(count++)" />
+								<input class="btn btn-warning" type="submit" value="Delete" />
+							</form>
+						</td>
+					</tr>
+					}
+				}
+				<tr>
+					@foreach (var attribute in Model.Attributes)
+					{
+						<td>
+							<select class="addAttributesStatesInput form-control" name="@attribute.Key">
+								@foreach (string value in attribute.Value)
+								{
+									<option>@value</option>
+								}
+							</select>
+						</td>
+					}
+					<td><button class="btn btn-success addAttributesStatesBtn">Add</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

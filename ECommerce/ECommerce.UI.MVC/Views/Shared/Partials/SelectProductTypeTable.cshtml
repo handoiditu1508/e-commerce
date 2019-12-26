@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<ProductTypeView>
 
+@{
+//required: product-type-table.css
+}
+
 @{ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService]; }
 
 <div class="table-responsive rounded">
@@ -16,10 +20,10 @@
 				ProductView product = eCommerce.GetRepresentativeProduct(productType.Id);
 				if (product == null)
 				{
-					product=new ProductView
+					product = new ProductView
 					{
-						ProductTypeName=productType.Name,
-						ProductTypeId=productType.Id
+						ProductTypeName = productType.Name,
+						ProductTypeId = productType.Id
 					};
 				}
 				<tr>
@@ -41,7 +45,7 @@
 						<p>
 							descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions descriptions
 						</p>
-						@{ 
+						@{
 							int categoryId = (await eCommerce.GetProductTypeByAsync(product.ProductTypeId)).CategoryId;
 							<small>
 								@await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId })

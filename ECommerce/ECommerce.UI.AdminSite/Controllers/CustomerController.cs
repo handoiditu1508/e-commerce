@@ -59,7 +59,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 			{
 				CustomerId = customerId
 			};
-			return View(new OrdersListViewModel
+			return View(/*new OrdersListViewModel
 			{
 				Orders = eCommerce.GetOrdersByCustomerId(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
 				PagingInfo = new PagingInfo
@@ -69,7 +69,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 					TotalRecords = eCommerce.CountOrdersByCustomerId(searchModel)
 				},
 				SearchModel = searchModel
-			});
+			}*/);
 		}
 
 		[HttpPost]

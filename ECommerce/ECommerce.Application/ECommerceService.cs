@@ -1185,17 +1185,17 @@ namespace ECommerce.Application
 		public async Task<IEnumerable<string>> GetProductImagesAsync(int sellerId, int productTypeId)
 			=> (await sellerRepository
 				.GetProductByAsync(sellerId, productTypeId))?
-				.ConvertedImages ?? null;
+				.Images ?? null;
 
 		public async Task<IDictionary<string, HashSet<string>>> GetProductAttributesAsync(int sellerId, int productTypeId)
 			=> (await sellerRepository
 				.GetProductByAsync(sellerId, productTypeId))?
-				.ConvertedAttributes ?? null;
+				.Attributes ?? null;
 
 		public async Task<IEnumerable<IDictionary<string, string>>> GetProductAttributesStatesAsync(int sellerId, int productTypeId)
 			=> (await sellerRepository
 				.GetProductByAsync(sellerId, productTypeId))?
-				.ConvertedAttributesStates ?? null;
+				.AttributesStates ?? null;
 
 		public async Task<Message> UpdateProductAttributesAsync(int sellerId, int productTypeId, IDictionary<string, HashSet<string>> attributes)
 		{
@@ -1246,7 +1246,7 @@ namespace ECommerce.Application
 
 			if (!message.Errors.Any())
 			{
-				product.ConvertedAttributes = attributes;
+				product.Attributes = attributes;
 				await unitOfWork.CommitAsync();
 			}
 
@@ -1265,7 +1265,7 @@ namespace ECommerce.Application
 				return message;
 			}
 
-			var attributes = product.ConvertedAttributes;
+			var attributes = product.Attributes;
 
 			//check attributes contains attributes states or not
 			var attributesStates2 = attributesStates.ToList();
@@ -1321,7 +1321,7 @@ namespace ECommerce.Application
 
 			if (!message.Errors.Any())
 			{
-				product.ConvertedAttributesStates = attributesStates2;
+				product.AttributesStates = attributesStates2;
 				await unitOfWork.CommitAsync();
 			}
 
@@ -1340,7 +1340,7 @@ namespace ECommerce.Application
 				return message;
 			}
 
-			var attributes = product.ConvertedAttributes;
+			var attributes = product.Attributes;
 
 			//check attributes contains attributes states or not
 			//length
@@ -1370,7 +1370,7 @@ namespace ECommerce.Application
 				}
 			}
 
-			var attributesStates = product.ConvertedAttributesStates.ToList();
+			var attributesStates = product.AttributesStates.ToList();
 
 			//check attributes states uniqueness
 			for (short i = 0; i < attributesStates.Count; i++)
@@ -1392,7 +1392,7 @@ namespace ECommerce.Application
 				}
 			}
 			attributesStates.Add(attributesState);
-			product.ConvertedAttributesStates = attributesStates;
+			product.AttributesStates = attributesStates;
 			await unitOfWork.CommitAsync();
 
 			return message;
@@ -1407,7 +1407,7 @@ namespace ECommerce.Application
 				return;
 			}
 
-			var attributes = product.ConvertedAttributes;
+			var attributes = product.Attributes;
 
 			//length
 			if (attributesState.Count != attributes.Count)
@@ -1424,7 +1424,7 @@ namespace ECommerce.Application
 				}
 			}
 
-			var attributesStates = product.ConvertedAttributesStates.ToList();
+			var attributesStates = product.AttributesStates.ToList();
 
 			for (short i = 0; i < attributesStates.Count(); i++)
 			{
@@ -1441,7 +1441,7 @@ namespace ECommerce.Application
 				if (match)
 				{
 					attributesStates.RemoveAt(i);
-					product.ConvertedAttributesStates = attributesStates;
+					product.AttributesStates = attributesStates;
 					await unitOfWork.CommitAsync();
 					return;
 				}
@@ -1457,12 +1457,12 @@ namespace ECommerce.Application
 				return;
 			}
 
-			var attributesStates = product.ConvertedAttributesStates.ToList();
+			var attributesStates = product.AttributesStates.ToList();
 
 			if (index > -1 && index < attributesStates.Count)
 			{
 				attributesStates.RemoveAt(index);
-				product.ConvertedAttributesStates = attributesStates;
+				product.AttributesStates = attributesStates;
 				await unitOfWork.CommitAsync();
 			}
 		}

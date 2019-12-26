@@ -35,10 +35,10 @@ namespace ECommerce.Models.Services
 				return message;
 			}
 
-			if (product.Attributes != null && product.Attributes.Any())
+			if (product.SplittedAttributes != null && product.SplittedAttributes.Any())
 			{
 				//check product attributes
-				foreach (ProductAttribute attribute in product.Attributes)
+				foreach (ProductAttribute attribute in product.SplittedAttributes)
 				{
 					if (string.IsNullOrWhiteSpace(attribute.Name))
 					{
@@ -56,7 +56,7 @@ namespace ECommerce.Models.Services
 				}
 
 				//check unique of product attributes
-				IList<ProductAttribute> attributes = product.Attributes.ToList();
+				IList<ProductAttribute> attributes = product.SplittedAttributes.ToList();
 				for (short i = 1; i < attributes.Count; i++)
 				{
 					for (short j = 0; j < i; j++)

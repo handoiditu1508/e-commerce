@@ -78,3 +78,4 @@ E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\E
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\obj\Debug\netcoreapp2.2\ECommerce.UI.AdminSite.dll
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\obj\Debug\netcoreapp2.2\ECommerce.UI.AdminSite.pdb
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ProductFilterForm.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\obj\Debug\netcoreapp2.2\Razor\Views\Shared\OrderFilterForm.cshtml.g.cs

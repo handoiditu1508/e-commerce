@@ -10,7 +10,7 @@ namespace ECommerce.Application.Extensions.UpdateModels
 			Product product = new Product
 			{
 				Price = updateModel.Price,
-				ConvertedImages = updateModel.Images,
+				Images = updateModel.Images,
 				RepresentativeImage = updateModel.RepresentativeImage
 			};
 			return product;

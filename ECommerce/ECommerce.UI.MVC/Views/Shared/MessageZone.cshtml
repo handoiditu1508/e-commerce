@@ -11,19 +11,3 @@
 	</div>
 	<button id="closeMessageZoneBtn" class="btn btn-sm btn-danger float-right">X</button>
 </div>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	$('#closeMessageZoneBtn').click(
-		function (event) {
-			event.preventDefault();
-			//close message zone
-			$('#messageZone').addClass("d-none");
-		});
-});
-
-function showMessages(messagesArray) {
-	document.getElementById("messageContent").innerHTML = "<p>" + errorsArray.join("</p><p>") + "</p>";
-	document.getElementById("messageZone").classList.remove("d-none");
-}
-</script>

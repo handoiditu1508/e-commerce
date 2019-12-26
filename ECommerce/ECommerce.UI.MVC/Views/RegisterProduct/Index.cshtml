@@ -74,13 +74,6 @@
 		</tfoot>
 	</table>
 
-	<!--<div class="form-group">
-		<label class="control-label">Product's representative image:</label>
-		<div class="file-loading">
-			<input class="file registerProductFileInput" name="representativeImage" type="file" />
-		</div>
-	</div>-->
-
 	<div class="form-group">
 		<label class="control-label">Product's images:</label>
 		<div class="file-loading">
@@ -97,28 +90,7 @@
 	<input type="reset" class="btn btn-outline-secondary" value="Reset" />
 </form>
 
-<script type="text/javascript">
-	//change attribute number on click
-	$('.changeAttributeNumberBtn').click(function (event) {
-		event.preventDefault();
-
-		$container = $(this).closest('.changeAttributeNumber');
-
-		$value = $container.find('.changeAttributeNumberValue').val();
-
-		$link = $container.find('.changeAttributeNumberUrl').val();
-
-		window.location.replace($link + '&productAttributesNumber=' + $value);
-	});
-
-	//upload images
-	$('.registerProductFileInput').fileinput({
-        allowedFileExtensions: ['jpg', 'png', 'gif', 'jpeg'],
-		removeClass: 'btn btn-danger',
-		showUpload: false,
-		allowedFileTypes: ['image'],
-		maxFileSize: '5120',//5Mb
-		theme: 'fas',
-		browseOnZoneClick: 'true'
-	});
-</script>
+@section Scripts {
+	<script type="text/javascript" src="~/js/change-attribute-number.js"></script>
+	<script type="text/javascript" src="~/js/upload-image-constraint.js"></script>
+}

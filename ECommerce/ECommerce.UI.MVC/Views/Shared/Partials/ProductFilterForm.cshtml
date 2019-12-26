@@ -1,5 +1,9 @@
 ﻿@model ProductSearchViewModel
 
+@{
+//required: category-picker.js
+}
+
 <form action="@Model.Url" method="get">
 	<div asp-validation-summary="All" class="text-danger"></div>
 
@@ -161,43 +165,3 @@
 		<input type="submit" value="Find" class="btn btn-primary" />
 	</div>
 </form>
-
-<script type="text/javascript">
-$(document).ready(function () {
-	//picking category
-
-	$('.categoryPickingButton').click(
-		function (event) {
-			// Stop form from submitting normally
-			event.preventDefault();
-			var $btn = $(this);
-			var $attr = $btn.find('p[name=\'categoryId\']');
-
-			let container = $(this).closest(".categoryPickerContainer");
-			container.find(".categoryHiddenPickingResult").val($attr.html());
-
-			$.ajax({
-				url: $('#getCategoryBreadCrumbUrl').val(),
-				type: "get",
-				data: { categoryId: $attr.html() },
-				success: function (result) {
-					container.find(".categoryPickingResult").html(result);
-				},
-				error: function (result) {
-					alert('something went wrong while picking category:\n' + result);
-				}
-			});
-		});
-
-	$('.clearCategoryPicking').click(
-		function (event) {
-			// Stop btn behavior to make form validate it self
-			event.preventDefault();
-
-			//clear result of picking category
-			let container = $(this).closest(".categoryPickerContainer");
-			container.find(".categoryHiddenPickingResult").val('');
-			container.find('.categoryPickingResult').html('');
-		});
-});
-</script>
