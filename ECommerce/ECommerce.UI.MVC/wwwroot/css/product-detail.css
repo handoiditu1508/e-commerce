@@ -1,6 +1,7 @@
 ﻿.galleryThumbnail {
 	height: 300px;
 	display: flex;
+	background-color: white;
 }
 
 	.galleryThumbnail img {

@@ -66,7 +66,7 @@
 	</table>
 </div>
 
-<div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="col-12"
+<div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="d-flex justify-content-center"
 	 page-class="page-item" page-class-normal=""
 	 page-class-selected="active" page-class-disabled="disabled">
 </div>
@@ -74,8 +74,10 @@
 @section Scripts {
 	<script type="text/javascript" src="~/js/submit-on-change.js"></script>
 	<script type="text/javascript" src="~/js/seller-change-product-quantity.js"></script>
+	@await Html.PartialAsync("BootstrapToggle-Scripts")
 }
 
 @section Styles {
 	<link rel="stylesheet" href="~/css/seller-product-table.css" />
+	@await Html.PartialAsync("BootstrapToggle-Styles")
 }

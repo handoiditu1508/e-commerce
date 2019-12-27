@@ -216,7 +216,6 @@ E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\E
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Customer\PersonalInformations.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Customer\Signup.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.cshtml.g.cs
-E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\Detail.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\Index.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\ProductType.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\Seller.cshtml.g.cs
@@ -238,9 +237,6 @@ E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\E
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\NavigationMenu\Default.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\SellerDropDown\Default.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\SmallCart\Default.cshtml.g.cs
-E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\DisplayTemplates\ProductDetail.cshtml.g.cs
-E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\ProductTypeUpdateRequestAddModel.cshtml.g.cs
-E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EditorTemplates\SellerSignupViewModel.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\UpdateProductType\Index.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\UpdateProductType\RequestSended.cshtml.g.cs
@@ -263,9 +259,6 @@ E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\E
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\ProductFilterForm.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\AttributesStatesTable.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\BreadCrumb.cshtml.g.cs
-E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\EmbedUrl.cshtml.g.cs
-E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\ErrorZone.cshtml.g.cs
-E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\MessageZone.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\OrderFilterForm.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\ProductSummary.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\CustomerSignupViewModel.cshtml.g.cs
@@ -273,3 +266,16 @@ E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\E
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\LoginViewModel.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\SelectProductTypeTable.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\SellerViewForUpdate.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\EmbedUrl.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ErrorZone.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\MessageZone.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\ProductTypeUpdateRequestAddModel.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\SellerSignupViewModel.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\ProductDetail.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Product\Detail.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ClientLibraries\BootstrapFileInput-Scripts.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ClientLibraries\BootstrapFileInput-Styles.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ClientLibraries\BootstrapTagInputPluginJQuery-Scripts.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ClientLibraries\BootstrapTagInputPluginJQuery-Styles.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ClientLibraries\BootstrapToggle-Scripts.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ClientLibraries\BootstrapToggle-Styles.cshtml.g.cs

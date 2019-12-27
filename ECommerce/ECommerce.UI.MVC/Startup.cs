@@ -22,6 +22,8 @@ namespace ECommerce.UI.MVC
 			{
 				option.ViewLocationFormats.Add("/Views/Shared/Partials/{0}.cshtml");
 				option.ViewLocationFormats.Add("/Pages/Shared/Partials/{0}.cshtml");
+				option.ViewLocationFormats.Add("/Views/Shared/ClientLibraries/{0}.cshtml");
+				option.ViewLocationFormats.Add("/Pages/Shared/ClientLibraries/{0}.cshtml");
 			});
 			services.AddScoped(sp => DefaultDataTier.GetUnitOfWork(sp));
 			services.AddScoped(sp => CookieCart.GetCart(sp));

@@ -1,6 +1,6 @@
 ﻿@model ProductView
 
-@Html.DisplayForModel("ProductDetail")
+@await Html.PartialAsync("ProductDetail", Model)
 
 @section Scripts {
 	<script type="text/javascript" src="~/js/update-small-cart.js"></script>

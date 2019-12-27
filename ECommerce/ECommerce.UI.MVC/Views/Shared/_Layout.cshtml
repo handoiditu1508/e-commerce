@@ -6,23 +6,14 @@
 	<link rel="stylesheet" href="~/css/style.css" />
 	<link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
-	<link rel="stylesheet" href="~/lib/bootstrap-tag-input-plugin-jquery/tagsinput.css" />
-	<link rel="stylesheet" href="~/lib/bootstrap-fileinput/css/fileinput.min.css" />
-	<link rel="stylesheet" href="~/lib/bootstrap-fileinput/themes/explorer-fas/theme.min.css" />
-	<link rel="stylesheet" href="~/lib/bootstrap-toggle/css/bootstrap-toggle.min.css" />
+
 	<script src="~/lib/jquery/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
 	<script src="~/js/script.js"></script>
 	<script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
 	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-	<script src="~/lib/bootstrap-tag-input-plugin-jquery/tagsinput.js"></script>
 	<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="~/lib/bootstrap-fileinput/js/plugins/piexif.min.js"></script>
-	<script src="~/lib/bootstrap-fileinput/js/plugins/sortable.min.js"></script>
-	<script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
-	<script src="~/lib/bootstrap-fileinput/themes/fas/theme.min.js"></script>
-	<script src="~/lib/bootstrap-fileinput/themes/explorer-fas/theme.min.js"></script>
-	<script src="~/lib/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+
 	<title>@ViewBag.Title</title>
 </head>
 <body>
@@ -86,21 +77,19 @@
 	@await Component.InvokeAsync("BreadCrumb")
 	<!--breadcrumb-->
 	<!--body-left-right-->
-	<div class="container mb-3">
-		<div class="row">
+	<div class="mb-3 row ml-0 mr-0">
 			<!--left-->
-			<div class="col-3">
+			<div class="col-2">
 				@await Component.InvokeAsync("NavigationMenu")
 			</div>
 			<!--left-->
 			<!--right-->
-			<div class="col-9 p-0">
+			<div class="col-10">
 				@await Html.PartialAsync("MessageZone")
 				@await Html.PartialAsync("ErrorZone")
 				@RenderBody()
 			</div>
 			<!--right-->
-		</div>
 	</div>
 	<!--body-left-right-->
 	<!--body-->

@@ -65,4 +65,9 @@
 @section Scripts {
 	<script type="text/javascript" src="~/js/change-attribute-number.js"></script>
 	<script type="text/javascript" src="~/js/update-product-attributes.js"></script>
+	@await Html.PartialAsync("BootstrapTagInputPluginJQuery-Scripts")
+}
+
+@section Styles {
+	@await Html.PartialAsync("BootstrapTagInputPluginJQuery-Styles")
 }

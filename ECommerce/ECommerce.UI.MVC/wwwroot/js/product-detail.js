@@ -18,8 +18,8 @@
 	});
 
 	//product detail pics
-	$('.galleryThumbnail').click(function() {
-		$('#galleryResult').html($(this).clone());
+	$('.galleryThumbnail').click(function () {
+		$(this).closest(".galleryContainer").find('.galleryResult').html($(this).clone());
 	});
 
 	//control product attributes states

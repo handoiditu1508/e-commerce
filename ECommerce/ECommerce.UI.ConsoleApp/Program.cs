@@ -14,19 +14,10 @@ namespace ECommerce.UI.ConsoleApp
 			IUnitOfWork uow = new UnitOfWork();
 			ECommerceService eCommerce = new ECommerceService(uow);
 
-			Console.WriteLine("Done.");
+			var rand = new Random();
+			Console.WriteLine(rand.Next());
+
 			Console.ReadKey();
-		}
-	}
-
-	public class Test
-	{
-		public static int count = 0;
-
-		public static int GetNum()
-		{
-			count++;
-			return 5;
 		}
 	}
 }

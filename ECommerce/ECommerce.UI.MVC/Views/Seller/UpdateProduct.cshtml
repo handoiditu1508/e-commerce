@@ -25,9 +25,9 @@
 		<div>
 			@foreach (string image in Model.UpdateModel.Images)
 			{
-			<div style="width:100px; display:inline-block;">
-				<img src="@($"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{image}")" style="width:100%;" />
-			</div>
+				<div style="width:100px; display:inline-block;">
+					<img src="@($"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{image}")" style="width:100%;" />
+				</div>
 			}
 		</div>
 		<div class="file-loading">
@@ -42,4 +42,9 @@
 @section Scripts {
 	<script type="text/javascript" src="~/js/upload-image-constraint.js"></script>
 	<script type="text/javascript" src="~/js/update-product.js"></script>
+	@await Html.PartialAsync("BootstrapFileInput-Scripts")
+}
+
+@section Styles {
+	@await Html.PartialAsync("BootstrapFileInput-Styles")
 }

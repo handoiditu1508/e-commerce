@@ -39,7 +39,7 @@ namespace ECommerce.UI.Shared.Infrastructure
 			IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
 			string pageLinkClass = "page-link";
 			TagBuilder result = new TagBuilder("ul");
-			result.AddCssClass("pagination");
+			result.AddCssClass("pagination d-inline-flex");
 
 			TagBuilder first = new TagBuilder("li");
 			TagBuilder firstLink = new TagBuilder("a");

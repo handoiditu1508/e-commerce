@@ -93,4 +93,11 @@
 @section Scripts {
 	<script type="text/javascript" src="~/js/change-attribute-number.js"></script>
 	<script type="text/javascript" src="~/js/upload-image-constraint.js"></script>
+	@await Html.PartialAsync("BootstrapFileInput-Scripts")
+	@await Html.PartialAsync("BootstrapTagInputPluginJQuery-Scripts")
+}
+
+@section Styles {
+	@await Html.PartialAsync("BootstrapFileInput-Styles")
+	@await Html.PartialAsync("BootstrapTagInputPluginJQuery-Styles")
 }
