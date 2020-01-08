@@ -28,6 +28,11 @@ namespace ECommerce.Persistence.EF.Repositories
 		{
 			IQueryable<Customer> customers = context.Customers;
 
+			if (searchModel.Id != null)
+			{
+				string id = searchModel.Id.ToString();
+				customers = customers.Where(c => c.Id.ToString().Contains(id));
+			}
 
 			if (searchModel.Active != null)
 				customers = customers.Where(c => c.Active == searchModel.Active);
@@ -98,16 +103,31 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public IEnumerable<Order> GetAllOrdersBy(OrderSearchModel searchModel)
 		{
-			IQueryable<Order> orders = context.Orders.Where(o => o.CustomerId == searchModel.CustomerId);
+			IQueryable<Order> orders = context.Orders;
+
+			if (searchModel.Id != null)
+			{
+				string id = searchModel.Id.ToString();
+				orders = orders.Where(o => o.Id.ToString().Contains(id));
+			}
 
 			if (searchModel.SellerId != null)
-				orders = orders.Where(o => o.SellerId == searchModel.SellerId);
+			{
+				string sellerId = searchModel.SellerId.ToString();
+				orders = orders.Where(o => o.SellerId.ToString().Contains(sellerId));
+			}
 
 			if (searchModel.CustomerId != null)
-				orders = orders.Where(o => o.CustomerId == searchModel.CustomerId);
+			{
+				string customerId = searchModel.CustomerId.ToString();
+				orders = orders.Where(o => o.CustomerId.ToString().Contains(customerId));
+			}
 
 			if (searchModel.ProductTypeId != null)
-				orders = orders.Where(o => o.ProductTypeId == searchModel.ProductTypeId);
+			{
+				string productTypeId = searchModel.ProductTypeId.ToString();
+				orders = orders.Where(o => o.ProductTypeId.ToString().Contains(productTypeId));
+			}
 
 			if (searchModel.Status != null)
 				orders = orders.Where(o => o.Status == searchModel.Status);

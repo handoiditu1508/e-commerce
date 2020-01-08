@@ -22,7 +22,7 @@ namespace ECommerce.Models.Repositories
 		Task<IEnumerable<Product>> GetProductsByAsync(ProductSearchModel searchModel);
 		Task<IEnumerable<Product>> GetAllProductsByAsync(ProductSearchModel searchModel);
 
-		Task<IEnumerable<ProductTypeUpdateRequest>> GetProductTypeUpdateRequestsAsync(int sellerId);
+		Task<IEnumerable<ProductTypeUpdateRequest>> GetProductTypeUpdateRequestsAsync(ProductTypeUpdateRequestSearchModel searchModel);
 
 		Task UpdateAsync(int id, Seller seller);
 

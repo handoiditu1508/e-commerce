@@ -2,166 +2,164 @@
 
 @{
 //required: category-picker.js
+//required: category-picker.css
 }
 
-<form action="@Model.Url" method="get">
-	<div asp-validation-summary="All" class="text-danger"></div>
+<fieldset class="border rounded pl-3 pr-3 mb-3">
+	<legend>Find Products By:</legend>
+	<form action="@Model.Url" method="get">
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-	@if(Model.ShowSearchString)
-	{
-	<div class="form-group">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<label asp-for="SearchModel.SearchString" class="control-label input-group-text"></label>
-			</div>
-			<input name="searchString" asp-for="SearchModel.SearchString" class="form-control" />
-		</div>
-		<span asp-validation-for="SearchModel.SearchString" class="text-danger"></span>
-	</div>
-	}
-
-	<div class="form-row">
-		@if (Model.ShowSellerId)
+		@if(Model.ShowSearchString)
 		{
-		<div class="form-group col-md-6">
+		<div class="form-group">
 			<div class="input-group">
 				<div class="input-group-prepend">
-					<label asp-for="SearchModel.SellerId" class="control-label input-group-text"></label>
+					<label asp-for="SearchModel.SearchString" class="control-label input-group-text"></label>
 				</div>
-				<input name="sellerId" asp-for="SearchModel.SellerId" class="form-control" />
+				<input name="searchString" asp-for="SearchModel.SearchString" class="form-control" />
 			</div>
-			<span asp-validation-for="SearchModel.SellerId" class="text-danger"></span>
+			<span asp-validation-for="SearchModel.SearchString" class="text-danger"></span>
 		</div>
 		}
-		@if (Model.ShowProductTypeId)
-		{
-		<div class="form-group col-md-6">
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<label asp-for="SearchModel.ProductTypeId" class="control-label input-group-text"></label>
-				</div>
-				<input name="productTypeId" asp-for="SearchModel.ProductTypeId" class="form-control" />
-			</div>
-			<span asp-validation-for="SearchModel.ProductTypeId" class="text-danger"></span>
-		</div>
-		}
-	</div>
 
-	@if(Model.ShowMinimumQuantity)
-	{
-	<div class="form-group">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<label asp-for="SearchModel.MinimumQuantity" class="control-label input-group-text"></label>
-			</div>
-			<input name="minimumQuantity" asp-for="SearchModel.MinimumQuantity" class="form-control" />
-		</div>
-		<span asp-validation-for="SearchModel.MinimumQuantity" class="text-danger"></span>
-	</div>
-	}
-
-	@if(Model.ShowPrice)
-	{
-	<div class="form-group">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<label asp-for="SearchModel.Price" class="control-label input-group-text"></label>
-			</div>
-			@if(Model.ShowPriceIndication)
+		<div class="form-row">
+			@if (Model.ShowSellerId)
 			{
-			<select name="priceIndication" class="custom-select">
-				@if (Model.SearchModel.PriceIndication == null)
+			<div class="form-group col-md-6">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.SellerId" class="control-label input-group-text"></label>
+					</div>
+					<input name="sellerId" type="number" asp-for="SearchModel.SellerId" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.SellerId" class="text-danger"></span>
+			</div>
+			}
+			@if (Model.ShowProductTypeId)
+			{
+			<div class="form-group col-md-6">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.ProductTypeId" class="control-label input-group-text"></label>
+					</div>
+					<input name="productTypeId" type="number" asp-for="SearchModel.ProductTypeId" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.ProductTypeId" class="text-danger"></span>
+			</div>
+			}
+		</div>
+
+		@if(Model.ShowMinimumQuantity)
+		{
+		<div class="form-group">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<label asp-for="SearchModel.MinimumQuantity" class="control-label input-group-text"></label>
+				</div>
+				<input name="minimumQuantity" type="number" asp-for="SearchModel.MinimumQuantity" class="form-control" />
+			</div>
+			<span asp-validation-for="SearchModel.MinimumQuantity" class="text-danger"></span>
+		</div>
+		}
+
+		@if(Model.ShowPrice)
+		{
+		<div class="form-group">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<label asp-for="SearchModel.Price" class="control-label input-group-text"></label>
+				</div>
+				@if(Model.ShowPriceIndication)
 				{
-					<option value="-1">Lesser than</option>
-					<option value="0">Equal to</option>
-					<option value="1">Greater than</option>
-				}
-				else
-				{
-					if (Model.SearchModel.PriceIndication < 0)
-					{
-						<option selected value="-1">Lesser than</option>
-						<option value="0">Equal to</option>
-						<option value="1">Greater than</option>
-					}
-					else if (Model.SearchModel.PriceIndication > 0)
+				<select name="priceIndication" class="custom-select">
+					@if (Model.SearchModel.PriceIndication == null)
 					{
 						<option value="-1">Lesser than</option>
 						<option value="0">Equal to</option>
-						<option selected value="1">Greater than</option>
+						<option value="1">Greater than</option>
 					}
 					else
 					{
-						<option value="-1">Lesser than</option>
-						<option selected value="0">Equal to</option>
-						<option value="1">Greater than</option>
+						if (Model.SearchModel.PriceIndication < 0)
+						{
+							<option selected value="-1">Lesser than</option>
+							<option value="0">Equal to</option>
+							<option value="1">Greater than</option>
+						}
+						else if (Model.SearchModel.PriceIndication > 0)
+						{
+							<option value="-1">Lesser than</option>
+							<option value="0">Equal to</option>
+							<option selected value="1">Greater than</option>
+						}
+						else
+						{
+							<option value="-1">Lesser than</option>
+							<option selected value="0">Equal to</option>
+							<option value="1">Greater than</option>
+						}
 					}
+				</select>
 				}
-			</select>
-			}
-			<input name="price" asp-for="SearchModel.Price" class="form-control" />
-		</div>
-		<span asp-validation-for="SearchModel.Price" class="text-danger"></span>
-	</div>
-	}
-
-	@if(Model.ShowActive)
-	{
-	<div class="form-group">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<label asp-for="SearchModel.Active" class="control-label input-group-text"></label>
+				<input name="price" type="number" asp-for="SearchModel.Price" class="form-control" />
 			</div>
-			<select selected-bool-value="@Model.SearchModel.Active" option-label="All" true-label="Active" false-label="Locked" class="form-control" name="active"></select>
+			<span asp-validation-for="SearchModel.Price" class="text-danger"></span>
 		</div>
-	</div>
-	}
+		}
 
-	@if(Model.ShowStatus)
-	{
-	<div class="form-group">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<label asp-for="SearchModel.Status" class="control-label input-group-text"></label>
-			</div>
-			<select class="form-control" name="status" enum-type="typeof(ProductStatus)" selected="Model.SearchModel.Status" option-label=""></select>
-		</div>
-	</div>
-	}
-
-	@if(Model.ShowProductTypeStatus)
-	{
-	<div class="form-group">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<label asp-for="SearchModel.ProductTypeStatus" class="control-label input-group-text"></label>
-			</div>
-			<select class="form-control" name="status" enum-type="typeof(ProductTypeStatus)" selected="Model.SearchModel.ProductTypeStatus" option-label=""></select>
-		</div>
-	</div>
-	}
-
-	@if(Model.ShowCategoryId)
-	{
-	<div class="categoryPickerContainer">
-		<div class="form-row categoryPickerContainer">
-			<div class="form-group col-md-12">
-				<label asp-for="SearchModel.CategoryId" class="control-label"></label>
-				<button class="clearCategoryPicking btn btn-danger btn-sm" type="button">X</button>
-				<input class="categoryHiddenPickingResult" type="hidden" name="categoryId" value="@Model.SearchModel.CategoryId" />
-				<div class="categoryPickingResult">
-					@if (Model.SearchModel.CategoryId != null)
-					{
-						<vc:category-bread-crumb category-id="(int)Model.SearchModel.CategoryId"></vc:category-bread-crumb>
-					}
+		<div class="form-row">
+			@if(Model.ShowActive)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.Active" class="control-label input-group-text"></label>
+					</div>
+					<select selected-bool-value="@Model.SearchModel.Active" option-label="All" true-label="Active" false-label="Locked" class="form-control" name="active"></select>
 				</div>
 			</div>
-		</div>
-		@await Component.InvokeAsync("CategoriesPickerDropDown", new { additionalCssClass = "btn btn-success" })
-	</div>
-	}
+			}
 
-	<div class="form-group">
-		<input type="submit" value="Find" class="btn btn-primary" />
-	</div>
-</form>
+			@if(Model.ShowStatus)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.Status" class="control-label input-group-text"></label>
+					</div>
+					<select class="form-control" name="status" enum-type="typeof(ProductStatus)" selected="Model.SearchModel.Status" option-label=""></select>
+				</div>
+			</div>
+			}
+
+			@if(Model.ShowProductTypeStatus)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.ProductTypeStatus" class="control-label input-group-text"></label>
+					</div>
+					<select class="form-control" name="status" enum-type="typeof(ProductTypeStatus)" selected="Model.SearchModel.ProductTypeStatus" option-label=""></select>
+				</div>
+			</div>
+			}
+		</div>
+
+		@if(Model.ShowCategoryId)
+		{
+		<div class="form-group">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<label asp-for="SearchModel.CategoryId" class="control-label input-group-text"></label>
+				</div>
+				@await Html.PartialAsync("CategoryPicker", new CategoryPickerModel { CurrentCategoryId = Model.SearchModel.CategoryId, InputName = "categoryId" })
+			</div>
+		</div>
+		}
+
+		<div class="form-group">
+			<input type="submit" value="Find" class="btn btn-primary" />
+		</div>
+	</form>
+</fieldset>

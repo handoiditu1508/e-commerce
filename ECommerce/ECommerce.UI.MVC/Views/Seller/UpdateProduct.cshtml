@@ -1,4 +1,4 @@
-﻿@model UpdateProductViewModel
+﻿@model ProductUpdateViewModel
 
 @{
 	ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
@@ -8,7 +8,7 @@
 <a class="btn btn-outline-success" asp-action="AttributesStates" asp-controller="Seller" asp-route-productTypeId="@Model.ProductTypeId">Product Attributes States</a>
 <a class="btn btn-outline-success" asp-action="ProductAttributes" asp-controller="Seller" asp-route-productTypeId="@Model.ProductTypeId">Product Attributes</a>
 <button class="unregisterBtn btn btn-danger" urlAction="@Url.Action("Unregister","RegisterProduct",new { productTypeId=Model.ProductTypeId })" urlMethod="delete" redirectUrl="@Url.Action("Product","Seller")">Unregister</button>
-<form asp-action="UpdateProduct" method="put" enctype="multipart/form-data">
+<form asp-action="UpdateProduct" method="post" enctype="multipart/form-data">
 	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 	<input type="hidden" asp-for="ProductTypeId" />

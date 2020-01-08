@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ProductView>
+
+@{
+//required: submit-on-change.js
+//required: product-types-table.css
+//required: bootstrap-toggle library,
+}
+
+@{ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService]; }
+
+<div class="table-responsive rounded">
+	<table class="table table-striped table-bordered table-hover table-condensed table-sm table-secondary table-active">
+		<thead class="thead-dark">
+			<tr>
+				<th></th>
+				<th>Seller</th>
+				<th>Product Type</th>
+				<th>Price</th>
+				<th>Active</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			@{string formAction = Url.Action("ChangeStatus", "Product");}
+			@foreach (ProductView product in Model)
+			{
+				<tr>
+					<td class="productImageContainerForProductTypeTable"><img class="img-fluid rounded" src="@($"{UIConsts.GetProductUrlById(product.SellerId, product.ProductTypeId)}/{product.RepresentativeImage}")" alt="@product.ProductTypeName" /></td>
+					<td>
+						<a asp-action="Edit" asp-controller="Seller" asp-route-sellerId="@product.SellerId" class="text-decoration-none">
+							@product.SellerName<br />
+							Id: @product.SellerId
+						</a>
+					</td>
+					<td>
+						<a asp-action="Edit" asp-controller="ProductType" asp-route-productTypeId="@product.ProductTypeId" class="text-decoration-none">
+							<h4>@product.ProductTypeName</h4>
+							Id: @product.ProductTypeId
+						</a>
+						@{
+							int categoryId = (await eCommerce.GetProductTypeByAsync(product.ProductTypeId)).CategoryId;
+							<small>
+								@await Component.InvokeAsync("CategoryBreadCrumb", new { categoryId })
+							</small>
+						}
+					</td>
+					<td>@CurrencyFormat.Format(product.Price)</td>
+					<td>
+						<input @(product.Active ? "checked" : "")
+							   type="checkbox" data-toggle="toggle" value="true"
+							   data-onstyle="success" data-offstyle="danger" data-size="small"
+							   data-on="<i class='fas fa-lock-open'></i>"
+							   data-off="<i class='fa fa-lock'></i>" disabled />
+					</td>
+					<td>
+						<form action="@formAction" method="put">
+							<input name="sellerId" type="hidden" value="@product.SellerId" />
+							<input name="productTypeId" type="hidden" value="@product.ProductTypeId" />
+							<select class="submitOnChange form-control" name="status" enum-type="typeof(ProductStatus)" selected="product.Status" error="Something went wrong while changing product status"></select>
+						</form>
+					</td>
+					<td><a class="btn btn-primary" asp-action="Detail" asp-controller="Product" asp-route-sellerId="@product.SellerId" asp-route-productTypeId="@product.ProductTypeId">Detail</a></td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

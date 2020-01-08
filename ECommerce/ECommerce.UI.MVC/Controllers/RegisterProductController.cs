@@ -59,13 +59,19 @@ namespace ECommerce.UI.MVC.Controllers
 					RecordsPerPage = recordsPerPage,
 					TotalRecords = await eCommerce.CountProductTypesByAsync(searchModel)
 				},
-				SearchModel = searchModel
+				SearchModel = new ProductTypeSearchViewModel{
+					SearchModel = searchModel
+				}
 			});
 		}
 
 		[HttpGet]
 		[SellerLoginRequired]
-		public IActionResult CreateProductType() => View();
+		public IActionResult CreateProductType()
+		=> View(new ProductTypeAddModel
+		{
+			CategoryId = eCommerce.GetLastCategory().Id
+		});
 
 		[HttpPost]
 		[SellerLoginRequired]

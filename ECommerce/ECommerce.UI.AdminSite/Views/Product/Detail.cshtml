@@ -1,40 +1,12 @@
 ﻿@model ProductView
 
-@Html.DisplayForModel("ProductDetail")
+@await Html.PartialAsync("ProductDetail", Model)
 
-<script type="text/javascript">
-	//recalculate quantity after successfully change product quantity
-	$('.changeProductQuantityOnSubmit').submit(
-		function (event) {
-			// Stop form from submitting normally
-			event.preventDefault();
-			var $form = $(this);
+@section Scripts{
+	<script src="~/js/submit-on-change.js"></script>
+	<script src="~/js/product-detail.js"></script>
+}
 
-			$.ajax({
-				url: $form.attr('action'),
-				type: $form.attr('method'),
-				data: $form.serialize(),
-				success: function (result) {
-					if (result != '')
-						alert(result);
-					else {
-						$quantity = parseInt($('#productQuantity').val());
-						$isAdd = $form.find('select[name=\'isAdd\']').val();
-						$number = parseInt($form.find('input[name=\'number\']').val());
-						
-						if ($number > 0) {
-							if ($isAdd == 'true') {
-								$('#productQuantity').val($quantity + $number);
-							}
-							else {
-								$('#productQuantity').val($quantity - $number);
-							}
-						}
-					}
-				},
-				error: function (result) {
-					alert('something went wrong while changing quantity:\n' + result);
-				}
-			});
-		});
-</script>
+@section Styles{
+	<link rel="stylesheet" href="~/css/product-detail.css" />
+}

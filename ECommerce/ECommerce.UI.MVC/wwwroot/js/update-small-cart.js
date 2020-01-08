@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿//$(document).ready(function () {
 	//small cart updating
 	function updateSmallCart() {
 		$.ajax({
@@ -9,4 +9,4 @@
 			}
 		});
 	}
-});
+//});

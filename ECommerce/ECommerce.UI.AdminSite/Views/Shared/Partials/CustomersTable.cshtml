@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CustomerView>
+
+@{
+//required: submit-on-change.js
+//required: bootstrap-toggle library,
+}
+
+<div class="table-responsive rounded">
+	<table class="table table-striped table-bordered table-hover table-condensed table-sm table-secondary table-active">
+		<thead class="thead-dark">
+			<tr>
+				<th>Id</th>
+				<th>Email</th>
+				<th>First Name</th>
+				<th>Middle Name</th>
+				<th>Last Name</th>
+				<th>Active</th>
+			</tr>
+		</thead>
+		<tbody>
+			@{string formAction = Url.Action("ChangeActive", "Customer");}
+			@foreach (CustomerView customer in Model)
+			{
+				string detailUrl = Url.Action("Edit", "Customer", new { customerId = customer.Id });
+				<tr>
+					<td><a href="@detailUrl" class="text-decoration-none">@customer.Id</a></td>
+					<td><a href="@detailUrl" class="text-decoration-none">@customer.Email</a></td>
+					<td>@customer.FirstName</td>
+					<td>@customer.MiddleName</td>
+					<td>@customer.LastName</td>
+					<td>
+						<form action="@formAction" method="put">
+							<input type="hidden" name="customerId" value="@customer.Id" />
+							<input @(customer.Active ? "checked" : "") class="submitOnChange" name="active"
+								   type="checkbox" data-toggle="toggle" value="true"
+								   error="Something went wrong while changing user active"
+								   data-onstyle="success" data-offstyle="danger" data-size="small"
+								   data-on="<i class='fas fa-lock-open'></i>"
+								   data-off="<i class='fa fa-lock'></i>" />
+						</form>
+					</td>
+					<td><a asp-action="Search" asp-controller="Order" asp-route-customerId="@customer.Id" class="btn btn-sm btn-primary">View orders</a></td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

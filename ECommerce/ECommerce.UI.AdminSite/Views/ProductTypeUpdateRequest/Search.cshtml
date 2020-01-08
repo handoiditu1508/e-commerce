@@ -1,0 +1,20 @@
+﻿@model ProductTypeUpdateRequestsListViewModel
+
+@await Html.PartialAsync("ProductTypeUpdateRequestFilterForm", Model.SearchModel)
+
+@await Html.PartialAsync("ProductTypeUpdateRequestsTable", Model.ProductTypeUpdateRequests)
+
+<div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="d-flex justify-content-center"
+	 page-class="page-item" page-class-normal=""
+	 page-class-selected="active" page-class-disabled="disabled"
+	 page-url-sellerId="Model.SearchModel.SearchModel.SellerId" page-url-productTypeId="Model.SearchModel.SearchModel.ProductTypeId"
+	 page-url-searchString="Model.SearchModel.SearchModel.SearchString" page-url-categoryId="Model.SearchModel.SearchModel.CategoryId">
+</div>
+
+@section Scripts{
+	<script src="~/js/category-picker.js"></script>
+}
+
+@section Styles{
+	<link rel="stylesheet" href="~/css/category-picker.css" />
+}

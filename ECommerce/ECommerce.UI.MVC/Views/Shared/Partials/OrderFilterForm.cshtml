@@ -1,146 +1,163 @@
 ﻿@model OrderSearchViewModel
 
-<form action="@Model.Url" method="get">
-	<div asp-validation-summary="All" class="text-danger"></div>
+<fieldset class="border rounded pl-3 pr-3 mb-3">
+	<legend>Find Products By:</legend>
+	<form action="@Model.Url" method="get">
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-	<div class="form-row">
-		@if (Model.ShowSellerId)
-		{
-		<div class="form-group col-md-4">
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<label asp-for="SearchModel.SellerId" class="control-label input-group-text"></label>
-				</div>
-				<input name="sellerId" asp-for="SearchModel.SellerId" class="form-control" />
-			</div>
-			<span asp-validation-for="SearchModel.SellerId" class="text-danger"></span>
-		</div>
-		}
-		@if (Model.ShowProductTypeId)
-		{
-		<div class="form-group col-md-4">
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<label asp-for="SearchModel.ProductTypeId" class="control-label input-group-text"></label>
-				</div>
-				<input name="productTypeId" asp-for="SearchModel.ProductTypeId" class="form-control" />
-			</div>
-			<span asp-validation-for="SearchModel.ProductTypeId" class="text-danger"></span>
-		</div>
-		}
-		@if (Model.ShowCustomerId)
-		{
-		<div class="form-group col-md-4">
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<label asp-for="SearchModel.CustomerId" class="control-label input-group-text"></label>
-				</div>
-				<input name="customerId" asp-for="SearchModel.CustomerId" class="form-control" />
-			</div>
-			<span asp-validation-for="SearchModel.CustomerId" class="text-danger"></span>
-		</div>
-		}
-	</div>
-
-	@if(Model.ShowQuantity)
-	{
-	<div class="form-group">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<label asp-for="SearchModel.Quantity" class="control-label input-group-text"></label>
-			</div>
-			@if(Model.ShowQuantityIndication)
+		<div class="form-row">
+			@if(Model.ShowId)
 			{
-			<select name="priceIndication" class="custom-select">
-				@if (Model.SearchModel.QuantityIndication == null)
+			<div class="form-group col-md-6">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.Id" class="control-label input-group-text"></label>
+					</div>
+					<input type="number" name="id" asp-for="SearchModel.Id" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.Id" class="text-danger"></span>
+			</div>
+			}
+			@if(Model.ShowStatus)
+			{
+			<div class="form-group col-md-6">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.Status" class="control-label input-group-text"></label>
+					</div>
+					<select class="form-control" name="status" enum-type="typeof(OrderStatus)" selected="Model.SearchModel.Status" option-label=""></select>
+				</div>
+			</div>
+			}
+		</div>
+
+		<div class="form-row">
+			@if (Model.ShowSellerId)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.SellerId" class="control-label input-group-text"></label>
+					</div>
+					<input type="number" name="sellerId" asp-for="SearchModel.SellerId" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.SellerId" class="text-danger"></span>
+			</div>
+			}
+			@if (Model.ShowProductTypeId)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.ProductTypeId" class="control-label input-group-text"></label>
+					</div>
+					<input type="number" name="productTypeId" asp-for="SearchModel.ProductTypeId" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.ProductTypeId" class="text-danger"></span>
+			</div>
+			}
+			@if (Model.ShowCustomerId)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.CustomerId" class="control-label input-group-text"></label>
+					</div>
+					<input type="number" name="customerId" asp-for="SearchModel.CustomerId" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.CustomerId" class="text-danger"></span>
+			</div>
+			}
+		</div>
+
+		@if(Model.ShowQuantity)
+		{
+		<div class="form-group">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<label asp-for="SearchModel.Quantity" class="control-label input-group-text"></label>
+				</div>
+				@if(Model.ShowQuantityIndication)
 				{
-					<option value="-1">Lesser than</option>
-					<option value="0">Equal to</option>
-					<option value="1">Greater than</option>
-				}
-				else
-				{
-					if (Model.SearchModel.QuantityIndication < 0)
-					{
-						<option selected value="-1">Lesser than</option>
-						<option value="0">Equal to</option>
-						<option value="1">Greater than</option>
-					}
-					else if (Model.SearchModel.QuantityIndication > 0)
+				<select name="priceIndication" class="custom-select">
+					@if (Model.SearchModel.QuantityIndication == null)
 					{
 						<option value="-1">Lesser than</option>
 						<option value="0">Equal to</option>
-						<option selected value="1">Greater than</option>
+						<option value="1">Greater than</option>
 					}
 					else
 					{
-						<option value="-1">Lesser than</option>
-						<option selected value="0">Equal to</option>
-						<option value="1">Greater than</option>
+						if (Model.SearchModel.QuantityIndication < 0)
+						{
+							<option selected value="-1">Lesser than</option>
+							<option value="0">Equal to</option>
+							<option value="1">Greater than</option>
+						}
+						else if (Model.SearchModel.QuantityIndication > 0)
+						{
+							<option value="-1">Lesser than</option>
+							<option value="0">Equal to</option>
+							<option selected value="1">Greater than</option>
+						}
+						else
+						{
+							<option value="-1">Lesser than</option>
+							<option selected value="0">Equal to</option>
+							<option value="1">Greater than</option>
+						}
 					}
+				</select>
 				}
-			</select>
-			}
-			<input name="price" asp-for="SearchModel.Quantity" class="form-control" />
-		</div>
-		<span asp-validation-for="SearchModel.Quantity" class="text-danger"></span>
-	</div>
-	}
-
-	@if(Model.ShowTotalValue)
-	{
-	<div class="form-group">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<label asp-for="SearchModel.TotalValue" class="control-label input-group-text"></label>
+				<input type="number" name="price" asp-for="SearchModel.Quantity" class="form-control" />
 			</div>
-			@if(Model.ShowTotalValueIndication)
-			{
-			<select name="priceIndication" class="custom-select">
-				@if (Model.SearchModel.TotalValueIndication == null)
+			<span asp-validation-for="SearchModel.Quantity" class="text-danger"></span>
+		</div>
+		}
+
+		@if(Model.ShowTotalValue)
+		{
+		<div class="form-group">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<label asp-for="SearchModel.TotalValue" class="control-label input-group-text"></label>
+				</div>
+				@if(Model.ShowTotalValueIndication)
 				{
-					<option value="-1">Lesser than</option>
-					<option value="0">Equal to</option>
-					<option value="1">Greater than</option>
-				}
-				else
-				{
-					if (Model.SearchModel.TotalValueIndication < 0)
-					{
-						<option selected value="-1">Lesser than</option>
-						<option value="0">Equal to</option>
-						<option value="1">Greater than</option>
-					}
-					else if (Model.SearchModel.TotalValueIndication > 0)
+				<select name="priceIndication" class="custom-select">
+					@if (Model.SearchModel.TotalValueIndication == null)
 					{
 						<option value="-1">Lesser than</option>
 						<option value="0">Equal to</option>
-						<option selected value="1">Greater than</option>
+						<option value="1">Greater than</option>
 					}
 					else
 					{
-						<option value="-1">Lesser than</option>
-						<option selected value="0">Equal to</option>
-						<option value="1">Greater than</option>
+						if (Model.SearchModel.TotalValueIndication < 0)
+						{
+							<option selected value="-1">Lesser than</option>
+							<option value="0">Equal to</option>
+							<option value="1">Greater than</option>
+						}
+						else if (Model.SearchModel.TotalValueIndication > 0)
+						{
+							<option value="-1">Lesser than</option>
+							<option value="0">Equal to</option>
+							<option selected value="1">Greater than</option>
+						}
+						else
+						{
+							<option value="-1">Lesser than</option>
+							<option selected value="0">Equal to</option>
+							<option value="1">Greater than</option>
+						}
 					}
+				</select>
 				}
-			</select>
-			}
-			<input name="price" asp-for="SearchModel.TotalValue" class="form-control" />
-		</div>
-		<span asp-validation-for="SearchModel.TotalValue" class="text-danger"></span>
-	</div>
-	}
-
-	@if(Model.ShowStatus)
-	{
-	<div class="form-group">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<label asp-for="SearchModel.Status" class="control-label input-group-text"></label>
+				<input name="price" type="number" asp-for="SearchModel.TotalValue" class="form-control" />
 			</div>
-			<select class="form-control" name="status" enum-type="typeof(OrderStatus)" selected="Model.SearchModel.Status" option-label=""></select>
+			<span asp-validation-for="SearchModel.TotalValue" class="text-danger"></span>
 		</div>
-	</div>
-	}
-</form>
+		}
+	</form>
+</fieldset>

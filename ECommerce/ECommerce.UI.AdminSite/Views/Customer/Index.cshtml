@@ -1,3 +1,3 @@
-﻿@model CustomerSearchModel
+﻿@model CustomerSearchViewModel
 
-@Html.DisplayFor(m => m, "CustomerFilterForm")
+@await Html.PartialAsync("CustomerFilterForm", Model)

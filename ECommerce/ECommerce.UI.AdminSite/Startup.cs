@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using ECommerce.UI.Shared.Extensions;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,13 @@ namespace ECommerce.UI.AdminSite
 	{
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddMvc();
+			services.AddMvc().AddRazorOptions(option =>
+			{
+				option.ViewLocationFormats.Add("/Views/Shared/Partials/{0}.cshtml");
+				option.ViewLocationFormats.Add("/Pages/Shared/Partials/{0}.cshtml");
+				option.ViewLocationFormats.Add("/Views/Shared/ClientLibraries/{0}.cshtml");
+				option.ViewLocationFormats.Add("/Pages/Shared/ClientLibraries/{0}.cshtml");
+			});
 			services.AddScoped(sp => DefaultDataTier.GetUnitOfWork(sp));
 			services.AddHttpContextAccessor();
 			services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -29,8 +36,7 @@ namespace ECommerce.UI.AdminSite
 			{
 				routes.MapRoute(
 					name: "Default",
-					template: null,
-					defaults: "{controller=Home}/{action=Index}/{id?}");
+					template: $"{{controller={UrlHelperExtensions.DefaultController}}}/{{action={UrlHelperExtensions.DefaultAction}}}/{{id?}}");
 			});
 		}
 	}

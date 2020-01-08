@@ -1,22 +1,13 @@
-﻿@if (ViewData[GlobalViewBagKeys.Errors] != null)
-{
-	<div class="alert alert-danger errorZone">
-		@{
+﻿<div id="errorZone" class="alert alert-danger d-none">
+	<div id="errorContent">
+		@if (ViewData[GlobalViewBagKeys.Errors] != null)
+		{
 			IEnumerable<string> errors = (IEnumerable<string>)ViewData[GlobalViewBagKeys.Errors];
 			foreach (string error in errors)
 			{
 				<p>@error</p>
 			}
 		}
-		<button type="button" class="btn btn-sm btn-danger float-right closeErrorZoneBtn">X</button>
 	</div>
-
-	<script type="text/javascript">
-		$('.closeErrorZoneBtn').click(
-			function (event) {
-				event.preventDefault();
-				//close all error zone
-				$('.errorZone').remove();
-			});
-	</script>
-}
+	<button id="closeErrorZoneBtn" class="btn btn-sm btn-danger float-right">X</button>
+</div>

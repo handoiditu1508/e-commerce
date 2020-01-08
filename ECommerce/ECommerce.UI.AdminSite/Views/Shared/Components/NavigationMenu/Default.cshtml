@@ -1,5 +1,81 @@
-﻿@model IEnumerable<CategoryView>
-
-<div class="card bg-light mb-3">
-	@await Component.InvokeAsync("CategoriesList")
+﻿<div class="sidebar">
+	<div class="user-panel bg-dark">
+		<div class="image float-left">
+			<img src="http://via.placeholder.com/160x160" class="rounded-circle" alt="User Image">
+		</div>
+		<div class="info float-left ml-2">
+			<p>bootstrap develop</p>
+			<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+		</div>
+	</div>
+	<ul class="list-sidebar bg-dark">
+		<li>
+			<a href="#" data-toggle="collapse" data-target="#product-type-nav" class="collapsed active">
+				<i class="fab fa-product-hunt"></i>
+				<span class="nav-label">Product Types</span>
+				<span class="fa fa-chevron-left float-right"></span>
+			</a>
+			<ul class="sub-menu collapse" id="product-type-nav">
+				<li><a asp-action="Index" asp-controller="ProductType">Lists</a></li>
+				<li><a asp-action="Create" asp-controller="ProductType">Create</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#" data-toggle="collapse" data-target="#category-nav" class="collapsed active">
+				<i class="fa fa-list"></i>
+				<span class="nav-label">Categories</span>
+				<span class="fa fa-chevron-left float-right"></span>
+			</a>
+			<ul class="sub-menu collapse" id="category-nav">
+				<li><a href="#">Lists</a></li>
+				<li><a href="#">Create</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#" data-toggle="collapse" data-target="#product-nav" class="collapsed active">
+				<i class="fab fa-product-hunt"></i>
+				<span class="nav-label">Products</span>
+				<span class="fa fa-chevron-left float-right"></span>
+			</a>
+			<ul class="sub-menu collapse" id="product-nav">
+				<li><a asp-action="Index" asp-controller="Product">Lists</a></li>
+				<li><a href="#">Create</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#" data-toggle="collapse" data-target="#seller-nav" class="collapsed active">
+				<i class="fa fa-user-tag"></i>
+				<span class="nav-label">Sellers</span>
+				<span class="fa fa-chevron-left float-right"></span>
+			</a>
+			<ul class="sub-menu collapse" id="seller-nav">
+				<li><a asp-action="Index" asp-controller="Seller">Lists</a></li>
+				<li><a asp-action="Create" asp-controller="Seller">Create</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#" data-toggle="collapse" data-target="#customer-nav" class="collapsed active">
+				<i class="fa fa-user"></i>
+				<span class="nav-label">Customers</span>
+				<span class="fa fa-chevron-left float-right"></span>
+			</a>
+			<ul class="sub-menu collapse" id="customer-nav">
+				<li><a asp-action="Index" asp-controller="Customer">Lists</a></li>
+				<li><a asp-action="Create" asp-controller="Customer">Create</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#" data-toggle="collapse" data-target="#order-nav" class="collapsed active">
+				<i class="fa fa-receipt"></i>
+				<span class="nav-label">Orders</span>
+				<span class="fa fa-chevron-left float-right"></span>
+			</a>
+			<ul class="sub-menu collapse" id="order-nav">
+				<li><a asp-action="Index" asp-controller="Order">Lists</a></li>
+				<li><a href="#">Create</a></li>
+			</ul>
+		</li>
+		<li> <a href="#"><i class="fa fa-user-tie"></i> <span class="nav-label">Admins</span></a> </li>
+		<li> <a href="#"><i class="fa fa-address-card"></i> <span class="nav-label">Contact</span></a> </li>
+	</ul>
 </div>

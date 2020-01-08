@@ -1,3 +1,11 @@
-﻿@model ProductTypeSearchModel
+﻿@model ProductTypeSearchViewModel
 
-@Html.DisplayFor(m => m, "ProductTypeFilterForm")
+@await Html.PartialAsync("ProductTypeFilterForm", Model)
+
+@section Scripts{
+	<script src="~/js/category-picker.js"></script>
+}
+
+@section Styles{
+	<link rel="stylesheet" href="~/css/category-picker.css" />
+}

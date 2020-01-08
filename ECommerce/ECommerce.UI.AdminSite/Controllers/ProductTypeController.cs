@@ -1,9 +1,11 @@
 ﻿using ECommerce.Application;
+using ECommerce.Application.WorkingModels.AddModels;
 using ECommerce.Application.WorkingModels.UpdateModels;
 using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Messages;
 using ECommerce.Models.SearchModels;
 using ECommerce.UI.AdminSite.Infrastructure;
 using ECommerce.UI.AdminSite.Models.ViewModels;
@@ -22,7 +24,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 	{
 		private ECommerceService eCommerce;
 		private AdminLoginPersistence loginPersistence;
-		private short recordsPerPage = PagingInfo.DefaultRecordsPerPage;
+		private short recordsPerPage = 20;
 
 		public ProductTypeController(IHttpContextAccessor accessor, IUnitOfWork unitOfWork)
 		{
@@ -30,30 +32,26 @@ namespace ECommerce.UI.AdminSite.Controllers
 			loginPersistence = new AdminLoginPersistence(accessor, unitOfWork);
 		}
 
+		[HttpGet]
 		[AdminLoginRequired]
-		public IActionResult Index() => View(new ProductTypeSearchModel { ProductStatus = ProductStatus.Validating });
-
-		[AdminLoginRequired]
-		public async Task<IActionResult> Search(string searchString, int? categoryId, ProductTypeStatus? status, string dateModified, ProductStatus? productStatus, short? page = 1)
+		public IActionResult Index() => View(new ProductTypeSearchViewModel
 		{
-			DateTime? convertedDateModified = null;
-			if (!string.IsNullOrWhiteSpace(dateModified))
-			{
-				try
-				{
-					convertedDateModified = DateTime.ParseExact(dateModified, "yyyy-MM-dd", null);
-				}
-				catch
-				{ }
-			}
-			ProductTypeSearchModel searchModel = new ProductTypeSearchModel
-			{
-				SearchString = searchString,
-				CategoryId = categoryId,
-				Status = status,
-				DateModified = convertedDateModified,
-				ProductStatus = productStatus
-			};
+			SearchModel = new ProductTypeSearchModel(),
+			Url = Url.Action(nameof(Search), "ProductType"),
+
+			ShowId = true,
+			ShowCategoryId = true,
+			ShowDateModified = true,
+			ShowHasActiveProduct = true,
+			ShowProductStatus = true,
+			ShowSearchString = true,
+			ShowStatus = true
+		});
+
+		[HttpGet]
+		[AdminLoginRequired]
+		public async Task<IActionResult> Search(ProductTypeSearchModel searchModel, short? page = 1)
+		{
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductTypesListViewModel
 			{
@@ -64,89 +62,56 @@ namespace ECommerce.UI.AdminSite.Controllers
 					RecordsPerPage = recordsPerPage,
 					TotalRecords = await eCommerce.CountProductTypesByAsync(searchModel)
 				},
-				SearchModel = searchModel
+				SearchModel = new ProductTypeSearchViewModel{
+					SearchModel = searchModel,
+					Url = Url.Action(nameof(Search), "ProductType"),
+
+					ShowId = true,
+					ShowCategoryId = true,
+					ShowDateModified = true,
+					ShowHasActiveProduct = true,
+					ShowProductStatus = true,
+					ShowSearchString = true,
+					ShowStatus = true
+				}
 			});
 		}
 
 		[HttpGet]
 		[AdminLoginRequired]
-		public async Task<IActionResult> Informations(int productTypeId)
+		public async Task<IActionResult> Edit(int productTypeId)
 		{
-			ProductTypeView productType = await eCommerce.GetProductTypeByAsync(productTypeId);
-			return productType != null ? View(productType) : (IActionResult)NotFound();
+			var productType = await eCommerce.GetProductTypeByAsync(productTypeId);
+			if (productType == null)
+				return NotFound();
+			return View(new ProductTypeUpdateViewModel {
+				Id = productTypeId,
+				UpdateModel = new ProductTypeUpdateModel {
+					CategoryId = productType.CategoryId,
+					Name = productType.Name
+				},
+				Status = productType.Status
+			});
 		}
 
 		[HttpPost]
 		[AdminLoginRequired]
-		public async Task<IActionResult> Informations(ProductTypeView productType)
+		public async Task<IActionResult> Edit(ProductTypeUpdateViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				var message = await eCommerce.UpdateProductTypeAsync(productType.Id,
-					new ProductTypeUpdateModel
-					{
-						Name = productType.Name,
-						CategoryId = productType.CategoryId
-					});
+				var message = await eCommerce.UpdateProductTypeAsync(model.Id, model.UpdateModel);
 				if (message.Errors.Any())
 				{
 					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
-				}
-				else
-				{
-					ProductTypeView updatedProductType = await eCommerce.GetProductTypeByAsync(productType.Id);
-
-					ICollection<string> messages = new List<string>();
-					messages.Add("Product type informations updated");
-					ViewData[GlobalViewBagKeys.Messages] = messages;
-
-					return View(updatedProductType);
+					return View(model);
 				}
 			}
-			return View(productType);
+			return View(model);
 		}
 
-		[AdminLoginRequired]
-		public IActionResult Product(int productTypeId, decimal? price, short? priceIndication, ProductStatus? status, bool? active, short? page = 1)
-		{
-			ProductSearchModel searchModel = new ProductSearchModel
-			{
-				ProductTypeId = productTypeId,
-				Price = price,
-				PriceIndication = priceIndication,
-				Status = status,
-				Active = active
-			};
-			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
-			return View(new ProductsListViewModel
-			{
-				Products = eCommerce.GetProductsByProductTypeId(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
-				PagingInfo = new PagingInfo
-				{
-					CurrentPage = (short)page,
-					RecordsPerPage = recordsPerPage,
-					TotalRecords = eCommerce.CountProductsByProductTypeId(searchModel)
-				},
-				SearchModel = new ProductSearchViewModel
-				{
-					SearchModel = searchModel,
-
-					Url = Url.Action(nameof(Product), nameof(ProductTypeController)),
-
-					ShowPrice = true,
-					ShowPriceIndication = true,
-					ShowActive = true,
-					ShowStatus = true,
-
-					ShowSearchString = false,
-					ShowCategoryId = false,
-					ShowMinimumQuantity = false,
-					ShowProductTypeStatus = false
-				}
-			});
-		}
-
-		[AdminLoginRequired]
+		//move to update request controller
+		/*[AdminLoginRequired]
 		public IActionResult UpdateRequest(short? page = 1)
 		{
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
@@ -160,8 +125,9 @@ namespace ECommerce.UI.AdminSite.Controllers
 					TotalRecords = eCommerce.CountProductTypeUpdateRequests()
 				}
 			});
-		}
+		}*/
 
+		//move to update request controller
 		[AdminLoginRequired]
 		public async Task<IActionResult> UpdateRequestDetail(int sellerId, int productTypeId)
 		{
@@ -170,6 +136,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 			return updateRequest != null ? View(updateRequest) : (IActionResult)NotFound();
 		}
 
+		//move to update request controller
 		[HttpPost]
 		[AdminLoginRequired]
 		public async Task<IActionResult> ApplyUpdateRequest(int sellerId, int productTypeId)
@@ -184,29 +151,57 @@ namespace ECommerce.UI.AdminSite.Controllers
 			return RedirectToAction("UpdateRequest");
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> ChangeStatus(int productTypeId, ProductTypeStatus status)
+		[HttpPut]
+		public async Task<Message> ChangeStatus(int productTypeId, ProductTypeStatus status)
 		{
+			var message = new Message();
 			if ((await loginPersistence.PersistLoginAsync()) == null)
-				return Json("Not login");
-
-			try
 			{
-				var message = await eCommerce.UpdateProductTypeStatusAsync(productTypeId, status);
+				message.Errors.Add("Not login");
+				return message;
+			}
+
+			return await eCommerce.UpdateProductTypeStatusAsync(productTypeId, status);
+		}
+
+		[HttpGet]
+		[AdminLoginRequired]
+		public IActionResult Create()
+		=> View(new ProductTypeAddModel
+		{
+			CategoryId = eCommerce.GetLastCategory().Id
+		});
+
+		[HttpPost]
+		[AdminLoginRequired]
+		public async Task<IActionResult> Create(ProductTypeAddModel addModel)
+		{
+			//check validation
+			if (ModelState.IsValid)
+			{
+				//add product type to database
+				var message = await eCommerce.AddProductTypeAsync(addModel);
+				ProductTypeView productType = message.Result;
+				//return if error happen
+				ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				if (message.Errors.Any())
 				{
-					string errorString = "";
-					foreach (string error in message.Errors)
-						errorString += error + "\n";
-					errorString.Remove(errorString.Length - 1);
-					return Json(errorString);
+					return View(addModel);
 				}
+
+				if (productType != null)
+				{
+					return View("MessageRedirect", new ReturnMessagesViewModel
+					{
+						Messages = new string[] { "Create successful" },
+						MessageType = MessageType.Success,
+						ConfirmString = "View detail",
+						RedirectUrl = Url.Action(nameof(Edit), new { productTypeId = message.Result.Id })
+					});
+				}
+				else message.Errors.Add("There is a problem adding product type please try again");
 			}
-			catch (Exception e)
-			{
-				return Json(e.Message);
-			}
-			return Json("");
+			return View(addModel);
 		}
 	}
 }

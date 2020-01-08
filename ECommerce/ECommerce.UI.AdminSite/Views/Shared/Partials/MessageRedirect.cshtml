@@ -1,0 +1,26 @@
+﻿@model ReturnMessagesViewModel
+
+@if(Model != null)
+{
+	string cssClasses = string.Empty;
+	if(Model.MessageType == MessageType.Error)
+	{
+		cssClasses = "alert-danger";
+	}
+	else if(Model.MessageType == MessageType.Info)
+	{
+		cssClasses = "alert-secondary";
+	}
+	else//MessageType.Success
+	{
+		cssClasses = "alert-success";
+	}
+	<div class="alert @cssClasses alert-dismissible fade show">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		@foreach (string message in Model.Messages)
+		{
+			@message<br />
+		}
+		<a href="@Model.RedirectUrl" class="alert-link">@Model.ConfirmString</a>
+	</div>
+}

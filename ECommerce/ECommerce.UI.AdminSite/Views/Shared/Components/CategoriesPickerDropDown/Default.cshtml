@@ -1,6 +1,11 @@
 ﻿@model CategoriesDropDownViewModel
 
 @{
+	//required: category-picker.js, script.js(imported in _Layout.cshtml)
+	//required: category-picker.css
+}
+
+@{
 	TagBuilder output = new TagBuilder("div");
 	output.AddCssClass("btn-group dropdown-hover");
 	output.AddCssClass(Model.AdditionalCssClass);

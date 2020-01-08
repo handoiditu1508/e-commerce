@@ -2,7 +2,7 @@
 
 @{
 //required: update-small-cart.js, product-detail.js
-//required: product-datail.css
+//required: product-detail.css
 }
 
 @{ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];}
@@ -80,7 +80,7 @@
 
 					<form asp-action="AddToCart" asp-controller="Cart" method="post" class="addToCartOnSubmit">
 						@{
-							var attributes = (await eCommerce.GetProductAttributesAsync(Model.SellerId, Model.ProductTypeId));
+							var attributes = await eCommerce.GetProductAttributesAsync(Model.SellerId, Model.ProductTypeId);
 							foreach (var attribute in attributes)
 							{
 								<h5 class="font-weight-bold text-uppercase">

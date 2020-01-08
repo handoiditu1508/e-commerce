@@ -1,11 +1,16 @@
-﻿@model IEnumerable<string>
+﻿@model DateTime
 
-@foreach(string path in Model)
+@if (Model == null)
 {
-	<img height="100" width="100" src="@path" />
+	<p>null</p>
+}
+else
+{
+	<p>@Model</p>
+	<p>@Model.ToString()</p>
 }
 
-<form method="post" enctype="multipart/form-data" asp-action="UploadImage">
-	<input type="file" multiple name="images" />
-	<input type="submit" value="Upload" />
+<form method="get">
+	<input type="date" name="myDate" />
+	<input type="submit" value="send" />
 </form>

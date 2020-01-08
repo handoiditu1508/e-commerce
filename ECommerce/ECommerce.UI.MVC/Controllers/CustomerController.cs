@@ -95,7 +95,7 @@ namespace ECommerce.UI.MVC.Controllers
 		[CustomerLoginRequired]
 		public async Task<IActionResult> PersonalInformations() => View(await loginPersistence.PersistLoginAsync());
 
-		[HttpPut]
+		[HttpPost]
 		[CustomerLoginRequired]
 		public async Task<IActionResult> PersonalInformations(CustomerView customer)
 		{
@@ -189,7 +189,7 @@ namespace ECommerce.UI.MVC.Controllers
 				SearchModel = new OrderSearchViewModel
 				{
 					SearchModel = searchModel,
-					Url = Url.Action(nameof(Order), nameof(CustomerController)),
+					Url = Url.Action(nameof(Order), "Customer"),
 
 					ShowSellerId = true,
 					ShowProductTypeId = true,

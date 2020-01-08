@@ -1,13 +1,22 @@
 ﻿@model CustomersListViewModel
 
-@Html.DisplayFor(m => m.SearchModel, "CustomerFilterForm")
+@await Html.PartialAsync("CustomerFilterForm", Model.SearchModel)
 
-@Html.DisplayFor(m => m.Customers, "CustomersTable")
+@await Html.PartialAsync("CustomersTable", Model.Customers)
 
 <div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="d-flex justify-content-center"
 	 page-class="page-item" page-class-normal=""
 	 page-class-selected="active" page-class-disabled="disabled"
-	 page-url-email="Model.SearchModel.Email" page-url-firstName="Model.SearchModel.FirstName"
-	 page-url-middleName="Model.SearchModel.MiddleName" page-url-lastName="Model.SearchModel.LastName"
-	 page-url-active="Model.SearchModel.Active">
+	 page-url-email="Model.SearchModel.SearchModel.Email" page-url-firstName="Model.SearchModel.SearchModel.FirstName"
+	 page-url-middleName="Model.SearchModel.SearchModel.MiddleName" page-url-lastName="Model.SearchModel.SearchModel.LastName"
+	 page-url-active="Model.SearchModel.SearchModel.Active" page-url-id="Model.SearchModel.SearchModel.Id">
 </div>
+
+@section Scripts{
+	<script src="~/js/submit-on-change.js"></script>
+	@await Html.PartialAsync("BootstrapToggle-Scripts")
+}
+
+@section Styles{
+	@await Html.PartialAsync("BootstrapToggle-Styles")
+}

@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "material-design-lite@1.3.0",
+      "destination": "wwwroot/lib/material-design-lite/",
+      "files": [
+        "material.min.js",
+        "material.min.js.map",
+        "material.min.css.map",
+        "material.min.css",
+        "material.purple-green.min.css"
+      ]
+    }
+  ]
+}

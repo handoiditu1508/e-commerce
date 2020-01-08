@@ -4,8 +4,8 @@ namespace ECommerce.UI.Shared.Models
 {
 	public class PagingInfo
 	{
-		public static short DefaultRecordsPerPage { get; set; } = 6;
-		public static short DefaultMaxPageLength { get; set; } = 7;
+		public const short DefaultRecordsPerPage = 6;
+		public const short DefaultMaxPageLength = 7;
 
 		public int TotalRecords { get; set; }
 		public short RecordsPerPage { get; set; } = DefaultRecordsPerPage;

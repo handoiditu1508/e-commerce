@@ -17,7 +17,7 @@ namespace ECommerce.Application.WorkingModels.Views
 
 		[Required]
 		[MinLength(1)]
-		[Display(Name = "Product Type Name")]
+		[Display(Name = "New Product Type Name")]
 		public string Name { get; set; }
 
 		[Required]

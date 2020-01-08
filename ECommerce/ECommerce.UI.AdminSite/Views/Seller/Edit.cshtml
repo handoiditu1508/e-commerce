@@ -1,0 +1,59 @@
+﻿@model SellerUpdateViewModel
+
+<a href="#">click here to change seller's password</a>
+
+<form asp-action="ChangeStatus" asp-controller="Seller" method="post">
+	<input type="hidden" name="sellerId" value="@Model.Id" />
+
+	<div class="form-group">
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<label class="control-label input-group-text">Customer's Status</label>
+			</div>
+			<select class="form-control submitOnChange" name="status" enum-type="typeof(SellerStatus)" selected="Model.Status" error="Something went wrong while changing seller status"></select>
+		</div>
+	</div>
+</form>
+
+<fieldset class="border rounded pl-3 pr-3 mb-3">
+	<legend>Edit Customer's Infomations:</legend>
+	<form method="put">
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="Id" class="control-label input-group-text"></label>
+					</div>
+					<input asp-for="Id" readonly />
+				</div>
+			</div>
+		</div>
+		<input asp-for="Status" type="hidden" />
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="UpdateModel.Name" class="control-label input-group-text"></label>
+					</div>
+					<input asp-for="UpdateModel.Name" />
+				</div>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="UpdateModel.PhoneNumber" class="control-label input-group-text"></label>
+					</div>
+					<input asp-for="UpdateModel.PhoneNumber" />
+				</div>
+			</div>
+		</div>
+	</form>
+	<input type="submit" value="Save" class="btn btn-success" />
+</fieldset>
+
+@section Scripts{
+	<script src="~/js/submit-on-change.js"></script>
+}

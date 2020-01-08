@@ -29,6 +29,11 @@ namespace ECommerce.Persistence.EF.Repositories
 
 			if (searchModel != null)
 			{
+				if(searchModel.Id != null)
+				{
+					string id = searchModel.Id.ToString();
+					admins = admins.Where(a => a.Id.ToString().Contains(id));
+				}
 				if (!string.IsNullOrEmpty(searchModel.FirstName))
 					admins = admins
 						.Where(c => c.Name.FirstName.ToLower()

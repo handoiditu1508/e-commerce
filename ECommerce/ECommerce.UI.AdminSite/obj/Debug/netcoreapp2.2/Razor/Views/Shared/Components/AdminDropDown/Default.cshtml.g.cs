@@ -13,97 +13,102 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #line 1 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Models.Entities;
+using ECommerce.Application.WorkingModels.AddModels;
 
 #line default
 #line hidden
 #line 2 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Entities;
 
 #line default
 #line hidden
 #line 3 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Models.Entities.ProductTypes;
+using ECommerce.Models.Entities.Sellers;
 
 #line default
 #line hidden
 #line 4 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Models.Entities.Customers;
+using ECommerce.Models.Entities.ProductTypes;
 
 #line default
 #line hidden
 #line 5 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Application;
+using ECommerce.Models.Entities.Customers;
 
 #line default
 #line hidden
 #line 6 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Application.WorkingModels.Views;
+using ECommerce.Application;
 
 #line default
 #line hidden
 #line 7 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.Models.SearchModels;
+using ECommerce.Application.WorkingModels.Views;
 
 #line default
 #line hidden
 #line 8 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.UI.AdminSite;
+using ECommerce.Models.SearchModels;
 
 #line default
 #line hidden
 #line 9 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.UI.AdminSite.Models;
+using ECommerce.UI.AdminSite;
 
 #line default
 #line hidden
 #line 10 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.UI.AdminSite.Infrastructure;
+using ECommerce.UI.AdminSite.Models;
 
 #line default
 #line hidden
 #line 11 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.UI.AdminSite.Models.ViewModels;
+using ECommerce.UI.AdminSite.Infrastructure;
 
 #line default
 #line hidden
 #line 12 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.UI.Shared;
+using ECommerce.UI.AdminSite.Models.ViewModels;
 
 #line default
 #line hidden
 #line 13 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.UI.Shared.Extensions;
+using ECommerce.UI.Shared;
 
 #line default
 #line hidden
 #line 14 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.UI.Shared.Models;
+using ECommerce.UI.Shared.Extensions;
 
 #line default
 #line hidden
 #line 15 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.UI.Shared.Models.ViewModels;
+using ECommerce.UI.Shared.Models;
 
 #line default
 #line hidden
 #line 16 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using ECommerce.UI.Shared.Infrastructure;
+using ECommerce.UI.Shared.Models.ViewModels;
 
 #line default
 #line hidden
 #line 17 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
-using Microsoft.AspNetCore.Mvc.Routing;
+using ECommerce.UI.Shared.Infrastructure;
 
 #line default
 #line hidden
 #line 18 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Mvc.Routing;
+
+#line default
+#line hidden
+#line 19 "E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.AdminSite\Views\_ViewImports.cshtml"
 using System;
 
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"3c68d829601278bece40466214f4bf7194746422", @"/Views/Shared/Components/AdminDropDown/Default.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1501be6d4c2f07e63184a7a4f03a557bcef6d73d", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"766bc9fbd8c49b4d5cb749e8e3de72409ac2f3a6", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_Components_AdminDropDown_Default : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<AdminView>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("dropdown-item"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -150,7 +155,7 @@ using System;
             WriteLiteral("\t<div class=\"dropdown\">\r\n\t\t<button class=\"btn btn-success btn-sm ml-1 dropdown-toggle overflow-txt\" type=\"button\" data-toggle=\"dropdown\">\r\n\t\t\t<i class=\"fas fa-user-tie\"></i>\r\n\t\t</button>\r\n\t\t<ul class=\"dropdown-menu\">\r\n\t\t\t<li>\r\n\t\t\t\t");
             EndContext();
             BeginContext(275, 339, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3c68d829601278bece40466214f4bf71947464229826", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3c68d829601278bece40466214f4bf719474642210044", async() => {
                 BeginContext(592, 18, true);
                 WriteLiteral("\r\n\t\t\t\t\tLogin\r\n\t\t\t\t");
                 EndContext();
@@ -220,7 +225,7 @@ WriteAttributeValue("", 800, Model.Email, 800, 12, false);
             WriteLiteral("\r\n\t\t</button>\r\n\t\t<ul class=\"dropdown-menu\">\r\n\t\t\t<li>\r\n\t\t\t\t");
             EndContext();
             BeginContext(921, 134, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3c68d829601278bece40466214f4bf719474642214330", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3c68d829601278bece40466214f4bf719474642214549", async() => {
                 BeginContext(1017, 34, true);
                 WriteLiteral("\r\n\t\t\t\t\tPersonal Informations\r\n\t\t\t\t");
                 EndContext();
@@ -246,7 +251,7 @@ WriteAttributeValue("", 800, Model.Email, 800, 12, false);
             WriteLiteral("\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\t");
             EndContext();
             BeginContext(1080, 294, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3c68d829601278bece40466214f4bf719474642216156", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3c68d829601278bece40466214f4bf719474642216375", async() => {
                 BeginContext(1143, 44, true);
                 WriteLiteral("\r\n\t\t\t\t\t<input type=\"hidden\" name=\"returnUrl\"");
                 EndContext();

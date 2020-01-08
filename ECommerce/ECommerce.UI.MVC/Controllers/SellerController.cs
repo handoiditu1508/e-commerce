@@ -111,7 +111,7 @@ namespace ECommerce.UI.MVC.Controllers
 		[SellerLoginRequired]
 		public async Task<IActionResult> PersonalInformations() => View(await loginPersistence.PersistLoginAsync());
 
-		[HttpPut]
+		[HttpPost]
 		[SellerLoginRequired]
 		public async Task<IActionResult> PersonalInformations(SellerView seller)
 		{
@@ -180,14 +180,12 @@ namespace ECommerce.UI.MVC.Controllers
 
 		[HttpGet]
 		[SellerLoginRequired]
-		public async Task<IActionResult> Product(short? page = 1)
+		public async Task<IActionResult> Product(ProductSearchModel searchModel, short? page = 1)
 		{
 			SellerView seller = await loginPersistence.PersistLoginAsync();
 
-			ProductSearchModel searchModel = new ProductSearchModel
-			{
-				SellerId = seller.Id
-			};
+			searchModel.SellerId = seller.Id;
+
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductsListViewModel
 			{
@@ -197,6 +195,22 @@ namespace ECommerce.UI.MVC.Controllers
 					CurrentPage = (short)page,
 					RecordsPerPage = recordsPerPage,
 					TotalRecords = await eCommerce.CountProductsBySellerIdAsync(searchModel)
+				},
+				SearchModel = new ProductSearchViewModel
+				{
+					SearchModel = searchModel,
+
+					Url = Url.Action(nameof(Product), "Seller"),
+
+					ShowCategoryId = true,
+					ShowPrice = true,
+					ShowPriceIndication = true,
+					ShowSearchString = true,
+					ShowActive = true,
+					ShowMinimumQuantity = true,
+					ShowProductTypeStatus = true,
+					ShowStatus = true,
+					ShowProductTypeId = true
 				}
 			});
 		}
@@ -232,7 +246,7 @@ namespace ECommerce.UI.MVC.Controllers
 			}
 
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
-			return View(new UpdateProductViewModel
+			return View(new ProductUpdateViewModel
 			{
 				SellerId = seller.Id,
 				ProductTypeId = productTypeId,
@@ -240,12 +254,14 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 		}
 
-		[HttpPut]
+		[HttpPost]
 		[SellerLoginRequired]
-		public async Task<IActionResult> UpdateProduct(UpdateProductViewModel updateViewModel,
+		public async Task<IActionResult> UpdateProduct(ProductUpdateViewModel updateViewModel,
 		IEnumerable<IFormFile> images)
 		{
 			SellerView seller = await loginPersistence.PersistLoginAsync();
+
+			updateViewModel.SellerId = seller.Id;
 
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			if (ModelState.IsValid)
@@ -350,7 +366,7 @@ namespace ECommerce.UI.MVC.Controllers
 					messages.Add("Update product succeed");
 					ViewData[GlobalViewBagKeys.Messages] = messages;
 
-					return RedirectToAction("Product");
+					return View(updateViewModel);
 				}
 			}
 		end:
@@ -363,7 +379,7 @@ namespace ECommerce.UI.MVC.Controllers
 		{
 			SellerView seller = await loginPersistence.PersistLoginAsync();
 			var attributes = await eCommerce.GetProductAttributesAsync(seller.Id, productTypeId);
-			return View(new UpdateProductAttributesViewModel
+			return View(new ProductAttributesUpdateViewModel
 			{
 				SellerId = seller.Id,
 				ProductTypeId = productTypeId,
@@ -372,11 +388,11 @@ namespace ECommerce.UI.MVC.Controllers
 			});
 		}
 
-		[HttpPut]
+		[HttpPost]
 		[SellerLoginRequired]
 		public async Task<IEnumerable<string>> ProductAttributes(string serializedUpdateViewModel)
 		{
-			var updateViewModel = JsonConvert.DeserializeObject<UpdateProductAttributesViewModel>(serializedUpdateViewModel);
+			var updateViewModel = JsonConvert.DeserializeObject<ProductAttributesUpdateViewModel>(serializedUpdateViewModel);
 			SellerView seller = await loginPersistence.PersistLoginAsync();
 
 			var errors = new List<string>();
@@ -514,7 +530,7 @@ namespace ECommerce.UI.MVC.Controllers
 				SearchModel = new OrderSearchViewModel
 				{
 					SearchModel = searchModel,
-					Url = Url.Action(nameof(Order), nameof(SellerController)),
+					Url = Url.Action(nameof(Order), "SellerController"),
 
 					ShowCustomerId = true,
 					ShowProductTypeId = true,

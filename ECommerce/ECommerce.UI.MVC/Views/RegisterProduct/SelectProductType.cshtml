@@ -2,7 +2,7 @@
 
 <form class="float-left" asp-action="SelectProductType" method="get">
 	<div class="input-group mb-3">
-		<input class="form-control" type="text" name="searchString" value="@Model.SearchModel.SearchString" placeholder="Find product types" />
+		<input class="form-control" type="text" name="searchString" value="@Model.SearchModel.SearchModel.SearchString" placeholder="Find product types" />
 		<div class="input-group-append">
 			<input class="btn btn-success" type="submit" value="Find" />
 		</div>
@@ -21,7 +21,7 @@
 <div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="d-flex justify-content-center"
 	 page-class="page-item" page-class-normal=""
 	 page-class-selected="active" page-class-disabled="disabled"
-	 page-url-searchString="Model.SearchModel.SearchString">
+	 page-url-searchString="Model.SearchModel.SearchModel.SearchString">
 </div>
 
 @section Styles {

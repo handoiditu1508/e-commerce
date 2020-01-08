@@ -1,5 +1,6 @@
 ﻿using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.UI.AdminSite.Infrastructure;
+using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

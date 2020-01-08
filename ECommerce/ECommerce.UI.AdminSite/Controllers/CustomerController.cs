@@ -1,12 +1,17 @@
 ﻿using ECommerce.Application;
+using ECommerce.Application.WorkingModels.UpdateModels;
 using ECommerce.Infrastructure.UnitOfWork;
+using ECommerce.Models.Messages;
 using ECommerce.Models.SearchModels;
 using ECommerce.UI.AdminSite.Infrastructure;
+using ECommerce.UI.AdminSite.Models;
 using ECommerce.UI.AdminSite.Models.ViewModels;
 using ECommerce.UI.Shared.Models;
+using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,77 +29,135 @@ namespace ECommerce.UI.AdminSite.Controllers
 			loginPersistence = new AdminLoginPersistence(accessor, unitOfWork);
 		}
 
+		[HttpGet]
 		[AdminLoginRequired]
-		public IActionResult Index() => View(new CustomerSearchModel { Active = false });
+		public IActionResult Index()
+			=> View(new CustomerSearchViewModel
+			{
+				SearchModel = new CustomerSearchModel(),
+				Url = Url.Action(nameof(Search), "Customer"),
 
+				ShowId = true,
+				ShowActive = true,
+				ShowEmail = true,
+				ShowFirstName = true,
+				ShowMiddleName = true,
+				ShowLastName = true
+			});
+
+		[HttpGet]
 		[AdminLoginRequired]
-		public IActionResult Search(string email, string firstName, string middleName, string lastName, bool? active, short? page = 1)
+		public IActionResult Search(CustomerSearchModel searchModel, short? page = 1)
+		=> View(new CustomersListViewModel
 		{
-			CustomerSearchModel searchModel = new CustomerSearchModel
+			Customers = eCommerce.GetCustomersBy(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
+			PagingInfo = new PagingInfo
 			{
-				Email = email,
-				FirstName = firstName,
-				MiddleName = middleName,
-				LastName = lastName,
-				Active = active
-			};
-			return View(new CustomersListViewModel
+				CurrentPage = (short)page,
+				RecordsPerPage = recordsPerPage,
+				TotalRecords = eCommerce.CountCustomersBy(searchModel)
+			},
+			SearchModel = new CustomerSearchViewModel
 			{
-				Customers = eCommerce.GetCustomersBy(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
-				PagingInfo = new PagingInfo
+				SearchModel = searchModel,
+				Url = Url.Action(nameof(Search), "Customer"),
+
+				ShowId = true,
+				ShowActive = true,
+				ShowEmail = true,
+				ShowFirstName = true,
+				ShowMiddleName = true,
+				ShowLastName = true
+			}
+		});
+
+		[HttpPut]
+		public async Task<Message> ChangeActive(int customerId, bool active)
+		{
+			var message = new Message();
+			if ((await loginPersistence.PersistLoginAsync()) == null)
+			{
+				message.Errors.Add("Not login");
+				return message;
+			}
+
+			return await eCommerce.UpdateCustomerActiveAsync(customerId, active);
+		}
+
+		[HttpGet]
+		[AdminLoginRequired]
+		public async Task<IActionResult> Edit(int customerId)
+		{
+			var customer = await eCommerce.GetCustomerByAsync(customerId);
+			if (customer == null)
+				return NotFound();
+			return View(new CustomerUpdateViewModel
+			{
+				Id = customerId,
+				UpdateModel = new CustomerUpdateModel
 				{
-					CurrentPage = (short)page,
-					RecordsPerPage = recordsPerPage,
-					TotalRecords = eCommerce.CountCustomersBy(searchModel)
+					FirstName = customer.FirstName,
+					LastName = customer.LastName,
+					MiddleName = customer.MiddleName
 				},
-				SearchModel = searchModel
+				Active = customer.Active
 			});
 		}
 
-		[AdminLoginRequired]
-		public IActionResult Order(int customerId, short? page = 1)
-		{
-			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
-			OrderSearchModel searchModel = new OrderSearchModel
-			{
-				CustomerId = customerId
-			};
-			return View(/*new OrdersListViewModel
-			{
-				Orders = eCommerce.GetOrdersByCustomerId(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
-				PagingInfo = new PagingInfo
-				{
-					CurrentPage = (short)page,
-					RecordsPerPage = recordsPerPage,
-					TotalRecords = eCommerce.CountOrdersByCustomerId(searchModel)
-				},
-				SearchModel = searchModel
-			}*/);
-		}
-
 		[HttpPost]
-		public async Task<IActionResult> ChangeActive(int customerId, bool active)
+		[AdminLoginRequired]
+		public async Task<IActionResult> Edit(CustomerUpdateViewModel model)
 		{
-			if ((await loginPersistence.PersistLoginAsync()) == null)
-				return Json("Not login");
-
-			try
+			if(ModelState.IsValid)
 			{
-				var message = await eCommerce.UpdateCustomerActiveAsync(customerId, active);
-				if (message.Errors.Any())
+				var message  = await eCommerce.UpdateCustomerAsync(model.Id, model.UpdateModel);
+				if(message.Errors.Any())
 				{
-					string errorString = "";
-					foreach (string error in message.Errors)
-						errorString += error + "\n";
-					errorString.Remove(errorString.Length - 1);
-					return Json(errorString);
+					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
+					return View(model);
 				}
 			}
-			catch (Exception e)
+			return View(model);
+		}
+
+		/*[HttpGet]
+		[AdminLoginRequired]
+		public async Task<IActionResult> ChangePassword(int customerId)
+		{
+			
+		}*/
+
+		[HttpGet]
+		[AdminLoginRequired]
+		public IActionResult Create() => View(new CustomerAddViewModel());
+
+		[HttpPost]
+		[AdminLoginRequired]
+		public async Task<IActionResult> Create(CustomerAddViewModel addModel)
+		{
+			if (ModelState.IsValid)
 			{
-				return Json(e.Message);
+				var message = await eCommerce.AddCustomerAsync(addModel.Customer);
+				if (message.Errors.Any())
+				{
+					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
+				}
+				else
+				{
+					ICollection<string> messages = new List<string>();
+					messages.Add($"Sign up succeed with email {addModel.Customer.Email}");
+					ViewData[GlobalViewBagKeys.Messages] = messages;
+
+					return View("MessageRedirect", new ReturnMessagesViewModel
+					{
+						Messages = new string[] { "Create successful" },
+						MessageType = MessageType.Success,
+						ConfirmString = "View detail",
+						RedirectUrl = Url.Action(nameof(Edit), new { customerId = message.Result.Id })
+					});
+				}
 			}
-			return Json("");
+			return View(addModel);
 		}
 	}
 }

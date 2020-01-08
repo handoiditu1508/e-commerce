@@ -30,6 +30,12 @@ namespace ECommerce.Persistence.EF.Repositories
 		{
 			IEnumerable<Seller> sellers = context.Sellers;
 
+			if (searchModel.Id != null)
+			{
+				string id = searchModel.Id.ToString();
+				sellers = sellers.Where(a => a.Id.ToString().Contains(id));
+			}
+
 			if (searchModel.Status != null)
 				sellers = sellers.Where(s => s.Status == searchModel.Status);
 
@@ -157,12 +163,14 @@ namespace ECommerce.Persistence.EF.Repositories
 
 			if (searchModel.SellerId != null)
 			{
-				products = products.Where(p => p.SellerId == searchModel.SellerId);
+				string sellerId = searchModel.SellerId.ToString();
+				products = products.Where(p => p.SellerId.ToString().Contains(sellerId));
 			}
 
 			if (searchModel.ProductTypeId != null)
 			{
-				products = products.Where(p => p.ProductTypeId == searchModel.ProductTypeId);
+				string productTypeId = searchModel.ProductTypeId.ToString();
+				products = products.Where(p => p.ProductTypeId.ToString().Contains(productTypeId));
 			}
 
 			if (searchModel.Status != null)
@@ -220,8 +228,42 @@ namespace ECommerce.Persistence.EF.Repositories
 			return products;
 		}
 
-		public async Task<IEnumerable<ProductTypeUpdateRequest>> GetProductTypeUpdateRequestsAsync(int sellerId)
-			=> (await GetByAsync(sellerId))?.ProductTypeUpdateRequests ?? null;
+		public async Task<IEnumerable<ProductTypeUpdateRequest>> GetProductTypeUpdateRequestsAsync(ProductTypeUpdateRequestSearchModel searchModel)
+		{
+			IQueryable<ProductTypeUpdateRequest> requests = context.ProductTypeUpdateRequests.Where(r => r.SellerId == searchModel.SellerId);
+
+			if (searchModel.ProductTypeId != null)
+			{
+				string productTypeId = searchModel.ProductTypeId.ToString();
+				requests = requests.Where(r => r.ProductTypeId.ToString().Contains(productTypeId));
+			}
+
+			if (searchModel.CategoryId != null)
+			{
+				Category category = await context.Categories.FindAsync((int)searchModel.CategoryId);
+				if (category != null)
+				{
+					IEnumerable<int> ids = from c in category.GetChildsAndSubChilds()
+										   select c.Id;
+					ids = ids.Append((int)searchModel.CategoryId);
+					requests = requests.Where(p => p.CategoryId != null && ids.Contains(p.CategoryId.Value));
+				}
+			}
+
+			if (!searchModel.SearchString.IsNullOrWhiteSpace())
+			{
+				string[] splitedSearchString = searchModel.SearchString.Trim().RemoveMultipleSpaces().ToLower().Split();
+				requests = requests
+					.Where(r => splitedSearchString
+						.Any(s => r.Name.ToLower().Contains(s, CompareOptions.IgnoreNonSpace) ||
+						r.Descriptions.ToLower().Contains(s, CompareOptions.IgnoreNonSpace)));
+			}
+
+			return requests
+				.Include(u => u.Category)
+				.Include(u => u.ProductType)
+				.Include(u => u.Seller);
+		}
 
 		public async Task UpdateAsync(int id, Seller seller)
 		{

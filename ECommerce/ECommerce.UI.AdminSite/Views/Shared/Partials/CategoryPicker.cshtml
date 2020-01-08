@@ -1,0 +1,24 @@
+﻿@model CategoryPickerModel
+
+@{
+//required: category-picker.js(CategoriesPickerDropDown ViewComponent)
+//required: category-picker.css(CategoriesPickerDropDown ViewComponent)
+}
+
+<div class="categoryPickerContainer d-flex @Model.AdditionalCssClass">
+	<div class="categoryPickingResult">
+		@if (Model.CurrentCategoryId != null)
+		{
+			<vc:category-bread-crumb category-id="(int)Model.CurrentCategoryId"></vc:category-bread-crumb>
+		}
+	</div>
+	@if (Model.ShowPicker)
+	{
+		<vc:categories-picker-drop-down additional-css-class="btn btn-success"></vc:categories-picker-drop-down>
+	}
+	@if (Model.ShowCancelButton)
+	{
+		<button class="clearCategoryPicking btn btn-danger btn-sm" type="button">&#10006;</button>
+	}
+	<input class="categoryHiddenPickingResult d-flex" type="hidden" name="@Model.InputName" value="@Model.CurrentCategoryId" />
+</div>

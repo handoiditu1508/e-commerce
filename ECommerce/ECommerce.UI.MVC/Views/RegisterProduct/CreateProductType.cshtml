@@ -1,20 +1,19 @@
 ﻿@model ProductTypeAddModel
 
 <form method="post" asp-action="CreateProductType">
-	<div asp-validation-summary="All" class="text-danger"></div>
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 	<div class="form-group">
 		<label asp-for="Name" class="control-label"></label>
 		<input asp-for="Name" class="form-control" />
 		<span asp-validation-for="Name" class="text-danger"></span>
 	</div>
-	<div class="categoryPickerContainer">
-		<div class="form-group">
-			<label asp-for="CategoryId" class="control-label"></label>
-			<input class="categoryHiddenPickingResult" type="hidden" asp-for="CategoryId" />
-			<span asp-validation-for="CategoryId" class="text-danger"></span>
-			<div class="categoryPickingResult"></div>
+	<div class="form-group">
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<label asp-for="CategoryId" class="control-label input-group-text"></label>
+			</div>
+			@await Html.PartialAsync("CategoryPicker", new CategoryPickerModel { CurrentCategoryId = Model.CategoryId, InputName = "categoryId", ShowCancelButton = false })
 		</div>
-		@await Component.InvokeAsync("CategoriesPickerDropDown", new { additionalCssClass = "btn btn-success" })
 	</div>
 	<div class="form-group">
 		<input type="submit" value="Continue to Product Registration" class="btn btn-primary" />
@@ -23,4 +22,8 @@
 
 @section Scripts {
 	<script type="text/javascript" src="~/js/category-picker.js"></script>
+}
+
+@section Styles {
+	<link rel="stylesheet" href="~/css/category-picker.css" />
 }

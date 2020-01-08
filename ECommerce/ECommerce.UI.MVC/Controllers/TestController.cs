@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace ECommerce.UI.MVC.Controllers
 {
@@ -12,38 +13,10 @@ namespace ECommerce.UI.MVC.Controllers
 			_environment = environment;
 		}
 
-		/*[HttpGet]
-		public async Task<IActionResult> Index()
+		[HttpGet]
+		public IActionResult Index(DateTime myDate)
 		{
-			var paths = new List<string>();
-
-			DirectoryInfo directory = Directory.CreateDirectory(Path.Combine(_environment.WebRootPath, AppConsts.ResourcesFolder + "/Test"));
-			paths.AddRange(directory.GetFiles().Select(f => $"../{AppConsts.ResourcesFolder}/Test/{f.Name}"));
-
-			return View(paths);
+			return View(myDate);
 		}
-
-		[HttpPost]
-		public async Task<IActionResult> UploadImage()
-		{
-			string fileName = string.Empty;
-
-			if(HttpContext.Request.Form.Files != null)
-			{
-				var files = HttpContext.Request.Form.Files;
-
-				foreach(var file in files)
-				{
-					fileName = Path.Combine(_environment.WebRootPath, AppConsts.ResourcesFolder) + "/Test/" + file.GenerateRandomName();
-
-					using (Stream fs = System.IO.File.Create(fileName))
-					{
-						await file.CopyToAsync(fs);
-					}
-				}
-			}
-
-			return RedirectToAction("Index");
-		}*/
 	}
 }

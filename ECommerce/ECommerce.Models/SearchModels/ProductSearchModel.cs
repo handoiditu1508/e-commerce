@@ -19,6 +19,7 @@ namespace ECommerce.Models.SearchModels
 		public int? CategoryId { get; set; }
 
 		[Display(Name = "Price")]
+		[DataType(DataType.Currency)]
 		public decimal? Price { get; set; }
 
 		[Display(Name = "Price Indication")]

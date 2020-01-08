@@ -1,13 +1,24 @@
 ﻿@model ProductTypesListViewModel
 
-@Html.DisplayFor(m => m.SearchModel, "ProductTypeFilterForm")
+@await Html.PartialAsync("ProductTypeFilterForm", Model.SearchModel)
 
-@Html.DisplayFor(m=>m.ProductTypes, "ProductTypesTable")
+@await Html.PartialAsync("ProductTypesTable", Model.ProductTypes)
 
 <div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="d-flex justify-content-center"
 	 page-class="page-item" page-class-normal=""
 	 page-class-selected="active" page-class-disabled="disabled"
-	 page-url-searchString="Model.SearchModel.SearchString" page-url-categoryId="Model.SearchModel.CategoryId"
-	 page-url-status="Model.SearchModel.Status" page-url-dateModified="Model.SearchModel.DateModified"
-	 page-url-productStatus="Model.SearchModel.ProductStatus">
+	 page-url-searchString="Model.SearchModel.SearchModel.SearchString" page-url-categoryId="Model.SearchModel.SearchModel.CategoryId"
+	 page-url-status="Model.SearchModel.SearchModel.Status" page-url-dateModified="Model.SearchModel.SearchModel.DateModified"
+	 page-url-hasActiveProduct="Model.SearchModel.SearchModel.HasActiveProduct" page-url-productStatus="Model.SearchModel.SearchModel.ProductStatus"
+	 page-url-id="Model.SearchModel.SearchModel.Id">
 </div>
+
+@section Scripts{
+	<script src="~/js/submit-on-change.js"></script>
+	<script src="~/js/category-picker.js"></script>
+}
+
+@section Styles{
+	<link rel="stylesheet" href="~/css/category-picker.css" />
+	<link rel="stylesheet" href="~/css/product-types-table.css" />
+}

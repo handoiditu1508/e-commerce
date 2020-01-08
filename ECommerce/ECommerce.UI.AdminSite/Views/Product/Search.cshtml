@@ -1,0 +1,27 @@
+﻿@model ProductsListViewModel
+
+@await Html.PartialAsync("ProductFilterForm", Model.SearchModel)
+
+@await Html.PartialAsync("ProductsTable", Model.Products)
+
+<div page-model="Model.PagingInfo" page-action="@ViewContext.RouteData.Values["Action"].ToString()" class="d-flex justify-content-center"
+	 page-class="page-item" page-class-normal=""
+	 page-class-selected="active" page-class-disabled="disabled"
+	 page-url-active="Model.SearchModel.SearchModel.Active" page-url-categoryId="Model.SearchModel.SearchModel.CategoryId"
+	 page-url-minimumQuantity="Model.SearchModel.SearchModel.MinimumQuantity" page-url-price="Model.SearchModel.SearchModel.Price"
+	 page-url-priceIndication="Model.SearchModel.SearchModel.PriceIndication" page-url-productTypeId="Model.SearchModel.SearchModel.ProductTypeId"
+	 page-url-productTypeStatus="Model.SearchModel.SearchModel.ProductTypeStatus" page-url-searchString="Model.SearchModel.SearchModel.SearchString"
+	 page-url-sellerId="Model.SearchModel.SearchModel.SellerId" page-url-status="Model.SearchModel.SearchModel.Status">
+</div>
+
+@section Scripts{
+	<script src="~/js/submit-on-change.js"></script>
+	<script src="~/js/category-picker.js"></script>
+	@await Html.PartialAsync("BootstrapToggle-Scripts")
+}
+
+@section Styles{
+	@await Html.PartialAsync("BootstrapToggle-Styles")
+	<link rel="stylesheet" href="~/css/product-types-table.css" />
+	<link rel="stylesheet" href="~/css/category-picker.css" />
+}

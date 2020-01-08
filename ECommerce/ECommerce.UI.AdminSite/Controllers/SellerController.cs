@@ -4,6 +4,7 @@ using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Messages;
 using ECommerce.Models.SearchModels;
 using ECommerce.UI.AdminSite.Infrastructure;
 using ECommerce.UI.AdminSite.Models.ViewModels;
@@ -31,137 +32,125 @@ namespace ECommerce.UI.AdminSite.Controllers
 		}
 
 		[AdminLoginRequired]
-		public IActionResult Index() => View(new SellerSearchModel { Status = SellerStatus.Validating });
+		public IActionResult Index()
+		=> View(new SellerSearchViewModel
+		{
+			SearchModel = new SellerSearchModel(),
+
+			Url = Url.Action(nameof(Search), "Seller"),
+
+			ShowEmail = true,
+			ShowId = true,
+			ShowName = true,
+			ShowPhoneNumber = true,
+			ShowStatus = true
+		});
 
 		[AdminLoginRequired]
-		public IActionResult Search(string email, string name, string phoneNumber, SellerStatus? status, short? page = 1)
+		public IActionResult Search(SellerSearchModel searchModel, short? page = 1)
+		=> View(new SellersListViewModel
 		{
-			SellerSearchModel searchModel = new SellerSearchModel
+			Sellers = eCommerce.GetSellersBy(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
+			PagingInfo = new PagingInfo
 			{
-				Email = email,
-				Name = name,
-				PhoneNumber = phoneNumber,
-				Status = status
-			};
-			return View(new SellersListViewModel
+				CurrentPage = (short)page,
+				RecordsPerPage = recordsPerPage,
+				TotalRecords = eCommerce.CountSellersBy(searchModel)
+			},
+			SearchModel = new SellerSearchViewModel
 			{
-				Sellers = eCommerce.GetSellersBy(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
-				PagingInfo = new PagingInfo
-				{
-					CurrentPage = (short)page,
-					RecordsPerPage = recordsPerPage,
-					TotalRecords = eCommerce.CountSellersBy(searchModel)
-				},
-				SearchModel = searchModel
-			});
-		}
+				SearchModel = searchModel,
+
+				Url = Url.Action(nameof(Search), "Seller"),
+
+				ShowEmail = true,
+				ShowId = true,
+				ShowName = true,
+				ShowPhoneNumber = true,
+				ShowStatus = true
+			}
+		});
 
 		[HttpGet]
 		[AdminLoginRequired]
-		public async Task<IActionResult> Informations(int sellerId)
+		public async Task<IActionResult> Edit(int sellerId)
 		{
-			SellerView seller = await eCommerce.GetSellerByAsync(sellerId);
-			return seller != null ? View(seller) : (IActionResult)NotFound();
+			var seller = await eCommerce.GetSellerByAsync(sellerId);
+			if (seller == null)
+				return NotFound();
+			return View(new SellerUpdateViewModel
+			{
+				Id = sellerId,
+				UpdateModel = new SellerUpdateModel
+				{
+					Name = seller.Name,
+					PhoneNumber = seller.PhoneNumber
+				},
+				Status = seller.Status
+			});
 		}
 
 		[HttpPost]
 		[AdminLoginRequired]
-		public async Task<IActionResult> Informations(SellerView seller)
+		public async Task<IActionResult> Edit(SellerUpdateViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				var message = await eCommerce.UpdateSellerAsync(seller.Id,
-					new SellerUpdateModel
-					{
-						Name = seller.Name,
-						PhoneNumber = seller.PhoneNumber
-					});
+				var message = await eCommerce.UpdateSellerAsync(model.Id, model.UpdateModel);
+				if (message.Errors.Any())
+				{
+					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
+					return View(model);
+				}
+			}
+			return View(model);
+		}
+
+
+		[HttpPut]
+		public async Task<Message> ChangeStatus(int sellerId, SellerStatus status)
+		{
+			var message = new Message();
+			if ((await loginPersistence.PersistLoginAsync()) == null)
+			{
+				message.Errors.Add("Not login");
+				return message;
+			}
+
+			return await eCommerce.UpdateSellerStatusAsync(sellerId, status);
+		}
+
+		[HttpGet]
+		[AdminLoginRequired]
+		public IActionResult Create() => View(new SellerAddViewModel());
+
+		[HttpPost]
+		[AdminLoginRequired]
+		public async Task<IActionResult> Create(SellerAddViewModel addModel)
+		{
+			if (ModelState.IsValid)
+			{
+				var message = await eCommerce.AddSellerAsync(addModel.Seller);
 				if (message.Errors.Any())
 				{
 					ViewData[GlobalViewBagKeys.Errors] = message.Errors;
 				}
 				else
 				{
-					SellerView updatedSeller = await eCommerce.GetSellerByAsync(seller.Id);
-
 					ICollection<string> messages = new List<string>();
-					messages.Add("Seller informations updated");
+					messages.Add($"Sign up succeed with email {addModel.Seller.Email}");
 					ViewData[GlobalViewBagKeys.Messages] = messages;
 
-					return View(updatedSeller);
+					return View("MessageRedirect", new ReturnMessagesViewModel
+					{
+						Messages = new string[] { "Create successful" },
+						MessageType = MessageType.Success,
+						ConfirmString = "View detail",
+						RedirectUrl = Url.Action(nameof(Edit), new { sellerId = message.Result.Id })
+					});
 				}
 			}
-			return View(seller);
-		}
-
-		[AdminLoginRequired]
-		public async Task<IActionResult> Product(int sellerId, string searchString, int? categoryId, decimal? price,
-			short? priceIndication, ProductStatus? status, bool? active, ProductTypeStatus? productTypeStatus,
-			short? page = 1)
-		{
-			ProductSearchModel searchModel = new ProductSearchModel
-			{
-				SellerId = sellerId,
-				SearchString = searchString,
-				CategoryId = categoryId,
-				Price = price,
-				PriceIndication = priceIndication,
-				Status = status,
-				Active = active,
-				ProductTypeStatus = productTypeStatus
-			};
-			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
-			return View(new ProductsListViewModel
-			{
-				Products = await eCommerce.GetProductsBySellerIdAsync(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
-				PagingInfo = new PagingInfo
-				{
-					CurrentPage = (short)page,
-					RecordsPerPage = recordsPerPage,
-					TotalRecords = await eCommerce.CountProductsBySellerIdAsync(searchModel)
-				},
-				SearchModel = new ProductSearchViewModel
-				{
-					SearchModel = searchModel,
-
-					Url = Url.Action(nameof(Product), nameof(Seller)),
-
-					ShowSearchString = true,
-					ShowCategoryId = true,
-					ShowPrice = true,
-					ShowPriceIndication = true,
-					ShowActive = true,
-					ShowStatus = true,
-					ShowProductTypeStatus = true,
-
-					ShowMinimumQuantity = false
-				}
-			});
-		}
-
-		[HttpPost]
-		public async Task<IActionResult> ChangeStatus(int sellerId, SellerStatus status)
-		{
-			if ((await loginPersistence.PersistLoginAsync()) == null)
-				return Json("Not login");
-
-			try
-			{
-				var message = await eCommerce.UpdateSellerStatusAsync(sellerId, status);
-				if (message.Errors.Any())
-				{
-					string errorString = "";
-					foreach (string error in message.Errors)
-						errorString += error + "\n";
-					errorString.Remove(errorString.Length - 1);
-					return Json(errorString);
-				}
-			}
-			catch (Exception e)
-			{
-				return Json(e.Message);
-			}
-			return Json("");
+			return View(addModel);
 		}
 	}
 }

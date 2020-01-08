@@ -78,7 +78,7 @@ namespace ECommerce.Models.Services
 				message.Errors.Add("Product type is unavailable at the moment");
 
 			ProductTypeUpdateRequest updateRequest
-				= await productTypeRepository.GetUpdateRequestAsync(sellerId, productTypeId);
+				= await productTypeRepository.GetUpdateRequestByAsync(sellerId, productTypeId);
 
 			if (!message.Errors.Any())
 			{
@@ -103,7 +103,7 @@ namespace ECommerce.Models.Services
 				message.Errors.Add("Product type is unavailable at the moment");
 
 			ProductTypeUpdateRequest updateRequest
-				= await productTypeRepository.GetUpdateRequestAsync(sellerId, productTypeId);
+				= await productTypeRepository.GetUpdateRequestByAsync(sellerId, productTypeId);
 
 			if (!message.Errors.Any())
 			{

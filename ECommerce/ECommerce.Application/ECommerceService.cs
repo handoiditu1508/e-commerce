@@ -363,6 +363,8 @@ namespace ECommerce.Application
 			return category?.ParentCategory?.ConvertToView() ?? null;
 		}
 
+		public CategoryView GetLastCategory() => categoryRepository.GetAll().LastOrDefault().ConvertToView();
+
 		public async Task<IEnumerable<CategoryView>> GetChildCategoriesAsync(int categoryId)
 		{
 			Category category = await categoryRepository.GetByAsync(categoryId);
@@ -954,9 +956,9 @@ namespace ECommerce.Application
 		#endregion
 
 		#region Product Type Update Request
-		public IEnumerable<ProductTypeUpdateRequestView> GetProductTypeUpdateRequests(int? startIndex, short? length)
+		public async Task<IEnumerable<ProductTypeUpdateRequestView>> GetProductTypeUpdateRequestsAsync(ProductTypeUpdateRequestSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<ProductTypeUpdateRequest> updateRequests = productTypeRepository.GetUpdateRequests();
+			IEnumerable<ProductTypeUpdateRequest> updateRequests = await productTypeRepository.GetAllUpdateRequestsByAsync(searchModel);
 
 			if (startIndex != null && startIndex > -1)
 				updateRequests = updateRequests.Skip((int)startIndex);
@@ -966,11 +968,11 @@ namespace ECommerce.Application
 			return updateRequests.ConvertToViews();
 		}
 
-		public int CountProductTypeUpdateRequests() => productTypeRepository.GetUpdateRequests().Count();
+		public async Task<int> CountProductTypeUpdateRequestsAsync(ProductTypeUpdateRequestSearchModel searchModel) => (await productTypeRepository.GetAllUpdateRequestsByAsync(searchModel)).Count();
 
-		public IEnumerable<ProductTypeUpdateRequestView> GetProductTypeUpdateRequestsByProductTypeId(int productTypeId, int? startIndex, short? length)
+		public async Task<IEnumerable<ProductTypeUpdateRequestView>> GetProductTypeUpdateRequestsByProductTypeIdAsync(ProductTypeUpdateRequestSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<ProductTypeUpdateRequest> updateRequests = productTypeRepository.GetUpdateRequests(productTypeId);
+			IEnumerable<ProductTypeUpdateRequest> updateRequests = await productTypeRepository.GetUpdateRequestsByAsync(searchModel);
 
 			if (startIndex != null && startIndex > -1)
 				updateRequests = updateRequests.Skip((int)startIndex);
@@ -980,11 +982,12 @@ namespace ECommerce.Application
 			return updateRequests.ConvertToViews();
 		}
 
-		public int CountProductTypeUpdateRequestsByProductTypeId(int productTypeId) => productTypeRepository.GetUpdateRequests(productTypeId).Count();
+		public async Task<int> CountProductTypeUpdateRequestsByProductTypeIdAsync(ProductTypeUpdateRequestSearchModel searchModel)
+			=> (await productTypeRepository.GetUpdateRequestsByAsync(searchModel)).Count();
 
-		public async Task<IEnumerable<ProductTypeUpdateRequestView>> GetProductTypeUpdateRequestsBySellerIdAsync(int sellerId, int? startIndex, short? length)
+		public async Task<IEnumerable<ProductTypeUpdateRequestView>> GetProductTypeUpdateRequestsBySellerIdAsync(ProductTypeUpdateRequestSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<ProductTypeUpdateRequest> updateRequests = await sellerRepository.GetProductTypeUpdateRequestsAsync(sellerId);
+			IEnumerable<ProductTypeUpdateRequest> updateRequests = await sellerRepository.GetProductTypeUpdateRequestsAsync(searchModel);
 
 			if (startIndex != null && startIndex > -1)
 				updateRequests = updateRequests.Skip((int)startIndex);
@@ -994,11 +997,12 @@ namespace ECommerce.Application
 			return updateRequests.ConvertToViews();
 		}
 
-		public async Task<int> CountProductTypeUpdateRequestsBySellerIdAsync(int sellerId) => (await sellerRepository.GetProductTypeUpdateRequestsAsync(sellerId)).Count();
+		public async Task<int> CountProductTypeUpdateRequestsBySellerIdAsync(ProductTypeUpdateRequestSearchModel searchModel)
+			=> (await sellerRepository.GetProductTypeUpdateRequestsAsync(searchModel)).Count();
 
 		public async Task<ProductTypeUpdateRequestView> GetProductTypeUpdateRequestByAsync(int sellerId, int productTypeId)
 		{
-			return (await productTypeRepository.GetUpdateRequestAsync(sellerId, productTypeId))?.ConvertToView();
+			return (await productTypeRepository.GetUpdateRequestByAsync(sellerId, productTypeId))?.ConvertToView();
 		}
 
 		public async Task<Message<ProductTypeUpdateRequestView>> RequestAnUpdateForProductTypeAsync(int sellerId, ProductTypeUpdateRequestAddModel addModel)
@@ -1179,7 +1183,7 @@ namespace ECommerce.Application
 				.GetProductsDistinctAsync(searchModel))
 				.Count();
 
-		public async Task<int> CountProductsAsync(ProductSearchModel searchModel, int? startIndex, short? length)
+		public async Task<int> CountProductsAsync(ProductSearchModel searchModel)
 			=> (await sellerRepository.GetAllProductsByAsync(searchModel)).Count();
 
 		public async Task<IEnumerable<string>> GetProductImagesAsync(int sellerId, int productTypeId)

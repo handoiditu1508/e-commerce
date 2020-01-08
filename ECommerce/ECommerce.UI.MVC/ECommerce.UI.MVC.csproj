@@ -20,4 +20,11 @@
 		<ProjectReference Include="..\ECommerce.UI.Shared\ECommerce.UI.Shared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="Views\Shared\Partials\OrderFilterForm.cshtml">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
+
 </Project>

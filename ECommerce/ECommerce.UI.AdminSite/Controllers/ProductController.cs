@@ -2,7 +2,10 @@
 using ECommerce.Infrastructure.UnitOfWork;
 using ECommerce.Models.Entities.Sellers;
 using ECommerce.Models.Messages;
+using ECommerce.Models.SearchModels;
 using ECommerce.UI.AdminSite.Infrastructure;
+using ECommerce.UI.Shared.Models;
+using ECommerce.UI.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,6 +18,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 	{
 		private ECommerceService eCommerce;
 		private AdminLoginPersistence loginPersistence;
+		private short recordsPerPage = 20;
 
 		public ProductController(IHttpContextAccessor accessor, IUnitOfWork unitOfWork)
 		{
@@ -22,6 +26,60 @@ namespace ECommerce.UI.AdminSite.Controllers
 			loginPersistence = new AdminLoginPersistence(accessor, unitOfWork);
 		}
 
+		[HttpGet]
+		[AdminLoginRequired]
+		public IActionResult Index()
+			=> View(new ProductSearchViewModel
+			{
+				SearchModel = new ProductSearchModel(),
+				Url = Url.Action(nameof(Search), "Product"),
+
+				ShowActive = true,
+				ShowCategoryId = true,
+				ShowMinimumQuantity = true,
+				ShowPrice = true,
+				ShowPriceIndication = true,
+				ShowProductTypeId = true,
+				ShowProductTypeStatus = true,
+				ShowSearchString = true,
+				ShowSellerId = true,
+				ShowStatus = true
+			});
+
+		[HttpGet]
+		[AdminLoginRequired]
+		public async Task<IActionResult> Search(ProductSearchModel searchModel, short? page = 1)
+		{
+			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
+			return View(new ProductsListViewModel
+			{
+				Products = await eCommerce.GetProductsAsync(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
+				PagingInfo = new PagingInfo
+				{
+					CurrentPage = (short)page,
+					RecordsPerPage = recordsPerPage,
+					TotalRecords = await eCommerce.CountProductsAsync(searchModel)
+				},
+				SearchModel = new ProductSearchViewModel
+				{
+					SearchModel = searchModel,
+					Url = Url.Action(nameof(Search), "Product"),
+
+					ShowActive = true,
+					ShowCategoryId = true,
+					ShowMinimumQuantity = true,
+					ShowPrice = true,
+					ShowPriceIndication = true,
+					ShowProductTypeId = true,
+					ShowProductTypeStatus = true,
+					ShowSearchString = true,
+					ShowSellerId = true,
+					ShowStatus = true
+				}
+			});
+		}
+
+		[HttpGet]
 		[AdminLoginRequired]
 		public async Task<IActionResult> Detail(int sellerId, int productTypeId)
 		{
@@ -29,60 +87,34 @@ namespace ECommerce.UI.AdminSite.Controllers
 			return View(await eCommerce.GetProductByAsync(sellerId, productTypeId));
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> ChangeQuantity(int sellerId, int productTypeId, bool isAdd, short number = 0)
+		[HttpPut]
+		public async Task<Message> ChangeQuantity(int sellerId, int productTypeId, bool isAdd, short number = 0)
 		{
 			if ((await loginPersistence.PersistLoginAsync()) == null)
-				return Json("Not login");
-
-			try
 			{
-				Message message = null;
-				if (isAdd)
-				{
-					message = await eCommerce.AddProductQuantityThroughAdminAsync(sellerId, productTypeId, number);
-				}
-				else message = await eCommerce.ReduceProductQuantityThroughAdminAsync(sellerId, productTypeId, number);
+				Message message = new Message();
+				message.Errors.Add("Not login");
+				return message;
+			}
 
-				if (message.Errors.Any())
-				{
-					string errorString = "";
-					foreach (string error in message.Errors)
-						errorString += error + "\n";
-					errorString.Remove(errorString.Length - 1);
-					return Json(errorString);
-				}
-			}
-			catch (Exception e)
+			if (isAdd)
 			{
-				return Json(e.Message);
+				return await eCommerce.AddProductQuantityThroughAdminAsync(sellerId, productTypeId, number);
 			}
-			return Json("");
+			else return await eCommerce.ReduceProductQuantityThroughAdminAsync(sellerId, productTypeId, number);
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> ChangeStatus(int sellerId, int productTypeId, ProductStatus status)
+		[HttpPut]
+		public async Task<Message> ChangeStatus(int sellerId, int productTypeId, ProductStatus status)
 		{
 			if ((await loginPersistence.PersistLoginAsync()) == null)
-				return Json("Not login");
+			{
+				Message message = new Message();
+				message.Errors.Add("Not login");
+				return message;
+			}
 
-			try
-			{
-				var message = await eCommerce.UpdateProductStatusAsync(sellerId, productTypeId, status);
-				if (message.Errors.Any())
-				{
-					string errorString = "";
-					foreach (string error in message.Errors)
-						errorString += error + "\n";
-					errorString.Remove(errorString.Length - 1);
-					return Json(errorString);
-				}
-			}
-			catch (Exception e)
-			{
-				return Json(e.Message);
-			}
-			return Json("");
+			return await eCommerce.UpdateProductStatusAsync(sellerId, productTypeId, status);
 		}
 	}
 }

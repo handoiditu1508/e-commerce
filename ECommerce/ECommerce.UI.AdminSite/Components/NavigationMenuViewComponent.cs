@@ -15,8 +15,7 @@ namespace ECommerce.UI.AdminSite.Components
 
 		public IViewComponentResult Invoke()
 		{
-			ViewBag.SelectedCategoryId = RouteData?.Values["categoryId"];
-			return View(eCommerce.GetAllRootCategories());
+			return View();
 		}
 	}
 }

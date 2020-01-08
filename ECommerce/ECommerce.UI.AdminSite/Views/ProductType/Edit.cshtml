@@ -1,0 +1,60 @@
+﻿@model ProductTypeUpdateViewModel
+
+<form asp-action="ChangeStatus" asp-controller="ProductType" method="put">
+	<input type="hidden" name="productTypeId" value="@Model.Id" />
+
+	<div class="form-group">
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<label class="control-label input-group-text">Customer's Status</label>
+			</div>
+			<select class="form-control submitOnChange" name="status" enum-type="typeof(ProductTypeStatus)" selected="Model.Status" error="Something went wrong while changing product type status"></select>
+		</div>
+	</div>
+</form>
+
+<fieldset class="border rounded pl-3 pr-3 mb-3">
+	<legend>Edit Product Type's Infomations:</legend>
+	<form method="post">
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<input type="hidden" asp-for="Status" />
+		<div class="form-row">
+			<div class="form-group col-md-2">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="Id" class="control-label input-group-text"></label>
+					</div>
+					<input asp-for="Id" readonly />
+				</div>
+			</div>
+			<div class="form-group col-md-10">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="UpdateModel.Name" class="control-label input-group-text"></label>
+					</div>
+					<input asp-for="UpdateModel.Name" />
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<label asp-for="UpdateModel.CategoryId" class="control-label input-group-text"></label>
+				</div>
+				@await Html.PartialAsync("CategoryPicker", new CategoryPickerModel { CurrentCategoryId = Model.UpdateModel.CategoryId, InputName = "UpdateModel.CategoryId", ShowCancelButton = false })
+			</div>
+		</div>
+		<input type="submit" value="Save" class="btn btn-success" />
+	</form>
+</fieldset>
+
+@section Scripts{
+	<script src="~/js/submit-on-change.js"></script>
+	<script src="~/js/category-picker.js"></script>
+}
+
+@section Styles{
+	<link rel="stylesheet" href="~/css/category-picker.css" />
+}
+
+<a asp-action="Search" asp-controller="Product" asp-route-productTypeId="@Model.Id">View products of @Model.UpdateModel.Name</a>

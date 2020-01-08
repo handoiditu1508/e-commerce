@@ -1,0 +1,51 @@
+﻿@model ProductTypeUpdateRequestView
+
+	<fieldset class="border rounded pl-3 pr-3 mb-3">
+		<legend>Product Type Update Request Detail:</legend>
+
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<label asp-for="SellerName" class="control-label input-group-text"></label>
+			</div>
+			<input asp-for="SellerName" readonly class="form-control" />
+		</div>
+
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<label asp-for="ProductTypeName" class="control-label input-group-text"></label>
+			</div>
+			<input asp-for="ProductTypeName" readonly class="form-control" />
+		</div>
+
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<label asp-for="Name" class="control-label input-group-text"></label>
+			</div>
+			<input asp-for="Name" readonly class="form-control" />
+		</div>
+
+		@if (Model.CategoryId != null)
+		{
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<label asp-for="CategoryName" class="control-label input-group-text"></label>
+			</div>
+			@await Html.PartialAsync("CategoryPicker", new CategoryPickerModel { CurrentCategoryId = Model.CategoryId, InputName = "", ShowCancelButton=false, ShowPicker = false })
+		</div>
+		}
+
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<label asp-for="Descriptions" class="control-label input-group-text"></label>
+			</div>
+			<textarea asp-for="Descriptions" style="resize: none;"></textarea>
+		</div>
+
+		<form asp-action="Apply" method="put">
+			<input asp-for="SellerId" type="hidden" name="sellerId" />
+			<input asp-for="ProductTypeId" type="hidden" name="productTypeId" />
+			<div class="form-group">
+				<input type="submit" value="Apply this" class="btn btn-success" />
+			</div>
+		</form>
+	</fieldset>

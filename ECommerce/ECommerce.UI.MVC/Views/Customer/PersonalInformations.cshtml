@@ -1,6 +1,6 @@
 ﻿@model CustomerView
 
-<form method="put">
+<form method="post">
 	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 	@await Html.PartialAsync("CustomerViewForUpdate", Model)
 	<div class="form-group">

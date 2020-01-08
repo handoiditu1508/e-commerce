@@ -1,0 +1,68 @@
+﻿@model ProductTypeUpdateRequestSearchViewModel
+
+@{
+//required: category-picker.js
+//required: category-picker.css
+}
+
+<fieldset class="border rounded pl-3 pr-3 m-3">
+	<legend>Find Product Type Update Requests By:</legend>
+	<form action="@Model.Url" method="post">
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+		<div class="form-row">
+			@if (Model.ShowSearchString)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.SearchString" class="control-label input-group-text"></label>
+					</div>
+					<input name="searchString" asp-for="SearchModel.SearchString" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.SearchString" class="text-danger"></span>
+			</div>
+			}
+			@if (Model.ShowSellerId)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.SellerId" class="control-label input-group-text"></label>
+					</div>
+					<input name="sellerId" asp-for="SearchModel.SellerId" type="number" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.SellerId" class="text-danger"></span>
+			</div>
+			}
+			@if (Model.ShowProductTypeId)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.ProductTypeId" class="control-label input-group-text"></label>
+					</div>
+					<input name="productTypeId" asp-for="SearchModel.ProductTypeId" type="number" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.ProductTypeId" class="text-danger"></span>
+			</div>
+			}
+		</div>
+
+		@if(Model.ShowCategoryId)
+		{
+		<div class="form-group">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<label asp-for="SearchModel.CategoryId" class="control-label input-group-text"></label>
+				</div>
+				@await Html.PartialAsync("CategoryPicker", new CategoryPickerModel { CurrentCategoryId = Model.SearchModel.CategoryId, InputName = "categoryId" })
+			</div>
+		</div>
+		}
+
+		<div class="form-group">
+			<input type="submit" value="Find" class="btn btn-primary" />
+		</div>
+	</form>
+</fieldset>

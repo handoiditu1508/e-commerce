@@ -1,0 +1,11 @@
+﻿@model ProductSearchViewModel
+
+@await Html.PartialAsync("ProductFilterForm", Model)
+
+@section Scripts{
+	<script src="~/js/category-picker.js"></script>
+}
+
+@section Styles{
+	<link rel="stylesheet" href="~/css/category-picker.css" />
+}

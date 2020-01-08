@@ -1,4 +1,5 @@
 ﻿using ECommerce.UI.MVC.Infrastructure;
+using ECommerce.UI.Shared.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -90,7 +91,7 @@ namespace ECommerce.UI.MVC
 
 				routes.MapRoute(
 					name: "Default",
-					template: "{controller=Home}/{action=Index}/{id?}");
+					template: $"{{controller={UrlHelperExtensions.DefaultController}}}/{{action={UrlHelperExtensions.DefaultAction}}}/{{id?}}");
 			});
 		}
 	}

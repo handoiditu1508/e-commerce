@@ -36,6 +36,6 @@ function showErrors(errorsArray) {
 
 //show messages zone & message strings
 function showMessages(messagesArray) {
-	document.getElementById("messageContent").innerHTML = "<p>" + errorsArray.join("</p><p>") + "</p>";
+	document.getElementById("messageContent").innerHTML = "<p>" + messagesArray.join("</p><p>") + "</p>";
 	document.getElementById("messageZone").classList.remove("d-none");
 }

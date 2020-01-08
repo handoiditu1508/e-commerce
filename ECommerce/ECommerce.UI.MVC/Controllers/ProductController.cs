@@ -23,20 +23,12 @@ namespace ECommerce.UI.MVC.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Index(string searchString, int? categoryId = null,
-			decimal? price = null, short? priceIndication = null, short? page = 1)
+		public async Task<IActionResult> Index(ProductSearchModel searchModel, short? page = 1)
 		{
-			ProductSearchModel searchModel = new ProductSearchModel
-			{
-				SearchString = searchString,
-				CategoryId = categoryId,
-				Price = price,
-				PriceIndication = priceIndication,
-				Status = ProductStatus.Active,
-				ProductTypeStatus = ProductTypeStatus.Active,
-				Active = true,
-				MinimumQuantity = 1
-			};
+			searchModel.Status = ProductStatus.Active;
+			searchModel.ProductTypeStatus = ProductTypeStatus.Active;
+			searchModel.Active = true;
+			searchModel.MinimumQuantity = 1;
 
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new ProductsListViewModel
@@ -52,7 +44,7 @@ namespace ECommerce.UI.MVC.Controllers
 				{
 					SearchModel = searchModel,
 
-					Url = Url.Action(nameof(Index), nameof(ProductController)),
+					Url = Url.Action(nameof(Index), "Product"),
 
 					ShowCategoryId = true,
 					ShowPrice = true,

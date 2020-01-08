@@ -18,6 +18,8 @@ namespace ECommerce.UI.Shared.Infrastructure
 
 		public string OptionLabel { get; set; }
 
+		public bool Disabled { get; set; } = false;
+
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
 			TagBuilder select = new TagBuilder("select");
@@ -48,6 +50,9 @@ namespace ECommerce.UI.Shared.Infrastructure
 						option.Attributes["selected"] = "true";
 					select.InnerHtml.AppendHtml(option);
 				}
+
+			if (Disabled)
+				output.Attributes.Add("disabled", null);
 
 			output.Content.AppendHtml(select.InnerHtml);
 		}

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<OrderView>
+
+@{
+//required: submit-on-change.js
+//required: orders-table.css
+}
+
+@{ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];}
+
+<div class="table-responsive rounded">
+	<table class="table table-striped table-bordered table-hover table-condensed table-sm table-active table-secondary">
+		<thead class="thead-dark">
+			<tr>
+				<th>Id</th>
+				<th>Seller</th>
+				<th>Product Type</th>
+				<th>Customer</th>
+				<th>Current Price</th>
+				<th>Quantity</th>
+				<th>Value</th>
+				<th>Attributes</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			@{string formAction = Url.Action("ChangeStatus", "Order");}
+			@foreach(var order in Model)
+			{
+			<tr>
+				<td>@order.Id</td>
+				<td>
+					<p>@($"Id: {order.SellerId}")</p>
+					<p>@($"Name: {order.SellerName}")</p>
+				</td>
+				<td>
+					<p>@($"Id: {order.ProductTypeId}")</p>
+					<div class="bg-light productImageContainerForOrderTable">
+						@{var product = (await eCommerce.GetProductByAsync(order.SellerId, order.ProductTypeId));}
+						<img src="@($"{UIConsts.GetProductUrlById(order.SellerId, order.ProductTypeId)}/{product.RepresentativeImage}")">
+					</div>
+					<p>@($"Name: {order.ProductTypeName}")</p>
+				</td>
+				<td>
+					<p>@($"Id: {order.CustomerId}")</p>
+					<p>@($"Name: {order.CustomerName}")</p>
+				</td>
+				<td>@order.CurrentPrice</td>
+				<td class="text-center">@order.Quantity</td>
+				<td>@order.Value</td>
+				<td>
+					@foreach(var attribute in order.Attributes)
+					{
+					<p>@($"{attribute.Key}: {attribute.Value}")</p>
+					}
+				</td>
+				<td>
+					<form action="@formAction" method="put">
+						<input type="hidden" name="orderId" value="@order.Id" />
+						<select class="form-control submitOnChange" name="status" enum-type="typeof(OrderStatus)" selected="order.Status" disabled="@product.Model==OperatingModel.ODF?true:false" error="Something wrong happened while changing order status"></select>
+					</form>
+				</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+</div>

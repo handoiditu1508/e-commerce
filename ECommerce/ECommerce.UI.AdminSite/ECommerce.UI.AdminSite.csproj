@@ -8,12 +8,23 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\ECommerce.Application\ECommerce.Application.csproj" />
 		<ProjectReference Include="..\ECommerce.UI.Shared\ECommerce.UI.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="wwwroot\css\category-picker.css">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Views\Shared\DisplayTemplates\" />
 	</ItemGroup>
 
 </Project>

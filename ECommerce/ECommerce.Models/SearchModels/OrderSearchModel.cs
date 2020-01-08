@@ -5,6 +5,9 @@ namespace ECommerce.Models.SearchModels
 {
 	public class OrderSearchModel
 	{
+		[Display(Name = "Id")]
+		public int? Id { get; set; }
+
 		[Display(Name = "Seller Id")]
 		public int? SellerId { get; set; }
 

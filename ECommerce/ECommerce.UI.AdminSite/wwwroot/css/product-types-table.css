@@ -1,0 +1,12 @@
+﻿.productImageContainerForProductTypeTable {
+	height: 100px;
+	width: 100px;
+	display: flex;
+	margin: auto;
+}
+
+	.productImageContainerForProductTypeTable img {
+		margin: auto;
+		max-height: 100%;
+		max-width: 100%;
+	}

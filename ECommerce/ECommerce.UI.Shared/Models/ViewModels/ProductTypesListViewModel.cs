@@ -9,6 +9,6 @@ namespace ECommerce.UI.Shared.Models.ViewModels
 	{
 		public IEnumerable<ProductTypeView> ProductTypes { get; set; }
 		public PagingInfo PagingInfo { get; set; }
-		public ProductTypeSearchModel SearchModel { get; set; }
+		public ProductTypeSearchViewModel SearchModel { get; set; }
 	}
 }

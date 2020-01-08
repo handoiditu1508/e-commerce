@@ -20,9 +20,9 @@ namespace ECommerce.Models.Repositories
 
 		Task<IEnumerable<Product>> GetProductsDistinctAsync(ProductSearchModel searchModel);
 
-		IEnumerable<ProductTypeUpdateRequest> GetUpdateRequests();
-		IEnumerable<ProductTypeUpdateRequest> GetUpdateRequests(int productTypeId);
-		Task<ProductTypeUpdateRequest> GetUpdateRequestAsync(int sellerId, int productTypeId);
+		Task<IEnumerable<ProductTypeUpdateRequest>> GetAllUpdateRequestsByAsync(ProductTypeUpdateRequestSearchModel searchModel);
+		Task<IEnumerable<ProductTypeUpdateRequest>> GetUpdateRequestsByAsync(ProductTypeUpdateRequestSearchModel searchModel);
+		Task<ProductTypeUpdateRequest> GetUpdateRequestByAsync(int sellerId, int productTypeId);
 
 		Task UpdateAsync(int id, ProductType productType);
 

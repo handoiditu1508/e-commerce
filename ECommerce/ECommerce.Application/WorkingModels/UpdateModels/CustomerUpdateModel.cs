@@ -8,20 +8,17 @@ namespace ECommerce.Application.WorkingModels.UpdateModels
 		[Required]
 		[MinLength(1)]
 		[MaxLength(20)]
-		[Column("FirstName")]
 		[Display(Name = "First Name")]
 		public string FirstName { get; set; }
 
 		[MinLength(1)]
 		[MaxLength(20)]
-		[Column("MiddleName")]
 		[Display(Name = "Middle Name")]
 		public string MiddleName { get; set; }
 
 		[Required]
 		[MinLength(1)]
 		[MaxLength(20)]
-		[Column("LastName")]
 		[Display(Name = "Last Name")]
 		public string LastName { get; set; }
 	}

@@ -1,0 +1,122 @@
+﻿@model ProductView
+
+@{
+//required: product-detail.js, submit-on-change.js
+//required: product-detail.css
+}
+
+@{ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];}
+<div class="container">
+	<div class="card productDetailCard">
+		<div class="container-fliud">
+			<div class="wrapper row">
+				<div class="preview col-md-6 galleryContainer border border-top-0 border-left-0 border-bottom-0">
+					<div class="galleryResult tab-content">
+						<div class="galleryThumbnail">
+							<img class="rounded" src="@($"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{Model.RepresentativeImage}")" />
+						</div>
+					</div>
+					@{
+						var rand = new Random();
+						string carouselUid = "a" + rand.Next();
+					}
+					<div id="@carouselUid" class="preview-thumbnail nav nav-tabs carousel slide" data-ride="carousel" data-interval="false">
+						<div class="carousel-inner">
+							@{
+								IList<string> images = (await eCommerce.GetProductImagesAsync(Model.SellerId, Model.ProductTypeId)).ToList();
+								short count = 1;
+								TagBuilder container = new TagBuilder("div");
+								TagBuilder carouselItem = new TagBuilder("div");
+								carouselItem.AddCssClass("carousel-item active");
+								container.InnerHtml.AppendHtml(carouselItem);
+								foreach (string image in images)
+								{
+									carouselItem.InnerHtml
+										.AppendHtml($"<div class=\"galleryThumbnail\"><img class=\"rounded m-auto mw-100 mh-100\" src=\"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{image}\" /></div>");
+									if (count % 5 == 0 && count < images.Count())
+									{
+										carouselItem = new TagBuilder("div");
+										carouselItem.AddCssClass("carousel-item");
+										container.InnerHtml.AppendHtml(carouselItem);
+									}
+									count++;
+								}
+							}
+							@container.InnerHtml
+						</div>
+						<a class="carousel-control-prev" href="#@(carouselUid)" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#@(carouselUid)" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
+
+				<div class="details col-md-6">
+					<h3><a asp-action="Informations" asp-controller="ProductType" asp-route-productTypeId="@Model.ProductTypeId" class="font-weight-bold text-uppercase">@Model.ProductTypeName</a></h3>
+					<div>
+						<div>
+							<span class="fa fa-star checked"></span>
+							<span class="fa fa-star checked"></span>
+							<span class="fa fa-star checked"></span>
+							<span class="fa fa-star"></span>
+							<span class="fa fa-star"></span>
+						</div>
+						<span>41 reviews</span>
+					</div>
+					<p>Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
+					<h4 class="font-weight-bold text-uppercase">current price: <span class="text-warning">@CurrencyFormat.FormatWithUnit(Model.Price)</span></h4>
+					<h4 class="font-weight-bold text-uppercase">SELLER: <a class="text-primary" asp-action="Informations" asp-controller="Seller" asp-route-sellerId="@Model.SellerId">@Model.SellerName</a></h4>
+					<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
+
+					<hr class="w-100" />
+
+					@{
+						var attributes = await eCommerce.GetProductAttributesAsync(Model.SellerId, Model.ProductTypeId);
+						foreach (var attribute in attributes)
+						{
+							<h5 class="font-weight-bold text-uppercase">
+								@attribute.Key:
+								@foreach (var value in attribute.Value)
+								{
+								<label class="radio-inline text-info">
+									<input type="radio" disabled name="attributes[@attribute.Key]" value="@value" /> @value
+								</label>
+								}
+							</h5>
+						}
+					}
+					<h5 class="font-weight-bold text-uppercase">Quantity:<input class="productQuantity" type="text" readonly value="@Model.Quantity" /></h5>
+					<h5 class="font-weight-bold text-uppercase">Active: @Model.Active</h5>
+					<h5 class="font-weight-bold text-uppercase">Status:</h5>
+					<form asp-action="ChangeStatus" asp-controller="Product" method="post">
+						<input name="sellerId" type="hidden" value="@Model.SellerId" />
+						<input name="productTypeId" type="hidden" value="@Model.ProductTypeId" />
+						<select class="submitOnChange form-control" name="status" enum-type="typeof(ProductStatus)" selected="Model.Status" error="Something went wrong while changing product status"></select>
+					</form>
+					<h5 class="font-weight-bold text-uppercase">Add or reduce quantity:</h5>
+					<form asp-action="ChangeQuantity" asp-controller="Product" method="put" class="changeProductQuantityOnSubmit">
+						<div class="form-row">
+							<div class="form-group">
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<select selected-bool-value="null" true-label="Add" false-label="Reduce" class="custom-select" name="isAdd"></select>
+									</div>
+									<input class="form-control" type="number" name="number" />
+								</div>
+							</div>
+						</div>
+						<input type="hidden" name="sellerId" value="@Model.SellerId" />
+						<input type="hidden" name="productTypeId" value="@Model.ProductTypeId" />
+						<div>
+							<input class="btn btn-lg btn-success" type="submit" value="Change quantity" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
