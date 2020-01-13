@@ -1,6 +1,7 @@
 ﻿using ECommerce.Extensions;
 using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Customers;
+using ECommerce.Models.Entities.Sellers;
 using ECommerce.Models.Repositories;
 using ECommerce.Models.SearchModels;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public async Task<Customer> GetByAsync(int id) => await context.Customers.FindAsync(id);
 
-		public Customer GetBy(string email) => context.Customers.Include(c => c.Name).FirstOrDefault(c => c.Email == email);
+		public Customer GetBy(string email) => context.Customers.Include(c => c.User.Name).FirstOrDefault(c => c.User.Email == email);
 
 		public IEnumerable<Customer> GetBy(CustomerSearchModel searchModel)
 		{
@@ -38,29 +39,32 @@ namespace ECommerce.Persistence.EF.Repositories
 				customers = customers.Where(c => c.Active == searchModel.Active);
 
 			if (!string.IsNullOrEmpty(searchModel.Email))
-				customers = customers.Where(c => c.Email.ToLower().Contains(searchModel.Email.ToLower(), CompareOptions.IgnoreNonSpace));
+				customers = customers.Where(c => c.User.Email.ToLower().Contains(searchModel.Email.ToLower(), CompareOptions.IgnoreNonSpace));
 
 			FullName name = new FullName(searchModel.FirstName, searchModel.MiddleName, searchModel.LastName);
 			if (name != null)
 			{
 				if (!string.IsNullOrEmpty(name.FirstName))
 					customers = customers
-						.Where(c => c.Name.FirstName.ToLower()
+						.Where(c => c.User.Name.FirstName.ToLower()
 						.Contains(name.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
 				if (!string.IsNullOrEmpty(name.MiddleName))
 					customers = customers
-						.Where(c => c.Name.MiddleName.ToLower()
+						.Where(c => c.User.Name.MiddleName.ToLower()
 						.Contains(name.MiddleName.ToLower(), CompareOptions.IgnoreNonSpace));
 				if (!string.IsNullOrEmpty(name.LastName))
 					customers = customers
-						.Where(c => c.Name.LastName.ToLower()
+						.Where(c => c.User.Name.LastName.ToLower()
 						.Contains(name.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
 			}
 
-			return customers.Include(c => c.Name);
+			if (searchModel.UserActive != null)
+				customers = customers.Where(c => c.User.Active == searchModel.UserActive);
+
+			return customers.Include(c => c.User.Name);
 		}
 
-		public IEnumerable<Customer> GetAll() => context.Customers.Include(c => c.Name);
+		public IEnumerable<Customer> GetAll() => context.Customers.Include(c => c.User.Name);
 
 		public async Task<Order> GetOrderByAsync(int orderId) => await context.Orders.FindAsync(orderId);
 
@@ -98,7 +102,7 @@ namespace ECommerce.Persistence.EF.Repositories
 			return orders
 				.Include(o=>o.ProductType)
 				.Include(o=>o.Seller)
-				.Include(o=>o.Customer.Name);
+				.Include(o=>o.Customer).ThenInclude(c=>c.User.Name);
 		}
 
 		public IEnumerable<Order> GetAllOrdersBy(OrderSearchModel searchModel)
@@ -153,13 +157,26 @@ namespace ECommerce.Persistence.EF.Repositories
 			return orders
 				.Include(o => o.ProductType)
 				.Include(o => o.Seller)
-				.Include(o => o.Customer.Name);
+				.Include(o => o.Customer).ThenInclude(c=>c.User.Name);
+		}
+
+		public IEnumerable<Comment> GetCommentsBy(CommentSearchModel searchModel)
+		{
+			IEnumerable<Comment> comments = context.Comments.Where(c => c.CustomerId == searchModel.CustomerId);
+
+			if (searchModel.SellerId != null)
+				comments = comments.Where(c => c.SellerId == searchModel.SellerId);
+
+			if (searchModel.ProductTypeId != null)
+				comments = comments.Where(c => c.ProductTypeId == searchModel.ProductTypeId);
+
+			return comments;
 		}
 
 		public async Task UpdateAsync(int id, Customer customer)
 		{
 			Customer presentCustomer = await GetByAsync(id);
-			presentCustomer.Name = customer.Name;
+			//presentCustomer.Name = customer.Name;
 		}
 
 		public async Task DeleteAsync(int id) => context.Customers.Remove(await GetByAsync(id));

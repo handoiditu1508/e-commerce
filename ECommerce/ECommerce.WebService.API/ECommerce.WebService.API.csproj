@@ -16,8 +16,4 @@
     <ProjectReference Include="..\ECommerce.UI.Shared\ECommerce.UI.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
 </Project>

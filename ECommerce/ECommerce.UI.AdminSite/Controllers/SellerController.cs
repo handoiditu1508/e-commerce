@@ -41,7 +41,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 
 			ShowEmail = true,
 			ShowId = true,
-			ShowName = true,
+			ShowStoreName = true,
 			ShowPhoneNumber = true,
 			ShowStatus = true
 		});
@@ -65,7 +65,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 
 				ShowEmail = true,
 				ShowId = true,
-				ShowName = true,
+				ShowStoreName = true,
 				ShowPhoneNumber = true,
 				ShowStatus = true
 			}
@@ -83,7 +83,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 				Id = sellerId,
 				UpdateModel = new SellerUpdateModel
 				{
-					Name = seller.Name,
+					StoreName = seller.StoreName,
 					PhoneNumber = seller.PhoneNumber
 				},
 				Status = seller.Status

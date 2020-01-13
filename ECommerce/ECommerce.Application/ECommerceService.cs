@@ -12,6 +12,7 @@ using ECommerce.Models.Entities.Categories;
 using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Entities.Users;
 using ECommerce.Models.Messages;
 using ECommerce.Models.Repositories;
 using ECommerce.Models.SearchModels;
@@ -32,6 +33,7 @@ namespace ECommerce.Application
 		private ICustomerRepository customerRepository => unitOfWork.GetCustomerRepository();
 		private IProductTypeRepository productTypeRepository => unitOfWork.GetProductTypeRepository();
 		private ISellerRepository sellerRepository => unitOfWork.GetSellerRepository();
+		private IUserRepository userRepository => unitOfWork.GetUserRepository();
 
 		private OrderService orderService;
 		private RegisterProductService registerProductService;
@@ -84,60 +86,9 @@ namespace ECommerce.Application
 		}
 
 		#region Admin
-		private BoolMessage ValidateAdmin(Admin admin, bool checkEmail, bool checkPassword)
+		private BoolMessage ValidateAdmin(Admin admin)
 		{
 			BoolMessage message = new BoolMessage();
-
-			if (admin == null)
-			{
-				message.Errors.Add("Can not validate an empty instance");
-				message.Result = false;
-				return message;
-			}
-
-			if (admin.Name == null)
-			{
-				message.Errors.Add("Name can not be empty");
-			}
-			else if (string.IsNullOrWhiteSpace(admin.Name.FirstName) || string.IsNullOrWhiteSpace(admin.Name.LastName))
-			{
-				message.Errors.Add("First name and last name can not be empty");
-			}
-			else
-			{
-				admin.Name.FirstName = admin.Name.FirstName
-				.Trim().Capitalize().RemoveMultipleSpaces();
-				admin.Name.LastName = admin.Name.LastName
-					.Trim().Capitalize().RemoveMultipleSpaces();
-				if (admin.Name.MiddleName != null)
-					admin.Name.MiddleName = admin.Name.MiddleName
-					.Trim().Capitalize().RemoveMultipleSpaces();
-			}
-
-			if (checkEmail)
-			{
-				if (string.IsNullOrWhiteSpace(admin.Email))
-				{
-					message.Errors.Add("Email can not be empty");
-				}
-				else if (!EmailValidationService.IsValidEmail(admin.Email))
-				{
-					message.Errors.Add("Invalid email address");
-				}
-				else if (adminRepository.GetBy(admin.Email) != null)
-				{
-					message.Errors.Add("Email already in use");
-				}
-			}
-
-			if (checkPassword)
-			{
-				if (string.IsNullOrEmpty(admin.Password))
-				{
-					message.Errors.Add("Password can not be empty");
-				}
-				else admin.Password = EncryptionService.Encrypt(admin.Password);
-			}
 
 			if (message.Errors.Any())
 				message.Result = false;
@@ -150,14 +101,20 @@ namespace ECommerce.Application
 		{
 			var message = new Message<AdminView>(null);
 			Admin admin = addModel.ConvertToEntity();
-			var validationMessage = ValidateAdmin(admin, true, true);
-			if (validationMessage.Result)
+
+			var validationMessage = ValidateUser(admin.User, true, true);
+			if(validationMessage.Result)
 			{
-				await adminRepository.AddAsync(admin);
-				await unitOfWork.CommitAsync();
-				message.Result = admin.ConvertToView();
-				return message;
+				validationMessage = ValidateAdmin(admin);
+				if (validationMessage.Result)
+				{
+					await adminRepository.AddAsync(admin);
+					await unitOfWork.CommitAsync();
+					message.Result = admin.ConvertToView();
+					return message;
+				}
 			}
+			
 			message.Errors = validationMessage.Errors;
 			return message;
 		}
@@ -173,9 +130,6 @@ namespace ECommerce.Application
 
 		public AdminView GetAdminBy(string adminEmail)
 			=> adminRepository.GetBy(adminEmail)?.ConvertToView() ?? null;
-
-		public async Task<string> GetAdminEncryptedPasswordAsync(int id)
-			=> (await adminRepository.GetByAsync(id))?.Password ?? null;
 
 		public IEnumerable<AdminView> GetAdminsBy(AdminSearchModel searchModel, int? startIndex, short? length)
 		{
@@ -200,63 +154,23 @@ namespace ECommerce.Application
 			Message message = new Message();
 			Admin admin = updateModel.ConvertToEntity();
 
-			var validationMessage = ValidateAdmin(admin, false, false);
+			var validationMessage = ValidateUser(admin.User, false, false);
 			if (validationMessage.Result)
 			{
-				if ((await adminRepository.GetByAsync(adminId)) != null)
+				validationMessage = ValidateAdmin(admin);
+				if (validationMessage.Result)
 				{
-					await adminRepository.UpdateAsync(adminId, admin);
-					await unitOfWork.CommitAsync();
-				}
-				else message.Errors.Add("Could not found admin");
-			}
-
-			return message;
-		}
-
-		public async Task<Message> UpdateAdminPasswordAsync(int adminId, string password)
-		{
-			Message message = new Message();
-			if (!string.IsNullOrEmpty(password))
-			{
-				Admin admin = await adminRepository.GetByAsync(adminId);
-				if (admin != null)
-				{
-					admin.Password = password;
-					await unitOfWork.CommitAsync();
-				}
-				else message.Errors.Add("Could not found admin");
-			}
-			else message.Errors.Add("Password can not be empty");
-
-			return message;
-		}
-
-		public async Task<Message> UpdateAdminEmailAsync(int adminId, string email)
-		{
-			Message message = new Message();
-			if (string.IsNullOrWhiteSpace(email))
-			{
-				message.Errors.Add("Email can not be empty");
-			}
-			else if (!EmailValidationService.IsValidEmail(email))
-			{
-				message.Errors.Add("Invalid email address");
-			}
-			else
-			{
-				Admin admin = await adminRepository.GetByAsync(adminId);
-				if (admin != null)
-				{
-					if (adminRepository.GetBy(email) == null)
+					if ((await adminRepository.GetByAsync(adminId)) != null)
 					{
-						admin.Email = email;
+						await userRepository.UpdateAsync(adminId, admin.User);
+						await adminRepository.UpdateAsync(adminId, admin);
 						await unitOfWork.CommitAsync();
 					}
-					else message.Errors.Add("Email already in use");
+					else message.Errors.Add("Could not found admin");
 				}
-				else message.Errors.Add("Could not found admin");
+				else message.Errors = validationMessage.Errors;
 			}
+			else message.Errors = validationMessage.Errors;
 
 			return message;
 		}
@@ -408,60 +322,9 @@ namespace ECommerce.Application
 		#endregion
 
 		#region Customer
-		private BoolMessage ValidateCustomer(Customer customer, bool checkEmail, bool checkPassword)
+		private BoolMessage ValidateCustomer(Customer customer)
 		{
 			BoolMessage message = new BoolMessage();
-
-			if (customer == null)
-			{
-				message.Errors.Add("Can not validate an empty instance");
-				message.Result = false;
-				return message;
-			}
-
-			if (customer.Name == null)
-			{
-				message.Errors.Add("Name can not be empty");
-			}
-			else if (string.IsNullOrWhiteSpace(customer.Name.FirstName) || string.IsNullOrWhiteSpace(customer.Name.LastName))
-			{
-				message.Errors.Add("First name and last name can not be empty");
-			}
-			else
-			{
-				customer.Name.FirstName = customer.Name.FirstName
-				.Trim().Capitalize().RemoveMultipleSpaces();
-				customer.Name.LastName = customer.Name.LastName
-					.Trim().Capitalize().RemoveMultipleSpaces();
-				if (customer.Name.MiddleName != null)
-					customer.Name.MiddleName = customer.Name.MiddleName
-					.Trim().Capitalize().RemoveMultipleSpaces();
-			}
-
-			if (checkEmail)
-			{
-				if (string.IsNullOrWhiteSpace(customer.Email))
-				{
-					message.Errors.Add("Email can not be empty");
-				}
-				else if (!EmailValidationService.IsValidEmail(customer.Email))
-				{
-					message.Errors.Add("Invalid email address");
-				}
-				else if (adminRepository.GetBy(customer.Email) != null)
-				{
-					message.Errors.Add("Email already in use");
-				}
-			}
-
-			if (checkPassword)
-			{
-				if (string.IsNullOrEmpty(customer.Password))
-				{
-					message.Errors.Add("Password can not be empty");
-				}
-				else customer.Password = EncryptionService.Encrypt(customer.Password);
-			}
 
 			if (message.Errors.Any())
 				message.Result = false;
@@ -474,14 +337,20 @@ namespace ECommerce.Application
 		{
 			var message = new Message<CustomerView>();
 			Customer customer = addModel.ConvertToEntity();
-			var validationMessage = ValidateCustomer(customer, true, true);
+
+			var validationMessage = ValidateUser(customer.User, true, true);
 			if (validationMessage.Result)
 			{
-				await customerRepository.AddAsync(customer);
-				await unitOfWork.CommitAsync();
-				message.Result = customer.ConvertToView();
-				return message;
+				validationMessage = ValidateCustomer(customer);
+				if (validationMessage.Result)
+				{
+					await customerRepository.AddAsync(customer);
+					await unitOfWork.CommitAsync();
+					message.Result = customer.ConvertToView();
+					return message;
+				}
 			}
+
 			message.Errors = validationMessage.Errors;
 			return message;
 		}
@@ -503,8 +372,7 @@ namespace ECommerce.Application
 
 		public IEnumerable<CustomerView> GetCustomersBy(CustomerSearchModel searchModel, int? startIndex, short? length)
 		{
-			IEnumerable<Customer> customers = customerRepository
-				.GetBy(searchModel);
+			IEnumerable<Customer> customers = customerRepository.GetBy(searchModel);
 
 			if (startIndex != null && startIndex > -1)
 				customers = customers.Skip((int)startIndex);
@@ -519,43 +387,28 @@ namespace ECommerce.Application
 				.GetBy(searchModel)
 				.Count();
 
-		public async Task<string> GetCustomerEncryptedPasswordAsync(int id)
-			=> (await customerRepository.GetByAsync(id))?.Password ?? null;
-
 		public async Task<Message> UpdateCustomerAsync(int customerId, CustomerUpdateModel updateModel)
 		{
 			Message message = new Message();
 			Customer customer = updateModel.ConvertToEntity();
 
-			var validationMessage = ValidateCustomer(customer, false, false);
+			var validationMessage = ValidateUser(customer.User, false, false);
 			if (validationMessage.Result)
 			{
-				if ((await customerRepository.GetByAsync(customerId)) != null)
+				validationMessage = ValidateCustomer(customer);
+				if (validationMessage.Result)
 				{
-					await customerRepository.UpdateAsync(customerId, customer);
-					await unitOfWork.CommitAsync();
+					if ((await customerRepository.GetByAsync(customerId)) != null)
+					{
+						await userRepository.UpdateAsync(customerId, customer.User);
+						await customerRepository.UpdateAsync(customerId, customer);
+						await unitOfWork.CommitAsync();
+					}
+					else message.Errors.Add("Could not found customer");
 				}
-				else message.Errors.Add("Could not found customer");
+				else message.Errors = validationMessage.Errors;
 			}
 			else message.Errors = validationMessage.Errors;
-
-			return message;
-		}
-
-		public async Task<Message> UpdateCustomerPasswordAsync(int customerId, string password)
-		{
-			Message message = new Message();
-			if (!string.IsNullOrEmpty(password))
-			{
-				Customer customer = await customerRepository.GetByAsync(customerId);
-				if (customer != null)
-				{
-					customer.Password = password;
-					await unitOfWork.CommitAsync();
-				}
-				else message.Errors.Add("Could not found customer");
-			}
-			else message.Errors.Add("Password can not be empty");
 
 			return message;
 		}
@@ -570,35 +423,6 @@ namespace ECommerce.Application
 				await unitOfWork.CommitAsync();
 			}
 			else message.Errors.Add("Could not found customer");
-
-			return message;
-		}
-
-		public async Task<Message> UpdateCustomerEmailAsync(int customerId, string email)
-		{
-			Message message = new Message();
-			if (string.IsNullOrWhiteSpace(email))
-			{
-				message.Errors.Add("Email can not be empty");
-			}
-			else if (!EmailValidationService.IsValidEmail(email))
-			{
-				message.Errors.Add("Invalid email address");
-			}
-			else
-			{
-				Customer customer = await customerRepository.GetByAsync(customerId);
-				if (customer != null)
-				{
-					if (customerRepository.GetBy(email) == null)
-					{
-						customer.Email = email;
-						await unitOfWork.CommitAsync();
-					}
-					else message.Errors.Add("Email already in use");
-				}
-				else message.Errors.Add("Could not found customer");
-			}
 
 			return message;
 		}
@@ -1649,7 +1473,7 @@ namespace ECommerce.Application
 		#endregion
 
 		#region Seller
-		private BoolMessage ValidateSeller(Seller seller, bool checkEmail, bool checkPassword)
+		private BoolMessage ValidateSeller(Seller seller)
 		{
 			BoolMessage message = new BoolMessage();
 
@@ -1660,11 +1484,11 @@ namespace ECommerce.Application
 				return message;
 			}
 
-			if (string.IsNullOrWhiteSpace(seller.Name))
+			if (string.IsNullOrWhiteSpace(seller.StoreName))
 			{
-				message.Errors.Add("Name can not be empty");
+				message.Errors.Add("Store name can not be empty");
 			}
-			else seller.Name = seller.Name.Trim().Capitalize().RemoveMultipleSpaces();
+			else seller.StoreName = seller.StoreName.Trim().Capitalize().RemoveMultipleSpaces();
 
 			if (string.IsNullOrWhiteSpace(seller.PhoneNumber))
 			{
@@ -1679,31 +1503,6 @@ namespace ECommerce.Application
 				}
 			}
 
-			if (checkEmail)
-			{
-				if (string.IsNullOrWhiteSpace(seller.Email))
-				{
-					message.Errors.Add("Email can not be empty");
-				}
-				else if (!EmailValidationService.IsValidEmail(seller.Email))
-				{
-					message.Errors.Add("Invalid email address");
-				}
-				else if (adminRepository.GetBy(seller.Email) != null)
-				{
-					message.Errors.Add("Email already in use");
-				}
-			}
-
-			if (checkPassword)
-			{
-				if (string.IsNullOrEmpty(seller.Password))
-				{
-					message.Errors.Add("Password can not be empty");
-				}
-				else seller.Password = EncryptionService.Encrypt(seller.Password);
-			}
-
 			if (message.Errors.Any())
 				message.Result = false;
 			else message.Result = true;
@@ -1715,17 +1514,21 @@ namespace ECommerce.Application
 		{
 			var message = new Message<SellerView>();
 			Seller seller = addModel.ConvertToEntity();
-			var validationMessage = ValidateSeller(seller, true, true);
 
+			var validationMessage = ValidateUser(seller.User, true, true);
 			if (validationMessage.Result)
 			{
-				await sellerRepository.AddAsync(seller);
-				await unitOfWork.CommitAsync();
-				message.Result = seller.ConvertToView();
-				return message;
+				validationMessage = ValidateSeller(seller);
+				if (validationMessage.Result)
+				{
+					await sellerRepository.AddAsync(seller);
+					await unitOfWork.CommitAsync();
+					message.Result = seller.ConvertToView();
+					return message;
+				}
 			}
-			else message.Errors = validationMessage.Errors;
 
+			message.Errors = validationMessage.Errors;
 			return message;
 		}
 
@@ -1758,36 +1561,24 @@ namespace ECommerce.Application
 		{
 			Message message = new Message();
 			Seller seller = updateModel.ConvertToEntity();
-			var validationMessage = ValidateSeller(seller, false, false);
 
+			var validationMessage = ValidateUser(seller.User, false, false);
 			if (validationMessage.Result)
 			{
-				if ((await sellerRepository.GetByAsync(sellerId)) != null)
+				validationMessage = ValidateSeller(seller);
+				if (validationMessage.Result)
 				{
-					await sellerRepository.UpdateAsync(sellerId, seller);
-					await unitOfWork.CommitAsync();
+					if ((await sellerRepository.GetByAsync(sellerId)) != null)
+					{
+						await userRepository.UpdateAsync(sellerId, seller.User);
+						await sellerRepository.UpdateAsync(sellerId, seller);
+						await unitOfWork.CommitAsync();
+					}
+					else message.Errors.Add("Could not found seller");
 				}
-				else message.Errors.Add("Could not found seller");
+				else message.Errors = validationMessage.Errors;
 			}
 			else message.Errors = validationMessage.Errors;
-
-			return message;
-		}
-
-		public async Task<Message> UpdateSellerPasswordAsync(int sellerId, string password)
-		{
-			Message message = new Message();
-			if (!string.IsNullOrEmpty(password))
-			{
-				Seller seller = await sellerRepository.GetByAsync(sellerId);
-				if (seller != null)
-				{
-					seller.Password = password;
-					await unitOfWork.CommitAsync();
-				}
-				else message.Errors.Add("Could not found seller");
-			}
-			else message.Errors.Add("Password can not be empty");
 
 			return message;
 		}
@@ -1806,35 +1597,6 @@ namespace ECommerce.Application
 			return message;
 		}
 
-		public async Task<Message> UpdateSellerEmailAsync(int sellerId, string email)
-		{
-			Message message = new Message();
-			if (string.IsNullOrWhiteSpace(email))
-			{
-				message.Errors.Add("Email can not be empty");
-			}
-			else if (!EmailValidationService.IsValidEmail(email))
-			{
-				message.Errors.Add("Invalid email address");
-			}
-			else
-			{
-				Seller seller = await sellerRepository.GetByAsync(sellerId);
-				if (seller != null)
-				{
-					if (sellerRepository.GetBy(email) == null)
-					{
-						seller.Email = email;
-						await unitOfWork.CommitAsync();
-					}
-					else message.Errors.Add("Email already in use");
-				}
-				else message.Errors.Add("Could not found seller");
-			}
-
-			return message;
-		}
-
 		public async Task DeleteSellerAsync(int sellerId)
 		{
 			if ((await sellerRepository.GetByAsync(sellerId)) != null)
@@ -1849,9 +1611,287 @@ namespace ECommerce.Application
 			sellerRepository.Delete(seller);
 			await unitOfWork.CommitAsync();
 		}
+		#endregion
 
-		public async Task<string> GetSellerEncryptedPasswordAsync(int id)
-			=> (await sellerRepository.GetByAsync(id))?.Password ?? null;
+		#region Comment
+		public async Task<Message<CommentView>> SaveCommentAsync(int sellerId, int productTypeId, CommentAddModel addModel)
+		{
+			var message = new Message<CommentView>();
+			Comment comment = addModel.ConvertToEntity();
+
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
+
+			if (product != null)
+			{
+				product.SaveComment(comment);
+				await unitOfWork.CommitAsync();
+				message.Result = comment.ConvertToView();
+				return message;
+			}
+			else
+			{
+				message.Errors.Add("Can not found product");
+				return message;
+			}
+		}
+
+		public async Task<CommentView> GetCommentByAsync(int sellerId, int productTypeId, int customerId)
+		=> (await sellerRepository.GetCommentByAsync(sellerId, productTypeId, customerId)).ConvertToView();
+
+		public IEnumerable<CommentView> GetCommentsByProductIds(CommentSearchModel searchModel, int? startIndex, short? length)
+		{
+			var comments = sellerRepository.GetCommentsByProductIds(searchModel);
+
+			if (startIndex != null && startIndex > -1)
+				comments = comments.Skip((int)startIndex);
+			if (length != null && length > -1)
+				comments = comments.Take((int)length);
+
+			return comments.ConvertToViews();
+		}
+
+		public IEnumerable<CommentView> GetCommentsByCustomerIds(CommentSearchModel searchModel, int? startIndex, short? length)
+		{
+			var comments = customerRepository.GetCommentsBy(searchModel);
+
+			if (startIndex != null && startIndex > -1)
+				comments = comments.Skip((int)startIndex);
+			if (length != null && length > -1)
+				comments = comments.Take((int)length);
+
+			return comments.ConvertToViews();
+		}
+
+		public IEnumerable<CommentView> GetAllComments(CommentSearchModel searchModel, int? startIndex, short? length)
+		{
+			var comments = sellerRepository.GetAllComments(searchModel);
+
+			if (startIndex != null && startIndex > -1)
+				comments = comments.Skip((int)startIndex);
+			if (length != null && length > -1)
+				comments = comments.Take((int)length);
+
+			return comments.ConvertToViews();
+		}
+
+		public int CountCommentsByProductIds(CommentSearchModel searchModel)
+			=> sellerRepository.GetCommentsByProductIds(searchModel).Count();
+
+		public int CountCommentsByCustomerIds(CommentSearchModel searchModel)
+			=> customerRepository.GetCommentsBy(searchModel).Count();
+
+		public int CountAllComments(CommentSearchModel searchModel)
+			=> sellerRepository.GetAllComments(searchModel).Count();
+
+		public async Task DeleteCommentAsync(int sellerId, int productTypeId, int customerId)
+		{
+			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
+
+			if (product != null)
+			{
+				product.DeleteComment(customerId);
+				await unitOfWork.CommitAsync();
+			}
+		}
+		#endregion
+
+		#region User
+		private BoolMessage ValidateUser(User user, bool checkEmail, bool checkPassword)
+		{
+			BoolMessage message = new BoolMessage();
+
+			if (user == null)
+			{
+				message.Errors.Add("Can not validate an empty instance");
+				message.Result = false;
+				return message;
+			}
+
+			if (user.Name == null)
+			{
+				message.Errors.Add("Name can not be empty");
+			}
+			else if (string.IsNullOrWhiteSpace(user.Name.FirstName) || string.IsNullOrWhiteSpace(user.Name.LastName))
+			{
+				message.Errors.Add("First name and last name can not be empty");
+			}
+			else
+			{
+				user.Name.FirstName = user.Name.FirstName
+				.Trim().Capitalize().RemoveMultipleSpaces();
+				user.Name.LastName = user.Name.LastName
+					.Trim().Capitalize().RemoveMultipleSpaces();
+				if (user.Name.MiddleName != null)
+					user.Name.MiddleName = user.Name.MiddleName
+					.Trim().Capitalize().RemoveMultipleSpaces();
+			}
+
+			if (checkEmail)
+			{
+				if (string.IsNullOrWhiteSpace(user.Email))
+				{
+					message.Errors.Add("Email can not be empty");
+				}
+				else if (!EmailValidationService.IsValidEmail(user.Email))
+				{
+					message.Errors.Add("Invalid email address");
+				}
+				else if (adminRepository.GetBy(user.Email) != null)
+				{
+					message.Errors.Add("Email already in use");
+				}
+			}
+
+			if (checkPassword)
+			{
+				if (string.IsNullOrEmpty(user.Password))
+				{
+					message.Errors.Add("Password can not be empty");
+				}
+				else user.Password = EncryptionService.Encrypt(user.Password);
+			}
+
+			if (message.Errors.Any())
+				message.Result = false;
+			else message.Result = true;
+
+			return message;
+		}
+
+		public async Task<Message<UserView>> AddUserAsync(UserAddModel addModel)
+		{
+			var message = new Message<UserView>();
+			User user = addModel.ConvertToEntity();
+			var validationMessage = ValidateUser(user, true, true);
+			if (validationMessage.Result)
+			{
+				await userRepository.AddAsync(user);
+				await unitOfWork.CommitAsync();
+				message.Result = user.ConvertToView();
+				return message;
+			}
+			message.Errors = validationMessage.Errors;
+			return message;
+		}
+
+		public async Task<UserView> GetUserByAsync(int userId)
+			=> (await userRepository.GetByAsync(userId))?.ConvertToView() ?? null;
+
+		public UserView GetUserBy(string userEmail)
+			=> userRepository.GetBy(userEmail)?.ConvertToView() ?? null;
+
+		public IEnumerable<UserView> GetUsersBy(UserSearchModel searchModel, int? startIndex, short? length)
+		{
+			IEnumerable<User> users = userRepository.GetBy(searchModel);
+
+			if (startIndex != null && startIndex > -1)
+				users = users.Skip((int)startIndex);
+			if (length != null && length > -1)
+				users = users.Take((int)length);
+
+			return users.ConvertToViews();
+		}
+
+		public int CountUsersBy(UserSearchModel searchModel)
+			=> userRepository
+				.GetBy(searchModel)
+				.Count();
+
+		public async Task<string> GetUserEncryptedPasswordAsync(int id)
+			=> (await userRepository.GetByAsync(id))?.Password ?? null;
+
+		public async Task<Message> UpdateUserAsync(int userId, UserUpdateModel updateModel)
+		{
+			Message message = new Message();
+			User user = updateModel.ConvertToEntity();
+
+			var validationMessage = ValidateUser(user, false, false);
+			if (validationMessage.Result)
+			{
+				if ((await userRepository.GetByAsync(userId)) != null)
+				{
+					await userRepository.UpdateAsync(userId, user);
+					await unitOfWork.CommitAsync();
+				}
+				else message.Errors.Add("Could not found user");
+			}
+			else message.Errors = validationMessage.Errors;
+
+			return message;
+		}
+
+		public async Task<Message> UpdateUserPasswordAsync(int userId, string password)
+		{
+			Message message = new Message();
+			if (!string.IsNullOrEmpty(password))
+			{
+				User user = await userRepository.GetByAsync(userId);
+				if (user != null)
+				{
+					user.Password = EncryptionService.Encrypt(password);
+					await unitOfWork.CommitAsync();
+				}
+				else message.Errors.Add("Could not found user");
+			}
+			else message.Errors.Add("Password can not be empty");
+
+			return message;
+		}
+
+		public async Task<Message> UpdateUserEmailAsync(int userId, string email)
+		{
+			Message message = new Message();
+			if (string.IsNullOrWhiteSpace(email))
+			{
+				message.Errors.Add("Email can not be empty");
+			}
+			else if (!EmailValidationService.IsValidEmail(email))
+			{
+				message.Errors.Add("Invalid email address");
+			}
+			else
+			{
+				User user = await userRepository.GetByAsync(userId);
+				if (user != null)
+				{
+					if (userRepository.GetBy(email) == null)
+					{
+						user.Email = email;
+						await unitOfWork.CommitAsync();
+					}
+					else message.Errors.Add("Email already in use");
+				}
+				else message.Errors.Add("Could not found user");
+			}
+
+			return message;
+		}
+
+		public async Task<Message> UpdateUserActiveAsync(int userId, bool active)
+		{
+			Message message = new Message();
+			User user = await userRepository.GetByAsync(userId);
+			if (user != null)
+			{
+				user.Active = active;
+				await unitOfWork.CommitAsync();
+			}
+			else message.Errors.Add("Could not found user");
+
+			return message;
+		}
+
+		public async Task DeleteUserAsync(int userId)
+		{
+			await userRepository.DeleteAsync(userId);
+			await unitOfWork.CommitAsync();
+		}
+
+		public async Task DeleteUserAsync(User user)
+		{
+			userRepository.Delete(user);
+			await unitOfWork.CommitAsync();
+		}
 		#endregion
 	}
 }

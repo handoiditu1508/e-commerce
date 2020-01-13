@@ -24,7 +24,7 @@
 		</thead>
 		<tbody>
 			@{string formAction = Url.Action("ChangeStatus", "Order");}
-			@foreach(var order in Model)
+			@foreach (var order in Model)
 			{
 			<tr>
 				<td>@order.Id</td>
@@ -36,7 +36,7 @@
 					<p>@($"Id: {order.ProductTypeId}")</p>
 					<div class="bg-light productImageContainerForOrderTable">
 						@{var product = (await eCommerce.GetProductByAsync(order.SellerId, order.ProductTypeId));}
-						<img src="@($"{UIConsts.GetProductUrlById(order.SellerId, order.ProductTypeId)}/{product.RepresentativeImage}")">
+						<img class="m-auto mw-100 mh-100" src="@($"{UIConsts.GetProductUrlById(order.SellerId, order.ProductTypeId)}/{product.RepresentativeImage}")">
 					</div>
 					<p>@($"Name: {order.ProductTypeName}")</p>
 				</td>

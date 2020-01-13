@@ -24,7 +24,7 @@ namespace ECommerce.Application.WorkingModels.Views
 		[Display(Name = "Product Type Name")]
 		public string ProductTypeName { get; set; }
 
-		public int CustomerId { get; set; }
+		public int? CustomerId { get; set; }
 		[Display(Name = "Customer Name")]
 		public string CustomerName { get; set; }
 

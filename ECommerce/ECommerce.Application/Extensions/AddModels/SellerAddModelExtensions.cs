@@ -1,5 +1,7 @@
 ﻿using ECommerce.Application.WorkingModels.AddModels;
+using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Entities.Users;
 
 namespace ECommerce.Application.Extensions.AddModels
 {
@@ -8,9 +10,13 @@ namespace ECommerce.Application.Extensions.AddModels
 		public static Seller ConvertToEntity(this SellerAddModel addModel)
 			=> new Seller
 			{
-				Name = addModel.Name,
-				Email = addModel.Email,
-				Password = addModel.Password,
+				StoreName = addModel.StoreName,
+				User = new User
+				{
+					Email = addModel.Email,
+					Name = new FullName(addModel.FirstName, addModel.MiddleName, addModel.LastName),
+					Password = addModel.Password
+				},
 				PhoneNumber = addModel.PhoneNumber
 			};
 	}

@@ -61,7 +61,7 @@ namespace ECommerce.UI.MVC.Controllers
 					{
 						if (customer.Active)
 						{
-							string encryptedPassword = await eCommerce.GetCustomerEncryptedPasswordAsync(customer.Id);
+							string encryptedPassword = await eCommerce.GetUserEncryptedPasswordAsync(customer.Id);
 							if (EncryptionService.Encrypt(loginViewModel.LoginInformation.Password) == encryptedPassword)
 							{
 								loginPersistence.LoginThrough(loginViewModel.LoginInformation.Username, loginViewModel.LoginInformation.Remember);

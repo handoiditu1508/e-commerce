@@ -13,6 +13,7 @@ namespace ECommerce.Persistence.EF
 		private ICustomerRepository customerRepository;
 		private IProductTypeRepository productTypeRepository;
 		private ISellerRepository sellerRepository;
+		private IUserRepository userRepository;
 
 		public UnitOfWork() => context = new ApplicationDbContext();
 
@@ -51,6 +52,13 @@ namespace ECommerce.Persistence.EF
 			if (sellerRepository == null)
 				sellerRepository = new SellerRepository(context);
 			return sellerRepository;
+		}
+
+		public IUserRepository GetUserRepository()
+		{
+			if (userRepository == null)
+				userRepository = new UserRepository(context);
+			return userRepository;
 		}
 	}
 }

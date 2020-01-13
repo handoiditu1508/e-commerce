@@ -11,8 +11,23 @@ namespace ECommerce.Application.WorkingModels.Views
 
 		[Required]
 		[MinLength(1)]
-		[Display(Name = "Name")]
-		public string Name { get; set; }
+		[Display(Name = "Store Name")]
+		public string StoreName { get; set; }
+
+		[Required]
+		[MinLength(1)]
+		[MaxLength(20)]
+		[Display(Name = "First Name")]
+		public string FirstName { get; set; }
+
+		[Display(Name = "Middle Name")]
+		public string MiddleName { get; set; }
+
+		[Required]
+		[MinLength(1)]
+		[MaxLength(20)]
+		[Display(Name = "Last Name")]
+		public string LastName { get; set; }
 
 		[Required]
 		[Display(Name = "Phone Number")]

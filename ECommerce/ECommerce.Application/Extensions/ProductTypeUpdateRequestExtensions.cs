@@ -18,7 +18,7 @@ namespace ECommerce.Application.Extensions
 				ProductTypeId = updateRequest.ProductTypeId,
 				ProductTypeName = updateRequest.ProductType.Name,
 				SellerId = updateRequest.SellerId,
-				SellerName = updateRequest.Seller.Name
+				SellerName = updateRequest.Seller.StoreName
 			};
 
 		public static IEnumerable<ProductTypeUpdateRequestView> ConvertToViews(this IEnumerable<ProductTypeUpdateRequest> updateRequests)

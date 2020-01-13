@@ -10,7 +10,10 @@
 			<tr>
 				<th>Id</th>
 				<th>Email</th>
-				<th>Name</th>
+				<th>First Name</th>
+				<th>Middle Name</th>
+				<th>Last Name</th>
+				<th>Store Name</th>
 				<th>Phone Number</th>
 				<th>Status</th>
 			</tr>
@@ -23,7 +26,10 @@
 				<tr>
 					<td><a href="@detailUrl" class="text-decoration-none">@seller.Id</a></td>
 					<td><a href="@detailUrl" class="text-decoration-none">@seller.Email</a></td>
-					<td><a href="@detailUrl" class="text-decoration-none">@seller.Name</a></td>
+					<td>@seller.FirstName</td>
+					<td>@seller.MiddleName</td>
+					<td>@seller.LastName</td>
+					<td><a href="@detailUrl" class="text-decoration-none">@seller.StoreName</a></td>
 					<td>@seller.PhoneNumber</td>
 					<td>
 						<form action="@formAction" method="put">

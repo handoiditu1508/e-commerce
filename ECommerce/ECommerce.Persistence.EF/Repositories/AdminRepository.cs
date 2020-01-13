@@ -21,7 +21,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public async Task<Admin> GetByAsync(int id) => await context.Admins.FindAsync(id);
 
-		public Admin GetBy(string email) => context.Admins.Include(a => a.Name).FirstOrDefault(a => a.Email == email);
+		public Admin GetBy(string email) => context.Admins.Include(a => a.User.Name).FirstOrDefault(a => a.User.Email == email);
 
 		public IEnumerable<Admin> GetBy(AdminSearchModel searchModel)
 		{
@@ -36,27 +36,30 @@ namespace ECommerce.Persistence.EF.Repositories
 				}
 				if (!string.IsNullOrEmpty(searchModel.FirstName))
 					admins = admins
-						.Where(c => c.Name.FirstName.ToLower()
+						.Where(c => c.User.Name.FirstName.ToLower()
 						.Contains(searchModel.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
 				if (!string.IsNullOrEmpty(searchModel.MiddleName))
 					admins = admins
-						.Where(c => c.Name.MiddleName.ToLower()
+						.Where(c => c.User.Name.MiddleName.ToLower()
 						.Contains(searchModel.MiddleName.ToLower(), CompareOptions.IgnoreNonSpace));
 				if (!string.IsNullOrEmpty(searchModel.LastName))
 					admins = admins
-						.Where(c => c.Name.LastName.ToLower()
+						.Where(c => c.User.Name.LastName.ToLower()
 						.Contains(searchModel.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
+
+				if (searchModel.UserActive != null)
+					admins = admins.Where(a => a.User.Active == searchModel.UserActive);
 			}
 
-			return admins.Include(a => a.Name);
+			return admins.Include(a => a.User.Name);
 		}
 
-		public IEnumerable<Admin> GetAll() => context.Admins.Include(a => a.Name);
+		public IEnumerable<Admin> GetAll() => context.Admins.Include(a => a.User.Name);
 
 		public async Task UpdateAsync(int id, Admin admin)
 		{
 			Admin presentAdmin = await GetByAsync(id);
-			presentAdmin.Name = admin.Name;
+			//presentAdmin.Name = admin.Name;
 		}
 
 		public async Task DeleteAsync(int id) => context.Admins.Remove(await GetByAsync(id));

@@ -1,5 +1,6 @@
 ﻿using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.Entities.ProductTypes;
+using ECommerce.Models.Entities.Users;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,24 +13,16 @@ namespace ECommerce.Models.Entities.Sellers
 	{
 		[Key]
 		public int Id { get; set; }
+		[ForeignKey("Id")]
+		public virtual User User { get; set; }
 
 		[Required]
 		[MinLength(1)]
-		public string Name { get; set; }
+		public string StoreName { get; set; }
 
 		[Required]
 		[DataType(DataType.PhoneNumber)]
 		public string PhoneNumber { get; set; }
-
-		[Required]
-		[EmailAddress]
-		public string Email { get; set; }
-
-		[Required]
-		[MinLength(6)]
-		[MaxLength(32)]
-		[DataType(DataType.Password)]
-		public string Password { get; set; }
 
 		[Required]
 		[EnumDataType(typeof(SellerStatus))]

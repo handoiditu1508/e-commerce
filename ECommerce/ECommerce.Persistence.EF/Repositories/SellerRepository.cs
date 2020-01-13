@@ -1,4 +1,5 @@
 ﻿using ECommerce.Extensions;
+using ECommerce.Models.Entities;
 using ECommerce.Models.Entities.Categories;
 using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.Entities.ProductTypes;
@@ -24,11 +25,11 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public async Task<Seller> GetByAsync(int id) => await context.Sellers.FindAsync(id);
 
-		public Seller GetBy(string email) => context.Sellers.FirstOrDefault(s => s.Email == email);
+		public Seller GetBy(string email) => context.Sellers.FirstOrDefault(s => s.User.Email == email);
 
 		public IEnumerable<Seller> GetBy(SellerSearchModel searchModel)
 		{
-			IEnumerable<Seller> sellers = context.Sellers;
+			IQueryable<Seller> sellers = context.Sellers;
 
 			if (searchModel.Id != null)
 			{
@@ -44,16 +45,36 @@ namespace ECommerce.Persistence.EF.Repositories
 
 			if (!string.IsNullOrEmpty(searchModel.Email))
 				sellers = sellers
-					.Where(s => s.Email.ToLower().Contains(searchModel.Email.ToLower(), CompareOptions.IgnoreNonSpace));
+					.Where(s => s.User.Email.ToLower().Contains(searchModel.Email.ToLower(), CompareOptions.IgnoreNonSpace));
 
-			if (!string.IsNullOrEmpty(searchModel.Name))
+			if (!string.IsNullOrEmpty(searchModel.StoreName))
 				sellers = sellers
-					.Where(s => s.Name.ToLower().Contains(searchModel.Name.ToLower(), CompareOptions.IgnoreNonSpace));
+					.Where(s => s.StoreName.ToLower().Contains(searchModel.StoreName.ToLower(), CompareOptions.IgnoreNonSpace));
 
-			return sellers;
+			FullName name = new FullName(searchModel.FirstName, searchModel.MiddleName, searchModel.LastName);
+			if (name != null)
+			{
+				if (!string.IsNullOrEmpty(name.FirstName))
+					sellers = sellers
+						.Where(s => s.User.Name.FirstName.ToLower()
+						.Contains(name.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
+				if (!string.IsNullOrEmpty(name.MiddleName))
+					sellers = sellers
+						.Where(s => s.User.Name.MiddleName.ToLower()
+						.Contains(name.MiddleName.ToLower(), CompareOptions.IgnoreNonSpace));
+				if (!string.IsNullOrEmpty(name.LastName))
+					sellers = sellers
+						.Where(s => s.User.Name.LastName.ToLower()
+						.Contains(name.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
+			}
+
+			if (searchModel.UserActive != null)
+				sellers = sellers.Where(c => c.User.Active == searchModel.UserActive);
+
+			return sellers.Include(s => s.User.Name);
 		}
 
-		public IEnumerable<Seller> GetAll() => context.Sellers;
+		public IEnumerable<Seller> GetAll() => context.Sellers.Include(s => s.User.Name);
 
 		public IEnumerable<Order> GetOrdersBy(OrderSearchModel searchModel)
 		{
@@ -89,11 +110,52 @@ namespace ECommerce.Persistence.EF.Repositories
 			return orders
 				.Include(o => o.ProductType)
 				.Include(o => o.Seller)
-				.Include(o => o.Customer.Name);
+				.Include(o => o.Customer).ThenInclude(c=>c.User.Name);
 		}
 
 		public Product GetProductBy(int sellerId, int productTypeId)
 			=> context.Products.Find(sellerId, productTypeId);
+
+		public async Task<Comment> GetCommentByAsync(int sellerId, int productTypeId, int customerId)
+		{
+			return await context.Comments.FindAsync(sellerId, productTypeId, customerId);
+		}
+
+		public IEnumerable<Comment> GetAllComments(CommentSearchModel searchModel)
+		{
+			IEnumerable<Comment> comments = context.Comments;
+
+			if (searchModel.SellerId != null)
+			{
+				string sellerId = searchModel.SellerId.ToString();
+				comments = comments.Where(p => p.SellerId.ToString().Contains(sellerId));
+			}
+
+			if (searchModel.ProductTypeId != null)
+			{
+				string productTypeId = searchModel.ProductTypeId.ToString();
+				comments = comments.Where(p => p.ProductTypeId.ToString().Contains(productTypeId));
+			}
+
+			if (searchModel.CustomerId != null)
+			{
+				string customerId = searchModel.CustomerId.ToString();
+				comments = comments.Where(p => p.CustomerId.ToString().Contains(customerId));
+			}
+
+			return comments;
+		}
+
+		public IEnumerable<Comment> GetCommentsByProductIds(CommentSearchModel searchModel)
+		{
+			IEnumerable<Comment> comments = context.Comments
+				.Where(c => c.SellerId == searchModel.SellerId && c.ProductTypeId == searchModel.ProductTypeId);
+
+			if (searchModel.CustomerId != null)
+				comments = comments.Where(c => c.CustomerId == searchModel.CustomerId);
+
+			return comments;
+		}
 
 		public async Task<Product> GetProductByAsync(int sellerId, int productTypeId)
 			=> await context.Products.FindAsync(sellerId, productTypeId);
@@ -268,7 +330,7 @@ namespace ECommerce.Persistence.EF.Repositories
 		public async Task UpdateAsync(int id, Seller seller)
 		{
 			Seller presentSeller = await GetByAsync(id);
-			presentSeller.Name = seller.Name;
+			presentSeller.StoreName = seller.StoreName;
 			presentSeller.PhoneNumber = seller.PhoneNumber;
 		}
 

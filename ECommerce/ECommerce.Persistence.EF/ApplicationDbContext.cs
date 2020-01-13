@@ -3,6 +3,7 @@ using ECommerce.Models.Entities.Categories;
 using ECommerce.Models.Entities.Customers;
 using ECommerce.Models.Entities.ProductTypes;
 using ECommerce.Models.Entities.Sellers;
+using ECommerce.Models.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Persistence.EF
@@ -14,6 +15,7 @@ namespace ECommerce.Persistence.EF
 		public DbSet<Admin> Admins { get; set; }
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<Customer> Customers { get; set; }
+		public DbSet<Comment> Comments { get; set; }
 		public DbSet<Order> Orders { get; set; }
 		public DbSet<OrderAttribute> OrderAttributes { get; set; }
 		public DbSet<ProductType> ProductTypes { get; set; }
@@ -21,6 +23,7 @@ namespace ECommerce.Persistence.EF
 		public DbSet<Product> Products { get; set; }
 		public DbSet<ProductAttribute> ProductAttributes { get; set; }
 		public DbSet<Seller> Sellers { get; set; }
+		public DbSet<User> Users { get; set; }
 
 		public ApplicationDbContext() : base() { }
 
@@ -31,13 +34,9 @@ namespace ECommerce.Persistence.EF
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			//admin email is unique
-			modelBuilder.Entity<Admin>()
-				.HasIndex(a => a.Email).IsUnique();
-
-			//customer email is unique
-			modelBuilder.Entity<Customer>()
-				.HasIndex(c => c.Email).IsUnique();
+			//user email is unique
+			modelBuilder.Entity<User>()
+				.HasIndex(u => u.Email).IsUnique();
 
 			//order attribute has 2 keys
 			modelBuilder.Entity<OrderAttribute>()
@@ -50,10 +49,6 @@ namespace ECommerce.Persistence.EF
 			//product type update request has 2 keys
 			modelBuilder.Entity<ProductTypeUpdateRequest>()
 				.HasKey(ptur => new { ptur.SellerId, ptur.ProductTypeId });
-
-			//seller email is unique
-			modelBuilder.Entity<Seller>()
-				.HasIndex(s => s.Email).IsUnique();
 
 			//product attribute has 4 keys
 			modelBuilder.Entity<ProductAttribute>().HasKey(pa => new { pa.SellerId, pa.ProductTypeId, pa.Name, pa.Value });
@@ -71,6 +66,30 @@ namespace ECommerce.Persistence.EF
 				.HasOne(p => p.Category)
 				.WithMany()
 				.HasForeignKey(p => p.CategoryId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			//comment has 3 keys
+			modelBuilder.Entity<Comment>()
+				.HasKey(c => new { c.SellerId, c.ProductTypeId, c.CustomerId });
+
+			//mapping [Comment.Product] with [Product.Comments]
+			modelBuilder.Entity<Comment>()
+				.HasOne(pa => pa.Product)
+				.WithMany(p => p.Comments)
+				.HasForeignKey(pa => new { pa.SellerId, pa.ProductTypeId });
+
+			//[Orders] will not be deleted if [Customer] is deleted
+			modelBuilder.Entity<Order>()
+				.HasOne(p => p.Customer)
+				.WithMany(c => c.Orders)
+				.HasForeignKey(p => p.CustomerId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			//[Comments] will not be deleted if [Customer] is deleted
+			modelBuilder.Entity<Comment>()
+				.HasOne(p => p.Customer)
+				.WithMany(c => c.Comments)
+				.HasForeignKey(p => p.CustomerId)
 				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}

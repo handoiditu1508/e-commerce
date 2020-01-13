@@ -21,5 +21,8 @@ namespace ECommerce.Models.SearchModels
 
 		[Display(Name = "Active")]
 		public bool? Active { get; set; }
+
+		[Display(Name = "User Active")]
+		public bool? UserActive { get; set; }
 	}
 }

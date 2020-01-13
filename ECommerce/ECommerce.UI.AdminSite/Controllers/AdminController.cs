@@ -55,7 +55,7 @@ namespace ECommerce.UI.AdminSite.Controllers
 					admin = eCommerce.GetAdminBy(loginViewModel.LoginInformation.Username);
 					if (admin != null)
 					{
-						string encryptedPassword = await eCommerce.GetAdminEncryptedPasswordAsync(admin.Id);
+						string encryptedPassword = await eCommerce.GetUserEncryptedPasswordAsync(admin.Id);
 						if (EncryptionService.Encrypt(loginViewModel.LoginInformation.Password) == encryptedPassword)
 						{
 							loginPersistence.LoginThrough(loginViewModel.LoginInformation.Username, loginViewModel.LoginInformation.Remember);

@@ -12,7 +12,7 @@ namespace ECommerce.Application.Extensions
 			=> new ProductView
 			{
 				SellerId = product.SellerId,
-				SellerName = product.Seller.Name,
+				SellerName = product.Seller.StoreName,
 				ProductTypeId = product.ProductTypeId,
 				ProductTypeName = product.ProductType.Name,
 				Price = product.Price,

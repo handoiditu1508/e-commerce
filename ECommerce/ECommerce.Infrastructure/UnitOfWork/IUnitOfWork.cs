@@ -10,6 +10,7 @@ namespace ECommerce.Infrastructure.UnitOfWork
 		ICustomerRepository GetCustomerRepository();
 		IProductTypeRepository GetProductTypeRepository();
 		ISellerRepository GetSellerRepository();
+		IUserRepository GetUserRepository();
 
 		Task CommitAsync();
 	}

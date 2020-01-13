@@ -19,16 +19,16 @@
 			</div>
 			}
 
-			@if (Model.ShowName)
+			@if (Model.ShowStoreName)
 			{
 			<div class="form-group col-md-7">
 				<div class="input-group">
 					<div class="input-group-prepend">
-						<label asp-for="SearchModel.Name" class="control-label input-group-text"></label>
+						<label asp-for="SearchModel.StoreName" class="control-label input-group-text"></label>
 					</div>
-					<input name="name" asp-for="SearchModel.Name" class="form-control" />
+					<input name="name" asp-for="SearchModel.StoreName" class="form-control" />
 				</div>
-				<span asp-validation-for="SearchModel.Name" class="text-danger"></span>
+				<span asp-validation-for="SearchModel.StoreName" class="text-danger"></span>
 			</div>
 			}
 
@@ -42,6 +42,47 @@
 					<select class="form-control" name="status" enum-type="typeof(SellerStatus)" selected="Model.SearchModel.Status" option-label=""></select>
 				</div>
 				<span asp-validation-for="SearchModel.Status" class="text-danger"></span>
+			</div>
+			}
+		</div>
+
+		<div class="form-row">
+			@if (Model.ShowFirstName)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.FirstName" class="control-label input-group-text"></label>
+					</div>
+					<input name="firstName" asp-for="SearchModel.FirstName" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.FirstName" class="text-danger"></span>
+			</div>
+			}
+
+			@if (Model.ShowMiddleName)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.MiddleName" class="control-label input-group-text"></label>
+					</div>
+					<input name="middleName" asp-for="SearchModel.MiddleName" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.MiddleName" class="text-danger"></span>
+			</div>
+			}
+
+			@if (Model.ShowLastName)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.LastName" class="control-label input-group-text"></label>
+					</div>
+					<input name="lastName" asp-for="SearchModel.LastName" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.LastName" class="text-danger"></span>
 			</div>
 			}
 		</div>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ECommerce.Models.Entities.Users;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECommerce.Models.Entities.Admins
@@ -8,18 +9,7 @@ namespace ECommerce.Models.Entities.Admins
 	{
 		[Key]
 		public int Id { get; set; }
-
-		[Required]
-		public virtual FullName Name { get; set; }
-
-		[Required]
-		[EmailAddress]
-		public string Email { get; set; }
-
-		[Required]
-		[MinLength(6)]
-		[MaxLength(32)]
-		[DataType(DataType.Password)]
-		public virtual string Password { get; set; }
+		[ForeignKey("Id")]
+		public virtual User User { get; set; }
 	}
 }

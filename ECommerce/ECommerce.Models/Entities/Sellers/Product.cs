@@ -150,6 +150,30 @@ namespace ECommerce.Models.Entities.Sellers
 				?? new List<string>();
 			set => SerializedImages = value.ToByteArray();
 		}
+
+		[InverseProperty("Product")]
+		public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
+		public void SaveComment(Comment comment)
+		{
+			Comment oldComment = Comments.FirstOrDefault(c => c.CustomerId == comment.CustomerId);
+
+			if(oldComment == null)
+			{
+				Comments.Add(comment);
+			}
+			else
+			{
+				oldComment.Subject = comment.Subject;
+				oldComment.Content = comment.Content;
+				oldComment.Stars = comment.Stars;
+				oldComment.DateModified = comment.DateModified;
+				oldComment.Images = comment.Images;
+			}
+		}
+
+		public void DeleteComment(int customerId)
+			=> Comments.Remove(Comments.FirstOrDefault(c => c.CustomerId == customerId));
 	}
 
 	public enum OperatingModel

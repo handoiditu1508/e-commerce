@@ -12,13 +12,13 @@ namespace ECommerce.Application.Extensions
 			{
 				Id = order.Id,
 				SellerId = order.SellerId,
-				SellerName = order.Seller.Name,
+				SellerName = order.Seller.StoreName,
 				ProductTypeId = order.ProductTypeId,
 				ProductTypeName = order.ProductType.Name,
 				CurrentPrice = order.CurrentPrice,
 				Quantity = order.Quantity,
 				CustomerId = order.CustomerId,
-				CustomerName = order.Customer.Name.ToString(),
+				CustomerName = order.Customer.User.Name.ToString(),
 				Status = order.Status,
 				Attributes = order.Attributes.ToDictionary(a => a.Name, a => a.Value),
 				Value = order.Value

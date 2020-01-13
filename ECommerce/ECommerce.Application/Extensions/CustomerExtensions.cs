@@ -12,10 +12,10 @@ namespace ECommerce.Application.Extensions
 			=> new CustomerView
 			{
 				Id = customer.Id,
-				FirstName = customer.Name.FirstName,
-				MiddleName = customer.Name.MiddleName,
-				LastName = customer.Name.LastName,
-				Email = customer.Email,
+				FirstName = customer.User.Name.FirstName,
+				MiddleName = customer.User.Name.MiddleName,
+				LastName = customer.User.Name.LastName,
+				Email = customer.User.Email,
 				Active = customer.Active
 			};
 
@@ -25,9 +25,9 @@ namespace ECommerce.Application.Extensions
 		public static CustomerUpdateModel ConvertToUpdateModel(this Customer customer)
 			=> new CustomerUpdateModel
 			{
-				FirstName = customer.Name.FirstName,
-				MiddleName = customer.Name.MiddleName,
-				LastName = customer.Name.LastName
+				FirstName = customer.User.Name.FirstName,
+				MiddleName = customer.User.Name.MiddleName,
+				LastName = customer.User.Name.LastName
 			};
 	}
 }

@@ -61,7 +61,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 			}
 
 			string loginValue = EncryptionService.Encrypt(admin.Email +
-				eCommerce.GetAdminEncryptedPasswordAsync(admin.Id) +
+				eCommerce.GetUserEncryptedPasswordAsync(admin.Id) +
 				connectionInfo.RemoteIpAddress.ToString());
 			if (loginCookies.LoginValue != loginValue)
 			{
@@ -86,7 +86,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 						{
 							UserId = id,
 							LoginValue = EncryptionService.Encrypt(admin.Email +
-								eCommerce.GetAdminEncryptedPasswordAsync(id) +
+								eCommerce.GetUserEncryptedPasswordAsync(id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });
@@ -107,7 +107,7 @@ namespace ECommerce.UI.AdminSite.Infrastructure
 						{
 							UserId = admin.Id,
 							LoginValue = EncryptionService.Encrypt(admin.Email +
-								eCommerce.GetAdminEncryptedPasswordAsync(admin.Id) +
+								eCommerce.GetUserEncryptedPasswordAsync(admin.Id) +
 								connectionInfo.RemoteIpAddress.ToString())
 						},
 						new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });

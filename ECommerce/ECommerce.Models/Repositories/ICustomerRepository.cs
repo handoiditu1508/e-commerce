@@ -1,4 +1,5 @@
 ﻿using ECommerce.Models.Entities.Customers;
+using ECommerce.Models.Entities.Sellers;
 using ECommerce.Models.SearchModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace ECommerce.Models.Repositories
 		Task<Order> GetOrderByAsync(int orderId);
 		IEnumerable<Order> GetOrdersBy(OrderSearchModel searchModel);
 		IEnumerable<Order> GetAllOrdersBy(OrderSearchModel searchModel);
+		IEnumerable<Comment> GetCommentsBy(CommentSearchModel searchModel);
 
 		Task UpdateAsync(int id, Customer customer);
 

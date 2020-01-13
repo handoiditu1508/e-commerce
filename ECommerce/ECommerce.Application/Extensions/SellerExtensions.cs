@@ -12,8 +12,11 @@ namespace ECommerce.Application.Extensions
 			=> new SellerView
 			{
 				Id = seller.Id,
-				Email = seller.Email,
-				Name = seller.Name,
+				Email = seller.User.Email,
+				FirstName = seller.User.Name.FirstName,
+				MiddleName = seller.User.Name.MiddleName,
+				LastName = seller.User.Name.LastName,
+				StoreName = seller.StoreName,
 				PhoneNumber = seller.PhoneNumber,
 				Status = seller.Status
 			};
@@ -24,8 +27,11 @@ namespace ECommerce.Application.Extensions
 		public static SellerUpdateModel ConvertToUpdateModel(this Seller seller)
 			=> new SellerUpdateModel
 			{
-				Name = seller.Name,
-				PhoneNumber = seller.PhoneNumber
+				StoreName = seller.StoreName,
+				PhoneNumber = seller.PhoneNumber,
+				FirstName = seller.User.Name.FirstName,
+				MiddleName = seller.User.Name.MiddleName,
+				LastName = seller.User.Name.LastName
 			};
 	}
 }

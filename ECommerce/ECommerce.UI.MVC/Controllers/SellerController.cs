@@ -73,7 +73,7 @@ namespace ECommerce.UI.MVC.Controllers
 					{
 						if (seller.Status == SellerStatus.Active)
 						{
-							string encryptedPassword = await eCommerce.GetSellerEncryptedPasswordAsync(seller.Id);
+							string encryptedPassword = await eCommerce.GetUserEncryptedPasswordAsync(seller.Id);
 							if (EncryptionService.Encrypt(loginViewModel.LoginInformation.Password) == encryptedPassword)
 							{
 								loginPersistence.LoginThrough(loginViewModel.LoginInformation.Username, loginViewModel.LoginInformation.Remember);
@@ -120,7 +120,7 @@ namespace ECommerce.UI.MVC.Controllers
 				var message = await eCommerce.UpdateSellerAsync(seller.Id,
 					new SellerUpdateModel
 					{
-						Name = seller.Name,
+						StoreName = seller.StoreName,
 						PhoneNumber = seller.PhoneNumber
 					});
 				if (message.Errors.Any())
@@ -157,7 +157,7 @@ namespace ECommerce.UI.MVC.Controllers
 			{
 				var message = await eCommerce.AddSellerAsync(new SellerAddModel
 				{
-					Name = signupModel.Seller.Name,
+					StoreName = signupModel.Seller.StoreName,
 					Email = signupModel.Seller.Email,
 					PhoneNumber = signupModel.Seller.PhoneNumber,
 					Password = signupModel.Seller.Password

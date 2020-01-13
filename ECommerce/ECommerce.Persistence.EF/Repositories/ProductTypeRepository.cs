@@ -114,7 +114,7 @@ namespace ECommerce.Persistence.EF.Repositories
 			return orders
 				.Include(o => o.ProductType)
 				.Include(o => o.Seller)
-				.Include(o => o.Customer.Name);
+				.Include(o => o.Customer.User.Name);
 		}
 
 		public IEnumerable<Product> GetProductsBy(ProductSearchModel searchModel)

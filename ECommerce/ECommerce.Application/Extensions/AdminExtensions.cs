@@ -12,10 +12,10 @@ namespace ECommerce.Application.Extensions
 			=> new AdminView
 			{
 				Id = admin.Id,
-				Email = admin.Email,
-				FirstName = admin.Name.FirstName,
-				MiddleName = admin.Name.MiddleName,
-				LastName = admin.Name.LastName
+				Email = admin.User.Email,
+				FirstName = admin.User.Name.FirstName,
+				MiddleName = admin.User.Name.MiddleName,
+				LastName = admin.User.Name.LastName
 			};
 
 		public static IEnumerable<AdminView> ConvertToViews(this IEnumerable<Admin> admins)
@@ -24,9 +24,9 @@ namespace ECommerce.Application.Extensions
 		public static AdminUpdateModel ConvertToUpdateModel(this Admin admin)
 			=> new AdminUpdateModel
 			{
-				FirstName = admin.Name.FirstName,
-				MiddleName = admin.Name.MiddleName,
-				LastName = admin.Name.LastName
+				FirstName = admin.User.Name.FirstName,
+				MiddleName = admin.User.Name.MiddleName,
+				LastName = admin.User.Name.LastName
 			};
 	}
 }
