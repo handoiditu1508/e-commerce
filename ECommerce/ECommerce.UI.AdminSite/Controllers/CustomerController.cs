@@ -42,7 +42,8 @@ namespace ECommerce.UI.AdminSite.Controllers
 				ShowEmail = true,
 				ShowFirstName = true,
 				ShowMiddleName = true,
-				ShowLastName = true
+				ShowLastName = true,
+				ShowUserId = true
 			});
 
 		[HttpGet]
@@ -67,7 +68,8 @@ namespace ECommerce.UI.AdminSite.Controllers
 				ShowEmail = true,
 				ShowFirstName = true,
 				ShowMiddleName = true,
-				ShowLastName = true
+				ShowLastName = true,
+				ShowUserId = true
 			}
 		});
 

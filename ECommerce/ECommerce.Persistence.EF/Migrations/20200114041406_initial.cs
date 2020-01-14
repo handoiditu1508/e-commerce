@@ -73,41 +73,47 @@ namespace ECommerce.Persistence.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Admin", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Admin_User_Id",
-                        column: x => x.Id,
+                        name: "FK_Admin_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Customer",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: true),
                     Active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customer", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Customer_User_Id",
-                        column: x => x.Id,
+                        name: "FK_Customer_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Seller",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: true),
                     StoreName = table.Column<string>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: false),
                     Status = table.Column<int>(nullable: false)
@@ -116,11 +122,11 @@ namespace ECommerce.Persistence.EF.Migrations
                 {
                     table.PrimaryKey("PK_Seller", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Seller_User_Id",
-                        column: x => x.Id,
+                        name: "FK_Seller_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,7 +139,7 @@ namespace ECommerce.Persistence.EF.Migrations
                     Quantity = table.Column<short>(nullable: false),
                     SellerId = table.Column<int>(nullable: false),
                     ProductTypeId = table.Column<int>(nullable: false),
-                    CustomerId = table.Column<int>(nullable: true),
+                    CustomerId = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -144,7 +150,7 @@ namespace ECommerce.Persistence.EF.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customer",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Order_ProductType_ProductTypeId",
                         column: x => x.ProductTypeId,
@@ -170,9 +176,9 @@ namespace ECommerce.Persistence.EF.Migrations
                     Price = table.Column<decimal>(nullable: false),
                     Model = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    AttributesStates = table.Column<byte[]>(nullable: true),
+                    AttributesStates = table.Column<string>(nullable: true),
                     RepresentativeImage = table.Column<string>(nullable: false),
-                    Images = table.Column<byte[]>(nullable: true)
+                    Images = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -256,7 +262,7 @@ namespace ECommerce.Persistence.EF.Migrations
                     Content = table.Column<string>(nullable: false),
                     Stars = table.Column<byte>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: false),
-                    Images = table.Column<byte[]>(nullable: true)
+                    Images = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -266,7 +272,7 @@ namespace ECommerce.Persistence.EF.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customer",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Comment_Product_SellerId_ProductTypeId",
                         columns: x => new { x.SellerId, x.ProductTypeId },
@@ -297,6 +303,11 @@ namespace ECommerce.Persistence.EF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Admin_UserId",
+                table: "Admin",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Category_ParentId",
                 table: "Category",
                 column: "ParentId");
@@ -305,6 +316,11 @@ namespace ECommerce.Persistence.EF.Migrations
                 name: "IX_Comment_CustomerId",
                 table: "Comment",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customer_UserId",
+                table: "Customer",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_CustomerId",
@@ -330,6 +346,11 @@ namespace ECommerce.Persistence.EF.Migrations
                 name: "IX_ProductTypeUpdateRequest_CategoryId",
                 table: "ProductTypeUpdateRequest",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Seller_UserId",
+                table: "Seller",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_Email",

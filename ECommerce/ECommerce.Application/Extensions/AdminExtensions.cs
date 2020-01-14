@@ -12,6 +12,7 @@ namespace ECommerce.Application.Extensions
 			=> new AdminView
 			{
 				Id = admin.Id,
+				UserId = admin.UserId,
 				Email = admin.User.Email,
 				FirstName = admin.User.Name.FirstName,
 				MiddleName = admin.User.Name.MiddleName,

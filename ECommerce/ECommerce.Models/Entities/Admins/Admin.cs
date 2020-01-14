@@ -9,7 +9,10 @@ namespace ECommerce.Models.Entities.Admins
 	{
 		[Key]
 		public int Id { get; set; }
-		[ForeignKey("Id")]
+
+		//only null when user is deleted
+		public int? UserId { get; set; }
+		[ForeignKey("UserId")]
 		public virtual User User { get; set; }
 	}
 }

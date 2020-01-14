@@ -25,7 +25,12 @@
 				string detailUrl = Url.Action("Edit", "Seller", new { sellerId = seller.Id });
 				<tr>
 					<td><a href="@detailUrl" class="text-decoration-none">@seller.Id</a></td>
-					<td><a href="@detailUrl" class="text-decoration-none">@seller.Email</a></td>
+					<td>
+						<a href="@detailUrl" class="text-decoration-none">
+							@seller.Email<br />
+							User Id: @seller.UserId
+						</a>
+					</td>
 					<td>@seller.FirstName</td>
 					<td>@seller.MiddleName</td>
 					<td>@seller.LastName</td>

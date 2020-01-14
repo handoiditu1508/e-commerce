@@ -35,6 +35,12 @@ namespace ECommerce.Persistence.EF.Repositories
 				customers = customers.Where(c => c.Id.ToString().Contains(id));
 			}
 
+			if (searchModel.UserId != null)
+			{
+				string userId = searchModel.UserId.ToString();
+				customers = customers.Where(c => c.UserId.Value.ToString().Contains(userId));
+			}
+
 			if (searchModel.Active != null)
 				customers = customers.Where(c => c.Active == searchModel.Active);
 

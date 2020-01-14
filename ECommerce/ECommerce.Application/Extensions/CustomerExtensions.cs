@@ -12,6 +12,7 @@ namespace ECommerce.Application.Extensions
 			=> new CustomerView
 			{
 				Id = customer.Id,
+				UserId = customer.UserId,
 				FirstName = customer.User.Name.FirstName,
 				MiddleName = customer.User.Name.MiddleName,
 				LastName = customer.User.Name.LastName,

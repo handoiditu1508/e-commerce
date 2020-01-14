@@ -12,6 +12,7 @@ namespace ECommerce.UI.Shared.Models.ViewModels
 		public string Url { get; set; }
 
 		public bool ShowId { get; set; } = false;
+		public bool ShowUserId { get; set; } = false;
 		public bool ShowEmail { get; set; } = false;
 		public bool ShowStoreName { get; set; } = false;
 		public bool ShowPhoneNumber { get; set; } = false;

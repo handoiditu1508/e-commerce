@@ -129,26 +129,26 @@ namespace ECommerce.Models.Entities.Sellers
 		}
 
 		[Column(nameof(AttributesStates))]
-		public virtual byte[] SerializedAttributesStates { get; set; }
+		public virtual string SerializedAttributesStates { get; set; }
 		[NotMapped]
 		public IEnumerable<IDictionary<string, string>> AttributesStates
 		{
-			get => SerializedAttributesStates.ToObject<IEnumerable<IDictionary<string, string>>>()
+			get => SerializedAttributesStates.DeserializeObject<IEnumerable<IDictionary<string, string>>>()
 				?? new List<IDictionary<string, string>>();
-			set => SerializedAttributesStates = value.ToByteArray();
+			set => SerializedAttributesStates = value.SerializeObject();
 		}
 
 		[Required]
 		public string RepresentativeImage { get; set; }
 
 		[Column(nameof(Images))]
-		public virtual byte[] SerializedImages { get; set; }
+		public virtual string SerializedImages { get; set; }
 		[NotMapped]
 		public IEnumerable<string> Images
 		{
-			get => SerializedImages.ToObject<IEnumerable<string>>()
+			get => SerializedImages.DeserializeObject<IEnumerable<string>>()
 				?? new List<string>();
-			set => SerializedImages = value.ToByteArray();
+			set => SerializedImages = value.SerializeObject();
 		}
 
 		[InverseProperty("Product")]

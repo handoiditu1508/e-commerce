@@ -21,6 +21,7 @@ namespace ECommerce.Models.Entities.Customers
 		[Range(1, double.MaxValue)]
 		public short Quantity { get; set; }
 
+		[Required]
 		public int SellerId { get; set; }
 		[ForeignKey("SellerId")]
 		public virtual Seller Seller { get; set; }
@@ -30,8 +31,8 @@ namespace ECommerce.Models.Entities.Customers
 		[ForeignKey("ProductTypeId")]
 		public virtual ProductType ProductType { get; set; }
 
-		//null when customer is deleted
-		public int? CustomerId { get; set; }
+		[Required]
+		public int CustomerId { get; set; }
 		[ForeignKey("CustomerId")]
 		public virtual Customer Customer { get; set; }
 

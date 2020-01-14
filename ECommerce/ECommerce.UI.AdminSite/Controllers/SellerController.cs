@@ -43,7 +43,11 @@ namespace ECommerce.UI.AdminSite.Controllers
 			ShowId = true,
 			ShowStoreName = true,
 			ShowPhoneNumber = true,
-			ShowStatus = true
+			ShowStatus = true,
+			ShowFirstName = true,
+			ShowMiddleName = true,
+			ShowLastName = true,
+			ShowUserId = true
 		});
 
 		[AdminLoginRequired]
@@ -67,7 +71,11 @@ namespace ECommerce.UI.AdminSite.Controllers
 				ShowId = true,
 				ShowStoreName = true,
 				ShowPhoneNumber = true,
-				ShowStatus = true
+				ShowStatus = true,
+				ShowFirstName = true,
+				ShowMiddleName = true,
+				ShowLastName = true,
+				ShowUserId = true
 			}
 		});
 

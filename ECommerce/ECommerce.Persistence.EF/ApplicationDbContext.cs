@@ -74,23 +74,30 @@ namespace ECommerce.Persistence.EF
 
 			//mapping [Comment.Product] with [Product.Comments]
 			modelBuilder.Entity<Comment>()
-				.HasOne(pa => pa.Product)
+				.HasOne(c => c.Product)
 				.WithMany(p => p.Comments)
-				.HasForeignKey(pa => new { pa.SellerId, pa.ProductTypeId });
+				.HasForeignKey(c => new { c.SellerId, c.ProductTypeId });
 
-			//[Orders] will not be deleted if [Customer] is deleted
-			modelBuilder.Entity<Order>()
-				.HasOne(p => p.Customer)
-				.WithMany(c => c.Orders)
-				.HasForeignKey(p => p.CustomerId)
-				.OnDelete(DeleteBehavior.Restrict);
+			//[Customer] will not be deleted if [User] is deleted
+			modelBuilder.Entity<Customer>()
+				.HasOne(c => c.User)
+				.WithMany()
+				.HasForeignKey(c => c.UserId)
+				.OnDelete(DeleteBehavior.SetNull);
 
-			//[Comments] will not be deleted if [Customer] is deleted
-			modelBuilder.Entity<Comment>()
-				.HasOne(p => p.Customer)
-				.WithMany(c => c.Comments)
-				.HasForeignKey(p => p.CustomerId)
-				.OnDelete(DeleteBehavior.Restrict);
+			//[Seller] will not be deleted if [User] is deleted
+			modelBuilder.Entity<Seller>()
+				.HasOne(c => c.User)
+				.WithMany()
+				.HasForeignKey(c => c.UserId)
+				.OnDelete(DeleteBehavior.SetNull);
+
+			//[Admin] will not be deleted if [User] is deleted
+			modelBuilder.Entity<Admin>()
+				.HasOne(c => c.User)
+				.WithMany()
+				.HasForeignKey(c => c.UserId)
+				.OnDelete(DeleteBehavior.SetNull);
 		}
 	}
 }

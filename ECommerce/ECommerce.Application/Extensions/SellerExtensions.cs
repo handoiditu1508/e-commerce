@@ -12,6 +12,7 @@ namespace ECommerce.Application.Extensions
 			=> new SellerView
 			{
 				Id = seller.Id,
+				UserId = seller.UserId,
 				Email = seller.User.Email,
 				FirstName = seller.User.Name.FirstName,
 				MiddleName = seller.User.Name.MiddleName,

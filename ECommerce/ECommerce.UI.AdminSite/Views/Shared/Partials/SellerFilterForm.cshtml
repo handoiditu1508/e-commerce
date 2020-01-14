@@ -47,6 +47,47 @@
 		</div>
 
 		<div class="form-row">
+			@if (Model.ShowEmail)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.Email" class="control-label input-group-text"></label>
+					</div>
+					<input name="email" asp-for="SearchModel.Email" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.Email" class="text-danger"></span>
+			</div>
+			}
+
+			@if (Model.ShowUserId)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.UserId" class="control-label input-group-text"></label>
+					</div>
+					<input name="userId" asp-for="SearchModel.UserId" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.UserId" class="text-danger"></span>
+			</div>
+			}
+
+			@if (Model.ShowPhoneNumber)
+			{
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<label asp-for="SearchModel.PhoneNumber" class="control-label input-group-text"></label>
+					</div>
+					<input name="phoneNumber" asp-for="SearchModel.PhoneNumber" class="form-control" />
+				</div>
+				<span asp-validation-for="SearchModel.PhoneNumber" class="text-danger"></span>
+			</div>
+			}
+		</div>
+
+		<div class="form-row">
 			@if (Model.ShowFirstName)
 			{
 			<div class="form-group col-md-4">
@@ -83,34 +124,6 @@
 					<input name="lastName" asp-for="SearchModel.LastName" class="form-control" />
 				</div>
 				<span asp-validation-for="SearchModel.LastName" class="text-danger"></span>
-			</div>
-			}
-		</div>
-
-		<div class="form-row">
-			@if (Model.ShowEmail)
-			{
-			<div class="form-group col-md-6">
-				<div class="input-group">
-					<div class="input-group-prepend">
-						<label asp-for="SearchModel.Email" class="control-label input-group-text"></label>
-					</div>
-					<input name="email" asp-for="SearchModel.Email" class="form-control" />
-				</div>
-				<span asp-validation-for="SearchModel.Email" class="text-danger"></span>
-			</div>
-			}
-
-			@if (Model.ShowPhoneNumber)
-			{
-			<div class="form-group col-md-6">
-				<div class="input-group">
-					<div class="input-group-prepend">
-						<label asp-for="SearchModel.PhoneNumber" class="control-label input-group-text"></label>
-					</div>
-					<input name="phoneNumber" asp-for="SearchModel.PhoneNumber" class="form-control" />
-				</div>
-				<span asp-validation-for="SearchModel.PhoneNumber" class="text-danger"></span>
 			</div>
 			}
 		</div>

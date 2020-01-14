@@ -21,9 +21,15 @@ namespace ECommerce.Persistence.EF.Migrations
 
             modelBuilder.Entity("ECommerce.Models.Entities.Admins.Admin", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Admin");
                 });
@@ -48,11 +54,17 @@ namespace ECommerce.Persistence.EF.Migrations
 
             modelBuilder.Entity("ECommerce.Models.Entities.Customers.Customer", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active");
 
+                    b.Property<int?>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Customer");
                 });
@@ -65,7 +77,7 @@ namespace ECommerce.Persistence.EF.Migrations
 
                     b.Property<decimal>("CurrentPrice");
 
-                    b.Property<int?>("CustomerId");
+                    b.Property<int>("CustomerId");
 
                     b.Property<int>("ProductTypeId");
 
@@ -158,7 +170,7 @@ namespace ECommerce.Persistence.EF.Migrations
 
                     b.Property<DateTime>("DateModified");
 
-                    b.Property<byte[]>("SerializedImages")
+                    b.Property<string>("SerializedImages")
                         .HasColumnName("Images");
 
                     b.Property<byte>("Stars");
@@ -190,10 +202,10 @@ namespace ECommerce.Persistence.EF.Migrations
                     b.Property<string>("RepresentativeImage")
                         .IsRequired();
 
-                    b.Property<byte[]>("SerializedAttributesStates")
+                    b.Property<string>("SerializedAttributesStates")
                         .HasColumnName("AttributesStates");
 
-                    b.Property<byte[]>("SerializedImages")
+                    b.Property<string>("SerializedImages")
                         .HasColumnName("Images");
 
                     b.Property<int>("Status");
@@ -224,7 +236,9 @@ namespace ECommerce.Persistence.EF.Migrations
 
             modelBuilder.Entity("ECommerce.Models.Entities.Sellers.Seller", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired();
@@ -234,7 +248,11 @@ namespace ECommerce.Persistence.EF.Migrations
                     b.Property<string>("StoreName")
                         .IsRequired();
 
+                    b.Property<int?>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Seller");
                 });
@@ -266,8 +284,8 @@ namespace ECommerce.Persistence.EF.Migrations
                 {
                     b.HasOne("ECommerce.Models.Entities.Users.User", "User")
                         .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("ECommerce.Models.Entities.Categories.Category", b =>
@@ -281,8 +299,8 @@ namespace ECommerce.Persistence.EF.Migrations
                 {
                     b.HasOne("ECommerce.Models.Entities.Users.User", "User")
                         .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("ECommerce.Models.Entities.Customers.Order", b =>
@@ -290,7 +308,7 @@ namespace ECommerce.Persistence.EF.Migrations
                     b.HasOne("ECommerce.Models.Entities.Customers.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ECommerce.Models.Entities.ProductTypes.ProductType", "ProductType")
                         .WithMany("Orders")
@@ -342,7 +360,7 @@ namespace ECommerce.Persistence.EF.Migrations
                     b.HasOne("ECommerce.Models.Entities.Customers.Customer", "Customer")
                         .WithMany("Comments")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ECommerce.Models.Entities.Sellers.Product", "Product")
                         .WithMany("Comments")
@@ -375,8 +393,8 @@ namespace ECommerce.Persistence.EF.Migrations
                 {
                     b.HasOne("ECommerce.Models.Entities.Users.User", "User")
                         .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("ECommerce.Models.Entities.Users.User", b =>

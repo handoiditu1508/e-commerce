@@ -8,6 +8,8 @@ namespace ECommerce.Application.WorkingModels.Views
 		[HiddenInput(DisplayValue = false)]
 		public int Id { get; set; }
 
+		public int? UserId { get; set; }
+
 		[Required]
 		[MinLength(1)]
 		[MaxLength(20)]

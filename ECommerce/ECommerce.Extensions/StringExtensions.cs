@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using Newtonsoft.Json;
+using System.Globalization;
 
 namespace ECommerce.Extensions
 {
@@ -39,5 +40,18 @@ namespace ECommerce.Extensions
 		public static bool IsNullOrEmpty(this string s) => string.IsNullOrEmpty(s);
 
 		public static bool IsNullOrWhiteSpace(this string s) => string.IsNullOrWhiteSpace(s);
+
+		public static T DeserializeObject<T>(this string serializedObject)
+		{
+			if (serializedObject == null)
+				return default;
+
+			return JsonConvert.DeserializeObject<T>(serializedObject);
+		}
+
+		public static string SerializeObject(this object obj)
+		{
+			return JsonConvert.SerializeObject(obj);
+		}
 	}
 }

@@ -38,13 +38,13 @@ namespace ECommerce.Models.Entities.Sellers
 		public DateTime DateModified { get; set; } = DateTime.Now;
 
 		[Column(nameof(Images))]
-		public virtual byte[] SerializedImages { get; set; }
+		public virtual string SerializedImages { get; set; }
 		[NotMapped]
 		public IEnumerable<string> Images
 		{
-			get => SerializedImages.ToObject<IEnumerable<string>>()
+			get => SerializedImages.DeserializeObject<IEnumerable<string>>()
 				?? new List<string>();
-			set => SerializedImages = value.ToByteArray();
+			set => SerializedImages = value.SerializeObject();
 		}
 	}
 

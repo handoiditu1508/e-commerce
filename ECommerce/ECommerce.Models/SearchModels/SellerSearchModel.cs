@@ -8,6 +8,9 @@ namespace ECommerce.Models.SearchModels
 		[Display(Name = "Id")]
 		public int? Id { get; set; }
 
+		[Display(Name = "User Id")]
+		public int? UserId { get; set; }
+
 		[Display(Name = "Email")]
 		public string Email { get; set; }
 

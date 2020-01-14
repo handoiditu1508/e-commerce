@@ -34,7 +34,13 @@ namespace ECommerce.Persistence.EF.Repositories
 			if (searchModel.Id != null)
 			{
 				string id = searchModel.Id.ToString();
-				sellers = sellers.Where(a => a.Id.ToString().Contains(id));
+				sellers = sellers.Where(s => s.Id.ToString().Contains(id));
+			}
+
+			if (searchModel.UserId != null)
+			{
+				string userId = searchModel.UserId.ToString();
+				sellers = sellers.Where(s=>s.UserId.Value.ToString().Contains(userId));
 			}
 
 			if (searchModel.Status != null)
