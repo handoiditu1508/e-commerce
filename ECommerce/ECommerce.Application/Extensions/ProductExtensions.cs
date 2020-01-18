@@ -20,7 +20,9 @@ namespace ECommerce.Application.Extensions
 				Model = product.Model,
 				Quantity = product.Quantity,
 				Status = product.Status,
-				RepresentativeImage = product.RepresentativeImage
+				RepresentativeImage = product.RepresentativeImage,
+				Images = product.Images,
+				AttributesStates = product.AttributesStates
 			};
 
 		public static IEnumerable<ProductView> ConvertToViews(this IEnumerable<Product> products)

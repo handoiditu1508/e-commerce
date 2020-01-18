@@ -1,0 +1,45 @@
+﻿@model CommentView
+
+@{
+//required: comment.js
+//required: comment.css
+//required: bootstrap-star-rating
+}
+
+@if (Model != null)
+{
+<div class="card comment">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-2">
+				<div class="d-flex rounded-circle overflow-hidden border border-dark w-100 h-equal-w">
+					<img src="~/images/sample.png" class="img m-auto mw-100 mh-100" />
+				</div>
+				<p class="text-secondary text-center">@Model.DateModified</p>
+			</div>
+			<div class="col-md-10">
+				<p>
+					<a class="float-left"><strong>@Model.CustomerName</strong></a>
+					<input class="rating-loading comment-star" value="@((short)Model.Stars)">
+
+				</p>
+				<div class="clearfix"></div>
+				<h5 class="font-weight-bold">@Model.Subject</h5>
+				<p>@Model.Content</p>
+				<div class="d-flex flex-wrap">
+					@foreach (string image in Model.Images)
+					{
+						<div class="comment-img-container">
+							<img src="@($"{UIConsts.GetCommentCustomerUrlById(Model.SellerId, Model.ProductTypeId, Model.CustomerId)}/{image}")" />
+						</div>
+					}
+				</div>
+				<!--<p class="comment-btn-group">
+					<a class="float-right btn btn-outline-primary ml-2"> <i class="fa fa-reply"></i> Reply</a>
+					<a class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i> Like</a>
+				</p>-->
+			</div>
+		</div>
+	</div>
+</div>
+}

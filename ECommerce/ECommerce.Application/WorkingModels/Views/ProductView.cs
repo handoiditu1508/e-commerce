@@ -1,5 +1,6 @@
 ﻿using ECommerce.Models.Entities.Sellers;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ECommerce.Application.WorkingModels.Views
@@ -34,5 +35,9 @@ namespace ECommerce.Application.WorkingModels.Views
 		public ProductStatus Status { get; set; }
 
 		public string RepresentativeImage { get; set; }
+
+		public IEnumerable<string> Images { get; set; }
+
+		public IEnumerable<IDictionary<string, string>> AttributesStates { get; set; }
 	}
 }

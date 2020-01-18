@@ -1015,10 +1015,8 @@ namespace ECommerce.Application
 				.GetProductByAsync(sellerId, productTypeId))?
 				.Images ?? null;
 
-		public async Task<IDictionary<string, HashSet<string>>> GetProductAttributesAsync(int sellerId, int productTypeId)
-			=> (await sellerRepository
-				.GetProductByAsync(sellerId, productTypeId))?
-				.Attributes ?? null;
+		public IDictionary<string, HashSet<string>> GetProductAttributes(int sellerId, int productTypeId)
+			=> sellerRepository.GetProductAttributes(sellerId, productTypeId).ToFormalForm();
 
 		public async Task<IEnumerable<IDictionary<string, string>>> GetProductAttributesStatesAsync(int sellerId, int productTypeId)
 			=> (await sellerRepository
@@ -1617,14 +1615,31 @@ namespace ECommerce.Application
 		public async Task<Message<CommentView>> SaveCommentAsync(int sellerId, int productTypeId, CommentAddModel addModel)
 		{
 			var message = new Message<CommentView>();
+
+			if(addModel.Subject.IsNullOrWhiteSpace())
+			{
+				message.Errors.Add("Subject is required");
+			}
+			if (addModel.Content.IsNullOrWhiteSpace())
+			{
+				message.Errors.Add("Content is required");
+			}
+			if(message.Errors.Any())
+			{
+				return message;
+			}
+
 			Comment comment = addModel.ConvertToEntity();
 
 			Product product = await sellerRepository.GetProductByAsync(sellerId, productTypeId);
+			if (addModel.Images == null)
+				comment.Images = product.Images;
 
 			if (product != null)
 			{
 				product.SaveComment(comment);
 				await unitOfWork.CommitAsync();
+				comment = await sellerRepository.GetCommentByAsync(sellerId, productTypeId, addModel.CustomerId);
 				message.Result = comment.ConvertToView();
 				return message;
 			}
@@ -1636,7 +1651,7 @@ namespace ECommerce.Application
 		}
 
 		public async Task<CommentView> GetCommentByAsync(int sellerId, int productTypeId, int customerId)
-		=> (await sellerRepository.GetCommentByAsync(sellerId, productTypeId, customerId)).ConvertToView();
+		=> (await sellerRepository.GetCommentByAsync(sellerId, productTypeId, customerId))?.ConvertToView() ?? null;
 
 		public IEnumerable<CommentView> GetCommentsByProductIds(CommentSearchModel searchModel, int? startIndex, short? length)
 		{
@@ -1677,11 +1692,26 @@ namespace ECommerce.Application
 		public int CountCommentsByProductIds(CommentSearchModel searchModel)
 			=> sellerRepository.GetCommentsByProductIds(searchModel).Count();
 
-		public int CountCommentsByCustomerIds(CommentSearchModel searchModel)
+		public int CountCommentsByCustomerId(CommentSearchModel searchModel)
 			=> customerRepository.GetCommentsBy(searchModel).Count();
 
 		public int CountAllComments(CommentSearchModel searchModel)
 			=> sellerRepository.GetAllComments(searchModel).Count();
+
+		public float AverageNumberOfRatings(int sellerId, int productTypeId)
+		{
+			IEnumerable<RatingStars> ratings = sellerRepository
+				.GetCommentsByProductIds(new CommentSearchModel { SellerId = sellerId, ProductTypeId = productTypeId })
+				.Select(c => c.Stars);//select all rating
+
+			if (!ratings.Any())
+				return 0f;
+
+			float sumRatings = ratings.Sum(s => (short)s);//sum all rating
+			float result = sumRatings / ratings.Count();//calculates average number of ratings
+
+			return (float)(Math.Round(result * 2, MidpointRounding.AwayFromZero) / 2);//round result to X.5 or X.0
+		}
 
 		public async Task DeleteCommentAsync(int sellerId, int productTypeId, int customerId)
 		{

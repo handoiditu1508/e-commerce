@@ -129,7 +129,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public IEnumerable<Comment> GetAllComments(CommentSearchModel searchModel)
 		{
-			IEnumerable<Comment> comments = context.Comments;
+			IQueryable<Comment> comments = context.Comments;
 
 			if (searchModel.SellerId != null)
 			{
@@ -149,18 +149,20 @@ namespace ECommerce.Persistence.EF.Repositories
 				comments = comments.Where(p => p.CustomerId.ToString().Contains(customerId));
 			}
 
-			return comments;
+			return comments
+				.Include(c=>c.Customer).ThenInclude(c=>c.User.Name);
 		}
 
 		public IEnumerable<Comment> GetCommentsByProductIds(CommentSearchModel searchModel)
 		{
-			IEnumerable<Comment> comments = context.Comments
+			IQueryable<Comment> comments = context.Comments
 				.Where(c => c.SellerId == searchModel.SellerId && c.ProductTypeId == searchModel.ProductTypeId);
 
 			if (searchModel.CustomerId != null)
 				comments = comments.Where(c => c.CustomerId == searchModel.CustomerId);
 
-			return comments;
+			return comments
+				.Include(c => c.Customer).ThenInclude(c => c.User.Name);
 		}
 
 		public async Task<Product> GetProductByAsync(int sellerId, int productTypeId)
@@ -332,6 +334,9 @@ namespace ECommerce.Persistence.EF.Repositories
 				.Include(u => u.ProductType)
 				.Include(u => u.Seller);
 		}
+
+		public IEnumerable<ProductAttribute> GetProductAttributes(int sellerId, int productTypeId)
+			=> context.ProductAttributes.Where(a => a.SellerId == sellerId && a.ProductTypeId == productTypeId);
 
 		public async Task UpdateAsync(int id, Seller seller)
 		{

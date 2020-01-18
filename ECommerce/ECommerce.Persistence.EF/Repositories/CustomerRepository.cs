@@ -168,7 +168,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public IEnumerable<Comment> GetCommentsBy(CommentSearchModel searchModel)
 		{
-			IEnumerable<Comment> comments = context.Comments.Where(c => c.CustomerId == searchModel.CustomerId);
+			IQueryable<Comment> comments = context.Comments.Where(c => c.CustomerId == searchModel.CustomerId);
 
 			if (searchModel.SellerId != null)
 				comments = comments.Where(c => c.SellerId == searchModel.SellerId);
@@ -176,7 +176,9 @@ namespace ECommerce.Persistence.EF.Repositories
 			if (searchModel.ProductTypeId != null)
 				comments = comments.Where(c => c.ProductTypeId == searchModel.ProductTypeId);
 
-			return comments;
+			return comments
+				.Include(c => c.Customer).ThenInclude(c => c.User.Name)
+				.Include(c => c.SerializedImages); ;
 		}
 
 		public async Task UpdateAsync(int id, Customer customer)

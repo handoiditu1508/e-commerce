@@ -177,7 +177,8 @@ namespace ECommerce.UI.MVC.Controllers
 							var fileContent = new FileContent(memoryStream.ToArray(), image.ContentType);
 
 							//validate images
-							if (!ImageValidationService.IsValid(fileContent.Data, out errors))
+							var imageValidationMessage = ImageValidationService.IsValid(fileContent.Data);
+							if (!imageValidationMessage.Result)
 							{
 								break;
 							}
@@ -207,8 +208,12 @@ namespace ECommerce.UI.MVC.Controllers
 							client.DefaultRequestHeaders.Clear();
 							client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-							string requestUri = $"api/Resource/UploadProductImages/Seller/{seller.Id}/ProductType/{registerModel.AddModel.ProductTypeId}";
-							HttpResponseMessage response = await client.PostAsJsonAsync(requestUri, new ProductImagesUploadModel { Images = imagesList });
+							string requestUri = $"api/Resource/UploadImages";
+							HttpResponseMessage response = await client.PostAsJsonAsync(requestUri, new ImagesUploadModel
+							{
+								Images = imagesList,
+								DirectoryPath=UIConsts.GetProductPathById(seller.Id, registerModel.AddModel.ProductTypeId)
+							});
 
 							if (response.IsSuccessStatusCode)
 							{
@@ -272,6 +277,31 @@ namespace ECommerce.UI.MVC.Controllers
 			}
 
 			message = await eCommerce.UnregisterProductAsync(seller.Id, productTypeId);
+
+			if(!message.Errors.Any())
+			{
+				//delete product images
+				using (var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(UIConsts.BaseUrl);
+
+					client.DefaultRequestHeaders.Clear();
+					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+					string requestUri = $"api/Resource/DeleteDirectory?directoryPath={UIConsts.GetProductPathById(seller.Id, productTypeId)}";
+					HttpResponseMessage response = await client.DeleteAsync(requestUri);
+
+					if (response.IsSuccessStatusCode)
+					{
+						var result = await response.Content.ReadAsAsync<ResponseModel>();
+						if (!result.Succeed)
+						{
+							message.Errors.Add(result.Message);
+						}
+					}
+					else message.Errors.Add("Something wrong happenned while calling images deletion");
+				}
+			}
 
 			return message;
 		}

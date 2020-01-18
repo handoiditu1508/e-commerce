@@ -59,6 +59,44 @@
 		/// <returns></returns>
 		public static string GetProductUrlById(int sellerId, int productTypeId)
 			=> $"{BaseUrl}/{GetProductPathById(sellerId, productTypeId)}";
+
+		public const string CommentsDirectory = "Comments";
+		/// <summary>
+		/// Resources/Sellers/13/Products/7/Comments
+		/// </summary>
+		/// <param name="sellerId">example: 13</param>
+		/// <param name="productTypeId">example: 7</param>
+		/// <returns></returns>
+		public static string GetCommentPathById(int sellerId, int productTypeId)
+			=> $"{GetProductPathById(sellerId, productTypeId)}/{CommentsDirectory}";
+		/// <summary>
+		/// http://localhost:58488/Resources/Sellers/13/Products/7/Comments
+		/// </summary>
+		/// <param name="sellerId">example: 13</param>
+		/// <param name="productTypeId">example: 7</param>
+		/// <returns></returns>
+		public static string GetCommentUrlById(int sellerId, int productTypeId)
+			=> $"{BaseUrl}/{GetCommentPathById(sellerId, productTypeId)}";
+
+		public const string CustomersDirectory = "Customers";
+		/// <summary>
+		/// Resources/Sellers/13/Products/7/Comments/Customers/12
+		/// </summary>
+		/// <param name="sellerId">example: 13</param>
+		/// <param name="productTypeId">example: 7</param>
+		/// <param name="customerId">example: 12</param>
+		/// <returns></returns>
+		public static string GetCommentCustomerPathById(int sellerId, int productTypeId, int customerId)
+			=> $"{GetCommentPathById(sellerId, productTypeId)}/{CustomersDirectory}/{customerId}";
+		/// <summary>
+		/// http://localhost:58488/Resources/Sellers/13/Products/7/Comments/Customers/12
+		/// </summary>
+		/// <param name="sellerId">example: 13</param>
+		/// <param name="productTypeId">example: 7</param>
+		/// <param name="customerId">example: 12</param>
+		/// <returns></returns>
+		public static string GetCommentCustomerUrlById(int sellerId, int productTypeId, int customerId)
+			=> $"{BaseUrl}/{GetCommentCustomerPathById(sellerId, productTypeId, customerId)}";
 		#endregion
 	}
 }

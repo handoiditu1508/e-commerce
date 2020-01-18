@@ -1,0 +1,47 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "bootstrap-star-rating@4.0.6",
+      "destination": "wwwroot/lib/bootstrap-star-rating/",
+      "files": [
+        "js/star-rating.min.js",
+        "css/star-rating.min.css",
+        "img/loading.gif",
+        "js/locales/ar.js",
+        "js/locales/bn.js",
+        "js/locales/de.js",
+        "js/locales/es.js",
+        "js/locales/fa.js",
+        "js/locales/fr.js",
+        "js/locales/it.js",
+        "js/locales/kk.js",
+        "js/locales/ko.js",
+        "js/locales/pl.js",
+        "js/locales/pt-BR.js",
+        "js/locales/ro.js",
+        "js/locales/ru.js",
+        "js/locales/tr.js",
+        "js/locales/ua.js",
+        "js/locales/zh.js",
+        "themes/krajee-fa/theme.css",
+        "themes/krajee-fa/theme.js",
+        "themes/krajee-fa/theme.min.css",
+        "themes/krajee-fa/theme.min.js",
+        "themes/krajee-fas/theme.css",
+        "themes/krajee-fas/theme.js",
+        "themes/krajee-fas/theme.min.css",
+        "themes/krajee-fas/theme.min.js",
+        "themes/krajee-svg/theme.css",
+        "themes/krajee-svg/theme.js",
+        "themes/krajee-svg/theme.min.css",
+        "themes/krajee-svg/theme.min.js",
+        "themes/krajee-uni/theme.css",
+        "themes/krajee-uni/theme.js",
+        "themes/krajee-uni/theme.min.css",
+        "themes/krajee-uni/theme.min.js"
+      ]
+    }
+  ]
+}

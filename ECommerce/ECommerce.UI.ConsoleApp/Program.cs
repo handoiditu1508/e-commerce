@@ -1,5 +1,6 @@
 ﻿using ECommerce.Application;
 using ECommerce.Infrastructure.UnitOfWork;
+using ECommerce.Models.Entities.Sellers;
 using ECommerce.Persistence.EF;
 using System;
 using System.Linq;
@@ -10,12 +11,12 @@ namespace ECommerce.UI.ConsoleApp
 	{
 		static void Main(string[] args)
 		{
-			ApplicationDbContext context = new ApplicationDbContext();
+			/*ApplicationDbContext context = new ApplicationDbContext();
 			IUnitOfWork uow = new UnitOfWork();
-			ECommerceService eCommerce = new ECommerceService(uow);
+			ECommerceService eCommerce = new ECommerceService(uow);*/
 
-			var rand = new Random();
-			Console.WriteLine(rand.Next());
+			RatingStars s = RatingStars.FourStars;
+			Console.WriteLine((int)s);
 
 			Console.ReadKey();
 		}

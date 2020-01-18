@@ -1,0 +1,37 @@
+﻿@model CommentAddViewModel
+
+@{
+//required: upload-comment.js
+//required: upload-comment.css
+//required: bootstrap-star-rating
+}
+
+<div class="widget-area no-padding blank mb-3">
+	<div class="status-upload">
+		<form asp-action="SaveComment" asp-controller="Product" method="post" enctype="multipart/form-data">
+			<input type="hidden" asp-for="SellerId" />
+			<input type="hidden" asp-for="ProductTypeId" />
+			<input type="hidden" asp-for="Model.CustomerId" />
+			<input asp-for="Model.Subject" class="w-100 border" placeholder="Subject" />
+			<textarea asp-for="Model.Content" placeholder="Tell us what you think about this product?"></textarea>
+			@{string uploadImagesName = "images";}
+			<ul>
+				<li><a name="@uploadImagesName" class="trigger-input" title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Upload images"><i class="fa fa-images"></i></a></li>
+				<li><input asp-for="Model.Stars" class="rating-loading upload-comment-star" value="@((short)Model.Model.Stars)"></li>
+			</ul>
+			<input asp-for="Model.Images" name="@uploadImagesName" class="upload-comment-images" type="file" multiple hidden />
+			<button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
+		</form>
+		<div class="comment-images-preview">
+			@if(Model.Model.Images!=null)
+			{
+				foreach(string image in Model.Model.Images)
+				{
+					<div class="comment-image-preview">
+						<img class="rounded" src="@($"{UIConsts.GetCommentCustomerUrlById(Model.SellerId, Model.ProductTypeId, Model.Model.CustomerId)}/{image}")" />
+					</div>
+				}
+			}
+		</div>
+	</div><!-- Status Upload  -->
+</div><!-- Widget Area -->

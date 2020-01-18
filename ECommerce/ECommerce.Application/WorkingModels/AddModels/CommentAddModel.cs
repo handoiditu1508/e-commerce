@@ -21,7 +21,7 @@ namespace ECommerce.Application.WorkingModels.AddModels
 		public string Content { get; set; }
 
 		[Required]
-		public RatingStars Stars { get; set; }
+		public RatingStars Stars { get; set; } = RatingStars.ThreeStars;
 
 		[Required]
 		[DataType(DataType.Date)]

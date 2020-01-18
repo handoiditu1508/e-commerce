@@ -10,7 +10,6 @@
 <input type="hidden" id="sellerId" value="@Model.SellerId" />
 <input type="hidden" id="productTypeId" value="@Model.ProductTypeId" />
 
-<div class="container">
 	<div class="card productDetailCard">
 		<div class="container-fliud">
 			<div class="wrapper row">
@@ -27,17 +26,17 @@
 					<div id="@carouselUid" class="preview-thumbnail nav nav-tabs carousel slide" data-ride="carousel" data-interval="false">
 						<div class="carousel-inner">
 							@{
-								IList<string> images = (await eCommerce.GetProductImagesAsync(Model.SellerId, Model.ProductTypeId)).ToList();
+								//IList<string> images = (await eCommerce.GetProductImagesAsync(Model.SellerId, Model.ProductTypeId)).ToList();
 								short count = 1;
 								TagBuilder container = new TagBuilder("div");
 								TagBuilder carouselItem = new TagBuilder("div");
 								carouselItem.AddCssClass("carousel-item active");
 								container.InnerHtml.AppendHtml(carouselItem);
-								foreach (string image in images)
+								foreach (string image in Model.Images)
 								{
 									carouselItem.InnerHtml
 										.AppendHtml($"<div class=\"galleryThumbnail\"><img class=\"rounded m-auto mw-100 mh-100\" src=\"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{image}\" /></div>");
-									if (count % 5 == 0 && count < images.Count())
+									if (count % 5 == 0 && count < Model.Images.Count())
 									{
 										carouselItem = new TagBuilder("div");
 										carouselItem.AddCssClass("carousel-item");
@@ -62,14 +61,12 @@
 				<div class="details col-md-6">
 					<h3><a asp-action="ProductType" asp-controller="Product" asp-route-productTypeId="@Model.ProductTypeId" class="font-weight-bold text-uppercase">@Model.ProductTypeName</a></h3>
 					<div>
-						<div>
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-						</div>
-						<span>41 reviews</span>
+						@{
+							int reviewsCount = eCommerce.CountCommentsByProductIds(new CommentSearchModel { SellerId = Model.SellerId, ProductTypeId = Model.ProductTypeId });
+							float averageRatings = eCommerce.AverageNumberOfRatings(Model.SellerId, Model.ProductTypeId);
+						}
+						<input class="rating-loading product-star" value="@averageRatings">
+						<span>@reviewsCount reviews</span>
 					</div>
 					<p>Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
 					<h4 class="font-weight-bold text-uppercase">current price: <span class="text-warning">@CurrencyFormat.FormatWithUnit(Model.Price)</span></h4>
@@ -80,7 +77,7 @@
 
 					<form asp-action="AddToCart" asp-controller="Cart" method="post" class="addToCartOnSubmit">
 						@{
-							var attributes = await eCommerce.GetProductAttributesAsync(Model.SellerId, Model.ProductTypeId);
+							var attributes = eCommerce.GetProductAttributes(Model.SellerId, Model.ProductTypeId);
 							foreach (var attribute in attributes)
 							{
 								<h5 class="font-weight-bold text-uppercase">
@@ -110,4 +107,3 @@
 			</div>
 		</div>
 	</div>
-</div>

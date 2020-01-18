@@ -24,9 +24,9 @@ namespace ECommerce.WebService.API.Controllers
 		}
 
 		[HttpGet(nameof(GetProductAttributes) + "/Seller/{sellerId}/ProductType/{productTypeId}")]
-		public async Task<IDictionary<string, HashSet<string>>> GetProductAttributes(int sellerId, int productTypeId)
+		public IDictionary<string, HashSet<string>> GetProductAttributes(int sellerId, int productTypeId)
 		{
-			return await eCommerce.GetProductAttributesAsync(sellerId, productTypeId);
+			return eCommerce.GetProductAttributes(sellerId, productTypeId);
 		}
 	}
 }

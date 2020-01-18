@@ -280,3 +280,8 @@ E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\E
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ClientLibraries\BootstrapToggle-Scripts.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ClientLibraries\BootstrapToggle-Styles.cshtml.g.cs
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\CategoryPicker.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\bin\Debug\netcoreapp2.2\libman.json
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ClientLibraries\BootstrapStarRating-Scripts.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ClientLibraries\BootstrapStarRating-Styles.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\Comment.cshtml.g.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.MVC\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Partials\UploadComment.cshtml.g.cs

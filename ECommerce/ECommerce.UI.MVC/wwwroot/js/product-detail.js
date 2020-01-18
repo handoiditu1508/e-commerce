@@ -22,6 +22,20 @@
 		$(this).closest(".galleryContainer").find('.galleryResult').html($(this).clone());
 	});
 
+	$('.product-star').rating({
+		min: 0,//data-min
+		max: 5,//data-max
+		step: 0.5,//data-step
+		displayOnly: true,//data-display-only
+		showClear: false,//data-show-clear
+		showCaption: false,//data-show-caption
+		size: 'xs',//data-size
+		containerClass: '',//data-container-class
+		filledStar: '<i class="fa fa-star text-warning"></i>',
+		emptyStar: '<i class="fa fa-star text-secondary"></i>',
+		//clearButton: '<a><i class="fa fa-minus-circle"></i><a/>'
+	});
+
 	//control product attributes states
 	/*let attributeKeys = ["gender", "color", "size"];*/
 	let attributeKeys;

@@ -19,11 +19,11 @@ namespace ECommerce.WebService.API.Controllers
 			_environment = environment;
 		}
 
-		[HttpPost(nameof(UploadProductImages) + "/Seller/{sellerId}/ProductType/{productTypeId}")]
-		public async Task<ResponseModel> UploadProductImages(int sellerId, int productTypeId, ProductImagesUploadModel uploadModel)
+		[HttpPost(nameof(UploadImages))]
+		public async Task<ResponseModel> UploadImages(ImagesUploadModel uploadModel)
 		{
 			//get the path where images will be saved
-			string path = Path.Combine(_environment.WebRootPath, UIConsts.GetProductPathById(sellerId, productTypeId));
+			string path = Path.Combine(_environment.WebRootPath, uploadModel.DirectoryPath);
 
 			//delete directory
 			if (Directory.Exists(path))
@@ -40,10 +40,10 @@ namespace ECommerce.WebService.API.Controllers
 			return new ResponseModel { Message = "Images uploaded successfully", Succeed = true };
 		}
 
-		[HttpDelete(nameof(DeleteProductImagesDirectory) + "/Seller/{sellerId}/ProductType/{productTypeId}")]
-		public async Task<ResponseModel> DeleteProductImagesDirectory(int sellerId, int productTypeId)
+		[HttpDelete(nameof(DeleteDirectory))]
+		public async Task<ResponseModel> DeleteDirectory(string directoryPath)
 		{
-			string path = Path.Combine(_environment.WebRootPath, UIConsts.GetProductPathById(sellerId, productTypeId));
+			string path = Path.Combine(_environment.WebRootPath, directoryPath);
 			Directory.Delete(path, true);
 			return new ResponseModel { Message = "Directory deleted", Succeed = true };
 		}

@@ -24,6 +24,7 @@ namespace ECommerce.Models.Repositories
 		Task<Comment> GetCommentByAsync(int sellerId, int productTypeId, int customerId);
 		IEnumerable<Comment> GetAllComments(CommentSearchModel searchModel);
 		IEnumerable<Comment> GetCommentsByProductIds(CommentSearchModel searchModel);
+		IEnumerable<ProductAttribute> GetProductAttributes(int sellerId, int productTypeId);
 
 		Task<IEnumerable<ProductTypeUpdateRequest>> GetProductTypeUpdateRequestsAsync(ProductTypeUpdateRequestSearchModel searchModel);
 

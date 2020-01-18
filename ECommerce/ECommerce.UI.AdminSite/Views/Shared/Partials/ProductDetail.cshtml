@@ -23,17 +23,16 @@
 					<div id="@carouselUid" class="preview-thumbnail nav nav-tabs carousel slide" data-ride="carousel" data-interval="false">
 						<div class="carousel-inner">
 							@{
-								IList<string> images = (await eCommerce.GetProductImagesAsync(Model.SellerId, Model.ProductTypeId)).ToList();
 								short count = 1;
 								TagBuilder container = new TagBuilder("div");
 								TagBuilder carouselItem = new TagBuilder("div");
 								carouselItem.AddCssClass("carousel-item active");
 								container.InnerHtml.AppendHtml(carouselItem);
-								foreach (string image in images)
+								foreach (string image in Model.Images)
 								{
 									carouselItem.InnerHtml
 										.AppendHtml($"<div class=\"galleryThumbnail\"><img class=\"rounded m-auto mw-100 mh-100\" src=\"{UIConsts.GetProductUrlById(Model.SellerId, Model.ProductTypeId)}/{image}\" /></div>");
-									if (count % 5 == 0 && count < images.Count())
+									if (count % 5 == 0 && count < Model.Images.Count())
 									{
 										carouselItem = new TagBuilder("div");
 										carouselItem.AddCssClass("carousel-item");
@@ -75,7 +74,7 @@
 					<hr class="w-100" />
 
 					@{
-						var attributes = await eCommerce.GetProductAttributesAsync(Model.SellerId, Model.ProductTypeId);
+						var attributes = eCommerce.GetProductAttributes(Model.SellerId, Model.ProductTypeId);
 						foreach (var attribute in attributes)
 						{
 							<h5 class="font-weight-bold text-uppercase">

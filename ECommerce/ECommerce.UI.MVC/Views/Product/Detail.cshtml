@@ -1,12 +1,36 @@
-﻿@model ProductView
+﻿@model ProductDetailViewModel
 
-@await Html.PartialAsync("ProductDetail", Model)
+@await Html.PartialAsync("ProductDetail", Model.Product)
+
+<br />
+
+@if (Model.Comment.Model.CustomerId != default)
+{
+	await Html.RenderPartialAsync("UploadComment", Model.Comment);
+}
+else
+{
+<p>You have to login to leave a comment</p>
+}
+
+<div class="comments-container">
+	@foreach (CommentView comment in Model.Comments)
+	{
+		await Html.RenderPartialAsync("Comment", comment);
+	}
+</div>
 
 @section Scripts {
 	<script type="text/javascript" src="~/js/update-small-cart.js"></script>
 	<script type="text/javascript" src="~/js/product-detail.js"></script>
+	<script type="text/javascript" src="~/js/comment.js"></script>
+	<script type="text/javascript" src="~/js/upload-comment.js"></script>
+	@await Html.PartialAsync("BootstrapStarRating-Scripts")
 }
 
 @section Styles {
 	<link rel="stylesheet" href="~/css/product-detail.css" />
+	<link rel="stylesheet" href="~/css/comment.css" />
+	<link rel="stylesheet" href="~/css/upload-comment.css" />
+	@await Html.PartialAsync("BootstrapStarRating-Styles")
 }

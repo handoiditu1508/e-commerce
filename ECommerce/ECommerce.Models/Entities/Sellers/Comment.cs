@@ -38,7 +38,7 @@ namespace ECommerce.Models.Entities.Sellers
 		public DateTime DateModified { get; set; } = DateTime.Now;
 
 		[Column(nameof(Images))]
-		public virtual string SerializedImages { get; set; }
+		public string SerializedImages { get; set; }
 		[NotMapped]
 		public IEnumerable<string> Images
 		{

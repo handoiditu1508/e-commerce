@@ -129,7 +129,7 @@ namespace ECommerce.Models.Entities.Sellers
 		}
 
 		[Column(nameof(AttributesStates))]
-		public virtual string SerializedAttributesStates { get; set; }
+		public string SerializedAttributesStates { get; set; }
 		[NotMapped]
 		public IEnumerable<IDictionary<string, string>> AttributesStates
 		{
@@ -142,7 +142,7 @@ namespace ECommerce.Models.Entities.Sellers
 		public string RepresentativeImage { get; set; }
 
 		[Column(nameof(Images))]
-		public virtual string SerializedImages { get; set; }
+		public string SerializedImages { get; set; }
 		[NotMapped]
 		public IEnumerable<string> Images
 		{

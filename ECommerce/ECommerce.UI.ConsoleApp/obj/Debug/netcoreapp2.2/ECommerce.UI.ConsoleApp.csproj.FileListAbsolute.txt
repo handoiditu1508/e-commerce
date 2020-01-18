@@ -80,3 +80,4 @@ E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\E
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.ConsoleApp\obj\Debug\netcoreapp2.2\ECommerce.UI.ConsoleApp.pdb
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.ConsoleApp\bin\Debug\netcoreapp2.2\ECommerce.UI.Shared.dll
 E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.ConsoleApp\bin\Debug\netcoreapp2.2\ECommerce.UI.Shared.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.UI.ConsoleApp\bin\Debug\netcoreapp2.2\libman.json

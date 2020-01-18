@@ -286,7 +286,8 @@ namespace ECommerce.UI.MVC.Controllers
 							var fileContent = new FileContent(memoryStream.ToArray(), image.ContentType);
 
 							//validate images
-							if (!ImageValidationService.IsValid(fileContent.Data, out errors))
+							var imageValidationMessage = ImageValidationService.IsValid(fileContent.Data);
+							if (!imageValidationMessage.Result)
 							{
 								break;
 							}
@@ -317,7 +318,7 @@ namespace ECommerce.UI.MVC.Controllers
 							client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
 							string requestUri = $"api/Resource/UploadProductImages/Seller/{seller.Id}/ProductType/{updateViewModel.ProductTypeId}";
-							HttpResponseMessage response = await client.PostAsJsonAsync(requestUri, new ProductImagesUploadModel { Images = imagesList });
+							HttpResponseMessage response = await client.PostAsJsonAsync(requestUri, new ImagesUploadModel { Images = imagesList });
 
 							if (response.IsSuccessStatusCode)
 							{
@@ -378,7 +379,7 @@ namespace ECommerce.UI.MVC.Controllers
 		public async Task<IActionResult> ProductAttributes(int productTypeId, short productAttributesNumber = 3)
 		{
 			SellerView seller = await loginPersistence.PersistLoginAsync();
-			var attributes = await eCommerce.GetProductAttributesAsync(seller.Id, productTypeId);
+			var attributes = eCommerce.GetProductAttributes(seller.Id, productTypeId);
 			return View(new ProductAttributesUpdateViewModel
 			{
 				SellerId = seller.Id,
@@ -413,7 +414,7 @@ namespace ECommerce.UI.MVC.Controllers
 		public async Task<IActionResult> AttributesStates(int productTypeId)
 		{
 			SellerView seller = await loginPersistence.PersistLoginAsync();
-			var attributes = await eCommerce.GetProductAttributesAsync(seller.Id, productTypeId);
+			var attributes = eCommerce.GetProductAttributes(seller.Id, productTypeId);
 			if (attributes != null)
 			{
 				return View(new AttributesStatesTableViewModel
@@ -440,7 +441,7 @@ namespace ECommerce.UI.MVC.Controllers
 			{
 				SellerId = seller.Id,
 				ProductTypeId = productTypeId,
-				Attributes = await eCommerce.GetProductAttributesAsync(seller.Id, productTypeId),
+				Attributes = eCommerce.GetProductAttributes(seller.Id, productTypeId),
 				AttributesStates = await eCommerce.GetProductAttributesStatesAsync(seller.Id, productTypeId)
 			});
 		}
@@ -459,7 +460,7 @@ namespace ECommerce.UI.MVC.Controllers
 			{
 				SellerId = seller.Id,
 				ProductTypeId = productTypeId,
-				Attributes = await eCommerce.GetProductAttributesAsync(seller.Id, productTypeId),
+				Attributes = eCommerce.GetProductAttributes(seller.Id, productTypeId),
 				AttributesStates = await eCommerce.GetProductAttributesStatesAsync(seller.Id, productTypeId)
 			});
 		}

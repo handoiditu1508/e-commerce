@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECommerce.Models.Messages;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -35,25 +36,29 @@ namespace ECommerce.Application.Services
 			}
 		}
 
-		public static bool IsValid(byte[] data, out ICollection<string> errors)
+		public static BoolMessage IsValid(byte[] data)
 		{
-			errors = new List<string>();
+			BoolMessage message = new BoolMessage(true);
+
 			if (!IsValidType(data))
 			{
-				errors.Add("Image is invalid");
-				return false;
+				message.Errors.Add("Image is invalid");
+				message.Result = false;
+				return message;
 			}
 			if (!IsSizeValid(data))
 			{
-				errors.Add($"Size can not larger than {AllowedSize} bytes {data.Length}");
-				return false;
+				message.Errors.Add($"Size can not larger than {AllowedSize} bytes {data.Length}");
+				message.Result = false;
+				return message;
 			}
 			/*if (!IsAspectRatioValid(data))
 			{
-				errors.Add($"Images aspect ratio must be {RatioX}:{RatioY}");
-				return false;
+				message.Errors.Add($"Images aspect ratio must be {RatioX}:{RatioY}");
+				message.Result = false;
+				return message;
 			}*/
-			return true;
+			return message;
 		}
 	}
 }

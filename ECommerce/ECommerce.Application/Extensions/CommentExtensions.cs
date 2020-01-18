@@ -12,6 +12,10 @@ namespace ECommerce.Application.Extensions
 		public static CommentView ConvertToView(this Comment comment)
 			=> new CommentView
 			{
+				CustomerId = comment.CustomerId,
+				CustomerName = comment.Customer.User.Name.ToString(),
+				SellerId = comment.SellerId,
+				ProductTypeId = comment.ProductTypeId,
 				Subject = comment.Subject,
 				Content = comment.Content,
 				Stars = comment.Stars,
