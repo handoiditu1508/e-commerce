@@ -22,6 +22,7 @@
 					ECommerceService eCommerce = (ECommerceService)ViewData[GlobalViewBagKeys.ECommerceService];
 					short count = 0;
 					string removeAction = Url.Action("RemoveFromCart", "Cart");
+					string checkoutAction = Url.Action("Checkout", "Cart");
 					string changeQuantityAction = Url.Action("ChangeQuantity", "Cart");
 					foreach (CartLine line in Model.Lines)
 					{
@@ -56,15 +57,19 @@
 									<form class="changeCartQuantityOnSubmit" action="@changeQuantityAction" method="put">
 										<input type="number" name="quantity" class="form-control quantityInput" value="@line.Quantity" />
 										<input type="hidden" name="index" value="@count" />
-										<input type="submit" class="btn btn-sm btn-warning" value="Change" disabled hidden />
+										<input type="submit" class="btn btn-sm btn-warning cartTableBtn" value="Change" disabled hidden />
 									</form>
 								</td>
 								<td class="text-right">@CurrencyFormat.Format(product.Price)</td>
 								<td class="text-right">@CurrencyFormat.Format(product.Price * line.Quantity)</td>
 								<td>
 									<form class="removeFromCartOnSubmit" action="@removeAction" method="delete">
+										<input type="hidden" name="index" value="@count" />
+										<input type="submit" class="btn btn-sm btn-danger cartTableBtn" value="Remove" />
+									</form>
+									<form class="checkoutOnSubmit" action="@checkoutAction" method="post">
 										<input type="hidden" name="index" value="@(count++)" />
-										<input type="submit" class="btn btn-sm btn-danger" value="Remove" />
+										<input type="submit" class="btn btn-sm btn-primary cartTableBtn" value="Checkout" />
 									</form>
 								</td>
 							}
@@ -80,4 +85,5 @@
 			</tfoot>
 		</table>
 	</div>
+	<button urlAction="@Url.Action("CheckoutAll", "Cart")" urlMethod="post" class="btn btn-lg btn-success checkoutAllBtn cartTableBtn">Checkout All</button>
 </div>

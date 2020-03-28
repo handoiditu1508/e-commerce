@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application;
+using ECommerce.Application.WorkingModels.AddModels;
 using ECommerce.Application.WorkingModels.Views;
 using ECommerce.Infrastructure.UnitOfWork;
 using Newtonsoft.Json;
@@ -11,24 +12,24 @@ namespace ECommerce.UI.MVC.Models
 	public class Cart
 	{
 		[JsonIgnore]
-		public ECommerceService ECommerce { get; set; }
-
+		private ECommerceService eCommerce;
 		[JsonIgnore]
-		public bool ProductLoaded { get; private set; } = false;
-
-		public List<CartLine> Lines = new List<CartLine>();
-
-		public void LoadLineProducts()
-		{
-			if (!ProductLoaded)
+		public ECommerceService ECommerce {
+			get
 			{
+				return eCommerce;
+			}
+			set
+			{
+				eCommerce = value;
 				foreach (CartLine line in Lines)
 				{
-					line.Product = ECommerce.GetProductBy(line.SellerId, line.ProductTypeId);
+					line.ECommerce = eCommerce;
 				}
-				ProductLoaded = true;
 			}
 		}
+
+		public List<CartLine> Lines = new List<CartLine>();
 
 		public Cart(IUnitOfWork unitOfWork)
 		{
@@ -42,7 +43,8 @@ namespace ECommerce.UI.MVC.Models
 				SellerId = sellerId,
 				ProductTypeId = productTypeId,
 				Quantity = quantity,
-				Attributes = attributes
+				Attributes = attributes,
+				ECommerce = ECommerce
 			};
 
 			CartLine line = Lines
@@ -86,6 +88,11 @@ namespace ECommerce.UI.MVC.Models
 			}
 		}
 
+		public virtual void RemoveLine(CartLine cartLine)
+		{
+			Lines.Remove(cartLine);
+		}
+
 		public virtual void Clear() => Lines.Clear();
 
 		public decimal ComputeTotalValue()
@@ -102,7 +109,30 @@ namespace ECommerce.UI.MVC.Models
 		public IDictionary<string, string> Attributes { get; set; } = new Dictionary<string, string>();
 
 		[JsonIgnore]
-		public virtual ProductView Product { get; set; }
+		public ECommerceService ECommerce { get; set; }
+
+		[JsonIgnore]
+		private ProductView product;
+		[JsonIgnore]
+		public virtual ProductView Product
+		{
+			get
+			{
+				if (product == null)
+				{
+					if (ECommerce != null)
+					{
+						product = ECommerce.GetProductBy(SellerId, ProductTypeId);
+					}
+					else return default;
+				}
+				return product;
+			}
+			set
+			{
+				product = value;
+			}
+		}
 
 		public bool IsProductEquals(CartLine line)
 		{
@@ -131,6 +161,21 @@ namespace ECommerce.UI.MVC.Models
 			}
 
 			return true;
+		}
+	}
+
+	public static class CartLineExtensions
+	{
+		public static OrderAddModel ConvertToOrderAddModel(this CartLine cartLine)
+		{
+			return new OrderAddModel
+			{
+				Attributes = cartLine.Attributes,
+				CurrentPrice = cartLine.Product.Price,
+				Quantity = cartLine.Quantity,
+				SellerId = cartLine.SellerId,
+				ProductTypeId = cartLine.ProductTypeId
+			};
 		}
 	}
 }

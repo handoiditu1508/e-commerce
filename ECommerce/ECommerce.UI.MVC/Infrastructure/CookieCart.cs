@@ -36,7 +36,6 @@ namespace ECommerce.UI.MVC.Infrastructure
 			else
 			{
 				cart.ECommerce = new ECommerceService(unitOfWork);
-				cart.LoadLineProducts();
 			}
 
 			cart.responseCookies = accessor.HttpContext.Response.Cookies;
@@ -73,6 +72,13 @@ namespace ECommerce.UI.MVC.Infrastructure
 		public override void RemoveLine(int index)
 		{
 			base.RemoveLine(index);
+			responseCookies.SetJson(cartKeyWord, this,
+				new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });
+		}
+
+		public override void RemoveLine(CartLine cartLine)
+		{
+			base.RemoveLine(cartLine);
 			responseCookies.SetJson(cartKeyWord, this,
 				new CookieOptions { Expires = DateTime.Now.AddMinutes(ExistingMinutes) });
 		}

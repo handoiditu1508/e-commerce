@@ -166,25 +166,25 @@ namespace ECommerce.UI.MVC.Controllers
 
 			OrderSearchModel searchModel = new OrderSearchModel
 			{
-				SellerId = sellerId,
+				//SellerId = sellerId,
 				CustomerId = customer.Id,
-				ProductTypeId = productTypeId,
+				/*ProductTypeId = productTypeId,
 				Quantity = quantity,
 				QuantityIndication = quantityIndication,
 				Status = status,
 				TotalValue = totalValue,
-				TotalValueIndication = totalValueIndication
+				TotalValueIndication = totalValueIndication*/
 			};
 
 			ViewData[GlobalViewBagKeys.ECommerceService] = eCommerce;
 			return View(new OrdersListViewModel
 			{
-				Orders = eCommerce.GetOrdersBySellerId(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
+				Orders = eCommerce.GetOrdersByCustomerId(searchModel, (page - 1) * recordsPerPage, recordsPerPage),
 				PagingInfo = new PagingInfo
 				{
 					CurrentPage = (short)page,
 					RecordsPerPage = recordsPerPage,
-					TotalRecords = eCommerce.CountOrdersBySellerId(searchModel)
+					TotalRecords = eCommerce.CountOrdersByCustomerId(searchModel)
 				},
 				SearchModel = new OrderSearchViewModel
 				{
