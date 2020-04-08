@@ -1,0 +1,17 @@
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\obj\Debug\netcoreapp3.0\ECommerce.Application.csprojAssemblyReference.cache
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\obj\Debug\netcoreapp3.0\ECommerce.Application.AssemblyInfoInputs.cache
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\obj\Debug\netcoreapp3.0\ECommerce.Application.AssemblyInfo.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\bin\Debug\netcoreapp3.0\ECommerce.Application.deps.json
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\bin\Debug\netcoreapp3.0\ECommerce.Application.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\bin\Debug\netcoreapp3.0\ECommerce.Application.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\bin\Debug\netcoreapp3.0\ECommerce.Extensions.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\bin\Debug\netcoreapp3.0\ECommerce.Infrastructure.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\bin\Debug\netcoreapp3.0\ECommerce.Models.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\bin\Debug\netcoreapp3.0\ECommerce.Persistence.EF.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\bin\Debug\netcoreapp3.0\ECommerce.Infrastructure.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\bin\Debug\netcoreapp3.0\ECommerce.Models.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\bin\Debug\netcoreapp3.0\ECommerce.Persistence.EF.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\bin\Debug\netcoreapp3.0\ECommerce.Extensions.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\obj\Debug\netcoreapp3.0\ECommerce.Application.csproj.CopyComplete
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\obj\Debug\netcoreapp3.0\ECommerce.Application.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Application\obj\Debug\netcoreapp3.0\ECommerce.Application.pdb

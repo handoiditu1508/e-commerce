@@ -6,9 +6,9 @@ namespace ECommerce.UI.MVC.Controllers
 {
 	public class TestController : Controller
 	{
-		private readonly IHostingEnvironment _environment;
+		private readonly IWebHostEnvironment _environment;
 
-		public TestController(IHostingEnvironment environment)
+		public TestController(IWebHostEnvironment environment)
 		{
 			_environment = environment;
 		}

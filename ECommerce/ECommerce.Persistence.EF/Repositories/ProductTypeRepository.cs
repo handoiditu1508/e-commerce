@@ -26,12 +26,12 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public async Task<IEnumerable<ProductType>> GetByAsync(ProductTypeSearchModel searchModel)
 		{
-			IQueryable<ProductType> productTypes = context.ProductTypes;
+			IEnumerable<ProductType> productTypes = context.ProductTypes.Include(p => p.Category);
 
 			if (searchModel.Id != null)
 			{
 				string id = searchModel.Id.ToString();
-				productTypes = productTypes.Where(a => a.Id.ToString().Contains(id));
+				productTypes = productTypes.AsEnumerable().Where(a => a.Id.ToString().Contains(id));
 			}
 
 			if (searchModel.CategoryId != null)
@@ -70,12 +70,13 @@ namespace ECommerce.Persistence.EF.Repositories
 			{
 				string[] splitedSearchString = searchModel.SearchString.Trim().RemoveMultipleSpaces().ToLower().Split();
 				productTypes = productTypes
+					.AsEnumerable()
 					.Where(p => splitedSearchString
 						.Any(s => p.Name.ToLower()
 							.Contains(s, CompareOptions.IgnoreNonSpace)));
 			}
 
-			return productTypes.Include(p => p.Category);
+			return productTypes;
 		}
 
 		public IEnumerable<ProductType> GetAll() => context.ProductTypes.Include(p => p.Category);
@@ -154,6 +155,7 @@ namespace ECommerce.Persistence.EF.Repositories
 			IEnumerable<Product> products = context.Products
 				.Include(p => p.Seller)
 				.Include(p => p.ProductType)
+				.AsEnumerable()
 				.GroupBy(p => p.ProductTypeId)
 				.Select(g => g.First());
 
@@ -204,6 +206,7 @@ namespace ECommerce.Persistence.EF.Repositories
 			{
 				string[] splitedSearchString = searchModel.SearchString.Trim().RemoveMultipleSpaces().ToLower().Split();
 				products = products
+					.AsEnumerable()
 					.Where(p => splitedSearchString
 						.Any(s => p.ProductType.Name.ToLower()
 							.Contains(s, CompareOptions.IgnoreNonSpace)));
@@ -214,7 +217,10 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public async Task<IEnumerable<ProductTypeUpdateRequest>> GetAllUpdateRequestsByAsync(ProductTypeUpdateRequestSearchModel searchModel)
 		{
-			IQueryable<ProductTypeUpdateRequest> requests = context.ProductTypeUpdateRequests;
+			IEnumerable<ProductTypeUpdateRequest> requests = context.ProductTypeUpdateRequests
+				.Include(u => u.Category)
+				.Include(u => u.ProductType)
+				.Include(u => u.Seller);
 
 			if(searchModel.SellerId != null)
 			{
@@ -244,20 +250,22 @@ namespace ECommerce.Persistence.EF.Repositories
 			{
 				string[] splitedSearchString = searchModel.SearchString.Trim().RemoveMultipleSpaces().ToLower().Split();
 				requests =requests
+					.AsEnumerable()
 					.Where(r => splitedSearchString
 						.Any(s => r.Name.ToLower().Contains(s, CompareOptions.IgnoreNonSpace) ||
 						r.Descriptions.ToLower().Contains(s, CompareOptions.IgnoreNonSpace)));
 			}
 
-			return requests
-				.Include(u => u.Category)
-				.Include(u => u.ProductType)
-				.Include(u => u.Seller);
+			return requests;
 		}
 
 		public async Task<IEnumerable<ProductTypeUpdateRequest>> GetUpdateRequestsByAsync(ProductTypeUpdateRequestSearchModel searchModel)
 		{
-			IQueryable<ProductTypeUpdateRequest> requests = context.ProductTypeUpdateRequests.Where(r=>r.ProductTypeId == searchModel.ProductTypeId);
+			IEnumerable<ProductTypeUpdateRequest> requests = context.ProductTypeUpdateRequests
+				.Include(u => u.Category)
+				.Include(u => u.ProductType)
+				.Include(u => u.Seller)
+				.Where(r=>r.ProductTypeId == searchModel.ProductTypeId);
 
 			if (searchModel.SellerId != null)
 			{
@@ -281,15 +289,13 @@ namespace ECommerce.Persistence.EF.Repositories
 			{
 				string[] splitedSearchString = searchModel.SearchString.Trim().RemoveMultipleSpaces().ToLower().Split();
 				requests = requests
+					.AsEnumerable()
 					.Where(r => splitedSearchString
 						.Any(s => r.Name.ToLower().Contains(s, CompareOptions.IgnoreNonSpace) ||
 						r.Descriptions.ToLower().Contains(s, CompareOptions.IgnoreNonSpace)));
 			}
 
-			return requests
-				.Include(u => u.Category)
-				.Include(u => u.ProductType)
-				.Include(u => u.Seller);
+			return requests;
 		}
 
 		public async Task<ProductTypeUpdateRequest> GetUpdateRequestByAsync(int sellerId, int productTypeId)

@@ -7,9 +7,9 @@ namespace ECommerce.WebService.API.Controllers
 	[ApiController]
 	public class SellerController : ControllerBase
 	{
-		private readonly IHostingEnvironment _environment;
+		private readonly IWebHostEnvironment _environment;
 
-		public SellerController(IHostingEnvironment environment)
+		public SellerController(IWebHostEnvironment environment)
 		{
 			_environment = environment;
 		}

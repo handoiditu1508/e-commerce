@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -12,8 +13,16 @@ namespace ECommerce.UI.MVC
 {
 	public class Startup
 	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
+
+		public IConfiguration Configuration { get; }
+
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddControllersWithViews();
 			services.AddMvc(option =>
 			{
 				//option.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
@@ -33,16 +42,69 @@ namespace ECommerce.UI.MVC
 			services.AddMemoryCache();
 			services.AddSession();
 			services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+			services.AddHttpClient();
 		}
 
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			app.UseDeveloperExceptionPage();
 			app.UseStatusCodePages();
 			app.UseStaticFiles();
 			app.UseSession();
+			app.UseRouting();
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllerRoute(
+					name: null,
+					pattern: "Cart",
+					defaults: new { controller = "Cart", action = "Index" });
+
+				endpoints.MapControllerRoute(
+					name: null,
+					pattern: "Cart/AddToCart/{sellerId}/{productTypeId}/{quantity:int?}",
+					defaults: new { controller = "Cart", action = "AddToCart" });
+
+				endpoints.MapControllerRoute(
+					name: null,
+					pattern: "Cart/RemoveFromCart/{sellerId}/{productTypeId}",
+					defaults: new { controller = "Cart", action = "RemoveFromCart" });
+
+				endpoints.MapControllerRoute(
+					name: null,
+					pattern: "AddToCart/{sellerId}/{productTypeId}/{quantity:int?}",
+					defaults: new { controller = "Cart", action = "AddToCart" });
+
+				endpoints.MapControllerRoute(
+					name: null,
+					pattern: "RemoveFromCart/{sellerId}/{productTypeId}",
+					defaults: new { controller = "Cart", action = "RemoveFromCart" });
+
+				endpoints.MapControllerRoute(
+					name: null,
+					pattern: "Products/{categoryId}/Page{page:int}",
+					defaults: new { controller = "Product", action = "Index" });
+
+				endpoints.MapControllerRoute(
+					name: null,
+					pattern: "Products/Page{page:int}",
+					defaults: new { controller = "Product", action = "Index", page = 1 });
+
+				endpoints.MapControllerRoute(
+					name: null,
+					pattern: "Products/{categoryId}",
+					defaults: new { controller = "Product", action = "Index", page = 1 });
+
+				endpoints.MapControllerRoute(
+					name: null,
+					pattern: "Products/",
+					defaults: new { controller = "Product", action = "Index", page = 1 });
+
+				endpoints.MapControllerRoute(
+					name: "Default",
+					pattern: $"{{controller={UrlHelperExtensions.DefaultController}}}/{{action={UrlHelperExtensions.DefaultAction}}}/{{id?}}");
+			});
 			//app.UseHttpsRedirection();
-			app.UseMvc(routes =>
+			/*app.UseMvc(routes =>
 			{
 				routes.MapRoute(
 					name: null,
@@ -92,7 +154,7 @@ namespace ECommerce.UI.MVC
 				routes.MapRoute(
 					name: "Default",
 					template: $"{{controller={UrlHelperExtensions.DefaultController}}}/{{action={UrlHelperExtensions.DefaultAction}}}/{{id?}}");
-			});
+			});*/
 		}
 	}
 }

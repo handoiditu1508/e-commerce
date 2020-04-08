@@ -1,0 +1,8 @@
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\bin\Debug\netcoreapp3.0\ECommerce.Extensions.deps.json
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\bin\Debug\netcoreapp3.0\ECommerce.Extensions.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\bin\Debug\netcoreapp3.0\ECommerce.Extensions.pdb
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp3.0\ECommerce.Extensions.csprojAssemblyReference.cache
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp3.0\ECommerce.Extensions.AssemblyInfoInputs.cache
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp3.0\ECommerce.Extensions.AssemblyInfo.cs
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp3.0\ECommerce.Extensions.dll
+E:\My Stuffs\Công việc ở trường\Thương mại điện tử\e-commerce\ECommerce\ECommerce.Extensions\obj\Debug\netcoreapp3.0\ECommerce.Extensions.pdb

@@ -12,9 +12,9 @@ namespace ECommerce.WebService.API.Controllers
 	[ApiController]
 	public class ResourceController : ControllerBase
 	{
-		private readonly IHostingEnvironment _environment;
+		private readonly IWebHostEnvironment _environment;
 
-		public ResourceController(IHostingEnvironment environment)
+		public ResourceController(IWebHostEnvironment environment)
 		{
 			_environment = environment;
 		}

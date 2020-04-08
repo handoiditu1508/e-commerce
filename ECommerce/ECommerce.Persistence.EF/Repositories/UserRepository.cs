@@ -33,7 +33,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public IEnumerable<User> GetBy(UserSearchModel searchModel)
 		{
-			IQueryable<User> users = context.Users;
+			IEnumerable<User> users = context.Users.Include(c => c.Name);
 
 			if (searchModel.Id != null)
 			{
@@ -45,26 +45,31 @@ namespace ECommerce.Persistence.EF.Repositories
 				users = users.Where(u => u.Active == searchModel.Active);
 
 			if (!string.IsNullOrEmpty(searchModel.Email))
-				users = users.Where(u => u.Email.ToLower().Contains(searchModel.Email.ToLower(), CompareOptions.IgnoreNonSpace));
+				users = users
+					.AsEnumerable()
+					.Where(u => u.Email.ToLower().Contains(searchModel.Email.ToLower(), CompareOptions.IgnoreNonSpace));
 
 			FullName name = new FullName(searchModel.FirstName, searchModel.MiddleName, searchModel.LastName);
 			if (name != null)
 			{
 				if (!string.IsNullOrEmpty(name.FirstName))
 					users = users
+						.AsEnumerable()
 						.Where(u => u.Name.FirstName.ToLower()
-						.Contains(name.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
+							.Contains(name.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
 				if (!string.IsNullOrEmpty(name.MiddleName))
 					users = users
+						.AsEnumerable()
 						.Where(u => u.Name.MiddleName.ToLower()
-						.Contains(name.MiddleName.ToLower(), CompareOptions.IgnoreNonSpace));
+							.Contains(name.MiddleName.ToLower(), CompareOptions.IgnoreNonSpace));
 				if (!string.IsNullOrEmpty(name.LastName))
 					users = users
+						.AsEnumerable()
 						.Where(u => u.Name.LastName.ToLower()
-						.Contains(name.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
+							.Contains(name.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
 			}
 
-			return users.Include(c => c.Name);
+			return users;
 		}
 
 		public async Task<User> GetByAsync(int id) => await context.Users.FindAsync(id);

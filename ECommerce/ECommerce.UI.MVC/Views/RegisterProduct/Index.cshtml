@@ -37,7 +37,7 @@
 					foreach (var attribute in Model.AddModel.Attributes)
 					{
 						<tr>
-							<td><input name="keys" class="form-control" type="text" value="@attribute.Key" /></td>
+							<td><input name="keys" class="form-control" type="text" value="@(attribute.Key)" /></td>
 							<td>
 								<input name="values" type="text" value="@string.Join(',', attribute.Value)" data-role="tagsinput" />
 							</td>

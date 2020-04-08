@@ -25,7 +25,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public IEnumerable<Admin> GetBy(AdminSearchModel searchModel)
 		{
-			IQueryable<Admin> admins = context.Admins;
+			IEnumerable<Admin> admins = context.Admins.Include(a => a.User.Name);
 
 			if (searchModel != null)
 			{
@@ -41,14 +41,17 @@ namespace ECommerce.Persistence.EF.Repositories
 				}
 				if (!string.IsNullOrEmpty(searchModel.FirstName))
 					admins = admins
+						.AsEnumerable()
 						.Where(c => c.User.Name.FirstName.ToLower()
-						.Contains(searchModel.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
+							.Contains(searchModel.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
 				if (!string.IsNullOrEmpty(searchModel.MiddleName))
 					admins = admins
+						.AsEnumerable()
 						.Where(c => c.User.Name.MiddleName.ToLower()
 						.Contains(searchModel.MiddleName.ToLower(), CompareOptions.IgnoreNonSpace));
 				if (!string.IsNullOrEmpty(searchModel.LastName))
 					admins = admins
+						.AsEnumerable()
 						.Where(c => c.User.Name.LastName.ToLower()
 						.Contains(searchModel.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
 
@@ -56,7 +59,7 @@ namespace ECommerce.Persistence.EF.Repositories
 					admins = admins.Where(a => a.User.Active == searchModel.UserActive);
 			}
 
-			return admins.Include(a => a.User.Name);
+			return admins;
 		}
 
 		public IEnumerable<Admin> GetAll() => context.Admins.Include(a => a.User.Name);

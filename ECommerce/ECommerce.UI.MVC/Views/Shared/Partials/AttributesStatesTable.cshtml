@@ -13,7 +13,7 @@
 				<tr>
 					@foreach (var attribute in Model.Attributes)
 					{
-						<th>@attribute.Key</th>
+						<th>@(attribute.Key)</th>
 					}
 				</tr>
 			</thead>
@@ -42,7 +42,7 @@
 					@foreach (var attribute in Model.Attributes)
 					{
 						<td>
-							<select class="addAttributesStatesInput form-control" name="@attribute.Key">
+							<select class="addAttributesStatesInput form-control" name="@(attribute.Key)">
 								@foreach (string value in attribute.Value)
 								{
 									<option>@value</option>

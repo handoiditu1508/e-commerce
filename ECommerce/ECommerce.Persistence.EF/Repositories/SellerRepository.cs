@@ -29,7 +29,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public IEnumerable<Seller> GetBy(SellerSearchModel searchModel)
 		{
-			IQueryable<Seller> sellers = context.Sellers;
+			IEnumerable<Seller> sellers = context.Sellers.Include(s => s.User.Name);
 
 			if (searchModel.Id != null)
 			{
@@ -51,10 +51,12 @@ namespace ECommerce.Persistence.EF.Repositories
 
 			if (!string.IsNullOrEmpty(searchModel.Email))
 				sellers = sellers
+					.AsEnumerable()
 					.Where(s => s.User.Email.ToLower().Contains(searchModel.Email.ToLower(), CompareOptions.IgnoreNonSpace));
 
 			if (!string.IsNullOrEmpty(searchModel.StoreName))
 				sellers = sellers
+					.AsEnumerable()
 					.Where(s => s.StoreName.ToLower().Contains(searchModel.StoreName.ToLower(), CompareOptions.IgnoreNonSpace));
 
 			FullName name = new FullName(searchModel.FirstName, searchModel.MiddleName, searchModel.LastName);
@@ -62,22 +64,25 @@ namespace ECommerce.Persistence.EF.Repositories
 			{
 				if (!string.IsNullOrEmpty(name.FirstName))
 					sellers = sellers
+						.AsEnumerable()
 						.Where(s => s.User.Name.FirstName.ToLower()
-						.Contains(name.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
+							.Contains(name.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
 				if (!string.IsNullOrEmpty(name.MiddleName))
 					sellers = sellers
+						.AsEnumerable()
 						.Where(s => s.User.Name.MiddleName.ToLower()
-						.Contains(name.MiddleName.ToLower(), CompareOptions.IgnoreNonSpace));
+							.Contains(name.MiddleName.ToLower(), CompareOptions.IgnoreNonSpace));
 				if (!string.IsNullOrEmpty(name.LastName))
 					sellers = sellers
+						.AsEnumerable()
 						.Where(s => s.User.Name.LastName.ToLower()
-						.Contains(name.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
+							.Contains(name.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
 			}
 
 			if (searchModel.UserActive != null)
 				sellers = sellers.Where(c => c.User.Active == searchModel.UserActive);
 
-			return sellers.Include(s => s.User.Name);
+			return sellers;
 		}
 
 		public IEnumerable<Seller> GetAll() => context.Sellers.Include(s => s.User.Name);
@@ -219,6 +224,7 @@ namespace ECommerce.Persistence.EF.Repositories
 			{
 				string[] splitedSearchString = searchModel.SearchString.Trim().RemoveMultipleSpaces().ToLower().Split();
 				products = products
+					.AsEnumerable()
 					.Where(p => splitedSearchString
 						.Any(s => p.ProductType.Name.ToLower()
 							.Contains(s, CompareOptions.IgnoreNonSpace)));
@@ -290,6 +296,7 @@ namespace ECommerce.Persistence.EF.Repositories
 			{
 				string[] splitedSearchString = searchModel.SearchString.Trim().RemoveMultipleSpaces().ToLower().Split();
 				products = products
+					.AsEnumerable()
 					.Where(p => splitedSearchString
 						.Any(s => p.ProductType.Name.ToLower()
 							.Contains(s, CompareOptions.IgnoreNonSpace)));
@@ -300,7 +307,11 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public async Task<IEnumerable<ProductTypeUpdateRequest>> GetProductTypeUpdateRequestsAsync(ProductTypeUpdateRequestSearchModel searchModel)
 		{
-			IQueryable<ProductTypeUpdateRequest> requests = context.ProductTypeUpdateRequests.Where(r => r.SellerId == searchModel.SellerId);
+			IEnumerable<ProductTypeUpdateRequest> requests = context.ProductTypeUpdateRequests
+				.Include(u => u.Category)
+				.Include(u => u.ProductType)
+				.Include(u => u.Seller)
+				.Where(r => r.SellerId == searchModel.SellerId);
 
 			if (searchModel.ProductTypeId != null)
 			{
@@ -324,15 +335,13 @@ namespace ECommerce.Persistence.EF.Repositories
 			{
 				string[] splitedSearchString = searchModel.SearchString.Trim().RemoveMultipleSpaces().ToLower().Split();
 				requests = requests
+					.AsEnumerable()
 					.Where(r => splitedSearchString
 						.Any(s => r.Name.ToLower().Contains(s, CompareOptions.IgnoreNonSpace) ||
 						r.Descriptions.ToLower().Contains(s, CompareOptions.IgnoreNonSpace)));
 			}
 
-			return requests
-				.Include(u => u.Category)
-				.Include(u => u.ProductType)
-				.Include(u => u.Seller);
+			return requests;
 		}
 
 		public IEnumerable<ProductAttribute> GetProductAttributes(int sellerId, int productTypeId)

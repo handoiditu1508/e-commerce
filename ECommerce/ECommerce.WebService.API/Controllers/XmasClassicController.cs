@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.WebService.API.Controllers
 {
-	[Authorize]
+	//[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class XmasClassicController : ControllerBase
@@ -26,12 +26,12 @@ namespace ECommerce.WebService.API.Controllers
 
 		public XmasClassicController() { }
 
-		[AllowAnonymous]
+		/*[AllowAnonymous]
 		[HttpPost("authenticate")]
 		public IActionResult Authenticate([FromBody]LoginModel model)
 		{
 			return Ok(model);
-		}
+		}*/
 
 		[HttpGet]
 		public async Task<IEnumerable<Song>> Get() => songs;

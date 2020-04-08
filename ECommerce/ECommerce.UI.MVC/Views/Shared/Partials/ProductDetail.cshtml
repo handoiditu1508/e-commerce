@@ -81,11 +81,11 @@
 							foreach (var attribute in attributes)
 							{
 								<h5 class="font-weight-bold text-uppercase">
-									@attribute.Key:
+									@(attribute.Key):
 									@foreach (var value in attribute.Value)
 									{
 										<label class="radio-inline text-info">
-											<input type="radio" name="attributes[@attribute.Key]" value="@value" /> @value
+											<input type="radio" name="attributes[@(attribute.Key)]" value="@value" /> @value
 										</label>
 									}
 								</h5>

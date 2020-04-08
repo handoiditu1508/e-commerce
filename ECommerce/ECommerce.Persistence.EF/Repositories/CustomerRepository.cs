@@ -27,7 +27,7 @@ namespace ECommerce.Persistence.EF.Repositories
 
 		public IEnumerable<Customer> GetBy(CustomerSearchModel searchModel)
 		{
-			IQueryable<Customer> customers = context.Customers;
+			IEnumerable<Customer> customers = context.Customers.Include(c => c.User.Name);
 
 			if (searchModel.Id != null)
 			{
@@ -45,29 +45,34 @@ namespace ECommerce.Persistence.EF.Repositories
 				customers = customers.Where(c => c.Active == searchModel.Active);
 
 			if (!string.IsNullOrEmpty(searchModel.Email))
-				customers = customers.Where(c => c.User.Email.ToLower().Contains(searchModel.Email.ToLower(), CompareOptions.IgnoreNonSpace));
+				customers = customers
+					.AsEnumerable()
+					.Where(c => c.User.Email.ToLower().Contains(searchModel.Email.ToLower(), CompareOptions.IgnoreNonSpace));
 
 			FullName name = new FullName(searchModel.FirstName, searchModel.MiddleName, searchModel.LastName);
 			if (name != null)
 			{
 				if (!string.IsNullOrEmpty(name.FirstName))
 					customers = customers
+						.AsEnumerable()
 						.Where(c => c.User.Name.FirstName.ToLower()
-						.Contains(name.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
+							.Contains(name.FirstName.ToLower(), CompareOptions.IgnoreNonSpace));
 				if (!string.IsNullOrEmpty(name.MiddleName))
 					customers = customers
+						.AsEnumerable()
 						.Where(c => c.User.Name.MiddleName.ToLower()
-						.Contains(name.MiddleName.ToLower(), CompareOptions.IgnoreNonSpace));
+							.Contains(name.MiddleName.ToLower(), CompareOptions.IgnoreNonSpace));
 				if (!string.IsNullOrEmpty(name.LastName))
 					customers = customers
+						.AsEnumerable()
 						.Where(c => c.User.Name.LastName.ToLower()
-						.Contains(name.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
+							.Contains(name.LastName.ToLower(), CompareOptions.IgnoreNonSpace));
 			}
 
 			if (searchModel.UserActive != null)
 				customers = customers.Where(c => c.User.Active == searchModel.UserActive);
 
-			return customers.Include(c => c.User.Name);
+			return customers;
 		}
 
 		public IEnumerable<Customer> GetAll() => context.Customers.Include(c => c.User.Name);
