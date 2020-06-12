@@ -81,21 +81,6 @@ namespace ECommerce.UI.MVC
 
 				endpoints.MapControllerRoute(
 					name: null,
-					pattern: "Products/{categoryId}/Page{page:int}",
-					defaults: new { controller = "Product", action = "Index" });
-
-				endpoints.MapControllerRoute(
-					name: null,
-					pattern: "Products/Page{page:int}",
-					defaults: new { controller = "Product", action = "Index", page = 1 });
-
-				endpoints.MapControllerRoute(
-					name: null,
-					pattern: "Products/{categoryId}",
-					defaults: new { controller = "Product", action = "Index", page = 1 });
-
-				endpoints.MapControllerRoute(
-					name: null,
 					pattern: "Products/",
 					defaults: new { controller = "Product", action = "Index", page = 1 });
 
@@ -104,57 +89,6 @@ namespace ECommerce.UI.MVC
 					pattern: $"{{controller={UrlHelperExtensions.DefaultController}}}/{{action={UrlHelperExtensions.DefaultAction}}}/{{id?}}");
 			});
 			//app.UseHttpsRedirection();
-			/*app.UseMvc(routes =>
-			{
-				routes.MapRoute(
-					name: null,
-					template: "Cart",
-					defaults: new { controller = "Cart", action = "Index" });
-
-				routes.MapRoute(
-					name: null,
-					template: "Cart/AddToCart/{sellerId}/{productTypeId}/{quantity:int?}",
-					defaults: new { controller = "Cart", action = "AddToCart" });
-
-				routes.MapRoute(
-					name: null,
-					template: "Cart/RemoveFromCart/{sellerId}/{productTypeId}",
-					defaults: new { controller = "Cart", action = "RemoveFromCart" });
-
-				routes.MapRoute(
-					name: null,
-					template: "AddToCart/{sellerId}/{productTypeId}/{quantity:int?}",
-					defaults: new { controller = "Cart", action = "AddToCart" });
-
-				routes.MapRoute(
-					name: null,
-					template: "RemoveFromCart/{sellerId}/{productTypeId}",
-					defaults: new { controller = "Cart", action = "RemoveFromCart" });
-
-				routes.MapRoute(
-					name: null,
-					template: "Products/{categoryId}/Page{page:int}",
-					defaults: new { controller = "Product", action = "Index" });
-
-				routes.MapRoute(
-					name: null,
-					template: "Products/Page{page:int}",
-					defaults: new { controller = "Product", action = "Index", page = 1 });
-
-				routes.MapRoute(
-					name: null,
-					template: "Products/{categoryId}",
-					defaults: new { controller = "Product", action = "Index", page = 1 });
-
-				routes.MapRoute(
-					name: null,
-					template: "Products/",
-					defaults: new { controller = "Product", action = "Index", page = 1 });
-
-				routes.MapRoute(
-					name: "Default",
-					template: $"{{controller={UrlHelperExtensions.DefaultController}}}/{{action={UrlHelperExtensions.DefaultAction}}}/{{id?}}");
-			});*/
 		}
 	}
 }

@@ -3,7 +3,7 @@
 	public static class UIConsts
 	{
 		public const string Protocol = "http";
-		public const string Domain = "localhost:58488";
+		public const string Domain = "localhost:4000";
 		/// <summary>
 		/// http://localhost:58488
 		/// </summary>
